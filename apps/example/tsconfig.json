@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"module": "ESNext",
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"allowJs": true,
+		"lib": ["esnext"],
+		"moduleResolution": "node",
+		"jsx": "preserve",
+		"jsxImportSource": "solicord",
+	},
+	"exclude": ["node_modules"]
+}

@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"module": "UMD",
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"allowJs": true,
+		"target": "es6",
+		"lib": ["esnext"],
+		"moduleResolution": "node",
+		"outDir": "lib",
+		"declaration": true,
+		"strictNullChecks": true,
+	},
+	"include": ["./src"],
+	"exclude": ["node_modules", "dist"]
+}
