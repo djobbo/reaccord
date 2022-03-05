@@ -10,12 +10,12 @@ export const renderTextNode = (node: JSX.Element): string => {
 
     if (node instanceof TextNode) return node.textContent
 
-    if (isNodeType("a")(node)) return `[${renderTextNode(node.children)}](${node.attr.href})`
+    // if (isNodeType("a")(node)) return `[${renderTextNode(node.children)}](${node.attr.href})`
 
-    if (isNodeType("code")(node)) return `\`${renderTextNode(node.children)}\``
+    // if (isNodeType("code")(node)) return `\`${renderTextNode(node.children)}\``
 
-    if (isNodeType("codeblock")(node))
-        return `\`\`\`${node.attr.lang}\n${renderTextNode(node.children)}\n\`\`\``
+    // if (isNodeType("codeblock")(node))
+    //     return `\`\`\`${node.attr.lang}\n${renderTextNode(node.children)}\n\`\`\``
 
     if (isNodeType("span")(node)) {
         let str = renderTextNode(node.children)

@@ -42,19 +42,19 @@ const App = ({username}: {username: string}) => {
                 <title>Hi {name()}</title>
                 <field title="Field">
                     Field
-                    {/* <a href="https://google.com">Google</a> */}
+                    <a href="https://google.com">Google</a>
                 </field>
             </embed>
             <content>
                 Hello
-                {/* <codeblock lang="js">console.log('{count()}')</codeblock>
+                <codeblock lang="js">console.log('{count()}')</codeblock>
                 <code>xd</code>
                 <span bold>Bold</span>
                 <span italic>Italic</span>
+                <br />
                 <span bold italic>
                     BoldItalic
                 </span>
-                <br /> */}
             </content>
             <action-row>
                 <button

@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto"
 import { JSX } from "../../../jsx-runtime"
-import { ModalRootNode } from './ModalRoot'
+import { ModalRootNode } from "./ModalRoot"
 import { RootNode } from "./Root"
 
 export type NodeType = keyof JSX.IntrinsicElements | "textnode" | "root" | "modal-root"
@@ -29,7 +29,7 @@ export abstract class BaseNode<
     //@ts-expect-error
     ParentNodeType extends BaseNode = BaseNode,
     //@ts-expect-error
-    ChildrenNodeType extends BaseNode = BaseNode,
+    ChildrenNodeType extends BaseNode = BaseNode
 > {
     uuid: string
     type: Type
@@ -50,8 +50,7 @@ export abstract class BaseNode<
     }
 
     insertBefore(node: ChildrenNodeType, anchor?: BaseNode): void {
-        console.log(this.type, this.rootNode)
-        if (!node) throw new Error('Wrong child type');
+        if (!node) throw new Error("Wrong child type")
         if (anchor) {
             const anchorIndex = this.children.findIndex((child) => anchor === child)
             this.children.splice(anchorIndex, 0, node)
@@ -68,7 +67,7 @@ export abstract class BaseNode<
 
     get rootNode(): RootNode | ModalRootNode | undefined {
         // Could be slow if element is deeply nested, maybe cache this in local variable
-        return this.parent?.rootNode;
+        return this.parent?.rootNode
     }
 
     get parentNode(): ParentNodeType {
@@ -80,7 +79,7 @@ export abstract class BaseNode<
         return this.children[0]
     }
 
-    get nextSibling(): ParentNodeType['children'][number] | undefined {
+    get nextSibling(): ParentNodeType["children"][number] | undefined {
         const parent = this.parentNode
         if (!parent) throw new TypeError(`Couldn't find parent of ${this}`)
 
@@ -96,7 +95,6 @@ export abstract class BaseNode<
     }
 
     onNodeRender(): void {
-        console.log(this.type, this.rootNode)
         if (!(this.rootNode instanceof RootNode)) return
         this.rootNode.onNodeRender()
     }
@@ -113,7 +111,6 @@ export abstract class BaseNode<
     toString(): string {
         return JSON.stringify(this.display, null, 2)
     }
-
 
     abstract render(parent?: any): unknown
 }

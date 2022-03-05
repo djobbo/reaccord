@@ -25,8 +25,7 @@ class BaseNode {
   }
 
   insertBefore(node, anchor) {
-    console.log(this.type, this.rootNode);
-    if (!node) throw new Error('Wrong child type');
+    if (!node) throw new Error("Wrong child type");
 
     if (anchor) {
       const anchorIndex = this.children.findIndex(child => anchor === child);
@@ -69,7 +68,6 @@ class BaseNode {
   }
 
   onNodeRender() {
-    console.log(this.type, this.rootNode);
     if (!(this.rootNode instanceof RootNode)) return;
     this.rootNode.onNodeRender();
   }
@@ -119,10 +117,10 @@ const renderTextNode = node => {
   if (Array.isArray(node)) return node.map(n => renderTextNode(n)).join("");
   if (typeof node === "function") return renderTextNode(node());
   if (!(node instanceof BaseNode)) return node.toString();
-  if (node instanceof TextNode) return node.textContent;
-  if (isNodeType("a")(node)) return `[${renderTextNode(node.children)}](${node.attr.href})`;
-  if (isNodeType("code")(node)) return `\`${renderTextNode(node.children)}\``;
-  if (isNodeType("codeblock")(node)) return `\`\`\`${node.attr.lang}\n${renderTextNode(node.children)}\n\`\`\``;
+  if (node instanceof TextNode) return node.textContent; // if (isNodeType("a")(node)) return `[${renderTextNode(node.children)}](${node.attr.href})`
+  // if (isNodeType("code")(node)) return `\`${renderTextNode(node.children)}\``
+  // if (isNodeType("codeblock")(node))
+  //     return `\`\`\`${node.attr.lang}\n${renderTextNode(node.children)}\n\`\`\``
 
   if (isNodeType("span")(node)) {
     let str = renderTextNode(node.children);
@@ -951,6 +949,75 @@ class TitleNode extends BaseNode {
 
 }
 
+class TextContainerNode extends BaseNode {
+  constructor(type) {
+    super(type);
+  }
+
+  get innerText() {
+    return this.children.map(child => child.render()).join("");
+  }
+
+}
+
+class AnchorNode extends TextContainerNode {
+  constructor() {
+    super("a");
+  }
+
+  render() {
+    return `[${this.innerText}](${this.attr.href})`;
+  }
+
+}
+
+class CodeNode extends TextContainerNode {
+  constructor() {
+    super("code");
+  }
+
+  render() {
+    return `\`${this.innerText}\``;
+  }
+
+}
+
+class CodeblockNode extends TextContainerNode {
+  constructor() {
+    super("codeblock");
+  }
+
+  render() {
+    return `\`\`\`${this.attr.lang}\n${this.innerText}\n\`\`\``;
+  }
+
+}
+
+class SpanNode extends TextContainerNode {
+  constructor() {
+    super("span");
+  }
+
+  render() {
+    let str = this.innerText;
+    if (this.attr.italic) str = `_${str}_`;
+    if (this.attr.bold) str = `**${str}**`;
+    return str;
+  }
+
+}
+
+class LineBreakNode extends TextContainerNode {
+  constructor() {
+    super("code");
+  }
+
+  render() {
+    return `\n`;
+  }
+
+}
+
 const {
   //@ts-expect-error
   render,
@@ -970,8 +1037,17 @@ const {
       case "action-row":
         return new ActionRowNode();
 
+      case "a":
+        return new AnchorNode();
+
       case "button":
         return new ButtonNode();
+
+      case "code":
+        return new CodeNode();
+
+      case "codeblock":
+        return new CodeblockNode();
 
       case "content":
         return new ContentNode();
@@ -985,11 +1061,17 @@ const {
       case "input":
         return new InputNode();
 
+      case "br":
+        return new LineBreakNode();
+
       case "modal":
         return new ModalNode();
 
       case "modal-row":
         return new ModalRowNode();
+
+      case "span":
+        return new SpanNode();
 
       case "title":
         return new TitleNode();
@@ -1012,7 +1094,6 @@ const {
   },
 
   insertNode(parent, node, anchor) {
-    console.log(parent.type, node.type, anchor?.type);
     parent.insertBefore(node, anchor);
   },
 
@@ -1162,7 +1243,9 @@ const App = ({
     const _el$6 = createElement("embed"),
           _el$7 = createElement("title"),
           _el$8 = createTextNode("Hi "),
-          _el$9 = createElement("field");
+          _el$9 = createElement("field"),
+          _el$10 = createTextNode("Field"),
+          _el$11 = createElement("a");
 
     insertNode(_el$6, _el$7);
 
@@ -1172,73 +1255,124 @@ const App = ({
 
     insert(_el$7, name, null);
 
-    insertNode(_el$9, createTextNode("Field"));
+    insertNode(_el$9, _el$10);
+
+    insertNode(_el$9, _el$11);
 
     setProp(_el$9, "title", "Field");
 
+    insertNode(_el$11, createTextNode("Google"));
+
+    setProp(_el$11, "href", "https://google.com");
+
     return _el$6;
   })(), (() => {
-    const _el$11 = createElement("content");
-
-    insertNode(_el$11, createTextNode("Hello"));
-
-    return _el$11;
-  })(), (() => {
-    const _el$13 = createElement("action-row"),
-          _el$14 = createElement("button"),
-          _el$16 = createElement("button"),
-          _el$17 = createElement("button");
+    const _el$13 = createElement("content"),
+          _el$14 = createTextNode("Hello"),
+          _el$15 = createElement("codeblock"),
+          _el$16 = createTextNode("console.log('"),
+          _el$17 = createTextNode("')"),
+          _el$18 = createElement("code"),
+          _el$20 = createElement("span"),
+          _el$22 = createElement("span"),
+          _el$24 = createElement("br"),
+          _el$25 = createElement("span");
 
     insertNode(_el$13, _el$14);
 
-    insertNode(_el$13, _el$16);
+    insertNode(_el$13, _el$15);
 
-    insertNode(_el$13, _el$17);
+    insertNode(_el$13, _el$18);
 
-    insertNode(_el$14, createTextNode("-"));
+    insertNode(_el$13, _el$20);
 
-    setProp(_el$14, "id", "add");
+    insertNode(_el$13, _el$22);
 
-    setProp(_el$14, "style", "Danger");
+    insertNode(_el$13, _el$24);
 
-    setProp(_el$14, "onClick", () => {
-      setCount(count => count - 1);
-    });
+    insertNode(_el$13, _el$25);
 
-    setProp(_el$16, "style", "Secondary");
+    insertNode(_el$15, _el$16);
 
-    setProp(_el$16, "disabled", true);
+    insertNode(_el$15, _el$17);
 
-    insert(_el$16, count);
+    setProp(_el$15, "lang", "js");
 
-    insertNode(_el$17, createTextNode("+"));
+    insert(_el$15, count, _el$17);
 
-    setProp(_el$17, "id", "substract");
+    insertNode(_el$18, createTextNode("xd"));
 
-    setProp(_el$17, "style", "Success");
+    insertNode(_el$20, createTextNode("Bold"));
 
-    setProp(_el$17, "onClick", () => {
-      setCount(count => count + 1);
-    });
+    setProp(_el$20, "bold", true);
+
+    insertNode(_el$22, createTextNode("Italic"));
+
+    setProp(_el$22, "italic", true);
+
+    insertNode(_el$25, createTextNode("BoldItalic"));
+
+    setProp(_el$25, "bold", true);
+
+    setProp(_el$25, "italic", true);
 
     return _el$13;
   })(), (() => {
-    const _el$19 = createElement("action-row"),
-          _el$20 = createElement("button");
+    const _el$27 = createElement("action-row"),
+          _el$28 = createElement("button"),
+          _el$30 = createElement("button"),
+          _el$31 = createElement("button");
 
-    insertNode(_el$19, _el$20);
+    insertNode(_el$27, _el$28);
 
-    insertNode(_el$20, createTextNode("Open Modal"));
+    insertNode(_el$27, _el$30);
 
-    setProp(_el$20, "id", "add");
+    insertNode(_el$27, _el$31);
 
-    setProp(_el$20, "style", "Secondary");
+    insertNode(_el$28, createTextNode("-"));
 
-    effect(_$p => setProp(_el$20, "onClick", openModal(createComponent(MyModal, {
+    setProp(_el$28, "id", "add");
+
+    setProp(_el$28, "style", "Danger");
+
+    setProp(_el$28, "onClick", () => {
+      setCount(count => count - 1);
+    });
+
+    setProp(_el$30, "style", "Secondary");
+
+    setProp(_el$30, "disabled", true);
+
+    insert(_el$30, count);
+
+    insertNode(_el$31, createTextNode("+"));
+
+    setProp(_el$31, "id", "substract");
+
+    setProp(_el$31, "style", "Success");
+
+    setProp(_el$31, "onClick", () => {
+      setCount(count => count + 1);
+    });
+
+    return _el$27;
+  })(), (() => {
+    const _el$33 = createElement("action-row"),
+          _el$34 = createElement("button");
+
+    insertNode(_el$33, _el$34);
+
+    insertNode(_el$34, createTextNode("Open Modal"));
+
+    setProp(_el$34, "id", "add");
+
+    setProp(_el$34, "style", "Secondary");
+
+    effect(_$p => setProp(_el$34, "onClick", openModal(createComponent(MyModal, {
       myAwesomeFn: newName => setName(newName)
     })), _$p));
 
-    return _el$19;
+    return _el$33;
   })()];
 };
 

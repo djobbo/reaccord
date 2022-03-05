@@ -1,10 +1,11 @@
 import { BaseNode } from "./_Base"
 import { Embed } from "discord.js"
 import { TextNode } from "./Text"
-import { EmbedNode } from './Embed'
-import { renderTextNode } from '../renderTextNode'
+import { EmbedNode } from "./Embed"
+import { AnchorNode } from "./Anchor"
+import { renderTextNode } from "../renderTextNode"
 
-export class FieldNode extends BaseNode<"field", EmbedNode, TextNode> {
+export class FieldNode extends BaseNode<"field", EmbedNode, TextNode | AnchorNode> {
     constructor() {
         super("field")
     }

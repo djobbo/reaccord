@@ -11,6 +11,11 @@ import { InputNode } from "./nodes/Input"
 import { ModalNode } from "./nodes/Modal"
 import { ModalRowNode } from "./nodes/ModalRow"
 import { TitleNode } from "./nodes/Title"
+import { AnchorNode } from "./nodes/Anchor"
+import { CodeNode } from "./nodes/Code"
+import { CodeblockNode } from "./nodes/Codeblock"
+import { SpanNode } from "./nodes/Span"
+import { LineBreakNode } from "./nodes/LineBreak"
 
 //@ts-expect-error
 export declare function render(code: () => JSX.Element, node: BaseNode<NodeType>): () => void
@@ -33,8 +38,14 @@ export const {
         switch (tag) {
             case "action-row":
                 return new ActionRowNode()
+            case "a":
+                return new AnchorNode()
             case "button":
                 return new ButtonNode()
+            case "code":
+                return new CodeNode()
+            case "codeblock":
+                return new CodeblockNode()
             case "content":
                 return new ContentNode()
             case "embed":
@@ -43,10 +54,14 @@ export const {
                 return new FieldNode()
             case "input":
                 return new InputNode()
+            case "br":
+                return new LineBreakNode()
             case "modal":
                 return new ModalNode()
             case "modal-row":
                 return new ModalRowNode()
+            case "span":
+                return new SpanNode()
             case "title":
                 return new TitleNode()
             default:
@@ -63,7 +78,6 @@ export const {
         node.setAttribute(property, value)
     },
     insertNode(parent, node, anchor) {
-        console.log(parent.type, node.type, anchor?.type)
         parent.insertBefore(node, anchor)
     },
     isTextNode(node) {
