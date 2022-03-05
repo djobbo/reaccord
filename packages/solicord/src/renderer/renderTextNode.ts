@@ -17,14 +17,14 @@ export const renderTextNode = (node: JSX.Element): string => {
     // if (isNodeType("codeblock")(node))
     //     return `\`\`\`${node.attr.lang}\n${renderTextNode(node.children)}\n\`\`\``
 
-    if (isNodeType("span")(node)) {
-        let str = renderTextNode(node.children)
-        if (node.attr.italic) str = `_${str}_`
-        if (node.attr.bold) str = `**${str}**`
-        return str
-    }
+    // if (isNodeType("span")(node)) {
+    //     let str = renderTextNode(node.children)
+    //     if (node.attr.italic) str = `_${str}_`
+    //     if (node.attr.bold) str = `**${str}**`
+    //     return str
+    // }
 
-    if (isNodeType("br")(node)) return "\n"
+    // if (isNodeType("br")(node)) return "\n"
 
     return ""
 }

@@ -3,16 +3,13 @@ import { MessageOptions, MessageEditOptions, Client } from "discord.js"
 import { ContentNode, isContentNode } from "./Content"
 import { EmbedNode, isEmbedNode } from "./Embed"
 import { ActionRowNode, isActionRowNode } from "./ActionRow"
-import { ModalRootNode } from './ModalRoot'
+import { EMPTY_STRING } from "../../constants"
 
 export class RootNode extends BaseNode<"root", BaseNode, ContentNode | EmbedNode | ActionRowNode> {
     client: Client
     onRender: ((node: RootNode) => void) | undefined
 
-    constructor(
-        client: Client,
-        onRender?: (node: RootNode) => void | undefined,
-    ) {
+    constructor(client: Client, onRender?: (node: RootNode) => void | undefined) {
         super("root")
         this.client = client
         this.onRender = onRender
@@ -32,7 +29,7 @@ export class RootNode extends BaseNode<"root", BaseNode, ContentNode | EmbedNode
                 this.children
                     .filter(isContentNode)
                     .map((child) => child.render())
-                    .at(-1) || "​",
+                    .at(-1) || EMPTY_STRING,
             embeds: this.children.filter(isEmbedNode).map((child) => child.render()),
             components: this.children.filter(isActionRowNode).map((child) => child.render()),
         }

@@ -1,16 +1,16 @@
 import { BaseNode } from "./_Base"
 import { Embed } from "discord.js"
-import { TextNode } from "./Text"
 import { EmbedNode } from './Embed'
 import { renderTextNode } from '../renderTextNode'
+import { TextContainerNode } from './_TextContainer'
 
-export class TitleNode extends BaseNode<"title", EmbedNode, TextNode> {
+export class TitleNode extends TextContainerNode<"title", EmbedNode> {
     constructor() {
         super("title")
     }
 
     render(embed: Embed): void {
-        embed.setTitle(this.children.map((child) => renderTextNode(child)).join(""))
+        embed.setTitle(this.innerText)
     }
 }
 

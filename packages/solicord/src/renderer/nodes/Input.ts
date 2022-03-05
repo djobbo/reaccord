@@ -2,6 +2,7 @@ import { BaseNode } from "./_Base"
 import { TextInputComponent, TextInputStyle } from "discord.js"
 import { ActionRowNode } from "./ActionRow"
 import { TextNode } from "./Text"
+import { EMPTY_STRING } from '../../constants'
 
 export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
     constructor() {
@@ -16,9 +17,9 @@ export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
         const customId = this.customId
         const input = new TextInputComponent()
             .setCustomId(customId)
-            .setLabel(this.attr.label ?? "")
-            .setValue(this.attr.value ?? "")
-            .setPlaceholder(this.attr.placeholder ?? "")
+            .setLabel(this.attr.label || EMPTY_STRING)
+            .setValue(this.attr.value ?? EMPTY_STRING)
+            .setPlaceholder(this.attr.placeholder ?? EMPTY_STRING)
             .setRequired(this.attr.required ?? false)
             .setStyle(this.attr.large ? TextInputStyle.Paragraph : TextInputStyle.Short)
 

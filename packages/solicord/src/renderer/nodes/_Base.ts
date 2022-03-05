@@ -112,5 +112,5 @@ export abstract class BaseNode<
         return JSON.stringify(this.display, null, 2)
     }
 
-    abstract render(parent?: any): unknown
+    abstract render(parent?: unknown): unknown
 }

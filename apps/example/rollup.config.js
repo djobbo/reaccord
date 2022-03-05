@@ -11,7 +11,7 @@ const config = {
 	input: 'src/index.tsx',
 	external: ['discord.js', 'dotenv'],
 	output: {
-		dir: 'output',
+		dir: 'out',
 		format: 'cjs',
 	},
 	watch: {

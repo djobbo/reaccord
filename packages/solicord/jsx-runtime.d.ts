@@ -75,7 +75,7 @@ export namespace JSX {
         href: string
     }
     interface FieldAttributes {
-        title: Element
+        title: string
         children?: Element
         inline?: boolean
     }

@@ -3,6 +3,7 @@ import { ModalRootNode } from "./ModalRoot"
 import { Modal, Interaction } from "discord.js"
 import {isModalRowNode, ModalRowNode} from './ModalRow'
 import {isInputNode} from './Input'
+import { EMPTY_STRING } from '../../constants'
 
 export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
     disposer?: () => void
@@ -22,7 +23,7 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
 
         const modal = new Modal()
             .setCustomId(customId)
-            .setTitle(this.attr.title ?? "")
+            .setTitle(this.attr.title ?? EMPTY_STRING)
             .setComponents(
                 ...this.children.filter(isModalRowNode).map((child) => child.render())
             )

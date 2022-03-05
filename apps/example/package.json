@@ -4,7 +4,7 @@
 	"main": "out/index.js",
 	"license": "MIT",
 	"scripts": {
-		"start": "node output/index.js",
+		"start": "node out/index.js",
 		"build": "NODE_ENV=production rollup -c",
 		"dev": "rollup -c rollup.config.js -w",
 		"test": "jest",

@@ -3,17 +3,18 @@ import { Embed } from "discord.js"
 import { TextNode } from "./Text"
 import { EmbedNode } from "./Embed"
 import { AnchorNode } from "./Anchor"
-import { renderTextNode } from "../renderTextNode"
+import { TextContainerNode } from './_TextContainer'
+import { EMPTY_STRING } from '../../constants'
 
-export class FieldNode extends BaseNode<"field", EmbedNode, TextNode | AnchorNode> {
+export class FieldNode extends TextContainerNode<"field", EmbedNode> {
     constructor() {
         super("field")
     }
 
     render(embed: Embed): void {
         embed.addFields({
-            name: renderTextNode(this.attr.title),
-            value: renderTextNode(this.children),
+            name: this.attr.title ?? EMPTY_STRING,
+            value: this.innerText,
             inline: this.attr.inline,
         })
         return

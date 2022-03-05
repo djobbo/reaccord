@@ -14,5 +14,5 @@ export abstract class TextContainerNode<
         return this.children.map((child) => child.render()).join("")
     }
 
-    abstract render(): string
+    abstract render(parent?: unknown): unknown
 }

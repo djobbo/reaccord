@@ -1,10 +1,9 @@
 import { BaseNode } from "./_Base"
 import { ButtonComponent, Interaction, ButtonStyle } from "discord.js"
 import { ActionRowNode } from "./ActionRow"
-import { TextNode } from "./Text"
-import { renderTextNode } from "../renderTextNode"
+import { TextContainerNode } from './_TextContainer'
 
-export class ButtonNode extends BaseNode<"button", ActionRowNode, TextNode> {
+export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
     disposer?: () => void
 
     constructor() {
@@ -20,13 +19,12 @@ export class ButtonNode extends BaseNode<"button", ActionRowNode, TextNode> {
     }
 
     render(): ButtonComponent {
-        
         const customId = this.customId
         const button = new ButtonComponent()
             .setCustomId(customId)
             .setDisabled(this.attr.disabled ?? false)
             .setStyle(ButtonStyle[this.attr.style ?? "Primary"])
-            .setLabel(renderTextNode(this.children))
+            .setLabel(this.innerText)
 
         this.dispose()
 

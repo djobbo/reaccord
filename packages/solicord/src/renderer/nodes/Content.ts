@@ -1,15 +1,15 @@
 import { BaseNode } from "./_Base"
-import { renderTextNode } from "../renderTextNode"
 import { RootNode } from "./Root"
 import { TextNode } from "./Text"
+import { TextContainerNode } from './_TextContainer'
 
-export class ContentNode extends BaseNode<"content", RootNode, TextNode> {
+export class ContentNode extends TextContainerNode<"content", RootNode> {
     constructor() {
         super("content")
     }
 
     render(): string {
-        return renderTextNode(this.children)
+        return this.innerText
     }
 }
 
