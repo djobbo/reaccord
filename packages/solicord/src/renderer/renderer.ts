@@ -16,6 +16,7 @@ import { CodeNode } from "./nodes/Code"
 import { CodeblockNode } from "./nodes/Codeblock"
 import { SpanNode } from "./nodes/Span"
 import { LineBreakNode } from "./nodes/LineBreak"
+import { ColorNode } from "./nodes/Color"
 
 //@ts-expect-error
 export declare function render(code: () => JSX.Element, node: BaseNode<NodeType>): () => void
@@ -46,6 +47,8 @@ export const {
                 return new CodeNode()
             case "codeblock":
                 return new CodeblockNode()
+            case 'color':
+                return new ColorNode();
             case "content":
                 return new ContentNode()
             case "embed":

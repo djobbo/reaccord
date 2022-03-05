@@ -2,6 +2,7 @@ import { config as loadEnv } from "dotenv"
 import { Counter } from "./Counter"
 import { TestApp } from "./TestApp"
 import { client, renderMessage } from "./setupApp"
+import { Empty } from "./Empty"
 
 loadEnv()
 
@@ -12,12 +13,11 @@ client.on("messageCreate", (message) => {
 
     switch (content) {
         case "~counter":
-            renderMessage(channel, () => <Counter />)
-            return
+            return renderMessage(channel, () => <Counter />)
         case "~test":
-            renderMessage(channel, () => <TestApp username={message.author.username} />)
+            return renderMessage(channel, () => <TestApp username={message.author.username} />)
         case "~empty":
-            renderMessage(channel, () => <embed><field title='​'>Hello</field></embed>)
+            return renderMessage(channel, () => <Empty length={Math.floor(Math.random() * 5 + 1)} />)
         default:
             return
     }
