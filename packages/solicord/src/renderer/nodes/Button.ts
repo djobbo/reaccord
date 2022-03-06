@@ -1,7 +1,7 @@
 import { BaseNode } from "./_Base"
 import { ButtonComponent, Interaction, ButtonStyle } from "discord.js"
 import { ActionRowNode } from "./ActionRow"
-import { TextContainerNode } from './_TextContainer'
+import { TextContainerNode } from "./_TextContainer"
 
 export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
     disposer?: () => void
@@ -19,6 +19,11 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
     }
 
     render(): ButtonComponent {
+        this.dispose()
+
+        if (!this.rootNode) throw new Error("Root element not found for button")
+        const client = this.rootNode.client
+
         const customId = this.customId
         const button = new ButtonComponent()
             .setCustomId(customId)
@@ -26,15 +31,10 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
             .setStyle(ButtonStyle[this.attr.style ?? "Primary"])
             .setLabel(this.innerText)
 
-        this.dispose()
-
-        if (!this.rootNode) throw new Error('Root element not found for button');
-        const client = this.rootNode.client;
-        
         const listener = (interaction: Interaction) => {
             if (!interaction.isButton()) return
             if (interaction.customId !== customId) return
-            
+
             if (!this.attr.onClick?.(interaction)) interaction.deferUpdate()
         }
 

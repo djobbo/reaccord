@@ -17,7 +17,9 @@ client.on("messageCreate", (message) => {
         case "~test":
             return renderMessage(channel, () => <TestApp username={message.author.username} />)
         case "~empty":
-            return renderMessage(channel, () => <Empty length={Math.floor(Math.random() * 5 + 1)} />)
+            return renderMessage(channel, () => (
+                <Empty length={Math.floor(Math.random() * 5 + 1)} />
+            ))
         default:
             return
     }

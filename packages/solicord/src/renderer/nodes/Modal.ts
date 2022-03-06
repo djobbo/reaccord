@@ -16,11 +16,17 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
         return this.attr.id ? `${this.attr.id}-${this.uuid}` : this.uuid
     }
 
+    dispose(): void {
+        this.disposer?.()
+    }
+
     render(): Modal {
+        this.dispose()
+
         if (!this.rootNode) throw new Error('Root element not found for modal');
         const client = this.rootNode.client;
+        
         const customId = this.customId
-
         const modal = new Modal()
             .setCustomId(customId)
             .setTitle(this.attr.title ?? EMPTY_STRING)

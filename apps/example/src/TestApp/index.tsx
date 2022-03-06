@@ -1,6 +1,6 @@
 import { createSignal } from "solid-js"
 import { openModal } from "../setupApp"
-import { MyModal } from './Modal'
+import { MyModal } from "./Modal"
 
 export const TestApp = ({ username }: { username: string }) => {
     const [count, setCount] = createSignal(0)

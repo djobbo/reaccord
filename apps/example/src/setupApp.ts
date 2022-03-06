@@ -1,5 +1,5 @@
 import { Client } from "discord.js"
-import { solicord } from 'solicord'
+import { solicord } from "solicord"
 
 export const client = new Client({
     intents: ["Guilds", "GuildMessages"],
