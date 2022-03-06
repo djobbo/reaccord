@@ -2,8 +2,10 @@ import { BaseNode } from "./_Base"
 import { Embed } from "discord.js"
 import { RootNode } from "./Root"
 import { TitleNode } from "./Title"
+import { FieldNode } from "./Field"
+import { ThumbnailNode } from "./Thumbnail"
 
-type EmbedChildren = TitleNode
+type EmbedChildren = TitleNode | FieldNode | ThumbnailNode
 
 export class EmbedNode extends BaseNode<"embed", RootNode, EmbedChildren> {
     constructor() {

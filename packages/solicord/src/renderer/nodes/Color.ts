@@ -1,9 +1,8 @@
 import { BaseNode } from "./_Base"
 import { Embed, Colors, Util } from "discord.js"
 import { EmbedNode } from "./Embed"
-import { TextContainerNode } from "./_TextContainer"
 
-export class ColorNode extends TextContainerNode<"color", EmbedNode> {
+export class ColorNode extends BaseNode<"color", EmbedNode> {
     constructor() {
         super("color")
     }

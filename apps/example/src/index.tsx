@@ -3,6 +3,7 @@ import { Counter } from "./Counter"
 import { TestApp } from "./TestApp"
 import { client, renderMessage } from "./setupApp"
 import { Empty } from "./Empty"
+import { RickAndMortyApp } from "./RickAndMortyAPI"
 
 loadEnv()
 
@@ -19,6 +20,17 @@ client.on("messageCreate", (message) => {
         case "~empty":
             return renderMessage(channel, () => (
                 <Empty length={Math.floor(Math.random() * 5 + 1)} />
+            ))
+        case "~ram":
+            return renderMessage(channel, () => <RickAndMortyApp />)
+        case "a":
+            return renderMessage(channel, () => (
+                <action-row>
+                    <select onChange={([val]) => console.log(val)}>
+                        <option label='hello' value='hello' description='Nice description!'>Test option</option>
+                        <option label='hi' value='nice'>Test option</option>
+                    </select>
+                </action-row>
             ))
         default:
             return

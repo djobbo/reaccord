@@ -17,6 +17,9 @@ import { CodeblockNode } from "./nodes/Codeblock"
 import { SpanNode } from "./nodes/Span"
 import { LineBreakNode } from "./nodes/LineBreak"
 import { ColorNode } from "./nodes/Color"
+import { OptionNode } from "./nodes/Option"
+import { SelectNode } from "./nodes/Select"
+import { ThumbnailNode } from "./nodes/Thumbnail"
 
 //@ts-expect-error
 export declare function render(code: () => JSX.Element, node: BaseNode<NodeType>): () => void
@@ -47,8 +50,8 @@ export const {
                 return new CodeNode()
             case "codeblock":
                 return new CodeblockNode()
-            case 'color':
-                return new ColorNode();
+            case "color":
+                return new ColorNode()
             case "content":
                 return new ContentNode()
             case "embed":
@@ -63,8 +66,14 @@ export const {
                 return new ModalNode()
             case "modal-row":
                 return new ModalRowNode()
+            case "option":
+                return new OptionNode()
+            case "select":
+                return new SelectNode()
             case "span":
                 return new SpanNode()
+            case "thumbnail":
+                return new ThumbnailNode()
             case "title":
                 return new TitleNode()
             default:

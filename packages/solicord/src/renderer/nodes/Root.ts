@@ -16,7 +16,8 @@ export class RootNode extends BaseNode<"root", BaseNode, ContentNode | EmbedNode
         this.onRender = onRender
 
         client.on("interactionCreate", (interaction) => {
-            if (!interaction.isButton()) return
+            if (!interaction.isButton() && !interaction.isSelectMenu()) return
+            interaction
             const listener = this.listeners[interaction.customId]
             listener?.(interaction)
         })

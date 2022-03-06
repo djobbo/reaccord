@@ -1,4 +1,10 @@
-import { ButtonInteraction, ColorResolvable, ButtonStyle, ModalSubmitInteraction } from "discord.js"
+import {
+    ButtonInteraction,
+    ColorResolvable,
+    ButtonStyle,
+    ModalSubmitInteraction,
+    SelectMenuInteraction,
+} from "discord.js"
 import { BaseNode } from "./src/renderer/nodes/_Base"
 
 export namespace JSX {
@@ -96,6 +102,21 @@ export namespace JSX {
         disabled?: boolean
         style?: keyof typeof ButtonStyle
     }
+    interface SelectAttributes {
+        id?: string
+        /**
+         * By default, onChange will trigger a defered update, to prevent this, return a truthy value
+         */
+        onChange?: (values: string[], interaction: SelectMenuInteraction) => any
+        children?: Element
+        disabled?: boolean
+    }
+    interface OptionAttributes {
+        default?: boolean
+        description?: string
+        label?: string
+        value?: string
+    }
     interface TextInputAttributes {
         id?: string
         onChange?: (value: string, interaction: ModalSubmitInteraction) => void
@@ -134,6 +155,8 @@ export namespace JSX {
         // Action Row
         "action-row": ActionRowAttributes
         button: ButtonAttributes
+        select: SelectAttributes
+        option: OptionAttributes
         // Modal
         modal: ModalAttributes
         "modal-row": ModalRowAttributes
