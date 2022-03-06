@@ -1,9 +1,9 @@
 import { BaseNode } from "./_Base"
 import { ModalRootNode } from "./ModalRoot"
 import { Modal, Interaction } from "discord.js"
-import {isModalRowNode, ModalRowNode} from './ModalRow'
-import {isInputNode} from './Input'
-import { EMPTY_STRING } from '../../constants'
+import { isModalRowNode, ModalRowNode } from "./ModalRow"
+import { isInputNode } from "./Input"
+import { EMPTY_STRING } from "../../constants"
 
 export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
     disposer?: () => void
@@ -23,16 +23,14 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
     render(): Modal {
         this.dispose()
 
-        if (!this.rootNode) throw new Error('Root element not found for modal');
-        const client = this.rootNode.client;
-        
+        const root = this.rootNode
+        if (!root) throw new Error("Root element not found for modal")
+
         const customId = this.customId
         const modal = new Modal()
             .setCustomId(customId)
             .setTitle(this.attr.title ?? EMPTY_STRING)
-            .setComponents(
-                ...this.children.filter(isModalRowNode).map((child) => child.render())
-            )
+            .setComponents(...this.children.filter(isModalRowNode).map((child) => child.render()))
 
         const listener = (interaction: Interaction) => {
             if (!interaction.isModalSubmit()) return
@@ -51,10 +49,11 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
                 })
             )
         }
-        client.on("interactionCreate", listener)
+
+        root.addListener(customId, listener)
 
         this.disposer = () => {
-            client.removeListener("interactionCreate", listener)
+            root.removeListener(customId)
         }
 
         return modal

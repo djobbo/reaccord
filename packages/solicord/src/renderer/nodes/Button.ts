@@ -2,6 +2,7 @@ import { BaseNode } from "./_Base"
 import { ButtonComponent, Interaction, ButtonStyle } from "discord.js"
 import { ActionRowNode } from "./ActionRow"
 import { TextContainerNode } from "./_TextContainer"
+import { RootNode } from './Root'
 
 export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
     disposer?: () => void
@@ -21,8 +22,8 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
     render(): ButtonComponent {
         this.dispose()
 
-        if (!this.rootNode) throw new Error("Root element not found for button")
-        const client = this.rootNode.client
+        const root = this.rootNode;
+        if (!root) throw new Error("Root element not found for button")
 
         const customId = this.customId
         const button = new ButtonComponent()
@@ -38,10 +39,10 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
             if (!this.attr.onClick?.(interaction)) interaction.deferUpdate()
         }
 
-        client.on("interactionCreate", listener)
+        root.addListener(customId, listener)
 
         this.disposer = () => {
-            client.removeListener("interactionCreate", listener)
+            root.removeListener(customId)
         }
         return button
     }

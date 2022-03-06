@@ -5,11 +5,17 @@ import { MyModal } from "./Modal"
 export const TestApp = ({ username }: { username: string }) => {
     const [count, setCount] = createSignal(0)
     const [name, setName] = createSignal(username)
+    const [isEnabled, setEnabled] = createSignal(false)
+
+    setTimeout(() => {
+        setEnabled(true)
+    }, 2000)
 
     return (
         <>
             <embed>
                 <title>Hi {name()}</title>
+                <color color={isEnabled() ? "Green" : "Red"} />
                 <field title="Field">
                     Field
                     <a href="https://google.com">Google</a>
@@ -33,6 +39,7 @@ export const TestApp = ({ username }: { username: string }) => {
                     onClick={() => {
                         setCount((count) => count - 1)
                     }}
+                    disabled={!isEnabled()}
                 >
                     -
                 </button>
@@ -45,6 +52,7 @@ export const TestApp = ({ username }: { username: string }) => {
                     onClick={() => {
                         setCount((count) => count + 1)
                     }}
+                    disabled={!isEnabled()}
                 >
                     +
                 </button>

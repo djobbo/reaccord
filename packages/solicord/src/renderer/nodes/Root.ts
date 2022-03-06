@@ -1,5 +1,5 @@
 import { BaseNode } from "./_Base"
-import { MessageOptions, MessageEditOptions, Client } from "discord.js"
+import { MessageOptions, MessageEditOptions, Client, Interaction } from "discord.js"
 import { ContentNode, isContentNode } from "./Content"
 import { EmbedNode, isEmbedNode } from "./Embed"
 import { ActionRowNode, isActionRowNode } from "./ActionRow"
@@ -8,11 +8,18 @@ import { EMPTY_STRING } from "../../constants"
 export class RootNode extends BaseNode<"root", BaseNode, ContentNode | EmbedNode | ActionRowNode> {
     client: Client
     onRender: ((node: RootNode) => void) | undefined
+    listeners: Record<string, (interaction: Interaction) => unknown> = {}
 
     constructor(client: Client, onRender?: (node: RootNode) => void | undefined) {
         super("root")
         this.client = client
         this.onRender = onRender
+
+        client.on("interactionCreate", (interaction) => {
+            if (!interaction.isButton()) return
+            const listener = this.listeners[interaction.customId]
+            listener?.(interaction)
+        })
     }
 
     onNodeRender() {
@@ -21,6 +28,14 @@ export class RootNode extends BaseNode<"root", BaseNode, ContentNode | EmbedNode
 
     get rootNode() {
         return this
+    }
+
+    addListener(uuid: string, fn: (interaction: Interaction) => unknown) {
+        this.listeners[uuid] = fn
+    }
+
+    removeListener(uuid: string) {
+        delete this.listeners[uuid]
     }
 
     render(): MessageOptions | MessageEditOptions {
