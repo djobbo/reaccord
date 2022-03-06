@@ -3,7 +3,6 @@ import { Counter } from "./Counter"
 import { TestApp } from "./TestApp"
 import { client, renderMessage } from "./setupApp"
 import { Empty } from "./Empty"
-import { Calculator } from "./Calculator"
 
 loadEnv()
 
@@ -21,8 +20,6 @@ client.on("messageCreate", (message) => {
             return renderMessage(channel, () => (
                 <Empty length={Math.floor(Math.random() * 5 + 1)} />
             ))
-        case "~calc":
-            return renderMessage(channel, () => <Calculator />)
         default:
             return
     }
