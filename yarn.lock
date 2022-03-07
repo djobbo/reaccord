@@ -2019,9 +2019,9 @@ discord-api-types@^0.27.0, discord-api-types@^0.27.3:
   integrity sha512-HOG64DTpZ7CB5EU9eKbjHD50H5qG1pxKG8pmFfHUMKjKvEWeLBHfw0c9xF1cruiYLnBb3+n7m3jBWxZ3H1hcgQ==
 
 discord.js@dev@^13.6.0:
-  version "14.0.0-dev.1646654941.b162f27"
-  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.0.0-dev.1646654941.b162f27.tgz#8a2d489941ecd3f40ee8ebfa3b1b3067e46e4a0f"
-  integrity sha512-HgtZgG7MtbvAmKD5ku0SPxWOQ3q/Ja6ZLzFlGsG08MlaGPofkPq8dPsICiuuKTooj4TR2YF7iQzYa1BRA4dGhw==
+  version "14.0.0-dev.1646395406.6f7a366"
+  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.0.0-dev.1646395406.6f7a366.tgz#6275cb19eb3dbc989902a3c9f502d57377543ac9"
+  integrity sha512-2KxdaPb4frEtOmQQfBkfpsR0Q8/U2iLoA8es03rJFHwSaxO9tfNYEbrMaf2xDXiIVoB2LDwH3jeh097UfXh2gg==
   dependencies:
     "@discordjs/builders" "^0.13.0-dev"
     "@discordjs/collection" "^0.6.0-dev"
@@ -3908,9 +3908,9 @@ typescript@^4.6.2:
   integrity sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==
 
 undici@^4.14.1:
-  version "4.15.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-4.15.0.tgz#507ec94bce46bec5c76e934938c50b825eda8258"
-  integrity sha512-kHppwh/y49FLEXl/zYCCbGB0D3nrcWNBczNYCsDdNYzWPs80aQgfKic1PVkJEIc2YlR7m0Lf5i559zbr0AA7FQ==
+  version "4.15.1"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-4.15.1.tgz#c2c0e75f232178f0e6781f6b46c81ccc15065f6e"
+  integrity sha512-h8LJybhMKD09IyQZoQadNtIR/GmugVhTOVREunJrpV6RStriKBFdSVoFzEzTihwXi/27DIBO+Z0OGF+Mzfi0lA==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"

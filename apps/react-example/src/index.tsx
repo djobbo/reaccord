@@ -13,7 +13,6 @@ const App = () => {
         <>
             <embed>
                 <title>Hello from React!</title>
-                <color color={count % 2 === 0 ? "Aqua" : "Red"} />
             </embed>
             <action-row>
                 <button
