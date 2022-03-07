@@ -1,8 +1,8 @@
 import { Client } from "discord.js"
-import { solicord } from "solicord"
+import { reaccord } from "@reaccord/solid"
 
 export const client = new Client({
     intents: ["Guilds", "GuildMessages"],
 })
 
-export const { renderMessage, openModal } = solicord(client)
+export const { renderMessage, openModal } = reaccord(client)

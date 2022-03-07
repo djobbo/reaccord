@@ -1,4 +1,4 @@
-import { EMPTY_STRING } from "solicord"
+import { EMPTY_STRING } from "@reaccord/core"
 
 export const Empty = ({ length }: { length: number }) => {
     return (

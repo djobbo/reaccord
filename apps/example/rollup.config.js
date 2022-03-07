@@ -1,6 +1,5 @@
 import { babel } from '@rollup/plugin-babel';
 import run from '@rollup/plugin-run';
-import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 
@@ -28,7 +27,7 @@ const config = {
 				[
 					'babel-preset-solid',
 					{
-						moduleName: 'solicord',
+						moduleName: '@reaccord/solid',
 						generate: 'universal',
 					},
 				],

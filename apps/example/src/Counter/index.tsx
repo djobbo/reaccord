@@ -6,7 +6,7 @@ export const Counter = () => {
     return (
         <>
             <content>
-                <span bold>Solicord counter</span>
+                <span bold>reaccord/solid counter</span>
             </content>
             <action-row>
                 <button
