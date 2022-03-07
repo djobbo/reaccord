@@ -1,12 +1,8 @@
 {
   "name": "docs",
   "version": "0.0.1",
-  "description": "Reaccord docs",
+  "description": "The declarative framework for building fast and reliable Discord apps.",
   "main": "index.js",
-  "authors": {
-    "name": "",
-    "email": ""
-  },
   "repository": "/docs",
   "scripts": {
     "dev": "vuepress dev src",

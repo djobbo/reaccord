@@ -1,15 +1,14 @@
 ---
 home: true
-heroImage: https://v1.vuepress.vuejs.org/hero.png
-tagline: Reaccord docs
-actionText: Quick Start →
+tagline: The declarative framework for building fast and reliable Discord apps.
+actionText: Get started →
 actionLink: /guide/
 features:
-- title: Feature 1 Title
-  details: Feature 1 Description
-- title: Feature 2 Title
-  details: Feature 2 Description
-- title: Feature 3 Title
-  details: Feature 3 Description
-footer: Made by  with ❤️
+- title: React
+  details: Use React to build your app
+- title: Declarative
+  details: JSX & Hooks ❤️
+- title: Custom router
+  details: Build your bot like a real web app
+footer: Made by  with ❤️ by Djobbo "Alfie" Maïga
 ---
