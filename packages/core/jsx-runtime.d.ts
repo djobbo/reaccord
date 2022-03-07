@@ -5,10 +5,12 @@ import {
     ModalSubmitInteraction,
     SelectMenuInteraction,
 } from "discord.js"
+import type { ReactElement } from 'react'
 import { BaseNode } from "./src/nodes/_Base"
 
 export namespace JSX {
     type Element =
+        | ReactElement
         | BaseNode
         | ArrayElement
         | FunctionElement
