@@ -1,5 +1,5 @@
 {
-    "name": "@example/rick-and-morty",
+    "name": "@example/router",
     "version": "0.0.0",
     "main": "out/index.js",
     "license": "MIT",
@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "@reaccord/react": "*",
+        "@reaccord/router": "*",
         "axios": "^0.26.0",
         "discord.js@dev": "^13.6.0",
         "dotenv": "^16.0.0",

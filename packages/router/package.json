@@ -1,0 +1,19 @@
+{
+    "name": "@reaccord/router",
+    "version": "0.0.0",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc",
+        "build:w": "tsc --watch",
+        "ts:check": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "typescript": "^4.6.2"
+    },
+    "dependencies": {
+        "@reaccord/react": "*",
+        "react-router": "^6.2.2"
+    }
+}
