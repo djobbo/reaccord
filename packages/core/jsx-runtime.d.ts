@@ -24,6 +24,9 @@ export namespace JSX {
     interface ElementClass {
         render(props: any): Element
     }
+    interface BaseAttributes {
+        key?: number | string | null
+    }
     // Text
     interface LineBreakAttributes {}
     interface CodeAttributes {
@@ -134,32 +137,32 @@ export namespace JSX {
     }
     interface IntrinsicElements {
         // Text
-        a: AnchorAttributes
-        br: LineBreakAttributes
-        code: CodeAttributes
-        codeblock: CodeBlockAttributes
-        span: SpanAttributes
+        a: AnchorAttributes & BaseAttributes
+        br: LineBreakAttributes & BaseAttributes
+        code: CodeAttributes & BaseAttributes
+        codeblock: CodeBlockAttributes & BaseAttributes
+        span: SpanAttributes & BaseAttributes
         // Content
-        content: ContentAttributes
+        content: ContentAttributes & BaseAttributes
         // Embed
-        embed: EmbedAttributes
-        author: AuthorAttributes
-        color: ColorAttributes
-        desc: DescriptionAttributes
-        img: ImageAttributes
-        thumbnail: ThumbnailAttributes
-        timestamp: TimestampAttributes
-        title: TitleAttributes
-        url: UrlAttributes
-        field: FieldAttributes
+        embed: EmbedAttributes & BaseAttributes
+        author: AuthorAttributes & BaseAttributes
+        color: ColorAttributes & BaseAttributes
+        desc: DescriptionAttributes & BaseAttributes
+        img: ImageAttributes & BaseAttributes
+        thumbnail: ThumbnailAttributes & BaseAttributes
+        timestamp: TimestampAttributes & BaseAttributes
+        title: TitleAttributes & BaseAttributes
+        url: UrlAttributes & BaseAttributes
+        field: FieldAttributes & BaseAttributes
         // Action Row
-        "action-row": ActionRowAttributes
-        button: ButtonAttributes
-        select: SelectAttributes
-        option: OptionAttributes
+        "action-row": ActionRowAttributes & BaseAttributes
+        button: ButtonAttributes & BaseAttributes
+        select: SelectAttributes & BaseAttributes
+        option: OptionAttributes & BaseAttributes
         // Modal
-        modal: ModalAttributes
-        "modal-row": ModalRowAttributes
-        input: TextInputAttributes
+        modal: ModalAttributes & BaseAttributes
+        "modal-row": ModalRowAttributes & BaseAttributes
+        input: TextInputAttributes & BaseAttributes
     }
 }
