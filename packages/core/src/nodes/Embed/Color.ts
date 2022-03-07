@@ -1,5 +1,5 @@
 import { BaseNode } from "../_Base"
-import { Embed, Colors, Util } from "discord.js"
+import { Embed, Util } from "discord.js"
 import { EmbedNode } from "./Embed"
 
 export class ColorNode extends BaseNode<"color", EmbedNode> {
@@ -8,7 +8,7 @@ export class ColorNode extends BaseNode<"color", EmbedNode> {
     }
 
     render(embed: Embed): void {
-        embed.setColor(this.attr.color ? Util.resolveColor(this.attr.color) : Colors.Default)
+        embed.setColor(Util.resolveColor(this.attr.color ?? 'Default'))
     }
 }
 

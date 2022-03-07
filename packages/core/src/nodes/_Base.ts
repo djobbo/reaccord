@@ -94,6 +94,10 @@ export abstract class BaseNode<
         this.children = this.children.filter((child) => child !== node)
     }
 
+    clear(): void {
+        this.children = []
+    }
+
     onNodeRender(): void {
         if (!(this.rootNode instanceof RootNode)) return
         this.rootNode.onNodeRender()

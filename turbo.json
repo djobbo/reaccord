@@ -1,15 +1,19 @@
 {
-  "pipeline": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
-    },
-    "lint": {
-      "outputs": []
-    },
-    "dev": {
-      "cache": false,
-      "dependsOn": ["^build"]
+    "pipeline": {
+        "build": {
+            "dependsOn": ["^build"],
+            "outputs": ["dist/**", ".next/**", "lib/**"]
+          },
+          "lint": {
+            "outputs": []
+          },
+          "dev": {
+            "cache": false,
+            "dependsOn": ["^build"]
+          },
+          "build:w": {
+            "cache": false,
+            "outputs": ["lib/**"]
+        }
     }
-  }
 }

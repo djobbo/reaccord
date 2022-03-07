@@ -5,13 +5,13 @@
 		"esModuleInterop": true,
 		"sourceMap": true,
 		"allowJs": true,
-		"target": "es6",
 		"lib": ["esnext"],
 		"moduleResolution": "node",
-		"outDir": "lib",
-		"declaration": true,
-		"strictNullChecks": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "@reaccord/react",
+		"outDir": "out",
+		"target": "es6"
 	},
 	"include": ["src"],
-	"exclude": ["node_modules", "lib"]
+	"exclude": ["node_modules"]
 }
