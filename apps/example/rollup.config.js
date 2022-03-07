@@ -8,7 +8,7 @@ const extensions = ['.ts', '.tsx'];
 
 const config = {
 	input: 'src/index.tsx',
-	external: ['discord.js', 'dotenv', 'axios'],
+	external: ['discord.js', 'dotenv', 'axios', 'solid-js'],
 	output: {
 		dir: 'out',
 		format: 'cjs',

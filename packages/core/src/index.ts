@@ -67,3 +67,4 @@ export const reaccord = (render: RenderFn) => (client: Client) => {
 
 export * from './constants'
 export * from './nodes'
+export * from './helpers'
