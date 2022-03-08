@@ -6,7 +6,6 @@ import { isInputNode } from "./Input"
 import { EMPTY_STRING } from "../../constants"
 
 export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
-    disposer?: () => void
 
     constructor() {
         super("modal")
@@ -16,13 +15,7 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
         return this.attr.id ? `${this.attr.id}-${this.uuid}` : this.uuid
     }
 
-    dispose(): void {
-        this.disposer?.()
-    }
-
     render(): Modal {
-        this.dispose()
-
         const root = this.rootNode
         if (!root) throw new Error("Root element not found for modal")
 
@@ -50,11 +43,7 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
             )
         }
 
-        root.addListener(customId, listener)
-
-        this.disposer = () => {
-            root.removeListener(customId)
-        }
+        root.addInteractionListener(customId, listener)
 
         return modal
     }

@@ -1,6 +1,7 @@
 export * from './_Base'
 export * from './_TextContainer'
 export * from './Root'
+export * from './Message'
 export * from './Text'
 export * from './Title'
 

@@ -1,11 +1,10 @@
-import { DiscordRouter, Route, Link, useLocation, Routes } from "@reaccord/router"
-import { useEffect } from "react"
+import { Route, Link, useLocation, Routes } from "@reaccord/router"
 
 export const App = () => {
     const { pathname } = useLocation()
 
     return (
-        <>
+        <message>
             <Routes>
                 <Route path="/">
                     <Route path="/" element={<embed><title>Home</title></embed>} />
@@ -27,6 +26,6 @@ export const App = () => {
                     About
                 </Link>
             </action-row>
-        </>
+        </message>
     )
 }

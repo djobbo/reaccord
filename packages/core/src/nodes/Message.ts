@@ -4,6 +4,7 @@ import { ContentNode, isContentNode } from "./Content/Content"
 import { EmbedNode, isEmbedNode } from "./Embed/Embed"
 import { ActionRowNode, isActionRowNode } from "./Interaction/ActionRow"
 import { EMPTY_STRING } from "../constants"
+import { RootNode } from "./Root"
 
 export class MessageNode extends BaseNode<
     "message",
@@ -15,6 +16,18 @@ export class MessageNode extends BaseNode<
     }
 
     render(): MessageOptions | MessageEditOptions {
+        if (!(this.rootNode instanceof RootNode))
+            throw new Error("Message found outside of RootNode")
+
+        if (this.attr.onReactionAdd)
+            this.rootNode.addReactionListener("ADD", this.attr.onReactionAdd)
+        if (this.attr.onReactionRemove)
+            this.rootNode.addReactionListener("REMOVE", this.attr.onReactionRemove)
+        if (this.attr.onReactionRemoveAll)
+            this.rootNode.addReactionListener("REMOVE_ALL", this.attr.onReactionRemoveAll)
+        if (this.attr.onReactionRemoveEmoji)
+            this.rootNode.addReactionListener("REMOVE_EMOJI", this.attr.onReactionRemoveEmoji)
+
         return {
             content:
                 this.children
