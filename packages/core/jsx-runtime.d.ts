@@ -83,6 +83,7 @@ export namespace JSX {
     }
     interface FooterAttributes {
         children?: Element
+        iconURL?: string
     }
     interface ImageAttributes {
         src: string
@@ -172,6 +173,7 @@ export namespace JSX {
         title: TitleAttributes & BaseAttributes
         url: UrlAttributes & BaseAttributes
         field: FieldAttributes & BaseAttributes
+        footer: FooterAttributes & BaseAttributes
         // Action Row
         "action-row": ActionRowAttributes & BaseAttributes
         button: ButtonAttributes & BaseAttributes
