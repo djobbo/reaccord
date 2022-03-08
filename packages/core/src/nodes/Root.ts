@@ -1,11 +1,8 @@
 import { BaseNode } from "./_Base"
 import { MessageOptions, MessageEditOptions, Client, Interaction } from "discord.js"
-import { ContentNode, isContentNode } from "./Content/Content"
-import { EmbedNode, isEmbedNode } from "./Embed/Embed"
-import { ActionRowNode, isActionRowNode } from "./Interaction/ActionRow"
-import { EMPTY_STRING } from "../constants"
+import { isMessageNode, MessageNode } from './Message'
 
-export class RootNode extends BaseNode<"root", BaseNode, ContentNode | EmbedNode | ActionRowNode> {
+export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
     client: Client
     onRender: ((node: RootNode) => void) | undefined
     listeners: Record<string, (interaction: Interaction) => unknown> = {}
@@ -40,15 +37,10 @@ export class RootNode extends BaseNode<"root", BaseNode, ContentNode | EmbedNode
     }
 
     render(): MessageOptions | MessageEditOptions {
-        return {
-            content:
-                this.children
-                    .filter(isContentNode)
-                    .map((child) => child.render())
-                    .at(-1) || EMPTY_STRING,
-            embeds: this.children.filter(isEmbedNode).map((child) => child.render()),
-            components: this.children.filter(isActionRowNode).map((child) => child.render()),
-        }
+        const messageNode = this.firstChild
+        if (this.children.length !== 1 || !messageNode || !isMessageNode(messageNode))
+            throw new Error("root should only have one child, a <message> node")
+        return messageNode.render()
     }
 }
 
