@@ -1,15 +1,18 @@
 {
-  "name": "docs",
-  "version": "0.0.1",
-  "description": "The declarative framework for building fast and reliable Discord apps.",
-  "main": "index.js",
-  "repository": "/docs",
-  "scripts": {
-    "dev": "vuepress dev src",
-    "build": "vuepress build src"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "vuepress": "^1.5.3"
-  }
+    "name": "docs",
+    "version": "0.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "description": "The declarative framework for building fast and reliable Discord apps.",
+    "scripts": {
+        "docs:dev": "vuepress dev guide",
+        "docs:build": "vuepress build guide"
+    },
+    "devDependencies": {
+        "@vue/component-compiler-utils": "^3.3.0",
+        "@vuepress/plugin-back-to-top": "^1.9.7",
+        "@vuepress/plugin-pwa": "^1.9.7",
+        "lru-cache": "^7.4.1",
+        "vuepress": "^2.0.0-beta.36"
+    }
 }

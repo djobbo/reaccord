@@ -1,8 +1,10 @@
 ---
 home: true
+title: Reaccord
 tagline: The declarative framework for building fast and reliable Discord apps.
-actionText: Get started →
-actionLink: /guide/
+actions:
+  - text: Get started →
+    link: /guide/
 features:
 - title: React
   details: Use React to build your app
