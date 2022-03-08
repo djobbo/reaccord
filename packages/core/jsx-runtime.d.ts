@@ -5,7 +5,14 @@ import {
     ModalSubmitInteraction,
     SelectMenuInteraction,
 } from "discord.js"
-import type { ReactElement } from 'react'
+import type { ReactElement } from "react"
+import {
+    MessageReplyListener,
+    ReactionAddListener,
+    ReactionRemoveAllListener,
+    ReactionRemoveEmojiListener,
+    ReactionRemoveListener,
+} from "./src/nodes/Root"
 import { BaseNode } from "./src/nodes/_Base"
 
 export namespace JSX {
@@ -28,6 +35,13 @@ export namespace JSX {
     }
     interface BaseAttributes {
         key?: number | string | null
+    }
+    interface MessageAttributes {
+        onReactionAdd?: ReactionAddListener
+        onReactionRemove?: ReactionRemoveListener
+        onReactionRemoveAll?: ReactionRemoveAllListener
+        onReactionRemoveEmoji?: ReactionRemoveEmojiListener
+        onReply?: MessageReplyListener
     }
     // Text
     interface LineBreakAttributes {}
@@ -138,6 +152,7 @@ export namespace JSX {
         onSubmit?: (interaction: ModalSubmitInteraction) => void
     }
     interface IntrinsicElements {
+        message: MessageAttributes & BaseAttributes
         // Text
         a: AnchorAttributes & BaseAttributes
         br: LineBreakAttributes & BaseAttributes

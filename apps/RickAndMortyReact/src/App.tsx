@@ -28,7 +28,7 @@ export const App = () => {
     }, [name, page])
 
     return (
-        <>
+        <message>
             {loading ? (
                 <embed>
                     <title>Loading</title>
@@ -84,6 +84,6 @@ export const App = () => {
                 )}
             </action-row>
             <Navigation data={data} loading={loading} page={page} setPage={setPage} />
-        </>
+        </message>
     )
 }

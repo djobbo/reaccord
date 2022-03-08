@@ -8,11 +8,23 @@ client.on("ready", () => console.log("Bot Started!"))
 
 const App = () => {
     const [count, setCount] = useState(0)
+    const [emoji, setEmoji] = useState("")
+    const [username, setUsername] = useState("")
 
     return (
-        <>
+        <message
+            onReactionAdd={(reaction, user) => {
+                setEmoji(reaction.emoji.name ?? "")
+                setUsername(user.username ?? "")
+            }}
+            onReply={(message) => {
+                message.react("❤️")
+            }}
+        >
             <embed>
-                <title>Hello from React!</title>
+                <title>
+                    {emoji}Hello {username ?? "from React"}!
+                </title>
             </embed>
             <action-row>
                 <button
@@ -22,19 +34,15 @@ const App = () => {
                     Count: {count}
                 </button>
             </action-row>
-        </>
+        </message>
     )
 }
 
-client.on("messageCreate", (message) => {
+client.on("messageCreate", async (message) => {
     const { content, channel } = message
 
-    switch (content) {
-        case "~react":
-            return renderMessage(channel, () => <App />)
-        default:
-            return
-    }
+    if (content !== "r") return
+    await renderMessage(channel, () => <App />)
 })
 
 client.login(process.env.DISCORD_TOKEN)

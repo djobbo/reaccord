@@ -4,8 +4,6 @@ import { ActionRowNode } from "./ActionRow"
 import { isOptionNode, OptionNode } from "./Option"
 
 export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
-    disposer?: () => void
-
     constructor() {
         super("select")
     }
@@ -14,13 +12,7 @@ export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
         return this.attr.id ? `${this.attr.id}-${this.uuid}` : this.uuid
     }
 
-    dispose(): void {
-        this.disposer?.()
-    }
-
     render(): SelectMenuComponent {
-        this.dispose()
-
         const root = this.rootNode
         if (!root) throw new Error("Root element not found for dropdown")
 
@@ -37,11 +29,7 @@ export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
             if (!this.attr.onChange?.(interaction.values, interaction)) interaction.deferUpdate()
         }
 
-        root.addListener(customId, listener)
-
-        this.disposer = () => {
-            root.removeListener(customId)
-        }
+        root.addInteractionListener(customId, listener)
         return select
     }
 }

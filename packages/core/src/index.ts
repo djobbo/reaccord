@@ -46,16 +46,26 @@ const openModal =
     }
 
 const renderMessage = (render: RenderFn, client: Client) => (channel: Channel, message: () => JSX.Element) => {
-    let msg: Message | undefined = undefined
+    return new Promise<Message>((resolve, reject) => {
 
-    const cb = async (root: RootNode) => {
-        const rendered = root.render()
-        if (msg) await msg.edit(rendered as MessageEditOptions)
-        else msg = await channel.send(rendered as MessageOptions)
-    }
-
-    const root = new RootNode(client, debounce(cb, 50))
-    render(message, root)
+        let msg: Message | undefined = undefined
+        
+        const cb = async (root: RootNode) => {
+            const rendered = root.render()
+            if (msg) await msg.edit(rendered as MessageEditOptions)
+            else {
+                msg = await channel.send(rendered as MessageOptions)
+                root.setMessage(msg);
+                const hydrated = root.render();
+                await msg.edit(hydrated as MessageEditOptions)
+                resolve(msg)
+            }
+        }
+        
+        const root = new RootNode(client, debounce(cb, 50))
+        render(message, root)
+        return msg
+    })
 }
 
 export const reaccord = (render: RenderFn) => (client: Client) => {

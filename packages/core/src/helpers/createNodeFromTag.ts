@@ -18,10 +18,13 @@ import {
     SpanNode,
     ThumbnailNode,
     TitleNode,
+    MessageNode
 } from "../nodes"
 
 export const createNodeFromTag = (tag: NodeType) => {
     switch (tag) {
+        case 'message':
+            return new MessageNode()
         case "action-row":
             return new ActionRowNode()
         case "a":

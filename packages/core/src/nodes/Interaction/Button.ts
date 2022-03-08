@@ -4,8 +4,6 @@ import { ActionRowNode } from "./ActionRow"
 import { TextContainerNode } from "../_TextContainer"
 
 export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
-    disposer?: () => void
-
     constructor() {
         super("button")
     }
@@ -14,14 +12,8 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
         return this.attr.id ? `${this.attr.id}-${this.uuid}` : this.uuid
     }
 
-    dispose(): void {
-        this.disposer?.()
-    }
-
     render(): ButtonComponent {
-        this.dispose()
-
-        const root = this.rootNode;
+        const root = this.rootNode
         if (!root) throw new Error("Root element not found for button")
 
         const customId = this.customId
@@ -38,11 +30,7 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
             if (!this.attr.onClick?.(interaction)) interaction.deferUpdate()
         }
 
-        root.addListener(customId, listener)
-
-        this.disposer = () => {
-            root.removeListener(customId)
-        }
+        root.addInteractionListener(customId, listener)
         return button
     }
 }
