@@ -10,6 +10,7 @@ import {
     User,
     PartialUser,
     Collection,
+    MessageType,
 } from "discord.js"
 import { isMessageNode, MessageNode } from "./Message"
 
@@ -26,6 +27,7 @@ export type ReactionRemoveAllListener = (reactions: Collection<string, MessageRe
 export type ReactionRemoveEmojiListener = (
     reaction: MessageReaction | PartialMessageReaction
 ) => void
+export type MessageReplyListener = (message: Message) => void
 
 export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
     client: Client
@@ -43,6 +45,7 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         REMOVE_ALL: [],
         REMOVE_EMOJI: [],
     }
+    replyListeners: MessageReplyListener[] = []
 
     constructor(client: Client, onRender?: (node: RootNode) => void | undefined) {
         super("root")
@@ -72,6 +75,18 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         client.on("messageReactionRemoveEmoji", (reaction) => {
             if (!this.message || reaction.message.id !== this.message.id) return
             this.reactionListeners.REMOVE_EMOJI.forEach((listener) => listener(reaction))
+        })
+
+        client.on("messageCreate", (message) => {
+            if (
+                !this.message ||
+                message.type !== MessageType.Reply ||
+                !message.reference?.messageId ||
+                message.reference.messageId !== this.message.id
+            )
+                return
+            console.log(this.replyListeners.length)
+            this.replyListeners.forEach((listener) => listener(message))
         })
     }
 
@@ -107,12 +122,17 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         this.reactionListeners[type].push(listener)
     }
 
+    addReplyListener(listener: MessageReplyListener) {
+        this.replyListeners.push(listener)
+    }
+
     resetListeners() {
         this.reactionListeners.ADD = []
         this.reactionListeners.REMOVE = []
         this.reactionListeners.REMOVE_ALL = []
         this.reactionListeners.REMOVE_EMOJI = []
         this.interactionListeners = {}
+        this.replyListeners = []
     }
 
     render(): MessageOptions | MessageEditOptions {

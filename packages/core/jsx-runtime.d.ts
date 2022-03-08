@@ -7,6 +7,7 @@ import {
 } from "discord.js"
 import type { ReactElement } from "react"
 import {
+    MessageReplyListener,
     ReactionAddListener,
     ReactionRemoveAllListener,
     ReactionRemoveEmojiListener,
@@ -40,7 +41,7 @@ export namespace JSX {
         onReactionRemove?: ReactionRemoveListener
         onReactionRemoveAll?: ReactionRemoveAllListener
         onReactionRemoveEmoji?: ReactionRemoveEmojiListener
-        onReply?: () => void
+        onReply?: MessageReplyListener
     }
     // Text
     interface LineBreakAttributes {}

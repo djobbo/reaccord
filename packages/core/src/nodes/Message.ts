@@ -27,6 +27,8 @@ export class MessageNode extends BaseNode<
             this.rootNode.addReactionListener("REMOVE_ALL", this.attr.onReactionRemoveAll)
         if (this.attr.onReactionRemoveEmoji)
             this.rootNode.addReactionListener("REMOVE_EMOJI", this.attr.onReactionRemoveEmoji)
+        if (this.attr.onReply)
+            this.rootNode.addReplyListener(this.attr.onReply)
 
         return {
             content:

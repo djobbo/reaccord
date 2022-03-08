@@ -17,11 +17,13 @@ const App = () => {
                 setEmoji(reaction.emoji.name ?? "")
                 setUsername(user.username ?? "")
             }}
-            onReply={console.log}
+            onReply={(message) => {
+                message.react("❤️")
+            }}
         >
             <embed>
                 <title>
-                    {emoji && <>{emoji} </>}Hello {username ? <>{username}</> : <>from React</>}!
+                    {emoji}Hello {username ?? "from React"}!
                 </title>
             </embed>
             <action-row>
