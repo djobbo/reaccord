@@ -20,7 +20,12 @@ import {
     TitleNode,
     MessageNode,
     AuthorNode,
-    DescriptionNode
+    DescriptionNode,
+    FooterNode,
+    BaseNode,
+    UrlNode,
+    TimestampNode,
+    ImageNode
 } from "../nodes"
 
 export const createNodeFromTag = (tag: NodeType) => {
@@ -45,6 +50,8 @@ export const createNodeFromTag = (tag: NodeType) => {
             return new ColorNode()
         case "content":
             return new ContentNode()
+        case 'footer':
+            return new FooterNode()
         case "embed":
             return new EmbedNode()
         case "field":
@@ -67,6 +74,12 @@ export const createNodeFromTag = (tag: NodeType) => {
             return new ThumbnailNode()
         case "title":
             return new TitleNode()
+        case 'url':
+            return new UrlNode()
+        case 'timestamp':
+            return new TimestampNode()
+        case 'img':
+            return new ImageNode()
         default:
             throw new Error(`<${tag}/> is not yet implemented :(`)
     }

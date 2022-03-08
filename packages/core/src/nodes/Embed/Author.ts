@@ -1,5 +1,5 @@
 import { BaseNode } from "../_Base"
-import { Embed, Util } from "discord.js"
+import { Embed } from "discord.js"
 import { EmbedNode } from "./Embed"
 import { TextContainerNode } from "../_TextContainer"
 import { EMPTY_STRING } from "../../constants"
