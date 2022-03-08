@@ -18,7 +18,9 @@ import {
     SpanNode,
     ThumbnailNode,
     TitleNode,
-    MessageNode
+    MessageNode,
+    AuthorNode,
+    DescriptionNode
 } from "../nodes"
 
 export const createNodeFromTag = (tag: NodeType) => {
@@ -29,6 +31,10 @@ export const createNodeFromTag = (tag: NodeType) => {
             return new ActionRowNode()
         case "a":
             return new AnchorNode()
+        case 'author':
+            return new AuthorNode()
+        case 'desc':
+            return new DescriptionNode()
         case "button":
             return new ButtonNode()
         case "code":

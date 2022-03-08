@@ -16,6 +16,8 @@ export * from './Embed/Color'
 export * from './Embed/Embed'
 export * from './Embed/Field'
 export * from './Embed/Thumbnail'
+export * from './Embed/Author'
+export * from './Embed/Description'
 
 export * from './Interaction/ActionRow'
 export * from './Interaction/Button'
