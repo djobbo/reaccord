@@ -62,6 +62,11 @@ export abstract class BaseNode<
     setAttribute(name: string, value: any): void {
         //@ts-expect-error
         this.attr[name] = value
+    }
+
+    replaceAttributes(attr: Record<string, any>): void {
+        //@ts-expect-error
+        this.attr = attr;
         this.onNodeRender()
     }
 
