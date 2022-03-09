@@ -150,6 +150,12 @@ export namespace JSX {
         id?: string
         children?: Element[]
         title: string
+
+        /**
+         * By default, onSubmit will trigger a message and then delete it
+         * in order to respond to the interaction.
+         * To prevent this, return a truthy value
+         */
         onSubmit?: (interaction: ModalSubmitInteraction) => void
     }
     interface IntrinsicElements {

@@ -9,12 +9,17 @@ import {
     ThreadChannel,
     Message,
     MessageEditOptions,
-    MessageOptions,
-    ButtonInteraction
+    ButtonInteraction,
 } from "discord.js"
 import { ModalRootNode } from "./nodes/Interaction/ModalRoot"
+import { EMPTY_STRING } from "./constants"
 
-type RenderFn = (code: () => JSX.Element, root: RootNode | ModalRootNode) => void
+export type RenderFn = (
+    code: () => JSX.Element,
+    root: RootNode | ModalRootNode,
+    client: Client,
+    message: Message
+) => void
 
 type Channel = DMChannel | PartialDMChannel | NewsChannel | TextChannel | ThreadChannel
 
@@ -26,10 +31,9 @@ const debounce = <T extends unknown[]>(fn: (...args: T) => void, ms = 300) => {
     }
 }
 
-const createModal = (render: RenderFn, client: Client, code: JSX.Element) => {
-
+const createModal = (render: RenderFn, client: Client, code: JSX.Element, message: Message) => {
     const modal = new ModalRootNode(client)
-    render(() => code, modal)
+    render(() => code, modal, client, message)
 
     return modal.render()
 }
@@ -37,44 +41,35 @@ const createModal = (render: RenderFn, client: Client, code: JSX.Element) => {
 // If used directly inside button (<button onClick={openModal(Modal)}/>),
 // will prevent the app from defering update, because opening a modal is
 // already an interaction response.
-const openModal =
-    (render: RenderFn, client: Client) =>
+export const openModal =
+    (render: RenderFn, client: Client, message: Message) =>
     (modal: JSX.Element) =>
     (interaction: ButtonInteraction): true => {
-        interaction.showModal(createModal(render, client, modal))
+        interaction.showModal(createModal(render, client, modal, message))
         return true
     }
 
-const renderMessage = (render: RenderFn, client: Client) => (channel: Channel, message: () => JSX.Element) => {
-    return new Promise<Message>((resolve, reject) => {
+export const renderMessage =
+    (render: RenderFn, client: Client) => async (channel: Channel, message: () => JSX.Element) => {
+        const msg = await channel.send(EMPTY_STRING)
 
-        let msg: Message | undefined = undefined
-        
         const cb = async (root: RootNode) => {
             const rendered = root.render()
-            if (msg) await msg.edit(rendered as MessageEditOptions)
-            else {
-                msg = await channel.send(rendered as MessageOptions)
-                root.setMessage(msg);
-                const hydrated = root.render();
-                await msg.edit(hydrated as MessageEditOptions)
-                resolve(msg)
-            }
+            if (msg) return await msg.edit(rendered as MessageEditOptions)
+            throw new Error("Failed to send message")
         }
-        
+
         const root = new RootNode(client, debounce(cb, 50))
-        render(message, root)
+        render(message, root, client, msg)
         return msg
-    })
-}
+    }
 
 export const reaccord = (render: RenderFn) => (client: Client) => {
     return {
-        openModal: openModal(render, client),
         renderMessage: renderMessage(render, client),
     }
 }
 
-export * from './constants'
-export * from './nodes'
-export * from './helpers'
+export * from "./constants"
+export * from "./nodes"
+export * from "./helpers"

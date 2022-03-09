@@ -1,5 +1,5 @@
 import { BaseNode } from "./_Base"
-import { MessageOptions, MessageEditOptions, Client, Interaction } from "discord.js"
+import { MessageOptions, MessageEditOptions } from "discord.js"
 import { ContentNode, isContentNode } from "./Content/Content"
 import { EmbedNode, isEmbedNode } from "./Embed/Embed"
 import { ActionRowNode, isActionRowNode } from "./Interaction/ActionRow"
@@ -8,7 +8,7 @@ import { RootNode } from "./Root"
 
 export class MessageNode extends BaseNode<
     "message",
-    BaseNode,
+    RootNode,
     ContentNode | EmbedNode | ActionRowNode
 > {
     constructor() {
@@ -27,8 +27,7 @@ export class MessageNode extends BaseNode<
             this.rootNode.addReactionListener("REMOVE_ALL", this.attr.onReactionRemoveAll)
         if (this.attr.onReactionRemoveEmoji)
             this.rootNode.addReactionListener("REMOVE_EMOJI", this.attr.onReactionRemoveEmoji)
-        if (this.attr.onReply)
-            this.rootNode.addReplyListener(this.attr.onReply)
+        if (this.attr.onReply) this.rootNode.addReplyListener(this.attr.onReply)
 
         return {
             content:

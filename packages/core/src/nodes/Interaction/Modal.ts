@@ -25,12 +25,14 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
             .setTitle(this.attr.title ?? EMPTY_STRING)
             .setComponents(...this.children.filter(isModalRowNode).map((child) => child.render()))
 
-        const listener = (interaction: Interaction) => {
+        const listener = async (interaction: Interaction) => {
             if (!interaction.isModalSubmit()) return
             if (interaction.customId !== customId) return
 
-            if (!this.attr.onSubmit?.(interaction))
-                interaction.reply({ content: "ok", ephemeral: true })
+            if (!this.attr.onSubmit?.(interaction)) {
+                await interaction.reply({ content: "done ✅" })
+                await interaction.deleteReply()
+            }
 
             this.children.filter(isModalRowNode).forEach((row) =>
                 row.children.filter(isInputNode).forEach((input) => {

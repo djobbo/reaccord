@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { Character, CharacterStatus } from "./types"
 
 const getColorFromCharacterStatus = (status: CharacterStatus) => {

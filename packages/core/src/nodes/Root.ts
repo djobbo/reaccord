@@ -85,7 +85,6 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
                 message.reference.messageId !== this.message.id
             )
                 return
-            console.log(this.replyListeners.length)
             this.replyListeners.forEach((listener) => listener(message))
         })
     }

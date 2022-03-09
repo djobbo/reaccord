@@ -7,10 +7,6 @@ export class ThumbnailNode extends BaseNode<"thumbnail", EmbedNode> {
         super("thumbnail")
     }
 
-    setAttribute(name: string, value: any): void {
-        super.setAttribute(name, value)
-    }
-
     render(embed: Embed): void {
         embed.setThumbnail(this.attr.src ?? null)
     }

@@ -1,10 +1,10 @@
-import { openModal } from "./setupApp"
 import { CharacterEmbed } from "./CharacterEmbed"
 import { fetchCharacters } from "./fetch"
 import { NameModal } from "./NameModal"
 import { Navigation } from "./Navigation"
 import { useEffect, useState } from "react"
 import { APIResponse, Character } from "./types"
+import { useModal } from "@reaccord/react"
 
 export const App = () => {
     const [name, setName] = useState("")
@@ -12,6 +12,7 @@ export const App = () => {
     const [data, setData] = useState<APIResponse | null>(null)
     const [loading, setLoading] = useState(false)
     const [character, setCharacter] = useState<Character | undefined>(undefined)
+    const { openModal } = useModal()
 
     useEffect(() => {
         setLoading(true)

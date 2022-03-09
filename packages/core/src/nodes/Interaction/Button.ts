@@ -23,11 +23,11 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
             .setStyle(ButtonStyle[this.attr.style ?? "Primary"])
             .setLabel(this.innerText)
 
-        const listener = (interaction: Interaction) => {
+        const listener = async (interaction: Interaction) => {
             if (!interaction.isButton()) return
             if (interaction.customId !== customId) return
 
-            if (!this.attr.onClick?.(interaction)) interaction.deferUpdate()
+            if (!this.attr.onClick?.(interaction)) await interaction.deferUpdate()
         }
 
         root.addInteractionListener(customId, listener)
