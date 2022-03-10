@@ -16,12 +16,12 @@
             "outputs": ["lib/**"]
         },
         "docs:dev": {
-          "cache":false,
-          "outputs": [".cache/**", ".temp/**"]
+            "cache": false,
+            "outputs": [".cache/**", ".temp/**"]
         },
         "docs:build": {
-          "cache":false,
-          "outputs": ["dist/**"]
+            "cache": false,
+            "outputs": ["dist/**"]
         }
     }
 }

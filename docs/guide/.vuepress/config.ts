@@ -30,8 +30,8 @@ export default defineUserConfig<DefaultThemeOptions>({
                 children: ["/guide/", "/guide/typescript/"],
             },
             {
-                text: "Message Elements",
-                children: ["/elements/", "/elements/content/"],
+                text: "Elements",
+                children: ["/elements/", "/elements/content/", "/elements/embed", "/elements/action-row"],
             },
             {
                 text: "Examples",
@@ -46,6 +46,17 @@ export default defineUserConfig<DefaultThemeOptions>({
             {
                 serviceWorker: true,
                 updatePopup: true,
+            },
+        ],
+        [
+            '@vuepress/plugin-search',
+            {
+                locales: {
+                    '/': {
+                        placeholder: 'Search',
+                    },
+                },
+                isSearchable: (page) => page.path !== '/',
             },
         ],
     ],
