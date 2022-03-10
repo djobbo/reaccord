@@ -1,17 +1,17 @@
 {
-	"compilerOptions": {
-		"strict": true,
-		"module": "commonjs",
-		"esModuleInterop": true,
-		"sourceMap": true,
-		"allowJs": true,
-		"lib": ["esnext"],
-		"moduleResolution": "node",
-		"jsx": "react-jsx",
-		"jsxImportSource": "@reaccord/react",
-		"outDir": "out",
-		"target": "es6"
-	},
-	"include": ["src"],
-	"exclude": ["node_modules"]
+    "compilerOptions": {
+        "strict": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "lib": ["esnext"],
+        "moduleResolution": "node",
+        "jsx": "react-jsx",
+        "jsxImportSource": "@reaccord/react",
+        "outDir": "out",
+        "target": "es6"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
 }

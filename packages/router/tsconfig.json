@@ -1,19 +1,19 @@
 {
-	"compilerOptions": {
-		"strict": true,
-		"module": "commonjs",
-		"esModuleInterop": true,
-		"sourceMap": true,
-		"allowJs": true,
-		"target": "es6",
-		"lib": ["esnext"],
-		"moduleResolution": "node",
-		"outDir": "lib",
-		"declaration": true,
-		"strictNullChecks": true,
-		"jsx": "react-jsx",
-		"jsxImportSource": "@reaccord/react"
-	},
-	"include": ["src"],
-	"exclude": ["node_modules", "lib"]
+    "compilerOptions": {
+        "strict": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "target": "es6",
+        "lib": ["esnext"],
+        "moduleResolution": "node",
+        "outDir": "lib",
+        "declaration": true,
+        "strictNullChecks": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "@reaccord/react"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "lib"]
 }

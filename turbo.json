@@ -3,17 +3,25 @@
         "build": {
             "dependsOn": ["^build"],
             "outputs": ["dist/**", ".next/**", "lib/**"]
-          },
-          "lint": {
+        },
+        "lint": {
             "outputs": []
-          },
-          "dev": {
+        },
+        "dev": {
             "cache": false,
             "dependsOn": ["^build"]
-          },
-          "build:w": {
+        },
+        "build:w": {
             "cache": false,
             "outputs": ["lib/**"]
+        },
+        "docs:dev": {
+          "cache":false,
+          "outputs": [".cache/**", ".temp/**"]
+        },
+        "docs:build": {
+          "cache":false,
+          "outputs": ["dist/**"]
         }
     }
 }

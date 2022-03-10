@@ -27,7 +27,15 @@ export default defineUserConfig<DefaultThemeOptions>({
         sidebar: [
             {
                 text: "Guide",
-                children: ["/guide/", "/guide/getting-started/"],
+                children: ["/guide/", "/guide/typescript/"],
+            },
+            {
+                text: "Message Elements",
+                children: ["/elements/", "/elements/content/"],
+            },
+            {
+                text: "Examples",
+                children: ["/examples/counter/"],
             },
         ],
     },
