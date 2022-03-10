@@ -1,18 +1,18 @@
-import { JSX } from "../jsx-runtime"
-import { RootNode } from "./nodes/Root"
 import {
+    ButtonInteraction,
     Client,
     DMChannel,
-    PartialDMChannel,
-    NewsChannel,
-    TextChannel,
-    ThreadChannel,
     Message,
     MessageEditOptions,
-    ButtonInteraction,
+    NewsChannel,
+    PartialDMChannel,
+    TextChannel,
+    ThreadChannel,
 } from "discord.js"
-import { ModalRootNode } from "./nodes/Interaction/ModalRoot"
 import { EMPTY_STRING } from "./constants"
+import { JSX } from "../jsx-runtime"
+import { ModalRootNode } from "./nodes/Interaction/ModalRoot"
+import { RootNode } from "./nodes/Root"
 
 export type RenderFn = (
     code: () => JSX.Element,
@@ -21,7 +21,12 @@ export type RenderFn = (
     message: Message
 ) => void
 
-type Channel = DMChannel | PartialDMChannel | NewsChannel | TextChannel | ThreadChannel
+type Channel =
+    | DMChannel
+    | PartialDMChannel
+    | NewsChannel
+    | TextChannel
+    | ThreadChannel
 
 const debounce = <T extends unknown[]>(fn: (...args: T) => void, ms = 300) => {
     let timeoutId: NodeJS.Timeout
@@ -31,7 +36,12 @@ const debounce = <T extends unknown[]>(fn: (...args: T) => void, ms = 300) => {
     }
 }
 
-const createModal = (render: RenderFn, client: Client, code: JSX.Element, message: Message) => {
+const createModal = (
+    render: RenderFn,
+    client: Client,
+    code: JSX.Element,
+    message: Message
+) => {
     const modal = new ModalRootNode(client)
     render(() => code, modal, client, message)
 
@@ -50,7 +60,8 @@ export const openModal =
     }
 
 export const renderMessage =
-    (render: RenderFn, client: Client) => async (channel: Channel, message: () => JSX.Element) => {
+    (render: RenderFn, client: Client) =>
+    async (channel: Channel, message: () => JSX.Element) => {
         const msg = await channel.send(EMPTY_STRING)
 
         const cb = async (root: RootNode) => {
@@ -64,11 +75,9 @@ export const renderMessage =
         return msg
     }
 
-export const reaccord = (render: RenderFn) => (client: Client) => {
-    return {
-        renderMessage: renderMessage(render, client),
-    }
-}
+export const reaccord = (render: RenderFn) => (client: Client) => ({
+    renderMessage: renderMessage(render, client),
+})
 
 export * from "./constants"
 export * from "./nodes"

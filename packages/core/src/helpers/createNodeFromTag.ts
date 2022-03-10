@@ -1,15 +1,20 @@
 import {
     ActionRowNode,
     AnchorNode,
+    AuthorNode,
     ButtonNode,
-    CodeblockNode,
     CodeNode,
+    CodeblockNode,
     ColorNode,
     ContentNode,
+    DescriptionNode,
     EmbedNode,
     FieldNode,
+    FooterNode,
+    ImageNode,
     InputNode,
     LineBreakNode,
+    MessageNode,
     ModalNode,
     ModalRowNode,
     NodeType,
@@ -17,28 +22,22 @@ import {
     SelectNode,
     SpanNode,
     ThumbnailNode,
-    TitleNode,
-    MessageNode,
-    AuthorNode,
-    DescriptionNode,
-    FooterNode,
-    BaseNode,
-    UrlNode,
     TimestampNode,
-    ImageNode
+    TitleNode,
+    UrlNode,
 } from "../nodes"
 
 export const createNodeFromTag = (tag: NodeType) => {
     switch (tag) {
-        case 'message':
+        case "message":
             return new MessageNode()
         case "action-row":
             return new ActionRowNode()
         case "a":
             return new AnchorNode()
-        case 'author':
+        case "author":
             return new AuthorNode()
-        case 'desc':
+        case "desc":
             return new DescriptionNode()
         case "button":
             return new ButtonNode()
@@ -50,7 +49,7 @@ export const createNodeFromTag = (tag: NodeType) => {
             return new ColorNode()
         case "content":
             return new ContentNode()
-        case 'footer':
+        case "footer":
             return new FooterNode()
         case "embed":
             return new EmbedNode()
@@ -74,11 +73,11 @@ export const createNodeFromTag = (tag: NodeType) => {
             return new ThumbnailNode()
         case "title":
             return new TitleNode()
-        case 'url':
+        case "url":
             return new UrlNode()
-        case 'timestamp':
+        case "timestamp":
             return new TimestampNode()
-        case 'img':
+        case "img":
             return new ImageNode()
         default:
             throw new Error(`<${tag}/> is not yet implemented :(`)

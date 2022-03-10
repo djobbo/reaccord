@@ -1,20 +1,24 @@
 import { BaseNode } from "./_Base"
 import {
-    MessageOptions,
-    MessageEditOptions,
     Client,
+    Collection,
     Interaction,
     Message,
+    MessageEditOptions,
+    MessageOptions,
     MessageReaction,
-    PartialMessageReaction,
-    User,
-    PartialUser,
-    Collection,
     MessageType,
+    PartialMessageReaction,
+    PartialUser,
+    User,
 } from "discord.js"
-import { isMessageNode, MessageNode } from "./Message"
+import { MessageNode, isMessageNode } from "./Message"
 
-export type MessageReactionType = "ADD" | "REMOVE" | "REMOVE_ALL" | "REMOVE_EMOJI"
+export type MessageReactionType =
+    | "ADD"
+    | "REMOVE"
+    | "REMOVE_ALL"
+    | "REMOVE_EMOJI"
 export type ReactionAddListener = (
     reaction: MessageReaction | PartialMessageReaction,
     user: User | PartialUser
@@ -23,7 +27,9 @@ export type ReactionRemoveListener = (
     reaction: MessageReaction | PartialMessageReaction,
     user: User | PartialUser
 ) => void
-export type ReactionRemoveAllListener = (reactions: Collection<string, MessageReaction>) => void
+export type ReactionRemoveAllListener = (
+    reactions: Collection<string, MessageReaction>
+) => void
 export type ReactionRemoveEmojiListener = (
     reaction: MessageReaction | PartialMessageReaction
 ) => void
@@ -31,9 +37,16 @@ export type MessageReplyListener = (message: Message) => void
 
 export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
     client: Client
+
     onRender: ((node: RootNode) => void) | undefined
-    interactionListeners: Record<string, (interaction: Interaction) => unknown> = {}
+
+    interactionListeners: Record<
+        string,
+        (interaction: Interaction) => unknown
+    > = {}
+
     message: Message | undefined
+
     reactionListeners: {
         ADD: ReactionAddListener[]
         REMOVE: ReactionRemoveListener[]
@@ -45,9 +58,13 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         REMOVE_ALL: [],
         REMOVE_EMOJI: [],
     }
+
     replyListeners: MessageReplyListener[] = []
 
-    constructor(client: Client, onRender?: (node: RootNode) => void | undefined) {
+    constructor(
+        client: Client,
+        onRender?: (node: RootNode) => void | undefined
+    ) {
         super("root")
         this.client = client
         this.onRender = onRender
@@ -62,19 +79,27 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
 
         client.on("messageReactionAdd", (reaction, user) => {
             if (!this.message || reaction.message.id !== this.message.id) return
-            this.reactionListeners.ADD.forEach((listener) => listener(reaction, user))
+            this.reactionListeners.ADD.forEach((listener) =>
+                listener(reaction, user)
+            )
         })
         client.on("messageReactionRemove", (reaction, user) => {
             if (!this.message || reaction.message.id !== this.message.id) return
-            this.reactionListeners.REMOVE.forEach((listener) => listener(reaction, user))
+            this.reactionListeners.REMOVE.forEach((listener) =>
+                listener(reaction, user)
+            )
         })
         client.on("messageReactionRemoveAll", (message, reactions) => {
             if (!this.message || message.id !== this.message.id) return
-            this.reactionListeners.REMOVE_ALL.forEach((listener) => listener(reactions))
+            this.reactionListeners.REMOVE_ALL.forEach((listener) =>
+                listener(reactions)
+            )
         })
         client.on("messageReactionRemoveEmoji", (reaction) => {
             if (!this.message || reaction.message.id !== this.message.id) return
-            this.reactionListeners.REMOVE_EMOJI.forEach((listener) => listener(reaction))
+            this.reactionListeners.REMOVE_EMOJI.forEach((listener) =>
+                listener(reaction)
+            )
         })
 
         client.on("messageCreate", (message) => {
@@ -101,14 +126,27 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         this.message = message
     }
 
-    addInteractionListener(uuid: string, fn: (interaction: Interaction) => unknown) {
+    addInteractionListener(
+        uuid: string,
+        fn: (interaction: Interaction) => unknown
+    ) {
         this.interactionListeners[uuid] = fn
     }
 
     addReactionListener(type: "ADD", listener: ReactionAddListener): void
+
     addReactionListener(type: "REMOVE", listener: ReactionRemoveListener): void
-    addReactionListener(type: "REMOVE_ALL", listener: ReactionRemoveAllListener): void
-    addReactionListener(type: "REMOVE_EMOJI", listener: ReactionRemoveEmojiListener): void
+
+    addReactionListener(
+        type: "REMOVE_ALL",
+        listener: ReactionRemoveAllListener
+    ): void
+
+    addReactionListener(
+        type: "REMOVE_EMOJI",
+        listener: ReactionRemoveEmojiListener
+    ): void
+
     addReactionListener(
         type: MessageReactionType,
         listener:
@@ -117,7 +155,7 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
             | ReactionRemoveAllListener
             | ReactionRemoveEmojiListener
     ): void {
-        //@ts-expect-error https://github.com/microsoft/TypeScript/issues/22609
+        // @ts-expect-error https://github.com/microsoft/TypeScript/issues/22609
         this.reactionListeners[type].push(listener)
     }
 
@@ -137,10 +175,15 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
     render(): MessageOptions | MessageEditOptions {
         this.resetListeners()
         const messageNode = this.firstChild
-        if (this.children.length !== 1 || !messageNode || !isMessageNode(messageNode))
+        if (
+            this.children.length !== 1 ||
+            !messageNode ||
+            !isMessageNode(messageNode)
+        )
             throw new Error("root should only have one child, a <message> node")
         return messageNode.render()
     }
 }
 
-export const isRootNode = (node: BaseNode): node is RootNode => node instanceof RootNode
+export const isRootNode = (node: BaseNode): node is RootNode =>
+    node instanceof RootNode

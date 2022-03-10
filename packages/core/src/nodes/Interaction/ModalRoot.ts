@@ -1,10 +1,14 @@
 import { BaseNode } from "../_Base"
-import { isModalNode, ModalNode } from "./Modal"
-import { Modal, Client, Interaction } from "discord.js"
+import { Client, Interaction, Modal } from "discord.js"
+import { ModalNode, isModalNode } from "./Modal"
 
 export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
     client: Client
-    interactionListeners: Record<string, (interaction: Interaction) => unknown> = {}
+
+    interactionListeners: Record<
+        string,
+        (interaction: Interaction) => unknown
+    > = {}
 
     constructor(client: Client) {
         super("modal-root")
@@ -21,7 +25,10 @@ export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
         return this
     }
 
-    addInteractionListener(uuid: string, fn: (interaction: Interaction) => unknown) {
+    addInteractionListener(
+        uuid: string,
+        fn: (interaction: Interaction) => unknown
+    ) {
         this.interactionListeners[uuid] = fn
     }
 

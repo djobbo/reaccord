@@ -1,6 +1,5 @@
-import { randomUUID } from "node:crypto"
-import { TextNode } from "./Text"
 import { BaseNode, NodeType } from "./_Base"
+import { TextNode } from "./Text"
 
 export abstract class TextContainerNode<
     Type extends NodeType = NodeType,

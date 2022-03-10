@@ -1,6 +1,6 @@
 import { BaseNode } from "../_Base"
 import { ContentNode } from "./Content"
-import { TextContainerNode } from '../_TextContainer'
+import { TextContainerNode } from "../_TextContainer"
 
 export class CodeblockNode extends TextContainerNode<"codeblock", ContentNode> {
     constructor() {

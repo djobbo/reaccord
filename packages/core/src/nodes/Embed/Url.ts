@@ -13,4 +13,5 @@ export class UrlNode extends TextContainerNode<"url", EmbedNode> {
     }
 }
 
-export const isUrlNode = (node: BaseNode): node is UrlNode => node instanceof UrlNode
+export const isUrlNode = (node: BaseNode): node is UrlNode =>
+    node instanceof UrlNode

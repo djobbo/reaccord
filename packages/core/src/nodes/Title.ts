@@ -1,7 +1,7 @@
 import { BaseNode } from "./_Base"
 import { Embed } from "discord.js"
-import { EmbedNode } from './Embed/Embed'
-import { TextContainerNode } from './_TextContainer'
+import { EmbedNode } from "./Embed/Embed"
+import { TextContainerNode } from "./_TextContainer"
 
 export class TitleNode extends TextContainerNode<"title", EmbedNode> {
     constructor() {
@@ -13,4 +13,5 @@ export class TitleNode extends TextContainerNode<"title", EmbedNode> {
     }
 }
 
-export const isTitleNode = (node: BaseNode): node is TitleNode => node instanceof TitleNode
+export const isTitleNode = (node: BaseNode): node is TitleNode =>
+    node instanceof TitleNode

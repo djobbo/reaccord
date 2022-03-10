@@ -16,13 +16,14 @@ type CharacterEmbedProps = {
 }
 
 export const CharacterEmbed = ({ character }: CharacterEmbedProps) => {
-    if (!character)
+    if (!character) {
         return (
             <embed>
                 <title>Failed to fetch data, please retry</title>
                 <color color="Red" />
             </embed>
         )
+    }
 
     return (
         <embed>
@@ -36,7 +37,11 @@ export const CharacterEmbed = ({ character }: CharacterEmbedProps) => {
             </field>
             <field title="Origin">{character.origin.name ?? "unknown"}</field>
             {character.image && <thumbnail src={character.image} />}
-            <color color={getColorFromCharacterStatus(character.status ?? "unknown")} />
+            <color
+                color={getColorFromCharacterStatus(
+                    character.status ?? "unknown"
+                )}
+            />
         </embed>
     )
 }
