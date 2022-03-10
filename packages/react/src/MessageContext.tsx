@@ -1,6 +1,6 @@
+import { Client, Message } from "discord.js"
+import { JSX } from "../jsx-runtime"
 import { createContext, useContext } from "react"
-import { Message, Client } from "discord.js"
-import { JSX } from "../../react/jsx-runtime"
 
 export type MessageContext = {
     client: Client
@@ -8,10 +8,10 @@ export type MessageContext = {
 }
 
 const messageContext = createContext<MessageContext>({
-    //@ts-expect-error
+    // @ts-expect-error
     message: null,
-    //@ts-expect-error
-    client: null
+    // @ts-expect-error
+    client: null,
 })
 
 export const useMessageCtx = () => useContext(messageContext)
@@ -22,6 +22,14 @@ export type MessageProviderProps = {
     children?: JSX.Element
 }
 
-export const MessageProvider = ({ children, client, message }: MessageProviderProps) => {
-    return <messageContext.Provider value={{ client, message }}>{children}</messageContext.Provider>
+export const MessageProvider = ({
+    children,
+    client,
+    message,
+}: MessageProviderProps) => {
+    return (
+        <messageContext.Provider value={{ client, message }}>
+            {children}
+        </messageContext.Provider>
+    )
 }

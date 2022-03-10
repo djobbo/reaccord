@@ -1,13 +1,13 @@
 import {
     BaseNode,
-    createNodeFromTag,
     NodeType,
-    TextNode,
     RenderFn,
+    TextNode,
+    createNodeFromTag,
 } from "@reaccord/core"
-import ReactReconciler, { HostConfig } from "react-reconciler"
 import { JSX } from "../jsx-runtime"
 import { MessageProvider } from "./MessageContext"
+import ReactReconciler, { HostConfig } from "react-reconciler"
 
 const hostConfig: HostConfig<
     NodeType,
@@ -91,7 +91,12 @@ const hostConfig: HostConfig<
 const reactReconcilerInstance = ReactReconciler(hostConfig)
 
 export const render: RenderFn = (Code, root, client, message) => {
-    const rootContainer = reactReconcilerInstance.createContainer(root, 0, false, null)
+    const rootContainer = reactReconcilerInstance.createContainer(
+        root,
+        0,
+        false,
+        null
+    )
     reactReconcilerInstance.updateContainer(
         <MessageProvider message={message} client={client}>
             <Code />

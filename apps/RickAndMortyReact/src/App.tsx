@@ -1,9 +1,9 @@
+import { APIResponse, Character } from "./types"
 import { CharacterEmbed } from "./CharacterEmbed"
-import { fetchCharacters } from "./fetch"
 import { NameModal } from "./NameModal"
 import { Navigation } from "./Navigation"
+import { fetchCharacters } from "./fetch"
 import { useEffect, useState } from "react"
-import { APIResponse, Character } from "./types"
 import { useModal } from "@reaccord/react"
 
 export const App = () => {
@@ -42,7 +42,11 @@ export const App = () => {
                 <action-row>
                     <select
                         onChange={([val]) => {
-                            setCharacter(data.results.find((char) => char.id.toString() === val))
+                            setCharacter(
+                                data.results.find(
+                                    (char) => char.id.toString() === val
+                                )
+                            )
                         }}
                     >
                         {data.results.map((char, i) => (
@@ -51,7 +55,11 @@ export const App = () => {
                                 label={char.name}
                                 value={char.id.toString()}
                                 description={`${char.species} - ${char.status}`}
-                                default={character ? char.id === character.id : i === 0}
+                                default={
+                                    character
+                                        ? char.id === character.id
+                                        : i === 0
+                                }
                             />
                         ))}
                     </select>
@@ -78,13 +86,22 @@ export const App = () => {
                         <button style="Secondary" disabled>
                             Current search: {name}
                         </button>
-                        <button style="Secondary" onClick={() => setName("")} disabled={loading}>
+                        <button
+                            style="Secondary"
+                            onClick={() => setName("")}
+                            disabled={loading}
+                        >
                             Clear search
                         </button>
                     </>
                 )}
             </action-row>
-            <Navigation data={data} loading={loading} page={page} setPage={setPage} />
+            <Navigation
+                data={data}
+                loading={loading}
+                page={page}
+                setPage={setPage}
+            />
         </message>
     )
 }

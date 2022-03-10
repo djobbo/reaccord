@@ -1,11 +1,11 @@
+import { BaseNode } from "./src/nodes/_Base"
 import {
     ButtonInteraction,
-    ColorResolvable,
     ButtonStyle,
+    ColorResolvable,
     ModalSubmitInteraction,
     SelectMenuInteraction,
 } from "discord.js"
-import type { ReactElement } from "react"
 import {
     MessageReplyListener,
     ReactionAddListener,
@@ -13,7 +13,7 @@ import {
     ReactionRemoveEmojiListener,
     ReactionRemoveListener,
 } from "./src/nodes/Root"
-import { BaseNode } from "./src/nodes/_Base"
+import type { ReactElement } from "react"
 
 export namespace JSX {
     type Element =

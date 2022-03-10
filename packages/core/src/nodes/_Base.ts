@@ -1,9 +1,13 @@
-import { randomUUID } from "node:crypto"
 import { JSX } from "../../jsx-runtime"
 import { ModalRootNode } from "./Interaction/ModalRoot"
 import { RootNode } from "./Root"
+import { randomUUID } from "node:crypto"
 
-export type NodeType = keyof JSX.IntrinsicElements | "textnode" | "root" | "modal-root"
+export type NodeType =
+    | keyof JSX.IntrinsicElements
+    | "textnode"
+    | "root"
+    | "modal-root"
 
 export type BaseNodeDisplay = {
     uuid: string
@@ -14,29 +18,33 @@ export type BaseNodeDisplay = {
 
 export const isNodeOneOf =
     <T extends NodeType>(types: T[]) =>
-    (value: BaseNode): value is BaseNode<T> => {
-        return types.includes(value.type as any)
-    }
+    (value: BaseNode): value is BaseNode<T> =>
+        types.includes(value.type as any)
 
 export const isNodeType =
     <T extends NodeType>(type: T) =>
-    (value: BaseNode): value is BaseNode<T> => {
-        return value.type === type
-    }
+    (value: BaseNode): value is BaseNode<T> =>
+        value.type === type
 
 export abstract class BaseNode<
     Type extends NodeType = NodeType,
-    //@ts-expect-error
+    // @ts-expect-error
     ParentNodeType extends BaseNode = BaseNode,
-    //@ts-expect-error
+    // @ts-expect-error
     ChildrenNodeType extends BaseNode = BaseNode
 > {
     uuid: string
+
     type: Type
+
     children: ChildrenNodeType[] = []
+
     parent: ParentNodeType | null = null
-    //@ts-expect-error
-    attr: Type extends keyof JSX.IntrinsicElements ? Partial<JSX.IntrinsicElements[Type]> : {} = {}
+
+    // @ts-expect-error
+    attr: Type extends keyof JSX.IntrinsicElements
+        ? Partial<JSX.IntrinsicElements[Type]>
+        : {} = {}
 
     constructor(type: Type) {
         this.uuid = randomUUID()
@@ -52,7 +60,9 @@ export abstract class BaseNode<
     insertBefore(node: ChildrenNodeType, anchor?: BaseNode): void {
         if (!node) throw new Error("Wrong child type")
         if (anchor) {
-            const anchorIndex = this.children.findIndex((child) => anchor === child)
+            const anchorIndex = this.children.findIndex(
+                (child) => anchor === child
+            )
             this.children.splice(anchorIndex, 0, node)
         } else this.children.push(node)
 
@@ -60,13 +70,13 @@ export abstract class BaseNode<
     }
 
     setAttribute(name: string, value: any): void {
-        //@ts-expect-error
+        // @ts-expect-error
         this.attr[name] = value
     }
 
     replaceAttributes(attr: Record<string, any>): void {
-        //@ts-expect-error
-        this.attr = attr;
+        // @ts-expect-error
+        this.attr = attr
         this.onNodeRender()
     }
 

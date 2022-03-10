@@ -1,6 +1,6 @@
-import { TextContainerNode } from "../_TextContainer"
+import { BaseNode } from "../_Base"
 import { ContentNode } from "./Content"
-import { BaseNode } from '../_Base'
+import { TextContainerNode } from "../_TextContainer"
 
 export class AnchorNode extends TextContainerNode<"a", ContentNode> {
     constructor() {
@@ -12,4 +12,5 @@ export class AnchorNode extends TextContainerNode<"a", ContentNode> {
     }
 }
 
-export const isAnchorNode = (node: BaseNode): node is AnchorNode => node instanceof AnchorNode
+export const isAnchorNode = (node: BaseNode): node is AnchorNode =>
+    node instanceof AnchorNode

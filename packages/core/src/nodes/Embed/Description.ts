@@ -1,8 +1,8 @@
 import { BaseNode } from "../_Base"
+import { EMPTY_STRING } from "../../constants"
 import { Embed } from "discord.js"
 import { EmbedNode } from "./Embed"
 import { TextContainerNode } from "../_TextContainer"
-import { EMPTY_STRING } from "../../constants"
 
 export class DescriptionNode extends TextContainerNode<"desc", EmbedNode> {
     constructor() {
@@ -14,4 +14,5 @@ export class DescriptionNode extends TextContainerNode<"desc", EmbedNode> {
     }
 }
 
-export const isDescriptionNode = (node: BaseNode): node is DescriptionNode => node instanceof DescriptionNode
+export const isDescriptionNode = (node: BaseNode): node is DescriptionNode =>
+    node instanceof DescriptionNode

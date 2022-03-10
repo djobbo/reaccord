@@ -1,7 +1,7 @@
-import { config as loadEnv } from "dotenv"
-import { useState } from "react"
 import { Client } from "discord.js"
+import { config as loadEnv } from "dotenv"
 import { reaccord, useMessageCtx, useModal } from "@reaccord/react"
+import { useState } from "react"
 
 loadEnv()
 
@@ -19,7 +19,11 @@ const Modal = () => {
     return (
         <modal title={`${client.user?.username}'s Modal`}>
             <modal-row>
-                <input label="Hello" onChange={(val) => console.log(val)} value={message.id} />
+                <input
+                    label="Hello"
+                    onChange={(val) => console.log(val)}
+                    value={message.id}
+                />
             </modal-row>
         </modal>
     )
@@ -44,7 +48,9 @@ const App = () => {
         >
             <embed>
                 <title>
-                    {emoji}Hello {username ?? "from React"}!
+                    {emoji}
+                    Hello
+                    {username ?? "from React"}!
                 </title>
                 <field title="Message">{message.id}</field>
                 <field title="Client">{client.user?.username}</field>

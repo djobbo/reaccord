@@ -13,4 +13,5 @@ export class ImageNode extends TextContainerNode<"img", EmbedNode> {
     }
 }
 
-export const isImageNode = (node: BaseNode): node is ImageNode => node instanceof ImageNode
+export const isImageNode = (node: BaseNode): node is ImageNode =>
+    node instanceof ImageNode

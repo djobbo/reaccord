@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react"
 import { APIResponse } from "./types"
+import { Dispatch, SetStateAction } from "react"
 
 type NavigationProps = {
     data: APIResponse | null
@@ -8,7 +8,12 @@ type NavigationProps = {
     page: number
 }
 
-export const Navigation = ({ data, setPage, loading, page }: NavigationProps) => {
+export const Navigation = ({
+    data,
+    setPage,
+    loading,
+    page,
+}: NavigationProps) => {
     const setCurrentPage = (newPage: number) => {
         setPage(() => {
             const pageInfo = data?.info
@@ -23,17 +28,29 @@ export const Navigation = ({ data, setPage, loading, page }: NavigationProps) =>
 
     return (
         <action-row>
-            <button style="Secondary" onClick={() => setCurrentPage(1)} disabled={loading}>
+            <button
+                style="Secondary"
+                onClick={() => setCurrentPage(1)}
+                disabled={loading}
+            >
                 {"<<"}
             </button>
-            <button style="Primary" onClick={() => setCurrentPage(page - 1)} disabled={loading}>
+            <button
+                style="Primary"
+                onClick={() => setCurrentPage(page - 1)}
+                disabled={loading}
+            >
                 {"<"}
             </button>
             <button style="Secondary" disabled>
                 Page {page}
                 {data?.info && ` / ${data.info.count}`}
             </button>
-            <button style="Primary" onClick={() => setCurrentPage(page + 1)} disabled={loading}>
+            <button
+                style="Primary"
+                onClick={() => setCurrentPage(page + 1)}
+                disabled={loading}
+            >
                 {">"}
             </button>
             <button
