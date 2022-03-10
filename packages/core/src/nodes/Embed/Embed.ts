@@ -1,9 +1,9 @@
 import { BaseNode } from "../_Base"
 import { Embed } from "discord.js"
-import { FieldNode } from "./Field"
-import { RootNode } from "../Root"
-import { ThumbnailNode } from "./Thumbnail"
-import { TitleNode } from "../Title"
+import type { FieldNode } from "./Field"
+import type { RootNode } from "../Root"
+import type { ThumbnailNode } from "./Thumbnail"
+import type { TitleNode } from "../Title"
 
 type EmbedChildren = TitleNode | FieldNode | ThumbnailNode
 
@@ -18,6 +18,3 @@ export class EmbedNode extends BaseNode<"embed", RootNode, EmbedChildren> {
         return newEmbed
     }
 }
-
-export const isEmbedNode = (node: BaseNode): node is EmbedNode =>
-    node instanceof EmbedNode

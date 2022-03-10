@@ -1,8 +1,8 @@
-import { BaseNode } from "../_Base"
-import { EMPTY_STRING } from "../../constants"
-import { Embed } from "discord.js"
-import { EmbedNode } from "./Embed"
+import { EMPTY_STRING } from "../../helpers/constants"
 import { TextContainerNode } from "../_TextContainer"
+import type { BaseNode } from "../_Base"
+import type { Embed } from "discord.js"
+import type { EmbedNode } from "./Embed"
 
 export class DescriptionNode extends TextContainerNode<"desc", EmbedNode> {
     constructor() {
@@ -13,6 +13,3 @@ export class DescriptionNode extends TextContainerNode<"desc", EmbedNode> {
         embed.setDescription(this.innerText ?? EMPTY_STRING)
     }
 }
-
-export const isDescriptionNode = (node: BaseNode): node is DescriptionNode =>
-    node instanceof DescriptionNode

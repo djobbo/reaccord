@@ -1,6 +1,6 @@
-import { Client, Message } from "discord.js"
-import { JSX } from "../jsx-runtime"
 import { createContext, useContext } from "react"
+import type { Client, Message } from "discord.js"
+import type { JSX } from "../../jsx-runtime"
 
 export type MessageContext = {
     client: Client

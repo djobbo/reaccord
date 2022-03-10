@@ -1,15 +1,11 @@
-import {
-    BaseNode,
-    NodeType,
-    RenderFn,
-    TextNode,
-    createNodeFromTag,
-} from "@reaccord/core"
-import { JSX } from "../jsx-runtime"
-import { MessageProvider } from "./MessageContext"
-import ReactReconciler, { HostConfig } from "react-reconciler"
+import { TextNode } from "../nodes"
+import { createNodeFromTag } from "../helpers"
+import { isTextNode } from "../nodes/guards"
+import type { BaseNode, NodeType } from "../nodes"
+import type { HostConfig } from "react-reconciler"
+import type { JSX } from "../../jsx-runtime"
 
-const hostConfig: HostConfig<
+export const hostConfig: HostConfig<
     NodeType,
     JSX.IntrinsicElements[keyof JSX.IntrinsicElements],
     BaseNode,
@@ -45,7 +41,7 @@ const hostConfig: HostConfig<
         node.replaceAttributes(attr)
     },
     resetTextContent(textNode) {
-        if (textNode instanceof TextNode) textNode.setTextContent("")
+        if (isTextNode(textNode)) textNode.setTextContent("")
     },
     commitTextUpdate(textNode, _oldTextContent, textContent) {
         textNode.setTextContent(textContent)
@@ -86,22 +82,4 @@ const hostConfig: HostConfig<
     noTimeout: true,
     isPrimaryRenderer: true,
     supportsHydration: false,
-}
-
-const reactReconcilerInstance = ReactReconciler(hostConfig)
-
-export const render: RenderFn = (Code, root, client, message) => {
-    const rootContainer = reactReconcilerInstance.createContainer(
-        root,
-        0,
-        false,
-        null
-    )
-    reactReconcilerInstance.updateContainer(
-        <MessageProvider message={message} client={client}>
-            <Code />
-        </MessageProvider>,
-        rootContainer,
-        null
-    )
 }

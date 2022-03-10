@@ -1,6 +1,6 @@
-import { BaseNode } from "../_Base"
-import { ContentNode } from "./Content"
 import { TextContainerNode } from "../_TextContainer"
+import type { BaseNode } from "../_Base"
+import type { ContentNode } from "./Content"
 
 export class LineBreakNode extends TextContainerNode<"code", ContentNode> {
     constructor() {
@@ -11,6 +11,3 @@ export class LineBreakNode extends TextContainerNode<"code", ContentNode> {
         return `\n`
     }
 }
-
-export const isLineBreakNode = (node: BaseNode): node is LineBreakNode =>
-    node instanceof LineBreakNode

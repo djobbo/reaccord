@@ -17,7 +17,6 @@ import {
     MessageNode,
     ModalNode,
     ModalRowNode,
-    NodeType,
     OptionNode,
     SelectNode,
     SpanNode,
@@ -26,6 +25,7 @@ import {
     TitleNode,
     UrlNode,
 } from "../nodes"
+import type { NodeType } from "../nodes"
 
 export const createNodeFromTag = (tag: NodeType) => {
     switch (tag) {

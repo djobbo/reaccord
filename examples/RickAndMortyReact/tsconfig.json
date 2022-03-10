@@ -8,9 +8,10 @@
         "lib": ["esnext"],
         "moduleResolution": "node",
         "jsx": "react-jsx",
-        "jsxImportSource": "@reaccord/react",
+        "jsxImportSource": "@reaccord/core",
         "outDir": "out",
-        "target": "es6"
+        "target": "es6",
+        "skipLibCheck": true
     },
     "include": ["src"],
     "exclude": ["node_modules"]

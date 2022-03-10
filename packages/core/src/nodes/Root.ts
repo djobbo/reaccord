@@ -1,5 +1,7 @@
 import { BaseNode } from "./_Base"
-import {
+import { MessageType } from "discord.js"
+import { isMessageNode } from "./guards"
+import type {
     Client,
     Collection,
     Interaction,
@@ -7,12 +9,11 @@ import {
     MessageEditOptions,
     MessageOptions,
     MessageReaction,
-    MessageType,
     PartialMessageReaction,
     PartialUser,
     User,
 } from "discord.js"
-import { MessageNode, isMessageNode } from "./Message"
+import type { MessageNode } from "./Message"
 
 export type MessageReactionType =
     | "ADD"
@@ -184,6 +185,3 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         return messageNode.render()
     }
 }
-
-export const isRootNode = (node: BaseNode): node is RootNode =>
-    node instanceof RootNode

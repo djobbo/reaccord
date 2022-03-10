@@ -1,5 +1,5 @@
-import { APIResponse } from "./types"
-import { Dispatch, SetStateAction } from "react"
+import type { APIResponse } from "./types"
+import type { Dispatch, SetStateAction } from "react"
 
 type NavigationProps = {
     data: APIResponse | null
@@ -19,7 +19,7 @@ export const Navigation = ({
             const pageInfo = data?.info
             if (!pageInfo) return 1
 
-            if (newPage > pageInfo.count) return pageInfo.count
+            if (newPage > pageInfo.pages) return pageInfo.pages
             if (newPage < 1) return 1
 
             return newPage
@@ -44,7 +44,7 @@ export const Navigation = ({
             </button>
             <button style="Secondary" disabled>
                 Page {page}
-                {data?.info && ` / ${data.info.count}`}
+                {data?.info && ` / ${data.info.pages}`}
             </button>
             <button
                 style="Primary"
@@ -55,7 +55,7 @@ export const Navigation = ({
             </button>
             <button
                 style="Secondary"
-                onClick={() => setCurrentPage((data?.info.count ?? 2) - 1)}
+                onClick={() => setCurrentPage(data?.info.pages ?? 1)}
                 disabled={loading}
             >
                 {">>"}

@@ -1,7 +1,9 @@
-import { ActionRowNode } from "./ActionRow"
 import { BaseNode } from "../_Base"
-import { Interaction, SelectMenuComponent } from "discord.js"
-import { OptionNode, isOptionNode } from "./Option"
+import { SelectMenuComponent } from "discord.js"
+import { isOptionNode } from "../guards"
+import type { ActionRowNode } from "./ActionRow"
+import type { Interaction } from "discord.js"
+import type { OptionNode } from "./Option"
 
 export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
     constructor() {
@@ -38,6 +40,3 @@ export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
         return select
     }
 }
-
-export const isSelectNode = (node: BaseNode): node is SelectNode =>
-    node instanceof SelectNode

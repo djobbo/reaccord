@@ -1,7 +1,9 @@
-import { ActionRow, TextInputComponent } from "discord.js"
+import { ActionRow } from "discord.js"
 import { BaseNode } from "../_Base"
-import { InputNode, isInputNode } from "./Input"
-import { RootNode } from "../Root"
+import { isInputNode } from "../guards"
+import type { InputNode } from "./Input"
+import type { RootNode } from "../Root"
+import type { TextInputComponent } from "discord.js"
 
 export class ModalRowNode extends BaseNode<"modal-row", RootNode, InputNode> {
     constructor() {
@@ -16,6 +18,3 @@ export class ModalRowNode extends BaseNode<"modal-row", RootNode, InputNode> {
         return actionRow
     }
 }
-
-export const isModalRowNode = (node: BaseNode): node is ModalRowNode =>
-    node instanceof ModalRowNode

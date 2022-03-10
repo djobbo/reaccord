@@ -1,6 +1,7 @@
 import { BaseNode } from "../_Base"
-import { Embed, Util } from "discord.js"
-import { EmbedNode } from "./Embed"
+import { Util } from "discord.js"
+import type { Embed } from "discord.js"
+import type { EmbedNode } from "./Embed"
 
 export class ColorNode extends BaseNode<"color", EmbedNode> {
     constructor() {
@@ -11,6 +12,3 @@ export class ColorNode extends BaseNode<"color", EmbedNode> {
         embed.setColor(Util.resolveColor(this.attr.color ?? "Default"))
     }
 }
-
-export const isColorNode = (node: BaseNode): node is ColorNode =>
-    node instanceof ColorNode

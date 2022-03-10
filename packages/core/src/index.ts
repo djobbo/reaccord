@@ -1,4 +1,8 @@
-import {
+import { EMPTY_STRING } from "./helpers/constants"
+import { ModalRootNode } from "./nodes/Interaction/ModalRoot"
+import { RootNode } from "./nodes/Root"
+import { render } from "./renderer"
+import type {
     ButtonInteraction,
     Client,
     DMChannel,
@@ -9,17 +13,8 @@ import {
     TextChannel,
     ThreadChannel,
 } from "discord.js"
-import { EMPTY_STRING } from "./constants"
-import { JSX } from "../jsx-runtime"
-import { ModalRootNode } from "./nodes/Interaction/ModalRoot"
-import { RootNode } from "./nodes/Root"
-
-export type RenderFn = (
-    code: () => JSX.Element,
-    root: RootNode | ModalRootNode,
-    client: Client,
-    message: Message
-) => void
+import type { JSX } from "../jsx-runtime"
+import type { RenderFn } from "./renderer"
 
 type Channel =
     | DMChannel
@@ -75,10 +70,8 @@ export const renderMessage =
         return msg
     }
 
-export const reaccord = (render: RenderFn) => (client: Client) => ({
+export const reaccord = (client: Client) => ({
     renderMessage: renderMessage(render, client),
 })
 
-export * from "./constants"
-export * from "./nodes"
-export * from "./helpers"
+export * from "./react"
