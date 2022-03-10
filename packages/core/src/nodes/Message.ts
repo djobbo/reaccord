@@ -1,10 +1,13 @@
-import { ActionRowNode, isActionRowNode } from "./Interaction/ActionRow"
 import { BaseNode } from "./_Base"
-import { ContentNode, isContentNode } from "./Content/Content"
-import { EMPTY_STRING } from "../constants"
-import { EmbedNode, isEmbedNode } from "./Embed/Embed"
-import { MessageEditOptions, MessageOptions } from "discord.js"
+import { EMPTY_STRING } from "../helpers/constants"
 import { RootNode } from "./Root"
+import { isActionRowNode } from "./Interaction/ActionRow"
+import { isContentNode } from "./Content/Content"
+import { isEmbedNode } from "./Embed/Embed"
+import type { ActionRowNode } from "./Interaction/ActionRow"
+import type { ContentNode } from "./Content/Content"
+import type { EmbedNode } from "./Embed/Embed"
+import type { MessageEditOptions, MessageOptions } from "discord.js"
 
 export class MessageNode extends BaseNode<
     "message",

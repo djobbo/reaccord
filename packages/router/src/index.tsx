@@ -1,7 +1,5 @@
-import { JSX } from "@reaccord/react/jsx-runtime"
 import {
     MemoryRouter,
-    MemoryRouterProps,
     Navigate,
     Outlet,
     Route,
@@ -27,7 +25,8 @@ import {
     useResolvedPath,
     useRoutes,
 } from "react-router"
-import type { To } from "react-router"
+import type { JSX } from "@reaccord/core/jsx-runtime"
+import type { MemoryRouterProps, To } from "react-router"
 
 export {
     MemoryRouter,

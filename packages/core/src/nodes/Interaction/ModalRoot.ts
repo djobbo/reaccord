@@ -1,6 +1,7 @@
 import { BaseNode } from "../_Base"
-import { Client, Interaction, Modal } from "discord.js"
-import { ModalNode, isModalNode } from "./Modal"
+import { isModalNode } from "./Modal"
+import type { Client, Interaction, Modal } from "discord.js"
+import type { ModalNode } from "./Modal"
 
 export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
     client: Client

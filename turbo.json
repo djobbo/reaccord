@@ -11,9 +11,12 @@
             "cache": false,
             "dependsOn": ["^build"]
         },
+        "ts:check": {
+            "cache": false
+        },
         "build:w": {
             "cache": false,
-            "outputs": ["lib/**"]
+            "outputs": []
         },
         "docs:dev": {
             "cache": false,

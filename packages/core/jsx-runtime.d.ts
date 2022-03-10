@@ -1,12 +1,12 @@
-import { BaseNode } from "./src/nodes/_Base"
-import {
+import type { BaseNode } from "./src/nodes/_Base"
+import type {
     ButtonInteraction,
     ButtonStyle,
     ColorResolvable,
     ModalSubmitInteraction,
     SelectMenuInteraction,
 } from "discord.js"
-import {
+import type {
     MessageReplyListener,
     ReactionAddListener,
     ReactionRemoveAllListener,

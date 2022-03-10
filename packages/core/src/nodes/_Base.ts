@@ -1,7 +1,7 @@
-import { JSX } from "../../jsx-runtime"
-import { ModalRootNode } from "./Interaction/ModalRoot"
 import { RootNode } from "./Root"
 import { randomUUID } from "node:crypto"
+import type { JSX } from "../../jsx-runtime"
+import type { ModalRootNode } from "./Interaction/ModalRoot"
 
 export type NodeType =
     | keyof JSX.IntrinsicElements
@@ -16,22 +16,11 @@ export type BaseNodeDisplay = {
     props: any
 }
 
-export const isNodeOneOf =
-    <T extends NodeType>(types: T[]) =>
-    (value: BaseNode): value is BaseNode<T> =>
-        types.includes(value.type as any)
-
-export const isNodeType =
-    <T extends NodeType>(type: T) =>
-    (value: BaseNode): value is BaseNode<T> =>
-        value.type === type
-
+export const xd = "xd"
 export abstract class BaseNode<
     Type extends NodeType = NodeType,
-    // @ts-expect-error
-    ParentNodeType extends BaseNode = BaseNode,
-    // @ts-expect-error
-    ChildrenNodeType extends BaseNode = BaseNode
+    ParentNodeType extends BaseNode = any,
+    ChildrenNodeType extends BaseNode = any
 > {
     uuid: string
 

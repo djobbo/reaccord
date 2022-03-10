@@ -14,7 +14,8 @@
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "build:w": "turbo run build:w",
         "docs:dev": "turbo run docs:dev",
-        "docs:build": "turbo run docs:build"
+        "docs:build": "turbo run docs:build",
+        "ts:check": "turbo run ts:check"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.14.0",

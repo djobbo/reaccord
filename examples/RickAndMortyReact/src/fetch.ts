@@ -1,5 +1,5 @@
-import { APIResponse } from "./types"
 import axios from "axios"
+import type { APIResponse } from "./types"
 
 const RAM_API_BASE = "https://rickandmortyapi.com/api"
 

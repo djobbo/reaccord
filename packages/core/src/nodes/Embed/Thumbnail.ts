@@ -1,6 +1,6 @@
 import { BaseNode } from "../_Base"
-import { Embed } from "discord.js"
-import { EmbedNode } from "./Embed"
+import type { Embed } from "discord.js"
+import type { EmbedNode } from "./Embed"
 
 export class ThumbnailNode extends BaseNode<"thumbnail", EmbedNode> {
     constructor() {

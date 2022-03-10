@@ -1,6 +1,6 @@
 import { Client } from "discord.js"
 import { config as loadEnv } from "dotenv"
-import { reaccord, useMessageCtx, useModal } from "@reaccord/react"
+import { reaccord, useMessageCtx, useModal } from "@reaccord/core"
 import { useState } from "react"
 
 loadEnv()

@@ -1,5 +1,5 @@
-import { APIResponse } from "./types"
-import { Dispatch, SetStateAction } from "react"
+import type { APIResponse } from "./types"
+import type { Dispatch, SetStateAction } from "react"
 
 type NavigationProps = {
     data: APIResponse | null

@@ -11,10 +11,11 @@
     },
     "devDependencies": {
         "@types/react": "^17.0.39",
+        "@types/react-reconciler": "^0.26.4",
         "typescript": "^4.6.2"
     },
     "dependencies": {
-        "discord.js": "14.0.0-dev.1646395406.6f7a366",
-        "discord.js@dev": "^13.6.0"
+        "discord.js": "^14.0.0-dev.1646914074.dcd4797",
+        "react-reconciler": "^0.26.2"
     }
 }

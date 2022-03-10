@@ -1,8 +1,8 @@
-import { ActionRowNode } from "./ActionRow"
 import { BaseNode } from "../_Base"
-import { EMPTY_STRING } from "../../constants"
+import { EMPTY_STRING } from "../../helpers/constants"
 import { TextInputComponent, TextInputStyle } from "discord.js"
-import { TextNode } from "../Text"
+import type { ActionRowNode } from "./ActionRow"
+import type { TextNode } from "../Text"
 
 export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
     constructor() {

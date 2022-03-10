@@ -1,5 +1,5 @@
-import { openModal } from "@reaccord/core"
-import { render } from "./renderer"
+import { openModal } from "../"
+import { render } from "../renderer"
 import { useMessageCtx } from "./MessageContext"
 
 export const useModal = () => {

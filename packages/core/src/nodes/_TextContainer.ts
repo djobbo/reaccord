@@ -1,9 +1,10 @@
-import { BaseNode, NodeType } from "./_Base"
-import { TextNode } from "./Text"
+import { BaseNode } from "./_Base"
+import type { NodeType } from "./_Base"
+import type { TextNode } from "./Text"
 
 export abstract class TextContainerNode<
     Type extends NodeType = NodeType,
-    ParentNodeType extends BaseNode = BaseNode
+    ParentNodeType extends BaseNode = any
 > extends BaseNode<Type, ParentNodeType, TextNode> {
     constructor(type: Type) {
         super(type)

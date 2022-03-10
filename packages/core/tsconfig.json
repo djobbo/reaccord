@@ -10,7 +10,9 @@
         "moduleResolution": "node",
         "outDir": "lib",
         "declaration": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "@reaccord/core"
     },
     "include": ["src"],
     "exclude": ["node_modules", "lib"]

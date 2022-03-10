@@ -1,13 +1,11 @@
-import {
-    BaseNode,
-    NodeType,
-    RenderFn,
-    TextNode,
-    createNodeFromTag,
-} from "@reaccord/core"
-import { JSX } from "../jsx-runtime"
-import { MessageProvider } from "./MessageContext"
-import ReactReconciler, { HostConfig } from "react-reconciler"
+import { MessageProvider } from "./react/MessageContext"
+import { TextNode } from "./nodes"
+import { createNodeFromTag } from "./helpers"
+import ReactReconciler from "react-reconciler"
+import type { BaseNode, NodeType } from "./nodes"
+import type { HostConfig } from "react-reconciler"
+import type { JSX } from "../jsx-runtime"
+import type { RenderFn } from "."
 
 const hostConfig: HostConfig<
     NodeType,

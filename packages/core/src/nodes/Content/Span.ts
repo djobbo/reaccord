@@ -1,6 +1,6 @@
-import { BaseNode } from "../_Base"
-import { ContentNode } from "./Content"
 import { TextContainerNode } from "../_TextContainer"
+import type { BaseNode } from "../_Base"
+import type { ContentNode } from "./Content"
 
 export class SpanNode extends TextContainerNode<"span", ContentNode> {
     constructor() {

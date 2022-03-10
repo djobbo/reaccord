@@ -40,6 +40,12 @@ module.exports = {
             },
         ],
         "no-var": "error",
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                prefer: "type-imports",
+            },
+        ],
     },
     settings: {
         react: {

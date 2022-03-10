@@ -1,9 +1,11 @@
 import { BaseNode } from "../_Base"
-import { EMPTY_STRING } from "../../constants"
-import { Interaction, Modal } from "discord.js"
-import { ModalRootNode } from "./ModalRoot"
-import { ModalRowNode, isModalRowNode } from "./ModalRow"
+import { EMPTY_STRING } from "../../helpers/constants"
+import { Modal } from "discord.js"
 import { isInputNode } from "./Input"
+import { isModalRowNode } from "./ModalRow"
+import type { Interaction } from "discord.js"
+import type { ModalRootNode } from "./ModalRoot"
+import type { ModalRowNode } from "./ModalRow"
 
 export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
     constructor() {

@@ -1,7 +1,7 @@
 import { BaseNode } from "../_Base"
-import { EMPTY_STRING } from "../../constants"
+import { EMPTY_STRING } from "../../helpers/constants"
 import { SelectMenuOption } from "discord.js"
-import { SelectNode } from "./Select"
+import type { SelectNode } from "./Select"
 
 export class OptionNode extends BaseNode<"option", SelectNode> {
     constructor() {

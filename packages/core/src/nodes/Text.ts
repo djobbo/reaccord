@@ -1,4 +1,5 @@
-import { BaseNode, BaseNodeDisplay } from "./_Base"
+import { BaseNode } from "./_Base"
+import type { BaseNodeDisplay } from "./_Base"
 
 export class TextNode extends BaseNode<"textnode", BaseNode, BaseNode> {
     textContent: string = ""
