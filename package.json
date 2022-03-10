@@ -3,15 +3,18 @@
     "version": "0.0.0",
     "private": true,
     "workspaces": [
-        "apps/*",
-        "packages/*"
+        "examples/*",
+        "packages/*",
+        "docs"
     ],
     "scripts": {
         "build": "turbo run build",
         "dev": "turbo run dev --parallel",
-        "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+        "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx,.json .",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "build:w": "turbo run build:w"
+        "build:w": "turbo run build:w",
+        "docs:dev": "turbo run docs:dev",
+        "docs:build": "turbo run docs:build"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.14.0",
