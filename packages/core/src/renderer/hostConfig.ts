@@ -1,13 +1,10 @@
-import { MessageProvider } from "./react/MessageContext"
-import { TextNode } from "./nodes"
-import { createNodeFromTag } from "./helpers"
-import ReactReconciler from "react-reconciler"
-import type { BaseNode, NodeType } from "./nodes"
+import { TextNode } from "../nodes"
+import { createNodeFromTag } from "../helpers"
+import type { BaseNode, NodeType } from "../nodes"
 import type { HostConfig } from "react-reconciler"
-import type { JSX } from "../jsx-runtime"
-import type { RenderFn } from "."
+import type { JSX } from "../../jsx-runtime"
 
-const hostConfig: HostConfig<
+export const hostConfig: HostConfig<
     NodeType,
     JSX.IntrinsicElements[keyof JSX.IntrinsicElements],
     BaseNode,
@@ -84,22 +81,4 @@ const hostConfig: HostConfig<
     noTimeout: true,
     isPrimaryRenderer: true,
     supportsHydration: false,
-}
-
-const reactReconcilerInstance = ReactReconciler(hostConfig)
-
-export const render: RenderFn = (Code, root, client, message) => {
-    const rootContainer = reactReconcilerInstance.createContainer(
-        root,
-        0,
-        false,
-        null
-    )
-    reactReconcilerInstance.updateContainer(
-        <MessageProvider message={message} client={client}>
-            <Code />
-        </MessageProvider>,
-        rootContainer,
-        null
-    )
 }

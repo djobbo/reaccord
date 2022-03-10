@@ -14,13 +14,7 @@ import type {
     ThreadChannel,
 } from "discord.js"
 import type { JSX } from "../jsx-runtime"
-
-export type RenderFn = (
-    code: () => JSX.Element,
-    root: RootNode | ModalRootNode,
-    client: Client,
-    message: Message
-) => void
+import type { RenderFn } from "./renderer"
 
 type Channel =
     | DMChannel
