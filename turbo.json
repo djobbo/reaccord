@@ -12,7 +12,8 @@
             "dependsOn": ["^build"]
         },
         "ts:check": {
-            "cache": false
+            "cache": false,
+            "dependsOn": ["^build"]
         },
         "build:w": {
             "cache": false,
