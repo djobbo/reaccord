@@ -1,8 +1,7 @@
 import { BaseNode } from "../_Base"
 import { EMPTY_STRING } from "../../helpers/constants"
 import { Modal } from "discord.js"
-import { isInputNode } from "./Input"
-import { isModalRowNode } from "./ModalRow"
+import { isInputNode, isModalRowNode } from "../guards"
 import type { Interaction } from "discord.js"
 import type { ModalRootNode } from "./ModalRoot"
 import type { ModalRowNode } from "./ModalRow"
@@ -57,6 +56,3 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
         return modal
     }
 }
-
-export const isModalNode = (node: BaseNode): node is ModalNode =>
-    node instanceof ModalNode

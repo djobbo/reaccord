@@ -13,6 +13,3 @@ export class DescriptionNode extends TextContainerNode<"desc", EmbedNode> {
         embed.setDescription(this.innerText ?? EMPTY_STRING)
     }
 }
-
-export const isDescriptionNode = (node: BaseNode): node is DescriptionNode =>
-    node instanceof DescriptionNode

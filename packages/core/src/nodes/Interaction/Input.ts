@@ -30,6 +30,3 @@ export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
         return input
     }
 }
-
-export const isInputNode = (node: BaseNode): node is InputNode =>
-    node instanceof InputNode

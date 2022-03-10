@@ -11,6 +11,3 @@ export class CodeblockNode extends TextContainerNode<"codeblock", ContentNode> {
         return `\`\`\`${this.attr.lang}\n${this.innerText}\n\`\`\``
     }
 }
-
-export const isCodeblockNode = (node: BaseNode): node is CodeblockNode =>
-    node instanceof CodeblockNode

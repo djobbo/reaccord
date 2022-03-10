@@ -18,6 +18,3 @@ export class EmbedNode extends BaseNode<"embed", RootNode, EmbedChildren> {
         return newEmbed
     }
 }
-
-export const isEmbedNode = (node: BaseNode): node is EmbedNode =>
-    node instanceof EmbedNode

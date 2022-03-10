@@ -16,6 +16,3 @@ export class FooterNode extends TextContainerNode<"footer", EmbedNode> {
         })
     }
 }
-
-export const isFooterNode = (node: BaseNode): node is FooterNode =>
-    node instanceof FooterNode

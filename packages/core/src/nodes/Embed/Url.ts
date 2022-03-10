@@ -12,6 +12,3 @@ export class UrlNode extends TextContainerNode<"url", EmbedNode> {
         embed.setURL(this.attr.href ?? null)
     }
 }
-
-export const isUrlNode = (node: BaseNode): node is UrlNode =>
-    node instanceof UrlNode

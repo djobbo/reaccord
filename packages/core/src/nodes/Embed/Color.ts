@@ -12,6 +12,3 @@ export class ColorNode extends BaseNode<"color", EmbedNode> {
         embed.setColor(Util.resolveColor(this.attr.color ?? "Default"))
     }
 }
-
-export const isColorNode = (node: BaseNode): node is ColorNode =>
-    node instanceof ColorNode

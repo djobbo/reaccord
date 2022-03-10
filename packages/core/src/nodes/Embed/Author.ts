@@ -17,6 +17,3 @@ export class AuthorNode extends TextContainerNode<"author", EmbedNode> {
         })
     }
 }
-
-export const isAuthorNode = (node: BaseNode): node is AuthorNode =>
-    node instanceof AuthorNode

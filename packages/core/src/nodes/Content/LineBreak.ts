@@ -11,6 +11,3 @@ export class LineBreakNode extends TextContainerNode<"code", ContentNode> {
         return `\n`
     }
 }
-
-export const isLineBreakNode = (node: BaseNode): node is LineBreakNode =>
-    node instanceof LineBreakNode

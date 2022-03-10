@@ -36,6 +36,3 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
         return button
     }
 }
-
-export const isButtonNode = (node: BaseNode): node is ButtonNode =>
-    node instanceof ButtonNode

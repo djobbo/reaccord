@@ -12,6 +12,3 @@ export class TitleNode extends TextContainerNode<"title", EmbedNode> {
         embed.setTitle(this.innerText)
     }
 }
-
-export const isTitleNode = (node: BaseNode): node is TitleNode =>
-    node instanceof TitleNode

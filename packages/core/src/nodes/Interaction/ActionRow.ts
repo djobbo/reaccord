@@ -1,7 +1,6 @@
 import { ActionRow } from "discord.js"
 import { BaseNode } from "../_Base"
-import { isButtonNode } from "./Button"
-import { isSelectNode } from "./Select"
+import { isButtonNode, isSelectNode } from "../guards"
 import type { ButtonNode } from "./Button"
 import type { MessageActionRowComponent } from "discord.js"
 import type { RootNode } from "../Root"
@@ -26,6 +25,3 @@ export class ActionRowNode extends BaseNode<
         return actionRow
     }
 }
-
-export const isActionRowNode = (node: BaseNode): node is ActionRowNode =>
-    node instanceof ActionRowNode

@@ -1,13 +1,16 @@
 import { BaseNode } from "./_Base"
 import { EMPTY_STRING } from "../helpers/constants"
-import { RootNode } from "./Root"
-import { isActionRowNode } from "./Interaction/ActionRow"
-import { isContentNode } from "./Content/Content"
-import { isEmbedNode } from "./Embed/Embed"
+import {
+    isActionRowNode,
+    isContentNode,
+    isEmbedNode,
+    isRootNode,
+} from "./guards"
 import type { ActionRowNode } from "./Interaction/ActionRow"
 import type { ContentNode } from "./Content/Content"
 import type { EmbedNode } from "./Embed/Embed"
 import type { MessageEditOptions, MessageOptions } from "discord.js"
+import type { RootNode } from "./Root"
 
 export class MessageNode extends BaseNode<
     "message",
@@ -19,7 +22,7 @@ export class MessageNode extends BaseNode<
     }
 
     render(): MessageOptions | MessageEditOptions {
-        if (!(this.rootNode instanceof RootNode))
+        if (!this.rootNode || !isRootNode(this.rootNode))
             throw new Error("Message found outside of RootNode")
 
         if (this.attr.onReactionAdd)
@@ -56,6 +59,3 @@ export class MessageNode extends BaseNode<
         }
     }
 }
-
-export const isMessageNode = (node: BaseNode): node is MessageNode =>
-    node instanceof MessageNode

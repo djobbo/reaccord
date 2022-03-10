@@ -12,6 +12,3 @@ export class TimestampNode extends TextContainerNode<"timestamp", EmbedNode> {
         embed.setTimestamp(this.attr.timestamp)
     }
 }
-
-export const isTimestampNode = (node: BaseNode): node is TimestampNode =>
-    node instanceof TimestampNode

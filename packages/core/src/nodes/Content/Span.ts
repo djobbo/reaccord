@@ -14,6 +14,3 @@ export class SpanNode extends TextContainerNode<"span", ContentNode> {
         return str
     }
 }
-
-export const isSpanNode = (node: BaseNode): node is SpanNode =>
-    node instanceof SpanNode

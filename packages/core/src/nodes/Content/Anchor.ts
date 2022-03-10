@@ -11,6 +11,3 @@ export class AnchorNode extends TextContainerNode<"a", ContentNode> {
         return `[${this.innerText}](${this.attr.href})`
     }
 }
-
-export const isAnchorNode = (node: BaseNode): node is AnchorNode =>
-    node instanceof AnchorNode

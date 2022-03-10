@@ -17,6 +17,3 @@ export class FieldNode extends TextContainerNode<"field", EmbedNode> {
         })
     }
 }
-
-export const isFieldNode = (node: BaseNode): node is FieldNode =>
-    node instanceof FieldNode

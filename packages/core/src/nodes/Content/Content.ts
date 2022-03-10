@@ -11,6 +11,3 @@ export class ContentNode extends TextContainerNode<"content", RootNode> {
         return this.innerText
     }
 }
-
-export const isContentNode = (node: BaseNode): node is ContentNode =>
-    node instanceof ContentNode

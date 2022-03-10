@@ -1,6 +1,6 @@
 import { BaseNode } from "./_Base"
 import { MessageType } from "discord.js"
-import { isMessageNode } from "./Message"
+import { isMessageNode } from "./guards"
 import type {
     Client,
     Collection,
@@ -185,6 +185,3 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         return messageNode.render()
     }
 }
-
-export const isRootNode = (node: BaseNode): node is RootNode =>
-    node instanceof RootNode

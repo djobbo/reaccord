@@ -18,6 +18,3 @@ export class OptionNode extends BaseNode<"option", SelectNode> {
         return option
     }
 }
-
-export const isOptionNode = (node: BaseNode): node is OptionNode =>
-    node instanceof OptionNode

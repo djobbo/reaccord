@@ -1,7 +1,8 @@
-import { RootNode } from "./Root"
+import { isRootNode } from "./guards"
 import { randomUUID } from "node:crypto"
 import type { JSX } from "../../jsx-runtime"
 import type { ModalRootNode } from "./Interaction/ModalRoot"
+import type { RootNode } from "./Root"
 
 export type NodeType =
     | keyof JSX.IntrinsicElements
@@ -16,7 +17,6 @@ export type BaseNodeDisplay = {
     props: any
 }
 
-export const xd = "xd"
 export abstract class BaseNode<
     Type extends NodeType = NodeType,
     ParentNodeType extends BaseNode = any,
@@ -103,7 +103,7 @@ export abstract class BaseNode<
     }
 
     onNodeRender(): void {
-        if (!(this.rootNode instanceof RootNode)) return
+        if (!this.rootNode || !isRootNode(this.rootNode)) return
         this.rootNode.onNodeRender()
     }
 

@@ -11,6 +11,3 @@ export class ThumbnailNode extends BaseNode<"thumbnail", EmbedNode> {
         embed.setThumbnail(this.attr.src ?? null)
     }
 }
-
-export const isThumbnailNode = (node: BaseNode): node is ThumbnailNode =>
-    node instanceof ThumbnailNode

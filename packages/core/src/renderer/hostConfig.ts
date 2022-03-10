@@ -1,5 +1,6 @@
 import { TextNode } from "../nodes"
 import { createNodeFromTag } from "../helpers"
+import { isTextNode } from "../nodes/guards"
 import type { BaseNode, NodeType } from "../nodes"
 import type { HostConfig } from "react-reconciler"
 import type { JSX } from "../../jsx-runtime"
@@ -40,7 +41,7 @@ export const hostConfig: HostConfig<
         node.replaceAttributes(attr)
     },
     resetTextContent(textNode) {
-        if (textNode instanceof TextNode) textNode.setTextContent("")
+        if (isTextNode(textNode)) textNode.setTextContent("")
     },
     commitTextUpdate(textNode, _oldTextContent, textContent) {
         textNode.setTextContent(textContent)

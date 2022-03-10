@@ -1,5 +1,5 @@
 import { BaseNode } from "../_Base"
-import { isModalNode } from "./Modal"
+import { isModalNode } from "../guards"
 import type { Client, Interaction, Modal } from "discord.js"
 import type { ModalNode } from "./Modal"
 
@@ -44,6 +44,3 @@ export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
         return modalNode.render()
     }
 }
-
-export const isModalRootNode = (node: BaseNode): node is ModalRootNode =>
-    node instanceof ModalRootNode
