@@ -1,8 +1,8 @@
 import { BaseNode } from "../_Base"
+import { EMPTY_STRING } from "../../constants"
 import { Embed } from "discord.js"
 import { EmbedNode } from "./Embed"
-import { TextContainerNode } from '../_TextContainer'
-import { EMPTY_STRING } from '../../constants'
+import { TextContainerNode } from "../_TextContainer"
 
 export class FieldNode extends TextContainerNode<"field", EmbedNode> {
     constructor() {
@@ -15,8 +15,8 @@ export class FieldNode extends TextContainerNode<"field", EmbedNode> {
             value: this.innerText,
             inline: this.attr.inline,
         })
-        return
     }
 }
 
-export const isFieldNode = (node: BaseNode): node is FieldNode => node instanceof FieldNode
+export const isFieldNode = (node: BaseNode): node is FieldNode =>
+    node instanceof FieldNode

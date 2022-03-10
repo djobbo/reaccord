@@ -5,4 +5,4 @@ export const client = new Client({
     intents: ["Guilds", "GuildMessages"],
 })
 
-export const { renderMessage, openModal } = reaccord(client)
+export const { renderMessage } = reaccord(client)

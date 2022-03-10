@@ -1,12 +1,19 @@
+import { BaseNode } from "./src/nodes/_Base"
 import {
     ButtonInteraction,
-    ColorResolvable,
     ButtonStyle,
+    ColorResolvable,
     ModalSubmitInteraction,
     SelectMenuInteraction,
 } from "discord.js"
-import type { ReactElement } from 'react'
-import { BaseNode } from "./src/nodes/_Base"
+import {
+    MessageReplyListener,
+    ReactionAddListener,
+    ReactionRemoveAllListener,
+    ReactionRemoveEmojiListener,
+    ReactionRemoveListener,
+} from "./src/nodes/Root"
+import type { ReactElement } from "react"
 
 export namespace JSX {
     type Element =
@@ -28,6 +35,13 @@ export namespace JSX {
     }
     interface BaseAttributes {
         key?: number | string | null
+    }
+    interface MessageAttributes {
+        onReactionAdd?: ReactionAddListener
+        onReactionRemove?: ReactionRemoveListener
+        onReactionRemoveAll?: ReactionRemoveAllListener
+        onReactionRemoveEmoji?: ReactionRemoveEmojiListener
+        onReply?: MessageReplyListener
     }
     // Text
     interface LineBreakAttributes {}
@@ -69,6 +83,7 @@ export namespace JSX {
     }
     interface FooterAttributes {
         children?: Element
+        iconURL?: string
     }
     interface ImageAttributes {
         src: string
@@ -135,9 +150,16 @@ export namespace JSX {
         id?: string
         children?: Element[]
         title: string
+
+        /**
+         * By default, onSubmit will trigger a message and then delete it
+         * in order to respond to the interaction.
+         * To prevent this, return a truthy value
+         */
         onSubmit?: (interaction: ModalSubmitInteraction) => void
     }
     interface IntrinsicElements {
+        message: MessageAttributes & BaseAttributes
         // Text
         a: AnchorAttributes & BaseAttributes
         br: LineBreakAttributes & BaseAttributes
@@ -157,6 +179,7 @@ export namespace JSX {
         title: TitleAttributes & BaseAttributes
         url: UrlAttributes & BaseAttributes
         field: FieldAttributes & BaseAttributes
+        footer: FooterAttributes & BaseAttributes
         // Action Row
         "action-row": ActionRowAttributes & BaseAttributes
         button: ButtonAttributes & BaseAttributes

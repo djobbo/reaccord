@@ -1,10 +1,14 @@
 import { BaseNode } from "../_Base"
-import { isModalNode, ModalNode } from "./Modal"
-import { Modal, Client, Interaction } from "discord.js"
+import { Client, Interaction, Modal } from "discord.js"
+import { ModalNode, isModalNode } from "./Modal"
 
 export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
     client: Client
-    listeners: Record<string, (interaction: Interaction) => unknown> = {}
+
+    interactionListeners: Record<
+        string,
+        (interaction: Interaction) => unknown
+    > = {}
 
     constructor(client: Client) {
         super("modal-root")
@@ -12,7 +16,7 @@ export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
 
         client.on("interactionCreate", (interaction) => {
             if (!interaction.isModalSubmit()) return
-            const listener = this.listeners[interaction.customId]
+            const listener = this.interactionListeners[interaction.customId]
             listener?.(interaction)
         })
     }
@@ -21,12 +25,15 @@ export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
         return this
     }
 
-    addListener(uuid: string, fn: (interaction: Interaction) => unknown) {
-        this.listeners[uuid] = fn
+    addInteractionListener(
+        uuid: string,
+        fn: (interaction: Interaction) => unknown
+    ) {
+        this.interactionListeners[uuid] = fn
     }
 
-    removeListener(uuid: string) {
-        delete this.listeners[uuid]
+    removeInteractionListener(uuid: string) {
+        delete this.interactionListeners[uuid]
     }
 
     render(): Modal {

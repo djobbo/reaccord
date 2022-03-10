@@ -7,14 +7,14 @@ import {
     Route,
     Router,
     Routes,
+    createPath,
     createRoutesFromChildren,
     generatePath,
-    matchRoutes,
     matchPath,
-    createPath,
+    matchRoutes,
     parsePath,
-    resolvePath,
     renderMatches,
+    resolvePath,
     useHref,
     useInRouterContext,
     useLocation,
@@ -22,10 +22,10 @@ import {
     useNavigate,
     useNavigationType,
     useOutlet,
+    useOutletContext,
     useParams,
     useResolvedPath,
     useRoutes,
-    useOutletContext,
 } from "react-router"
 import type { To } from "react-router"
 
@@ -85,7 +85,9 @@ export type {
 
 export interface DiscordRouterProps extends MemoryRouterProps {}
 
-export const DiscordRouter = (props: DiscordRouterProps) => <MemoryRouter {...props} />
+export const DiscordRouter = (props: DiscordRouterProps) => {
+    return <MemoryRouter {...props} />
+}
 
 export type LinkProps = {
     replace?: boolean

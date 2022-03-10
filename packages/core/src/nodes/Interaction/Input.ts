@@ -1,8 +1,8 @@
-import { BaseNode } from "../_Base"
-import { TextInputComponent, TextInputStyle } from "discord.js"
 import { ActionRowNode } from "./ActionRow"
+import { BaseNode } from "../_Base"
+import { EMPTY_STRING } from "../../constants"
+import { TextInputComponent, TextInputStyle } from "discord.js"
 import { TextNode } from "../Text"
-import { EMPTY_STRING } from '../../constants'
 
 export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
     constructor() {
@@ -14,17 +14,22 @@ export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
     }
 
     render(): TextInputComponent {
-        const customId = this.customId
+        const { customId } = this
         const input = new TextInputComponent()
             .setCustomId(customId)
             .setLabel(this.attr.label || EMPTY_STRING)
             .setValue(this.attr.value ?? EMPTY_STRING)
             .setPlaceholder(this.attr.placeholder ?? EMPTY_STRING)
             .setRequired(this.attr.required ?? false)
-            .setStyle(this.attr.large ? TextInputStyle.Paragraph : TextInputStyle.Short)
+            .setStyle(
+                this.attr.large
+                    ? TextInputStyle.Paragraph
+                    : TextInputStyle.Short
+            )
 
         return input
     }
 }
 
-export const isInputNode = (node: BaseNode): node is InputNode => node instanceof InputNode
+export const isInputNode = (node: BaseNode): node is InputNode =>
+    node instanceof InputNode

@@ -1,7 +1,7 @@
-import { config as loadEnv } from "dotenv"
-import { client, renderMessage } from "./setupApp"
 import { App } from "./App"
-import { DiscordRouter } from '@reaccord/router'
+import { DiscordRouter } from "@reaccord/router"
+import { client, renderMessage } from "./setupApp"
+import { config as loadEnv } from "dotenv"
 
 loadEnv()
 

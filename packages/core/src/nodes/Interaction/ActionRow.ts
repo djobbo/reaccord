@@ -1,10 +1,14 @@
-import { BaseNode } from "../_Base"
 import { ActionRow, MessageActionRowComponent } from "discord.js"
-import { RootNode } from "../Root"
+import { BaseNode } from "../_Base"
 import { ButtonNode, isButtonNode } from "./Button"
-import { isSelectNode, SelectNode } from './Select'
+import { RootNode } from "../Root"
+import { SelectNode, isSelectNode } from "./Select"
 
-export class ActionRowNode extends BaseNode<"action-row", RootNode, ButtonNode | SelectNode> {
+export class ActionRowNode extends BaseNode<
+    "action-row",
+    RootNode,
+    ButtonNode | SelectNode
+> {
     constructor() {
         super("action-row")
     }
@@ -12,7 +16,9 @@ export class ActionRowNode extends BaseNode<"action-row", RootNode, ButtonNode |
     render(): ActionRow<MessageActionRowComponent> {
         const actionRow = new ActionRow()
         actionRow.setComponents(
-            ...this.children.filter(child => isButtonNode(child) || isSelectNode(child)).map((child) => child.render())
+            ...this.children
+                .filter((child) => isButtonNode(child) || isSelectNode(child))
+                .map((child) => child.render())
         )
         return actionRow
     }

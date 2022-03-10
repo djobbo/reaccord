@@ -1,13 +1,13 @@
 import {
     BaseNode,
-    createNodeFromTag,
-    ModalRootNode,
     NodeType,
-    RootNode,
+    RenderFn,
     TextNode,
+    createNodeFromTag,
 } from "@reaccord/core"
-import ReactReconciler, { HostConfig } from "react-reconciler"
 import { JSX } from "../jsx-runtime"
+import { MessageProvider } from "./MessageContext"
+import ReactReconciler, { HostConfig } from "react-reconciler"
 
 const hostConfig: HostConfig<
     NodeType,
@@ -29,7 +29,7 @@ const hostConfig: HostConfig<
     resetAfterCommit() {},
     createInstance: (tag, attr) => {
         const node = createNodeFromTag(tag)
-        node.attr = attr
+        node.replaceAttributes(attr)
         return node
     },
     appendInitialChild: (parent, node) => {
@@ -42,7 +42,7 @@ const hostConfig: HostConfig<
     createTextInstance: (textContent: string) => new TextNode(textContent),
     commitMount() {},
     commitUpdate(node, _updatePayload, _tag, _oldAttr, attr) {
-        node.attr = attr
+        node.replaceAttributes(attr)
     },
     resetTextContent(textNode) {
         if (textNode instanceof TextNode) textNode.setTextContent("")
@@ -90,7 +90,18 @@ const hostConfig: HostConfig<
 
 const reactReconcilerInstance = ReactReconciler(hostConfig)
 
-export const render = (code: () => JSX.Element, root: RootNode | ModalRootNode) => {
-    const rootContainer = reactReconcilerInstance.createContainer(root, 0, false, null)
-    reactReconcilerInstance.updateContainer(code(), rootContainer, null)
+export const render: RenderFn = (Code, root, client, message) => {
+    const rootContainer = reactReconcilerInstance.createContainer(
+        root,
+        0,
+        false,
+        null
+    )
+    reactReconcilerInstance.updateContainer(
+        <MessageProvider message={message} client={client}>
+            <Code />
+        </MessageProvider>,
+        rootContainer,
+        null
+    )
 }
