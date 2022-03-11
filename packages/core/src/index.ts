@@ -65,7 +65,7 @@ export const renderMessage =
             throw new Error("Failed to send message")
         }
 
-        const root = new RootNode(client, debounce(cb, 50))
+        const root = new RootNode(client, msg, debounce(cb, 50))
         render(message, root, client, msg)
         return msg
     }

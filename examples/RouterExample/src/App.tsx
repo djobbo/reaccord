@@ -1,10 +1,42 @@
-import { Link, Route, Routes, useLocation } from "@reaccord/router"
+import { Link, Route, Routes, useLocation, useNavigate } from "@reaccord/router"
+import { useEffect } from "react"
+import { useMessageCtx } from "@reaccord/core"
+import type { ReactionAddListener } from "@reaccord/core/lib/nodes"
 
 export const App = () => {
     const { pathname } = useLocation()
+    const goto = useNavigate()
+    const { message } = useMessageCtx()
+
+    useEffect(() => {
+        message.react("🏠")
+        message.react("👤")
+        message.react("📙")
+        goto("/profile")
+    }, [])
+
+    const handleReactionRoute: ReactionAddListener = async (reaction, user) => {
+        if (user.bot) return
+
+        switch (reaction.emoji.name) {
+            case "🏠":
+                goto("/")
+                break
+            case "👤":
+                goto("/profile")
+                break
+            case "📙":
+                goto("/about")
+                break
+            default:
+                break
+        }
+
+        await reaction.users.remove(user.id)
+    }
 
     return (
-        <message>
+        <message onReactionAdd={handleReactionRoute}>
             <Routes>
                 <Route path="/">
                     <Route

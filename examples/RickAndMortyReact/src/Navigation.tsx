@@ -31,14 +31,14 @@ export const Navigation = ({
             <button
                 style="Secondary"
                 onClick={() => setCurrentPage(1)}
-                disabled={loading}
+                disabled={loading || page <= 1}
             >
                 {"<<"}
             </button>
             <button
                 style="Primary"
                 onClick={() => setCurrentPage(page - 1)}
-                disabled={loading}
+                disabled={loading || page <= 1}
             >
                 {"<"}
             </button>
@@ -49,14 +49,14 @@ export const Navigation = ({
             <button
                 style="Primary"
                 onClick={() => setCurrentPage(page + 1)}
-                disabled={loading}
+                disabled={loading || (!!data && data.info.pages <= page)}
             >
                 {">"}
             </button>
             <button
                 style="Secondary"
                 onClick={() => setCurrentPage(data?.info.pages ?? 1)}
-                disabled={loading}
+                disabled={loading || (!!data && data.info.pages <= page)}
             >
                 {">>"}
             </button>
