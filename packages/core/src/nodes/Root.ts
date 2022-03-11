@@ -46,7 +46,7 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         (interaction: Interaction) => unknown
     > = {}
 
-    message: Message | undefined
+    message: Message
 
     reactionListeners: {
         ADD: ReactionAddListener[]
@@ -64,10 +64,12 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
 
     constructor(
         client: Client,
+        message: Message,
         onRender?: (node: RootNode) => void | undefined
     ) {
         super("root")
         this.client = client
+        this.message = message
         this.onRender = onRender
 
         client.on("interactionCreate", (interaction) => {
@@ -121,10 +123,6 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
 
     get rootNode() {
         return this
-    }
-
-    setMessage(message: Message) {
-        this.message = message
     }
 
     addInteractionListener(
