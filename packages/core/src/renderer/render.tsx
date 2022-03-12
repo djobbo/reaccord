@@ -1,10 +1,10 @@
 import { MessageProvider } from "../react/MessageContext"
-import { RootNode } from "../nodes"
 import { hostConfig } from "./hostConfig"
 import ReactReconciler from "react-reconciler"
 import type { Client, Message } from "discord.js"
 import type { JSX } from "../../jsx-runtime"
 import type { ModalRootNode } from "../nodes"
+import type { RootNode } from "../nodes"
 
 export type RenderFn = (
     Code: () => JSX.Element,
@@ -17,7 +17,7 @@ const reactReconcilerInstance = ReactReconciler(hostConfig)
 
 export const render: RenderFn = (Code, root, client, message) => {
     const rootContainer = reactReconcilerInstance.createContainer(
-        root ?? new RootNode(client, message),
+        root,
         0,
         false,
         null,

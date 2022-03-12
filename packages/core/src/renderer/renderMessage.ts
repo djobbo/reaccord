@@ -9,6 +9,7 @@ import type {
     TextChannel,
     ThreadChannel,
 } from "discord.js"
+import type { JSX } from "../../jsx-runtime"
 import type { RenderFn } from "./render"
 
 type Channel =
