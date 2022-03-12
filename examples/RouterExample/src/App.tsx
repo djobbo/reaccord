@@ -1,4 +1,11 @@
-import { Link, Route, Routes, useLocation, useNavigate } from "@reaccord/router"
+import {
+    Link,
+    Route,
+    Routes,
+    useLocation,
+    useNavigate,
+    useParams,
+} from "@reaccord/router"
 import { useEffect } from "react"
 import { useMessageCtx } from "@reaccord/core"
 import type { ReactionAddListener } from "@reaccord/core/lib/nodes"
@@ -48,7 +55,7 @@ export const App = () => {
                         }
                     />
                     <Route
-                        path="/profile"
+                        path="/profile/:id"
                         element={
                             <embed>
                                 <title>Profile</title>

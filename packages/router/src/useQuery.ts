@@ -8,9 +8,5 @@ export const useQuery = <T extends ParsedQuery = ParsedQuery>(
 ) => {
     const { search } = useLocation()
 
-    useEffect(() => {
-        console.log(qs.parse(search, options))
-    })
-
     return qs.parse(search, options) as T
 }
