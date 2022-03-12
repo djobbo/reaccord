@@ -30,17 +30,17 @@ export class MessageNode extends BaseNode<
         if (this.attr.onReactionRemove)
             this.rootNode.addReactionListener(
                 "REMOVE",
-                this.attr.onReactionRemove
+                this.attr.onReactionRemove,
             )
         if (this.attr.onReactionRemoveAll)
             this.rootNode.addReactionListener(
                 "REMOVE_ALL",
-                this.attr.onReactionRemoveAll
+                this.attr.onReactionRemoveAll,
             )
         if (this.attr.onReactionRemoveEmoji)
             this.rootNode.addReactionListener(
                 "REMOVE_EMOJI",
-                this.attr.onReactionRemoveEmoji
+                this.attr.onReactionRemoveEmoji,
             )
         if (this.attr.onReply) this.rootNode.addReplyListener(this.attr.onReply)
 

@@ -39,7 +39,7 @@ export const CharacterEmbed = ({ character }: CharacterEmbedProps) => {
             {character.image && <thumbnail src={character.image} />}
             <color
                 color={getColorFromCharacterStatus(
-                    character.status ?? "unknown"
+                    character.status ?? "unknown",
                 )}
             />
         </embed>

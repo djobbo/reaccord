@@ -3,7 +3,7 @@ import qs from "query-string"
 import type { ParseOptions, ParsedQuery } from "query-string"
 
 export const useQuery = <T extends ParsedQuery = ParsedQuery>(
-    options: ParseOptions = {}
+    options: ParseOptions = {},
 ) => {
     const { search } = useLocation()
 

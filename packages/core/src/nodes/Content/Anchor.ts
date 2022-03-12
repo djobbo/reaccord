@@ -1,5 +1,4 @@
 import { TextContainerNode } from "../_TextContainer"
-import type { BaseNode } from "../_Base"
 import type { ContentNode } from "./Content"
 
 export class AnchorNode extends TextContainerNode<"a", ContentNode> {

@@ -1,7 +1,6 @@
 import { ButtonComponent, ButtonStyle } from "discord.js"
 import { TextContainerNode } from "../_TextContainer"
 import type { ActionRowNode } from "./ActionRow"
-import type { BaseNode } from "../_Base"
 import type { Interaction } from "discord.js"
 
 export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {

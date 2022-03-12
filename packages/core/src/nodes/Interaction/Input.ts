@@ -24,7 +24,7 @@ export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
             .setStyle(
                 this.attr.large
                     ? TextInputStyle.Paragraph
-                    : TextInputStyle.Short
+                    : TextInputStyle.Short,
             )
 
         return input

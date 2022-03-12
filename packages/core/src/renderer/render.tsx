@@ -10,7 +10,7 @@ export type RenderFn = (
     Code: () => JSX.Element,
     root: RootNode | ModalRootNode,
     client: Client,
-    message: Message
+    message: Message,
 ) => void
 
 const reactReconcilerInstance = ReactReconciler(hostConfig)
@@ -20,13 +20,13 @@ export const render: RenderFn = (Code, root, client, message) => {
         root ?? new RootNode(client, message),
         0,
         false,
-        null
+        null,
     )
     reactReconcilerInstance.updateContainer(
         <MessageProvider message={message} client={client}>
             <Code />
         </MessageProvider>,
         rootContainer,
-        null
+        null,
     )
 }

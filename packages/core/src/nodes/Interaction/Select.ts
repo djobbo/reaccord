@@ -25,7 +25,7 @@ export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
             .setOptions(
                 ...this.children
                     .filter(isOptionNode)
-                    .map((child) => child.render())
+                    .map((child) => child.render()),
             )
 
         const listener = (interaction: Interaction) => {

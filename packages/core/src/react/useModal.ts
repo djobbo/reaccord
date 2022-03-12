@@ -2,13 +2,14 @@ import { ModalRootNode } from "../nodes/Interaction/ModalRoot"
 import { render } from "../renderer/render"
 import { useMessageCtx } from "./MessageContext"
 import type { ButtonInteraction, Client, Message } from "discord.js"
+import type { JSX } from "../../jsx-runtime"
 import type { RenderFn } from "../renderer/render"
 
 const createModal = (
     render: RenderFn,
     client: Client,
     code: JSX.Element,
-    message: Message
+    message: Message,
 ) => {
     const modal = new ModalRootNode(client)
     render(() => code, modal, client, message)
