@@ -20,7 +20,7 @@ export type BaseNodeDisplay = {
 export abstract class BaseNode<
     Type extends NodeType = NodeType,
     ParentNodeType extends BaseNode = any,
-    ChildrenNodeType extends BaseNode = any
+    ChildrenNodeType extends BaseNode = any,
 > {
     uuid: string
 
@@ -50,7 +50,7 @@ export abstract class BaseNode<
         if (!node) throw new Error("Wrong child type")
         if (anchor) {
             const anchorIndex = this.children.findIndex(
-                (child) => anchor === child
+                (child) => anchor === child,
             )
             this.children.splice(anchorIndex, 0, node)
         } else this.children.push(node)

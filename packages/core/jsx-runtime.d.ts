@@ -18,7 +18,6 @@ import type { ReactElement } from "react"
 export namespace JSX {
     type Element =
         | ReactElement
-        | BaseNode
         | ArrayElement
         | FunctionElement
         | (string & {})

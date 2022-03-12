@@ -44,8 +44,8 @@ export const App = () => {
                         onChange={([val]) => {
                             setCharacter(
                                 data.results.find(
-                                    (char) => char.id.toString() === val
-                                )
+                                    (char) => char.id.toString() === val,
+                                ),
                             )
                         }}
                     >
@@ -75,7 +75,7 @@ export const App = () => {
                                 setPage(1)
                                 setName(val)
                             }}
-                        />
+                        />,
                     )}
                     disabled={loading}
                 >

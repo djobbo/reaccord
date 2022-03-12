@@ -13,7 +13,7 @@ export class ModalRowNode extends BaseNode<"modal-row", RootNode, InputNode> {
     render(): ActionRow<TextInputComponent> {
         const actionRow = new ActionRow<TextInputComponent>()
         actionRow.setComponents(
-            ...this.children.filter(isInputNode).map((child) => child.render())
+            ...this.children.filter(isInputNode).map((child) => child.render()),
         )
         return actionRow
     }

@@ -26,7 +26,7 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
             .setComponents(
                 ...this.children
                     .filter(isModalRowNode)
-                    .map((child) => child.render())
+                    .map((child) => child.render()),
             )
 
         const listener = async (interaction: Interaction) => {
@@ -45,9 +45,9 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
                         : input.uuid
                     input.attr.onChange?.(
                         interaction.fields.getTextInputValue(customId),
-                        interaction
+                        interaction,
                     )
-                })
+                }),
             )
         }
 

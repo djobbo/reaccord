@@ -1,2 +1,2 @@
-export * from "./MessageContext"
-export * from "./useModal"
+export { MessageContext, useMessageCtx } from "./MessageContext"
+export { useModal } from "./useModal"

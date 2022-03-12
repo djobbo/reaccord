@@ -4,7 +4,7 @@ import type { TextNode } from "./Text"
 
 export abstract class TextContainerNode<
     Type extends NodeType = NodeType,
-    ParentNodeType extends BaseNode = any
+    ParentNodeType extends BaseNode = any,
 > extends BaseNode<Type, ParentNodeType, TextNode> {
     constructor(type: Type) {
         super(type)

@@ -28,7 +28,7 @@ export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
 
     addInteractionListener(
         uuid: string,
-        fn: (interaction: Interaction) => unknown
+        fn: (interaction: Interaction) => unknown,
     ) {
         this.interactionListeners[uuid] = fn
     }

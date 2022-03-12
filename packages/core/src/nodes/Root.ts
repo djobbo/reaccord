@@ -22,17 +22,17 @@ export type MessageReactionType =
     | "REMOVE_EMOJI"
 export type ReactionAddListener = (
     reaction: MessageReaction | PartialMessageReaction,
-    user: User | PartialUser
+    user: User | PartialUser,
 ) => void
 export type ReactionRemoveListener = (
     reaction: MessageReaction | PartialMessageReaction,
-    user: User | PartialUser
+    user: User | PartialUser,
 ) => void
 export type ReactionRemoveAllListener = (
-    reactions: Collection<string, MessageReaction>
+    reactions: Collection<string, MessageReaction>,
 ) => void
 export type ReactionRemoveEmojiListener = (
-    reaction: MessageReaction | PartialMessageReaction
+    reaction: MessageReaction | PartialMessageReaction,
 ) => void
 export type MessageReplyListener = (message: Message) => void
 
@@ -65,7 +65,7 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
     constructor(
         client: Client,
         message: Message,
-        onRender?: (node: RootNode) => void | undefined
+        onRender?: (node: RootNode) => void | undefined,
     ) {
         super("root")
         this.client = client
@@ -83,25 +83,25 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
         client.on("messageReactionAdd", (reaction, user) => {
             if (!this.message || reaction.message.id !== this.message.id) return
             this.reactionListeners.ADD.forEach((listener) =>
-                listener(reaction, user)
+                listener(reaction, user),
             )
         })
         client.on("messageReactionRemove", (reaction, user) => {
             if (!this.message || reaction.message.id !== this.message.id) return
             this.reactionListeners.REMOVE.forEach((listener) =>
-                listener(reaction, user)
+                listener(reaction, user),
             )
         })
         client.on("messageReactionRemoveAll", (message, reactions) => {
             if (!this.message || message.id !== this.message.id) return
             this.reactionListeners.REMOVE_ALL.forEach((listener) =>
-                listener(reactions)
+                listener(reactions),
             )
         })
         client.on("messageReactionRemoveEmoji", (reaction) => {
             if (!this.message || reaction.message.id !== this.message.id) return
             this.reactionListeners.REMOVE_EMOJI.forEach((listener) =>
-                listener(reaction)
+                listener(reaction),
             )
         })
 
@@ -127,7 +127,7 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
 
     addInteractionListener(
         uuid: string,
-        fn: (interaction: Interaction) => unknown
+        fn: (interaction: Interaction) => unknown,
     ) {
         this.interactionListeners[uuid] = fn
     }
@@ -138,12 +138,12 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
 
     addReactionListener(
         type: "REMOVE_ALL",
-        listener: ReactionRemoveAllListener
+        listener: ReactionRemoveAllListener,
     ): void
 
     addReactionListener(
         type: "REMOVE_EMOJI",
-        listener: ReactionRemoveEmojiListener
+        listener: ReactionRemoveEmojiListener,
     ): void
 
     addReactionListener(
@@ -152,7 +152,7 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
             | ReactionAddListener
             | ReactionRemoveListener
             | ReactionRemoveAllListener
-            | ReactionRemoveEmojiListener
+            | ReactionRemoveEmojiListener,
     ): void {
         // @ts-expect-error https://github.com/microsoft/TypeScript/issues/22609
         this.reactionListeners[type].push(listener)

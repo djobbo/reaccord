@@ -20,7 +20,7 @@ export class ActionRowNode extends BaseNode<
         actionRow.setComponents(
             ...this.children
                 .filter((child) => isButtonNode(child) || isSelectNode(child))
-                .map((child) => child.render())
+                .map((child) => child.render()),
         )
         return actionRow
     }
