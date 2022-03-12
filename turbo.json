@@ -7,6 +7,9 @@
         "lint": {
             "outputs": []
         },
+        "ci:deadcode": {
+            "outputs": []
+        },
         "dev": {
             "cache": false,
             "dependsOn": ["^build"]

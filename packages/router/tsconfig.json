@@ -13,7 +13,8 @@
         "strictNullChecks": true,
         "jsx": "react-jsx",
         "jsxImportSource": "@reaccord/core",
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "noUnusedLocals": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "lib"]

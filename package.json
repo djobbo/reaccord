@@ -18,7 +18,8 @@
         "ts:check": "turbo run ts:check",
         "madge": "madge --circular --extensions ts .",
         "ci:lint": "eslint --ext .js,.jsx,.ts,.tsx,.json .",
-        "ci": "yarn"
+        "ci": "yarn",
+        "ci:deadcode": "turbo run ci:deadcode"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.14.0",

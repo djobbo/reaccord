@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useLocation } from "react-router"
 import qs from "query-string"
 import type { ParseOptions, ParsedQuery } from "query-string"
