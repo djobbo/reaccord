@@ -8,8 +8,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: yarn ci
-      - run: yarn ci:lint
+      - run: |
+          yarn ci
+          yarn ci:lint
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -17,8 +18,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: yarn ci
-      - run: yarn ts:check
+      - run: |
+          yarn ci
+          yarn ts:check
   deadcode:
     runs-on: ubuntu-latest
     steps:
@@ -26,8 +28,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: yarn ci
-      - run: yarn ci:deadcode
+      - run: |
+          yarn ci
+          yarn ci:deadcode
   circular_deps:
     runs-on: ubuntu-latest
     steps:
@@ -35,8 +38,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: yarn ci
-      - run: yarn madge
+      - run: |
+          yarn ci
+          yarn madge
   build:
     runs-on: ubuntu-latest
     steps:
@@ -44,5 +48,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: yarn ci
-      - run: yarn build
+      - run: |
+          yarn ci
+          yarn build
