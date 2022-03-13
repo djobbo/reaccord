@@ -1,6 +1,12 @@
 import { Client } from "discord.js"
 import { config as loadEnv } from "dotenv"
-import { reaccord, useMessageCtx, useModal } from "@reaccord/core"
+import {
+    reaccord,
+    useMessageCtx,
+    useModal,
+    useReactionAddEffect,
+    useReplyEffect,
+} from "@reaccord/core"
 import { useState } from "react"
 
 loadEnv()
@@ -22,7 +28,7 @@ const Modal = () => {
                 <input
                     label="Hello"
                     onChange={(val) => console.log(val)}
-                    value={message.id}
+                    value={`hello ${message.id}`}
                 />
             </modal-row>
         </modal>
@@ -36,16 +42,22 @@ const App = () => {
     const { client, message } = useMessageCtx()
     const { openModal } = useModal()
 
+    useReactionAddEffect((reaction, user) => {
+        setEmoji(reaction.emoji.name ?? "")
+        setUsername(user.username ?? "")
+    }, [])
+
+    useReplyEffect(
+        (message) => {
+            message.react("❤️")
+            message.reply(count.toString())
+        },
+        [count],
+        { allowMe: false },
+    )
+
     return (
-        <message
-            onReactionAdd={(reaction, user) => {
-                setEmoji(reaction.emoji.name ?? "")
-                setUsername(user.username ?? "")
-            }}
-            onReply={(message) => {
-                message.react("❤️")
-            }}
-        >
+        <message>
             <embed>
                 <title>
                     {emoji}
