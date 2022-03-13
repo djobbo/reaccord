@@ -28,7 +28,6 @@ export namespace JSX {
     interface BaseAttributes {
         key?: number | string | null
     }
-    interface MessageAttributes {}
     // Text
     interface LineBreakAttributes {}
     interface CodeAttributes {
@@ -145,7 +144,6 @@ export namespace JSX {
         onSubmit?: (interaction: ModalSubmitInteraction) => void
     }
     interface IntrinsicElements {
-        message: MessageAttributes & BaseAttributes
         // Text
         a: AnchorAttributes & BaseAttributes
         br: LineBreakAttributes & BaseAttributes

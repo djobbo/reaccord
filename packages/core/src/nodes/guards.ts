@@ -14,7 +14,6 @@ import type { FooterNode } from "./Embed/Footer"
 import type { ImageNode } from "./Embed/Image"
 import type { InputNode } from "./Interaction/Input"
 import type { LineBreakNode } from "./Content/LineBreak"
-import type { MessageNode } from "./Message"
 import type { ModalNode } from "./Interaction/Modal"
 import type { ModalRootNode } from "./Interaction/ModalRoot"
 import type { ModalRowNode } from "./Interaction/ModalRow"
@@ -27,9 +26,6 @@ import type { ThumbnailNode } from "./Embed/Thumbnail"
 import type { TimestampNode } from "./Embed/Timestamp"
 import type { TitleNode } from "./Title"
 import type { UrlNode } from "./Embed/Url"
-
-export const isMessageNode = (node: BaseNode): node is MessageNode =>
-    node.type === "message"
 
 export const isRootNode = (node: BaseNode): node is RootNode =>
     node.type === "root"

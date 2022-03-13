@@ -37,7 +37,7 @@ export const App = () => {
     )
 
     return (
-        <message>
+        <>
             <Routes>
                 <Route path="/">
                     <Route
@@ -89,6 +89,6 @@ export const App = () => {
                     About
                 </Link>
             </action-row>
-        </message>
+        </>
     )
 }

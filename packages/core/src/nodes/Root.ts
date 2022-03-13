@@ -1,5 +1,6 @@
 import { BaseNode } from "./_Base"
-import { isMessageNode } from "./guards"
+import { EMPTY_STRING } from "../helpers/constants"
+import { isActionRowNode, isContentNode, isEmbedNode } from "./guards"
 import type {
     Client,
     Interaction,
@@ -7,7 +8,6 @@ import type {
     MessageEditOptions,
     MessageOptions,
 } from "discord.js"
-import type { MessageNode } from "./Message"
 
 export type MessageReactionType =
     | "ADD"
@@ -15,7 +15,7 @@ export type MessageReactionType =
     | "REMOVE_ALL"
     | "REMOVE_EMOJI"
 
-export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
+export class RootNode extends BaseNode<"root", BaseNode, BaseNode> {
     client: Client
 
     onRender: ((node: RootNode) => void) | undefined
@@ -67,13 +67,19 @@ export class RootNode extends BaseNode<"root", BaseNode, MessageNode> {
 
     render(): MessageOptions | MessageEditOptions {
         this.resetListeners()
-        const messageNode = this.firstChild
-        if (
-            this.children.length !== 1 ||
-            !messageNode ||
-            !isMessageNode(messageNode)
-        )
-            throw new Error("root should only have one child, a <message> node")
-        return messageNode.render()
+
+        return {
+            content:
+                this.children
+                    .filter(isContentNode)
+                    .map((child) => child.render())
+                    .at(-1) || EMPTY_STRING,
+            embeds: this.children
+                .filter(isEmbedNode)
+                .map((child) => child.render()),
+            components: this.children
+                .filter(isActionRowNode)
+                .map((child) => child.render()),
+        }
     }
 }

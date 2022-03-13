@@ -29,7 +29,7 @@ export const App = () => {
     }, [name, page])
 
     return (
-        <message>
+        <>
             {loading ? (
                 <embed>
                     <title>Loading</title>
@@ -102,6 +102,6 @@ export const App = () => {
                 page={page}
                 setPage={setPage}
             />
-        </message>
+        </>
     )
 }
