@@ -32,7 +32,11 @@ export default defineUserConfig<DefaultThemeOptions>({
             },
             {
                 text: "Elements",
-                children: ["/elements/", "/elements/content/", "/elements/embed", "/elements/action-row"],
+                children: ["/elements/content/", "/elements/embed", "/elements/action-row"],
+            },
+            {
+                text: "Hooks",
+                children: ["/hooks/useMessageCtx/", "/hooks/useReplyEffect/"],
             },
             {
                 text: "Examples",

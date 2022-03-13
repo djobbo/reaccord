@@ -7,9 +7,9 @@ Reaccord is a powerful framework to build Discord bot messages declaratively, us
 **Node.js 16.6.0 or newer is required.**
 
 ```bash:no-line-numbers
-npm install @reaccord/react
-yarn add @reaccord/react
-pnpm add @reaccord/react
+npm install @reaccord/core
+yarn add @reaccord/core
+pnpm add @reaccord/core
 ```
 
 ## Example
@@ -17,16 +17,16 @@ pnpm add @reaccord/react
 Install required dependencies.
 
 ```bash:no-line-numbers
-npm install @reaccord/react react discord.js
-yarn add @reaccord/react react discord.js
-pnpm add @reaccord/react react discord.js
+npm install @reaccord/core react discord.js
+yarn add @reaccord/core react discord.js
+pnpm add @reaccord/core react discord.js
 ```
 
 Let's create a simple Ping <-> Pong app
 
 ```tsx
 import { Client } from "discord.js"
-import { reaccord } from "@reaccord/react"
+import { reaccord } from "@reaccord/core"
 import { useState } from "react"
 
 // Create discord.js client
@@ -39,11 +39,7 @@ const { renderMessage } = reaccord(client)
 
 // Create a simple message that'll contain 'Pong!'
 const Pong = () => {
-    return (
-        <message>
-            <content>Pong!</content>
-        </message>
-    )
+    return <content>Pong!</content>
 }
 
 // Register event

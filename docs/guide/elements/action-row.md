@@ -6,14 +6,11 @@
 
 > You can have a maximum of 5 action rows per message, as per Discord API's specs.
 
-
 ```tsx
 const App = () => (
-    <message>
-        <action-row>
-            <button>Click Me!</button>
-        </action-row>
-    </message>
+    <action-row>
+        <button>Click Me!</button>
+    </action-row>
 )
 ```
 

@@ -8,9 +8,7 @@ To add text content to your message, wrap some text inside a `<content>` element
 
 ```tsx
 const App = () => (
-    <message>
-        <content>Hello</content>
-    </message>
+    <content>Hello</content>
 )
 ```
 

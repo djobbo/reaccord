@@ -6,11 +6,9 @@ Adding embeds to your messages is very easy, just create a `<embed>` tag and the
 
 ```tsx
 const App = () => (
-    <message>
-        <embed>
-            <title>Hello</title>
-        </embed>
-    </message>
+    <embed>
+        <title>Hello</title>
+    </embed>
 )
 ```
 
