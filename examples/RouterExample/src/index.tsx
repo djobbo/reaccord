@@ -8,11 +8,11 @@ loadEnv()
 client.on("ready", () => console.log("Bot Started!"))
 
 client.on("messageCreate", (message) => {
-    const { content, channel } = message
+    const { content } = message
 
     if (content !== "router") return
 
-    renderMessage(channel, () => (
+    renderMessage(message, () => (
         <DiscordRouter>
             <App />
         </DiscordRouter>
