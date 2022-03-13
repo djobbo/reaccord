@@ -6,6 +6,7 @@ export default defineUserConfig<DefaultThemeOptions>({
     lang: "en-US",
     title: "Reaccord",
     description,
+    base: '/Reaccord/',
     head: [
         ["meta", { name: "theme-color", content: "#3eaf7c" }],
         ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
