@@ -25,25 +25,6 @@ export class MessageNode extends BaseNode<
         if (!this.rootNode || !isRootNode(this.rootNode))
             throw new Error("Message found outside of RootNode")
 
-        if (this.attr.onReactionAdd)
-            this.rootNode.addReactionListener("ADD", this.attr.onReactionAdd)
-        if (this.attr.onReactionRemove)
-            this.rootNode.addReactionListener(
-                "REMOVE",
-                this.attr.onReactionRemove,
-            )
-        if (this.attr.onReactionRemoveAll)
-            this.rootNode.addReactionListener(
-                "REMOVE_ALL",
-                this.attr.onReactionRemoveAll,
-            )
-        if (this.attr.onReactionRemoveEmoji)
-            this.rootNode.addReactionListener(
-                "REMOVE_EMOJI",
-                this.attr.onReactionRemoveEmoji,
-            )
-        if (this.attr.onReply) this.rootNode.addReplyListener(this.attr.onReply)
-
         return {
             content:
                 this.children
