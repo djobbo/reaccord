@@ -57,7 +57,7 @@ const App = () => {
     )
 
     return (
-        <message>
+        <>
             <embed>
                 <title>
                     {emoji}
@@ -76,7 +76,7 @@ const App = () => {
                 </button>
                 <button onClick={openModal(<Modal />)}>Open Modal</button>
             </action-row>
-        </message>
+        </>
     )
 }
 
