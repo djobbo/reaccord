@@ -49,7 +49,7 @@ export const App = () => {
                         }
                     />
                     <Route
-                        path="/profile/:id"
+                        path="/profile"
                         element={
                             <embed>
                                 <title>Profile</title>

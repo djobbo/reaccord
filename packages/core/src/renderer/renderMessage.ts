@@ -1,4 +1,5 @@
 import { EMPTY_STRING } from "../helpers/constants"
+import { Message } from "discord.js"
 import { RootNode } from "../nodes"
 import type {
     Client,
@@ -29,8 +30,11 @@ const debounce = <T extends unknown[]>(fn: (...args: T) => void, ms = 300) => {
 
 export const renderMessage =
     (render: RenderFn, client: Client) =>
-    async (channel: Channel, Code: () => JSX.Element) => {
-        const message = await channel.send(EMPTY_STRING)
+    async (ref: Channel | Message, Code: () => JSX.Element) => {
+        const message =
+            ref instanceof Message
+                ? await ref.reply(EMPTY_STRING)
+                : await ref.send(EMPTY_STRING)
 
         const cb = async (root: RootNode) => {
             const rendered = root.render()
