@@ -6,8 +6,12 @@ import { useEffect, useState } from "react"
 import { useModal } from "@reaccord/core"
 import type { APIResponse, Character } from "./types"
 
-export const App = () => {
-    const [name, setName] = useState("")
+type AppProps = {
+    search: string
+}
+
+export const App = ({ search }: AppProps) => {
+    const [name, setName] = useState(search)
     const [page, setPage] = useState(1)
     const [data, setData] = useState<APIResponse | null>(null)
     const [loading, setLoading] = useState(false)

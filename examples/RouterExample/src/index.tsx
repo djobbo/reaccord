@@ -1,22 +1,20 @@
 import { App } from "./App"
-import { DiscordRouter } from "@reaccord/router"
-import { client, renderMessage } from "./setupApp"
+import { createClient } from "reaccord"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
 
-client.on("ready", () => console.log("Bot Started!"))
+const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
-client.on("messageCreate", (message) => {
-    const { content } = message
-
-    if (content !== "router") return
-
-    renderMessage(message, () => (
-        <DiscordRouter>
-            <App />
-        </DiscordRouter>
-    ))
+const { connect, createCommand } = createClient({
+    token: DISCORD_TOKEN ?? "",
+    intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+    devGuildId: DISCORD_DEV_GUILD_ID,
+    clientId: DISCORD_CLIENT_ID,
 })
 
-client.login(process.env.DISCORD_TOKEN)
+createCommand("router", "Discord Router example").render(() => <App />)
+
+connect((client) =>
+    console.log(`🚀 Client connected as ${client.user?.username}!`),
+)

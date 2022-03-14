@@ -1,23 +1,23 @@
-import { Client } from "discord.js"
-import { config as loadEnv } from "dotenv"
 import {
-    reaccord,
+    createClient,
     useMessageCtx,
     useModal,
     useReactionAddEffect,
     useReplyEffect,
-} from "@reaccord/core"
+} from "reaccord"
+import { config as loadEnv } from "dotenv"
 import { useState } from "react"
 
 loadEnv()
 
-const client = new Client({
+const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
+
+const { connect, createCommand } = createClient({
+    token: DISCORD_TOKEN ?? "",
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+    devGuildId: DISCORD_DEV_GUILD_ID,
+    clientId: DISCORD_CLIENT_ID,
 })
-
-const { renderMessage } = reaccord(client)
-
-client.on("ready", () => console.log("Bot Started!"))
 
 const Modal = () => {
     const { client, message } = useMessageCtx()
@@ -35,8 +35,8 @@ const Modal = () => {
     )
 }
 
-const App = () => {
-    const [count, setCount] = useState(0)
+const App = ({ startCount }: { startCount: number }) => {
+    const [count, setCount] = useState(startCount)
     const [emoji, setEmoji] = useState("")
     const [username, setUsername] = useState("")
     const { client, message } = useMessageCtx()
@@ -80,11 +80,10 @@ const App = () => {
     )
 }
 
-client.on("messageCreate", async (message) => {
-    const { content, channel } = message
+createCommand("example", "Show React Example")
+    .numberParam("count", "Start count")
+    .render(({ count }) => <App startCount={count ?? 0} />)
 
-    if (content !== "r") return
-    await renderMessage(channel, () => <App />)
-})
-
-client.login(process.env.DISCORD_TOKEN)
+connect((client) =>
+    console.log(`🚀 Client connected as ${client.user?.username}!`),
+)
