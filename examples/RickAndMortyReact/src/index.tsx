@@ -1,17 +1,22 @@
 import { App } from "./App"
-import { client, renderMessage } from "./setupApp"
+import { createClient } from "reaccord"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
 
-client.on("ready", () => console.log("Bot Started!"))
+const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
-client.on("messageCreate", (message) => {
-    const { content, channel } = message
-
-    if (content !== "ram") return
-
-    renderMessage(channel, () => <App />)
+const { connect, createCommand } = createClient({
+    token: DISCORD_TOKEN ?? "",
+    intents: ["Guilds", "GuildMessages"],
+    devGuildId: DISCORD_DEV_GUILD_ID,
+    clientId: DISCORD_CLIENT_ID,
 })
 
-client.login(process.env.DISCORD_TOKEN)
+createCommand("rick", "Rick and Morty characters info.")
+    .addString("search", "Character name search")
+    .render(({ search }) => <App search={search ?? ""} />)
+
+connect((client) =>
+    console.log(`🚀 Client connected as ${client.user?.username}!`),
+)

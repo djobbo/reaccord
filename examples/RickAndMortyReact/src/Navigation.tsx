@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from "react"
 
 type NavigationProps = {
     data: APIResponse | null
-    setPage: Dispatch<SetStateAction<number>>
+    setPage: (page: number) => void
     loading: boolean
     page: number
 }
@@ -15,15 +15,13 @@ export const Navigation = ({
     page,
 }: NavigationProps) => {
     const setCurrentPage = (newPage: number) => {
-        setPage(() => {
-            const pageInfo = data?.info
-            if (!pageInfo) return 1
+        const pageInfo = data?.info
+        if (!pageInfo) return setPage(1)
 
-            if (newPage > pageInfo.pages) return pageInfo.pages
-            if (newPage < 1) return 1
+        if (newPage > pageInfo.pages) return setPage(pageInfo.pages)
+        if (newPage < 1) return setPage(1)
 
-            return newPage
-        })
+        return setPage(newPage)
     }
 
     return (

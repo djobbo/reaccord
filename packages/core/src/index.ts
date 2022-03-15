@@ -1,7 +1,7 @@
 import { render, renderMessage } from "./renderer"
 import type { Client } from "discord.js"
 
-export const reaccord = (client: Client) => ({
+export const createRenderer = (client: Client) => ({
     renderMessage: renderMessage(render, client),
 })
 

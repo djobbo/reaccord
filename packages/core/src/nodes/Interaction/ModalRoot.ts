@@ -33,10 +33,6 @@ export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
         this.interactionListeners[uuid] = fn
     }
 
-    removeInteractionListener(uuid: string) {
-        delete this.interactionListeners[uuid]
-    }
-
     render(): Modal {
         const modalNode = this.firstChild
         if (this.children.length !== 1 || !modalNode || !isModalNode(modalNode))

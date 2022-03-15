@@ -1,3 +1,4 @@
+import { CommandInteraction } from "discord.js"
 import { EMPTY_STRING } from "../helpers/constants"
 import { Message } from "discord.js"
 import { RootNode } from "../nodes"
@@ -28,12 +29,22 @@ const debounce = <T extends unknown[]>(fn: (...args: T) => void, ms = 300) => {
     }
 }
 
+export type RenderMessageFn = (
+    ref: Channel | Message | CommandInteraction,
+    Code: () => JSX.Element,
+) => Promise<Message>
+
 export const renderMessage =
-    (render: RenderFn, client: Client) =>
-    async (ref: Channel | Message, Code: () => JSX.Element) => {
-        const message =
+    (render: RenderFn, client: Client): RenderMessageFn =>
+    async (ref, Code) => {
+        let message =
             ref instanceof Message
                 ? await ref.reply(EMPTY_STRING)
+                : ref instanceof CommandInteraction
+                ? ((await ref.reply({
+                      content: EMPTY_STRING,
+                      fetchReply: true,
+                  })) as Message) // TODO: do proper type checking, APIMessage type doesn't have `.reply()`
                 : await ref.send(EMPTY_STRING)
 
         const cb = async (root: RootNode) => {
