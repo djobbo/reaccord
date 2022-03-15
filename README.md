@@ -1,6 +1,10 @@
 # Reaccord
 
+A simple, and clean framework to build reactive discord apps using [React](https://reactjs.org/) + JSX and [Discord.js](https://discord.js.org/).
+
 > Disclaimer: Reaccord is using the development version of `discord.js` (v14), so the API is still unstable and may not be suitable for production yet.
+
+## Usage
 
 ```tsx
 import { createClient } from 'reaccord';
@@ -18,16 +22,36 @@ createCommand("ping", "Ping").render(() => (
     <content>Pong</content>
 ))
 
-// Register command with string param
+// Connect client
+connect((client) =>
+    console.log(`🚀 Client connected as ${client.user?.username}!`),
+);
+```
+
+**Result**  
+<img src="./assets/images/command_ping.png" alt="Ping Command" width="300">
+
+
+## A few more examples
+
+### `Echo` command with a required string parameter
+
+```tsx
 createCommand("echo", "Echoes msg")
     .addString("input", "Message to be echoed", { required: true })
     .render(({ input }) => <content>{input}</content>)
+```
 
-// Register command with multiple params
+**Result**  
+<img src="./assets/images/command_echo.png" alt="Echo Command" width="300">
+
+### `Add` command with two optional number parameters
+
+```tsx
 createCommand("add", "Add two numbers")
-    .addNumber("a", "First number", { required: true })
-    .addNumber("b", "Second number", { required: true })
-    .render(({ a, b }) => (
+    .addNumber("a", "First number")
+    .addNumber("b", "Second number")
+    .render(({ a = 0, b = 0 }) => (
         <embed>
             <title>Result: {a + b}</title>
             <desc>
@@ -36,17 +60,7 @@ createCommand("add", "Add two numbers")
         </embed>
     ))
 
-// Connect client
-connect((client) =>
-    console.log(`🚀 Client connected as ${client.user?.username}!`),
-);
 ```
 
-**Ping command result**
-![Ping Command](./assets/images/command_ping.png)
-
-**Echo command result**
-![Echo Command](./assets/images/command_echo.png)
-
-**Add command result**
-![Add Command](./assets/images/command_add.png)
+**Result**  
+<img src="./assets/images/command_add.png" alt="Add Command" width="250">
