@@ -1,12 +1,20 @@
-import { ApplicationCommandOptionType } from "discord.js"
+import {
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+    Message,
+} from "discord.js"
 import { EMPTY_STRING } from "@reaccord/core/src/helpers/constants"
 import { SlashCommandBuilder } from "@discordjs/builders"
+import { User } from "discord.js"
 import type {
     ChatInputCommandInteraction,
     GuildBasedChannel,
     GuildMember,
+    MessageApplicationCommandData,
+    MessageContextMenuCommandInteraction,
     Role,
-    User,
+    UserApplicationCommandData,
+    UserContextMenuCommandInteraction,
 } from "discord.js"
 import type { JSX } from "@reaccord/core/jsx-runtime"
 import type { RenderMessageFn } from "@reaccord/core/lib/renderer/renderMessage"
@@ -16,15 +24,19 @@ type CommandParamOptions<Required extends boolean = false> = {
     required?: Required
 }
 
-type CommandInteractionCallback<Props, ReturnValue> = (
+type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
     props: Props,
-    interaction: ChatInputCommandInteraction,
+    interaction: InteractionType,
 ) => ReturnValue
 
 export class Command<Props extends { [k in string]: any } = {}> {
     #renderMessage: RenderMessageFn
     #params: [name: string, type: ApplicationCommandOptionType][]
-    #interactionCallback?: CommandInteractionCallback<Props, void>
+    #interactionCallback?: CommandInteractionCallback<
+        Props,
+        ChatInputCommandInteraction,
+        void
+    >
     slashCommand: SlashCommandBuilder
 
     constructor(
@@ -208,13 +220,25 @@ export class Command<Props extends { [k in string]: any } = {}> {
         })
     }
 
-    render(callback: CommandInteractionCallback<Props, JSX.Element>): void {
+    render(
+        callback: CommandInteractionCallback<
+            Props,
+            ChatInputCommandInteraction,
+            JSX.Element
+        >,
+    ): void {
         this.#interactionCallback = (props, interaction) => {
             this.#renderMessage(interaction, () => callback(props, interaction))
         }
     }
 
-    exec(callback: CommandInteractionCallback<Props, void>): void {
+    exec(
+        callback: CommandInteractionCallback<
+            Props,
+            ChatInputCommandInteraction,
+            void
+        >,
+    ): void {
         this.#interactionCallback = callback
     }
 
@@ -249,5 +273,114 @@ export class Command<Props extends { [k in string]: any } = {}> {
         ) as Props
 
         this.#interactionCallback?.(props, interaction)
+    }
+}
+
+abstract class ContextMenuCommand<
+    DataType extends
+        | MessageApplicationCommandData
+        | UserApplicationCommandData = any,
+    InteractionType extends DataType extends MessageApplicationCommandData
+        ? MessageContextMenuCommandInteraction
+        : UserContextMenuCommandInteraction = any,
+    Props extends DataType extends MessageApplicationCommandData
+        ? Message
+        : User = any,
+> {
+    #renderMessage: RenderMessageFn
+    data: DataType
+    interactionCallback?: CommandInteractionCallback<
+        Props,
+        InteractionType,
+        void
+    >
+
+    constructor(
+        renderMessage: RenderMessageFn,
+        name: string,
+        type: DataType["type"],
+        defaultPermission?: boolean,
+    ) {
+        this.#renderMessage = renderMessage
+        //@ts-expect-error
+        this.data = {
+            name,
+            defaultPermission,
+            type,
+        }
+    }
+
+    render(
+        callback: CommandInteractionCallback<
+            Props,
+            InteractionType,
+            JSX.Element
+        >,
+    ) {
+        this.interactionCallback = (props, interaction) => {
+            this.#renderMessage(interaction, () => callback(props, interaction))
+        }
+    }
+
+    exec(
+        callback: CommandInteractionCallback<Props, InteractionType, void>,
+    ): void {
+        this.interactionCallback = callback
+    }
+
+    abstract replyToInteraction(interaction: InteractionType): void
+}
+
+export class MessageContextCommand extends ContextMenuCommand<
+    MessageApplicationCommandData,
+    MessageContextMenuCommandInteraction,
+    Message
+> {
+    constructor(
+        renderMessage: RenderMessageFn,
+        name: string,
+        defaultPermission?: boolean | undefined,
+    ) {
+        super(
+            renderMessage,
+            name,
+            ApplicationCommandType.Message,
+            defaultPermission,
+        )
+    }
+
+    replyToInteraction(
+        interaction: MessageContextMenuCommandInteraction,
+    ): void {
+        if (!(interaction.targetMessage instanceof Message)) {
+            throw new Error("Unhandled interaction target message type")
+        }
+        this.interactionCallback?.(interaction.targetMessage, interaction)
+    }
+}
+
+export class UserContextCommand extends ContextMenuCommand<
+    UserApplicationCommandData,
+    UserContextMenuCommandInteraction,
+    User
+> {
+    constructor(
+        renderMessage: RenderMessageFn,
+        name: string,
+        defaultPermission?: boolean | undefined,
+    ) {
+        super(
+            renderMessage,
+            name,
+            ApplicationCommandType.User,
+            defaultPermission,
+        )
+    }
+
+    replyToInteraction(interaction: UserContextMenuCommandInteraction): void {
+        if (!(interaction.targetUser instanceof User)) {
+            throw new Error("Unhandled interaction target user type")
+        }
+        this.interactionCallback?.(interaction.targetUser, interaction)
     }
 }
