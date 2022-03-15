@@ -18,6 +18,8 @@ export const refreshCommands = async (
     try {
         console.log("✨ Started refreshing application (/) commands.")
 
+        const body = commands.map((c) => c.slashCommand)
+
         if (DEV) {
             if (!devGuildId)
                 throw new Error(
@@ -25,11 +27,11 @@ export const refreshCommands = async (
                 )
             await rest.put(
                 Routes.applicationGuildCommands(clientId, devGuildId),
-                { body: commands },
+                { body },
             )
         } else {
             await rest.put(Routes.applicationCommands(clientId), {
-                body: commands,
+                body,
             })
         }
 

@@ -21,12 +21,11 @@ type CommandInteractionCallback<Props, ReturnValue> = (
     interaction: ChatInputCommandInteraction,
 ) => ReturnValue
 
-export class Command<
-    Props extends { [k in string]: any } = {},
-> extends SlashCommandBuilder {
+export class Command<Props extends { [k in string]: any } = {}> {
     #renderMessage: RenderMessageFn
     #params: [name: string, type: ApplicationCommandOptionType][]
     #interactionCallback?: CommandInteractionCallback<Props, void>
+    slashCommand: SlashCommandBuilder
 
     constructor(
         renderMessage: RenderMessageFn,
@@ -38,12 +37,16 @@ export class Command<
             description?: string
         },
     ) {
-        super()
-        this.setName(name)
-        this.setDescription(description ?? EMPTY_STRING)
+        this.slashCommand = new SlashCommandBuilder()
+        this.slashCommand.setName(name)
+        this.slashCommand.setDescription(description ?? EMPTY_STRING)
 
         this.#renderMessage = renderMessage
         this.#params = []
+    }
+
+    get name() {
+        return this.slashCommand.name
     }
 
     addParam<Name extends string, Type extends any, Required extends boolean>({
@@ -72,24 +75,33 @@ export class Command<
 
         switch (type) {
             case ApplicationCommandOptionType.Boolean:
-                return this.addBooleanOption(addOption)
+                this.slashCommand.addBooleanOption(addOption)
+                break
             case ApplicationCommandOptionType.Channel:
-                return this.addChannelOption(addOption)
+                this.slashCommand.addChannelOption(addOption)
+                break
             case ApplicationCommandOptionType.Integer:
-                return this.addIntegerOption(addOption)
+                this.slashCommand.addIntegerOption(addOption)
+                break
             case ApplicationCommandOptionType.Mentionable:
-                return this.addMentionableOption(addOption)
+                this.slashCommand.addMentionableOption(addOption)
+                break
             case ApplicationCommandOptionType.Number:
-                return this.addNumberOption(addOption)
+                this.slashCommand.addNumberOption(addOption)
+                break
             case ApplicationCommandOptionType.Role:
-                return this.addRoleOption(addOption)
+                this.slashCommand.addRoleOption(addOption)
+                break
             case ApplicationCommandOptionType.String:
-                return this.addStringOption(addOption)
+                this.slashCommand.addStringOption(addOption)
+                break
             case ApplicationCommandOptionType.User:
-                return this.addUserOption(addOption)
+                this.slashCommand.addUserOption(addOption)
+                break
             default:
                 throw new Error(`Invalid slash command option type ${type}`)
         }
+        return this
     }
 
     addBool<Name extends string, Required extends boolean>(

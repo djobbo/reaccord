@@ -41,17 +41,30 @@ createCommand("avatar", "Get user avatar")
         )
     })
 
-createCommand("setrole", "Add role to a user")
-    .addMention("user", "User", { required: true })
-    .addRole("role", "Role", { required: true })
-    .exec(({ user, role }, interaction) => {
-        if (!(user instanceof GuildMember))
-            return interaction.reply({
+createCommand("nick", "Set a user's nickname")
+    .addMention("user", "User")
+    .addString("nick", "Nickname")
+    .exec(async ({ user, nick }, interaction) => {
+        const member = user ?? interaction.member
+        if (!(member instanceof GuildMember))
+            return await interaction.reply({
                 content: "Failed to add role",
                 ephemeral: true,
             })
-        user.roles.add(role)
-        interaction.reply({ content: "done!", ephemeral: true })
+        try {
+            await member.setNickname(nick ?? "")
+            await interaction.reply({
+                content: `${member.user.username}'s nickname was ${
+                    nick ? `changed to ${nick}` : "reset"
+                }!`,
+                ephemeral: true,
+            })
+        } catch {
+            await interaction.reply({
+                content: `${member.user.username}'s nickname could not be changed.`,
+                ephemeral: true,
+            })
+        }
     })
 
 connect((client) =>

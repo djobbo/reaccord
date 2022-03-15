@@ -1,6 +1,6 @@
 # Reaccord
 
-> Disclaimer: Reaccord is using the development version of `discord.js` (v14), so the API is still unstable and may not be suitable for production.
+> Disclaimer: Reaccord is using the development version of `discord.js` (v14), so the API is still unstable and may not be suitable for production yet.
 
 ```tsx
 import { createClient } from 'reaccord';
@@ -20,13 +20,13 @@ createCommand("ping", "Ping").render(() => (
 
 // Register command with string param
 createCommand("echo", "Echoes msg")
-    .stringParam("input", "Message to be echoed", { required: true })
+    .addString("input", "Message to be echoed", { required: true })
     .render(({ input }) => <content>{input}</content>)
 
 // Register command with multiple params
 createCommand("add", "Add two numbers")
-    .numberParam("a", "First number", { required: true })
-    .numberParam("b", "Second number", { required: true })
+    .addNumber("a", "First number", { required: true })
+    .addNumber("b", "Second number", { required: true })
     .render(({ a, b }) => (
         <embed>
             <title>Result: {a + b}</title>
