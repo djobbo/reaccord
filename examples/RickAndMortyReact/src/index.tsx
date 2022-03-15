@@ -14,7 +14,7 @@ const { connect, createCommand } = createClient({
 })
 
 createCommand("rick", "Rick and Morty characters info.")
-    .stringParam("search", "Character name search")
+    .addString("search", "Character name search")
     .render(({ search }) => <App search={search ?? ""} />)
 
 connect((client) =>

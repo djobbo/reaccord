@@ -11,8 +11,7 @@ type AppProps = {
 }
 
 export const App = ({ search }: AppProps) => {
-    const [name, setName] = useState(search)
-    const [page, setPage] = useState(1)
+    const [{ name, page }, setPageSearch] = useState({ name: search, page: 1 })
     const [data, setData] = useState<APIResponse | null>(null)
     const [loading, setLoading] = useState(false)
     const [character, setCharacter] = useState<Character | undefined>(undefined)
@@ -76,8 +75,7 @@ export const App = ({ search }: AppProps) => {
                         <NameModal
                             name={name}
                             setName={(val) => {
-                                setPage(1)
-                                setName(val)
+                                setPageSearch({ name: val, page: 1 })
                             }}
                         />,
                     )}
@@ -92,7 +90,12 @@ export const App = ({ search }: AppProps) => {
                         </button>
                         <button
                             style="Secondary"
-                            onClick={() => setName("")}
+                            onClick={() =>
+                                setPageSearch(({ page }) => ({
+                                    page,
+                                    name: "",
+                                }))
+                            }
                             disabled={loading}
                         >
                             Clear search
@@ -104,7 +107,9 @@ export const App = ({ search }: AppProps) => {
                 data={data}
                 loading={loading}
                 page={page}
-                setPage={setPage}
+                setPage={(page) =>
+                    setPageSearch(({ name }) => ({ name, page }))
+                }
             />
         </>
     )

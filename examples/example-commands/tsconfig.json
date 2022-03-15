@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "lib": ["esnext"],
+        "moduleResolution": "node",
+        "jsx": "react-jsx",
+        "jsxImportSource": "@reaccord/core",
+        "outDir": "out",
+        "target": "es6",
+        "skipLibCheck": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+}

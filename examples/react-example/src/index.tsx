@@ -81,7 +81,7 @@ const App = ({ startCount }: { startCount: number }) => {
 }
 
 createCommand("example", "Show React Example")
-    .numberParam("count", "Start count")
+    .addInt("count", "Start count")
     .render(({ count }) => <App startCount={count ?? 0} />)
 
 connect((client) =>
