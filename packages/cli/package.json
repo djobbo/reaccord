@@ -8,6 +8,9 @@
         "cord": "./bin/index.js",
         "reaccord": "./bin/index.js"
     },
+    "files": [
+		"dist"
+	],
     "scripts": {
         "build": "tsc",
         "build:w": "tsc --watch",

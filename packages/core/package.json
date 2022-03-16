@@ -10,6 +10,9 @@
         "ts:check": "tsc --noEmit",
         "ci:deadcode": "ts-prune"
     },
+    "files": [
+		"dist"
+	],
     "devDependencies": {
         "@types/react": "^17.0.39",
         "@types/react-reconciler": "^0.26.4",

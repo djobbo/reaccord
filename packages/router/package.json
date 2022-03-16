@@ -10,6 +10,9 @@
         "ts:check": "tsc --noEmit",
         "ci:deadcode": "ts-prune"
     },
+    "files": [
+		"dist"
+	],
     "devDependencies": {
         "ts-prune": "^0.10.3",
         "typescript": "^4.6.2"
