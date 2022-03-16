@@ -3,7 +3,7 @@ import {
     ApplicationCommandType,
     Message,
 } from "discord.js"
-import { EMPTY_STRING } from "@reaccord/core/src/helpers/constants"
+import { EMPTY_STRING } from "@reaccord/core/lib/helpers/constants"
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { User } from "discord.js"
 import type {

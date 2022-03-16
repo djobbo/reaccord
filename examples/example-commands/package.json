@@ -4,12 +4,13 @@
     "main": "out/index.js",
     "license": "MIT",
     "scripts": {
-        "dev": "tsnd --respawn ./src/index.tsx",
-        "start": "ts-node ./src/index.tsx",
-        "build": "tsc",
+        "dev": "cord dev",
+        "start": "cord start",
+        "build": "cord build",
         "ts:check": "tsc --noEmit"
     },
     "devDependencies": {
+        "@reaccord/cli": "*",
         "@types/react": "^17.0.39",
         "ts-node": "^10.7.0",
         "ts-node-dev": "^1.1.8",

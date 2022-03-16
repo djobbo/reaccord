@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "target": "es6",
+        "lib": ["esnext"],
+        "moduleResolution": "node",
+        "outDir": "bin",
+        "declaration": true,
+        "strictNullChecks": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "reaccord",
+        "skipLibCheck": true,
+        "noUnusedLocals": true,
+        "resolveJsonModule": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "bin"]
+}
