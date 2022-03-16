@@ -54,7 +54,7 @@ jobs:
 
       - name: Build dependencies
         if: steps.pre-release.outputs.release == 'true'
-        run: yarn build --cache-dir=".turbo"
+        run: ./node_modules/.bin/turbo run build --scope="@reaccord/**" --scope="reaccord" --cache-dir=".turbo" --no-deps --include-dependencies
 
       - name: Deprecate old versions
         if: steps.pre-release.outputs.release == 'true'

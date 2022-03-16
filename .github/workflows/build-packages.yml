@@ -12,10 +12,6 @@ jobs:
           - package: '@reaccord/core'
           - package: 'reaccord'
           - package: '@reaccord/router'
-          # - package: '@example/commands'
-          # - package: '@example/react'
-          # - package: '@example/rick-and-morty'
-          # - package: '@example/router'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
