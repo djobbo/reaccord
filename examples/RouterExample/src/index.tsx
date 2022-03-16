@@ -1,5 +1,5 @@
 import { App } from "./App"
-import { createClient } from "reaccord"
+import { DiscordRouter, createClient } from "reaccord"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
@@ -13,7 +13,11 @@ const { connect, createCommand } = createClient({
     clientId: DISCORD_CLIENT_ID,
 })
 
-createCommand("router", "Discord Router example").render(() => <App />)
+createCommand("router", "Discord Router example").render(() => (
+    <DiscordRouter>
+        <App />
+    </DiscordRouter>
+))
 
 connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),

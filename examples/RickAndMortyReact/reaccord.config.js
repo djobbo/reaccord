@@ -1,3 +1,3 @@
 module.exports = {
-    entry: "./index.tsx",
+    entry: "./src/index.tsx",
 }
