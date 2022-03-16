@@ -4,9 +4,9 @@
     "main": "out/index.js",
     "license": "MIT",
     "scripts": {
-        "dev": "tsnd --respawn ./src/index.tsx",
-        "start": "ts-node ./src/index.tsx",
-        "build": "tsc",
+        "dev": "cord dev",
+        "start": "cord start",
+        "build": "cord build",
         "ts:check": "tsc --noEmit"
     },
     "devDependencies": {
