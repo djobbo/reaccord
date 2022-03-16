@@ -26,4 +26,4 @@ jobs:
       - name: ${{ matrix.package }}
         run: |
           yarn ci
-          ./node_modules/.bin/turbo run build --scope="${{ matrix.package }}" --no-deps
+          ./node_modules/.bin/turbo run build --scope="${{ matrix.package }}" --no-deps --include-dependencies
