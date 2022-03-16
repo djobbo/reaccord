@@ -1,12 +1,17 @@
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
-import type { Command } from "./Command"
+import type {
+    Command,
+    MessageContextCommand,
+    UserContextCommand,
+} from "./Command"
 
 const DEV = process.env.NODE_ENV !== "production"
 
 export const refreshCommands = async (
     token: string,
-    commands: Command[],
+    slashCommands: Command[],
+    ctxCommands: (MessageContextCommand | UserContextCommand)[],
     clientId?: string,
     devGuildId?: string,
 ) => {
@@ -18,7 +23,10 @@ export const refreshCommands = async (
     try {
         console.log("✨ Started refreshing application (/) commands.")
 
-        const body = commands.map((c) => c.slashCommand)
+        const body = [
+            ...slashCommands.map((c) => c.slashCommand),
+            ...ctxCommands.map((c) => c.data),
+        ]
 
         if (DEV) {
             if (!devGuildId)

@@ -6,7 +6,12 @@ loadEnv()
 
 const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
-const { connect, createCommand } = createClient({
+const {
+    connect,
+    createCommand,
+    createMessageCtxCommand,
+    createUserCtxCommand,
+} = createClient({
     token: DISCORD_TOKEN ?? "",
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
     devGuildId: DISCORD_DEV_GUILD_ID,
@@ -66,6 +71,32 @@ createCommand("nick", "Set a user's nickname")
             })
         }
     })
+
+createMessageCtxCommand("hello").render((msg) => (
+    <content>Message Id: {msg.id}</content>
+))
+
+createUserCtxCommand("avatar").render((user, interaction) => (
+    <embed>
+        <color color="Blue" />
+        <author
+            name={user.username}
+            iconURL={user.avatarURL({ size: 1024 }) ?? user.defaultAvatarURL}
+        >
+            {user.username}
+            {`'`}s avatar
+        </author>
+        <img src={user.avatarURL({ size: 1024 }) ?? user.defaultAvatarURL} />
+        <footer
+            iconURL={
+                interaction.user.avatarURL() ??
+                interaction.user.defaultAvatarURL
+            }
+        >
+            Requested by {interaction.user.username}
+        </footer>
+    </embed>
+))
 
 connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),

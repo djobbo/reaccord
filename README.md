@@ -59,7 +59,6 @@ createCommand("add", "Add two numbers")
             </desc>
         </embed>
     ))
-
 ```
 
 **Result**  
