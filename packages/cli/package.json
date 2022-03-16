@@ -1,6 +1,6 @@
 {
     "name": "@reaccord/cli",
-    "version": "0.0.0",
+    "version": "0.0.1-dev",
     "main": "bin/index.js",
     "types": "bin/index.d.ts",
     "license": "MIT",
@@ -8,6 +8,9 @@
         "cord": "./bin/index.js",
         "reaccord": "./bin/index.js"
     },
+    "files": [
+		"dist"
+	],
     "scripts": {
         "build": "tsc",
         "build:w": "tsc --watch",
@@ -19,7 +22,7 @@
         "typescript": "^4.6.2"
     },
     "dependencies": {
-        "reaccord": "*",
+        "reaccord": "^0.0.1-dev",
         "@rollup/plugin-typescript": "^8.3.1",
         "ink": "^3.2.0",
         "react": "^17.0.2",

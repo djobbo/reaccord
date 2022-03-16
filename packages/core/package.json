@@ -1,6 +1,6 @@
 {
     "name": "@reaccord/core",
-    "version": "0.0.0",
+    "version": "0.0.1-dev",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "license": "MIT",
@@ -10,6 +10,9 @@
         "ts:check": "tsc --noEmit",
         "ci:deadcode": "ts-prune"
     },
+    "files": [
+		"dist"
+	],
     "devDependencies": {
         "@types/react": "^17.0.39",
         "@types/react-reconciler": "^0.26.4",
