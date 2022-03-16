@@ -1,8 +1,8 @@
-name: Code Analysis
+name: Code QA
 on: [push]
 jobs:
-  qa:
-    name: qa
+  analyze:
+    name: Analyze
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -16,12 +16,14 @@ jobs:
             action: yarn ci:deadcode
           - name: Check Circular Dependencies
             action: yarn madge
-          - name: Build Packages
-            action: yarn build
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
       - name: ${{ matrix.name }}
         run: |
           yarn ci
-          ${{ matrix.action }}
+          yarn build

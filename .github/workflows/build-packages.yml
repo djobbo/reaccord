@@ -1,0 +1,29 @@
+name: Build
+on: [push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package: '@reaccord/cli'
+          - package: '@reaccord/core'
+          - package: 'reaccord'
+          - package: '@reaccord/router'
+          - package: '@example/commands'
+          - package: '@example/react'
+          - package: '@example/rick-and-morty'
+          - package: '@example/router'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+      - name: ${{ matrix.package }}
+        run: |
+          yarn ci
+          yarn build --scope="${{ matrix.package }}" --include-dependencies
