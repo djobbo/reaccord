@@ -26,4 +26,4 @@ jobs:
       - name: ${{ matrix.name }}
         run: |
           yarn ci
-          yarn build
+          yarn ${{ matrix.action }}
