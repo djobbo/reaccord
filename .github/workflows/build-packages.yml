@@ -26,4 +26,4 @@ jobs:
       - name: ${{ matrix.package }}
         run: |
           yarn ci
-          yarn build --scope="@reaccord/cli" --include-dependencies
+          ./node_modules/.bin/turbo run build --scope="${{ matrix.package }}" --no-deps
