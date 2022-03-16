@@ -26,4 +26,4 @@ jobs:
       - name: ${{ matrix.package }}
         run: |
           yarn ci
-          yarn build --scope="${{ matrix.package }}" --include-dependencies
+          yarn build --scope="@reaccord/cli" --include-dependencies
