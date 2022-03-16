@@ -3,6 +3,7 @@ on: [push]
 jobs:
   qa:
     name: qa
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
