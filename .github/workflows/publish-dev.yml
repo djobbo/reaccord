@@ -67,6 +67,6 @@ jobs:
         run: |
           yarn config set version-git-tag false
           yarn workspace ${{ matrix.package }} version --new-version $(jq --raw-output '.version' packages/${{ matrix.folder }}/package.json).$(date +%s).$(git rev-parse --short HEAD)
-          yarn workspace ${{ matrix.package }} npm publish --tag dev || true
+          yarn workspace ${{ matrix.package }} publish --tag dev || true
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
