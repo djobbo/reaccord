@@ -66,6 +66,7 @@ jobs:
         if: steps.pre-release.outputs.release == 'true'
         run: |
           cd ./packages/${{ matrix.folder }}
-          yarn publish --new-version $(jq --raw-output '.version' packages/${{ matrix.folder }}/package.json).$(date +%s).$(git rev-parse --short HEAD) --tag dev --access public || true
+          npm version $(jq --raw-output '.version' package.json).$(date +%s).$(git rev-parse --short HEAD)
+          npm publish --tag dev --access public || true
         env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
