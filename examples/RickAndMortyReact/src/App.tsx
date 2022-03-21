@@ -6,9 +6,12 @@ import { useEffect, useState } from "react"
 import { useModal } from "@reaccord/core"
 import type { APIResponse, Character } from "./types"
 
-export const App = () => {
-    const [name, setName] = useState("")
-    const [page, setPage] = useState(1)
+type AppProps = {
+    search: string
+}
+
+export const App = ({ search }: AppProps) => {
+    const [{ name, page }, setPageSearch] = useState({ name: search, page: 1 })
     const [data, setData] = useState<APIResponse | null>(null)
     const [loading, setLoading] = useState(false)
     const [character, setCharacter] = useState<Character | undefined>(undefined)
@@ -72,8 +75,7 @@ export const App = () => {
                         <NameModal
                             name={name}
                             setName={(val) => {
-                                setPage(1)
-                                setName(val)
+                                setPageSearch({ name: val, page: 1 })
                             }}
                         />,
                     )}
@@ -88,7 +90,12 @@ export const App = () => {
                         </button>
                         <button
                             style="Secondary"
-                            onClick={() => setName("")}
+                            onClick={() =>
+                                setPageSearch(({ page }) => ({
+                                    page,
+                                    name: "",
+                                }))
+                            }
                             disabled={loading}
                         >
                             Clear search
@@ -100,7 +107,9 @@ export const App = () => {
                 data={data}
                 loading={loading}
                 page={page}
-                setPage={setPage}
+                setPage={(page) =>
+                    setPageSearch(({ name }) => ({ name, page }))
+                }
             />
         </>
     )

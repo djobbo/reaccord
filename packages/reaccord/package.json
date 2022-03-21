@@ -1,5 +1,5 @@
 {
-    "name": "@reaccord/core",
+    "name": "reaccord",
     "version": "0.0.1-dev",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -14,13 +14,12 @@
 		"dist"
 	],
     "devDependencies": {
-        "@types/react": "^17.0.39",
-        "@types/react-reconciler": "^0.26.4",
         "ts-prune": "^0.10.3",
         "typescript": "^4.6.2"
     },
     "dependencies": {
-        "discord.js": "14.0.0-dev.1646914074.dcd4797",
-        "react-reconciler": "^0.26.2"
+        "@discordjs/builders": "^0.12.0",
+        "@reaccord/core": "^0.0.1-dev",
+        "@reaccord/router": "^0.0.1-dev"
     }
 }
