@@ -89,29 +89,135 @@ export class Client extends DiscordClient {
         callback,
         isActive,
     ) => {
-        // TODO:return disposer
-        return () => {}
+        const handler: EventListener<"messageReactionRemove"> = (...args) => {
+            if (!isActive(...args)) return
+            callback(...args)
+        }
+        this.reactionRemoveListeners.push(handler)
+
+        this.reactionAddDisposer?.()
+
+        const globalHandler: EventListener<"messageReactionRemove"> = (
+            ...args
+        ) => {
+            this.reactionRemoveListeners.forEach((listener) =>
+                listener(...args),
+            )
+        }
+
+        this.on("messageReactionRemove", globalHandler)
+
+        this.reactionRemoveDisposer = () => {
+            this.removeListener("messageReactionRemove", globalHandler)
+        }
+
+        return () => {
+            this.reactionRemoveDisposer?.()
+            this.reactionRemoveListeners = this.reactionRemoveListeners.filter(
+                (listener) => listener !== handler,
+            )
+        }
     }
 
     onReactionRemoveAll: EventHandler<"messageReactionRemoveAll"> = (
         callback,
         isActive,
     ) => {
-        // TODO:return disposer
-        return () => {}
+        const handler: EventListener<"messageReactionRemoveAll"> = (
+            ...args
+        ) => {
+            if (!isActive(...args)) return
+            callback(...args)
+        }
+        this.reactionRemoveAllListeners.push(handler)
+
+        this.reactionRemoveAllDisposer?.()
+
+        const globalHandler: EventListener<"messageReactionRemoveAll"> = (
+            ...args
+        ) => {
+            this.reactionRemoveAllListeners.forEach((listener) =>
+                listener(...args),
+            )
+        }
+
+        this.on("messageReactionRemoveAll", globalHandler)
+
+        this.reactionRemoveAllDisposer = () => {
+            this.removeListener("messageReactionRemove", globalHandler)
+        }
+
+        return () => {
+            this.reactionRemoveAllDisposer?.()
+            this.reactionRemoveAllListeners =
+                this.reactionRemoveAllListeners.filter(
+                    (listener) => listener !== handler,
+                )
+        }
     }
 
     onReactionRemoveEmoji: EventHandler<"messageReactionRemoveEmoji"> = (
         callback,
         isActive,
     ) => {
-        // TODO:return disposer
-        return () => {}
+        const handler: EventListener<"messageReactionRemoveEmoji"> = (
+            ...args
+        ) => {
+            if (!isActive(...args)) return
+            callback(...args)
+        }
+        this.reactionRemoveEmojiListeners.push(handler)
+
+        this.reactionRemoveEmojiDisposer?.()
+
+        const globalHandler: EventListener<"messageReactionRemoveEmoji"> = (
+            ...args
+        ) => {
+            this.reactionRemoveEmojiListeners.forEach((listener) =>
+                listener(...args),
+            )
+        }
+
+        this.on("messageReactionRemoveEmoji", globalHandler)
+
+        this.reactionRemoveEmojiDisposer = () => {
+            this.removeListener("messageReactionRemoveEmoji", globalHandler)
+        }
+
+        return () => {
+            this.reactionRemoveEmojiDisposer?.()
+            this.reactionRemoveEmojiListeners =
+                this.reactionRemoveEmojiListeners.filter(
+                    (listener) => listener !== handler,
+                )
+        }
     }
 
     onReply: EventHandler<"messageCreate"> = (callback, isActive) => {
-        // TODO:return disposer
-        return () => {}
+        const handler: EventListener<"messageCreate"> = (...args) => {
+            if (!isActive(...args)) return
+            callback(...args)
+        }
+        this.replyListeners.push(handler)
+
+        this.reactionRemoveEmojiDisposer?.()
+
+        const globalHandler: EventListener<"messageCreate"> = (...args) => {
+            this.replyListeners.forEach((listener) => listener(...args))
+        }
+
+        this.on("messageCreate", globalHandler)
+
+        this.reactionRemoveEmojiDisposer = () => {
+            this.removeListener("messageCreate", globalHandler)
+        }
+
+        return () => {
+            this.reactionRemoveEmojiDisposer?.()
+            this.replyListeners = this.replyListeners.filter(
+                (listener) => listener !== handler,
+            )
+        }
     }
 
     initInteractions() {
