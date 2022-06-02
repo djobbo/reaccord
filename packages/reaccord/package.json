@@ -21,6 +21,7 @@
     "dependencies": {
         "discord.js": "14.0.0-dev.1646914074.dcd4797",
         "react-reconciler": "^0.26.2",
-        "@reaccord/jsx": "0.0.1-dev"
+        "@reaccord/jsx": "0.0.1-dev",
+        "@reaccord/cli": "0.0.1-dev"
     }
 }
