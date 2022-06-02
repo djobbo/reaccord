@@ -7,10 +7,10 @@ A simple, and clean framework to build reactive discord apps using [React](https
 ## Usage
 
 ```tsx
-import { createClient } from 'reaccord';
+import { Client } from 'reaccord';
 
 // Create client
-const { connect, createCommand } = createClient({
+const client = new Client({
     token: 'token',
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
     devGuildId: 'dev-guild-id',
@@ -18,12 +18,12 @@ const { connect, createCommand } = createClient({
 })
 
 // Register simple `ping` command
-createCommand("ping", "Ping").render(() => (
+client.createCommand("ping", "Ping").render(() => (
     <content>Pong</content>
 ))
 
 // Connect client
-connect((client) =>
+client.connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
 );
 ```
@@ -37,7 +37,8 @@ connect((client) =>
 ### `Echo` command with a required string parameter
 
 ```tsx
-createCommand("echo", "Echoes msg")
+client
+    .createCommand("echo", "Echoes msg")
     .addString("input", "Message to be echoed", { required: true })
     .render(({ input }) => <content>{input}</content>)
 ```
@@ -48,7 +49,8 @@ createCommand("echo", "Echoes msg")
 ### `Add` command with two optional number parameters
 
 ```tsx
-createCommand("add", "Add two numbers")
+client
+    .createCommand("add", "Add two numbers")
     .addNumber("a", "First number")
     .addNumber("b", "Second number")
     .render(({ a = 0, b = 0 }) => (
