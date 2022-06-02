@@ -1,4 +1,3 @@
-import type { BaseNode } from "./src/nodes/_Base"
 import type {
     ButtonInteraction,
     ButtonStyle,

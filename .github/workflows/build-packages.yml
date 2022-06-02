@@ -9,7 +9,6 @@ jobs:
       matrix:
         include:
           - package: '@reaccord/cli'
-          - package: '@reaccord/core'
           - package: 'reaccord'
           - package: '@reaccord/router'
     steps:

@@ -2,7 +2,6 @@
     "name": "docs",
     "version": "0.0.0",
     "main": "index.js",
-    "license": "MIT",
     "description": "The declarative framework for building fast and reliable Discord apps.",
     "scripts": {
         "docs:dev": "vuepress dev guide",

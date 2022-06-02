@@ -2,7 +2,6 @@
     "name": "@example/router",
     "version": "0.0.0",
     "main": "out/index.js",
-    "license": "MIT",
     "private": true,
     "scripts": {
         "dev": "cord dev",

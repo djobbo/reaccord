@@ -1,18 +1,8 @@
 {
-    "name": "@reaccord/core",
+    "name": "@reaccord/jsx",
     "version": "0.0.1-dev",
-    "main": "lib/index.js",
-    "types": "lib/index.d.ts",
-    "license": "MIT",
-    "scripts": {
-        "build": "tsc",
-        "build:w": "tsc --watch",
-        "ts:check": "tsc --noEmit",
-        "ci:deadcode": "ts-prune"
-    },
-    "files": [
-		"dist"
-	],
+    "main": "jsx-runtime.js",
+    "types": "jsx-runtime.d.ts",
     "devDependencies": {
         "@types/react": "^17.0.39",
         "@types/react-reconciler": "^0.26.4",

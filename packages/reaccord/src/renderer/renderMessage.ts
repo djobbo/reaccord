@@ -2,8 +2,8 @@ import { CommandInteraction } from "discord.js"
 import { EMPTY_STRING } from "../helpers/constants"
 import { Message } from "discord.js"
 import { RootNode } from "../nodes"
+import type { Client } from "../Client"
 import type {
-    Client,
     DMChannel,
     MessageEditOptions,
     NewsChannel,

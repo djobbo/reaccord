@@ -1,8 +1,9 @@
 import { MessageProvider } from "../react/MessageContext"
 import { hostConfig } from "./hostConfig"
 import ReactReconciler from "react-reconciler"
-import type { Client, Message } from "discord.js"
+import type { Client } from "../Client"
 import type { JSX } from "../../jsx-runtime"
+import type { Message } from "discord.js"
 import type { ModalRootNode } from "../nodes"
 import type { RootNode } from "../nodes"
 

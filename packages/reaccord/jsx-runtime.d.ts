@@ -1,1 +1,1 @@
-export * from "@reaccord/core/jsx-runtime"
+export * from "@reaccord/jsx"

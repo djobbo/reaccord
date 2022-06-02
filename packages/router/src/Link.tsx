@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router"
-import type { JSX } from "@reaccord/core/jsx-runtime"
+import type { JSX } from "reaccord/jsx-runtime"
 import type { To } from "react-router"
 
 export type LinkProps = {

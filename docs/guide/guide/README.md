@@ -1,56 +1,81 @@
 # Introduction
 
-Reaccord is a powerful framework to build Discord bot messages declaratively, using React. It is meant to be used in conjonction with discord.js, so that the whole Discord API is available.
+Reaccord is a powerful framework to build Discord bots declaratively built on top of React and Discord.js.
 
 ## Installation
 
 **Node.js 16.6.0 or newer is required.**
 
 ```bash:no-line-numbers
-npm install @reaccord/core
-yarn add @reaccord/core
-pnpm add @reaccord/core
+npm install reaccord
+yarn add reaccord
+pnpm add reaccord
 ```
 
 ## Example
 
-Install required dependencies.
+Let's create a `/ping` slash command that will respond `Pong`.
 
-```bash:no-line-numbers
-npm install @reaccord/core react discord.js
-yarn add @reaccord/core react discord.js
-pnpm add @reaccord/core react discord.js
-```
+### Step by step
 
-Let's create a simple Ping <-> Pong app
+**1. Import `reaccord`**
 
 ```tsx
-import { Client } from "discord.js"
-import { reaccord } from "@reaccord/core"
-import { useState } from "react"
+import { createClient } from 'reaccord';
+```
 
-// Create discord.js client
-const client = new Client({
-    intents: ["Guilds", "GuildMessages"],
+**2. Instantiate the client**
+
+```tsx
+const { connect, createCommand } = createClient({
+    token: 'token',
+    intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+    devGuildId: 'dev-guild-id',
+    clientId: 'client-id',
+})
+```
+
+**3. Register our slash command**
+
+```tsx
+createCommand("ping", "Ping bot")
+    .render(() => (
+        <content>Pong</content>
+    ))
+```
+
+> _**3.bis Respond to interaction directly**_
+> ```tsx
+> createCommand("ping", "Ping bot")
+>     .exec((_, interaction) => {
+>         interaction.reply("Pong")
+>     })
+> ```
+
+**4. Connect the client**
+```tsx
+connect((client) =>
+    console.log(`🚀 Client connected as ${client.user?.username}!`),
+);
+```
+
+### Complete code
+
+```tsx
+import { createClient } from 'reaccord';
+
+const { connect, createCommand } = createClient({
+    token: 'token',
+    intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+    devGuildId: 'dev-guild-id',
+    clientId: 'client-id',
 })
 
-// Initialize Reaccord
-const { renderMessage } = reaccord(client)
+createCommand("ping", "Ping bot").render(() => (
+    <content>Pong</content>
+))
 
-// Create a simple message that'll contain 'Pong!'
-const Pong = () => {
-    return <content>Pong!</content>
-}
-
-// Register event
-client.on("messageCreate", async (message) => {
-    const { content, channel } = message
-    if (content !== "!ping") return
-
-    // Send 'Pong!' to the channel
-    await renderMessage(channel, () => <Pong />)
-})
-
-// Connect your bot
-client.login('token')
+connect((client) =>
+    console.log(`🚀 Client connected as ${client.user?.username}!`),
+);
 ```

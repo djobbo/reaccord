@@ -20,7 +20,7 @@ In order to get a complete typescript experience you'll want to add these two ru
     "compilerOptions": {
         ...
         "jsx": "react-jsx",
-        "jsxImportSource": "@reaccord/core"
+        "jsxImportSource": "reaccord"
         ...
     }
 }

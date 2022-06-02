@@ -12,8 +12,6 @@ jobs:
         include:
           - package: '@reaccord/cli'
             folder: 'cli'
-          - package: '@reaccord/core'
-            folder: 'core'
           - package: 'reaccord'
             folder: 'reaccord'
           - package: '@reaccord/router'

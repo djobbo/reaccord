@@ -3,7 +3,7 @@ import {
     ApplicationCommandType,
     Message,
 } from "discord.js"
-import { EMPTY_STRING } from "@reaccord/core/lib/helpers/constants"
+import { EMPTY_STRING } from "./helpers/constants"
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { User } from "discord.js"
 import type {
@@ -16,8 +16,8 @@ import type {
     UserApplicationCommandData,
     UserContextMenuCommandInteraction,
 } from "discord.js"
-import type { JSX } from "@reaccord/core/jsx-runtime"
-import type { RenderMessageFn } from "@reaccord/core/lib/renderer/renderMessage"
+import type { JSX } from "../jsx-runtime"
+import type { RenderMessageFn } from "./renderer/renderMessage"
 
 type CommandParamOptions<Required extends boolean = false> = {
     type: ApplicationCommandOptionType

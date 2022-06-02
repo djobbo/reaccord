@@ -19,6 +19,7 @@ export default defineUserConfig<DefaultThemeOptions>({
         smoothScroll: true,
         editLinkText: "Edit this page on GitHub",
         lastUpdated: true,
+        contributors: false,
         navbar: [
             {
                 text: "Guide",
@@ -29,6 +30,10 @@ export default defineUserConfig<DefaultThemeOptions>({
             {
                 text: "Guide",
                 children: ["/guide/", "/guide/typescript/"],
+            },
+            {
+                text: "Client",
+                children: ['/client/createClient'],
             },
             {
                 text: "Elements",
