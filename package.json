@@ -2,11 +2,6 @@
     "name": "turborepo-basic-shared",
     "version": "0.0.0",
     "private": true,
-    "workspaces": [
-        "examples/*",
-        "packages/*",
-        "docs"
-    ],
     "scripts": {
         "build": "turbo run build",
         "dev": "turbo run dev --parallel",
@@ -18,25 +13,26 @@
         "ts:check": "turbo run ts:check",
         "madge": "madge --circular --extensions ts .",
         "ci:lint": "eslint --ext .js,.jsx,.ts,.tsx,.json .",
-        "ci": "yarn install --frozen-lockfile",
+        "ci": "pnpm install --frozen-lockfile",
         "ci:deadcode": "turbo run ci:deadcode"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^5.14.0",
-        "@typescript-eslint/parser": "^5.14.0",
-        "eslint": "^8.11.0",
-        "eslint-plugin-import": "^2.25.4",
+        "@typescript-eslint/eslint-plugin": "^5.27.0",
+        "@typescript-eslint/parser": "^5.27.0",
+        "eslint": "^8.16.0",
+        "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-jsx-a11y": "^6.5.1",
         "eslint-plugin-prettier": "^4.0.0",
-        "eslint-plugin-react": "^7.29.3",
+        "eslint-plugin-react": "^7.30.0",
         "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
         "madge": "^5.0.1",
-        "prettier": "^2.5.1",
-        "turbo": "latest"
+        "prettier": "^2.6.2",
+        "turbo": "^1.2.16",
+        "typescript": "^4.7.2"
     },
     "engines": {
         "npm": ">=7.0.0",
         "node": ">=14.0.0"
     },
-    "packageManager": "yarn@1.22.17"
+    "packageManager": "pnpm@7.1.7"
 }

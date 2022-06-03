@@ -1,6 +1,6 @@
 import { Link, Route, Routes, useLocation, useNavigate } from "@reaccord/router"
 import { useEffect } from "react"
-import { useMessageCtx, useReactionAddEffect } from "@reaccord/core"
+import { useMessageCtx, useOnReactionAdd } from "reaccord"
 
 export const App = () => {
     const { pathname } = useLocation()
@@ -14,7 +14,7 @@ export const App = () => {
         goto("/profile")
     }, [])
 
-    useReactionAddEffect(
+    useOnReactionAdd(
         async (reaction, user) => {
             switch (reaction.emoji.name) {
                 case "🏠":

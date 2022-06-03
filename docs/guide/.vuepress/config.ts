@@ -19,6 +19,7 @@ export default defineUserConfig<DefaultThemeOptions>({
         smoothScroll: true,
         editLinkText: "Edit this page on GitHub",
         lastUpdated: true,
+        contributors: false,
         navbar: [
             {
                 text: "Guide",
@@ -28,11 +29,15 @@ export default defineUserConfig<DefaultThemeOptions>({
         sidebar: [
             {
                 text: "Guide",
-                children: ["/guide/", "/guide/typescript/"],
+                children: ["/guide/", "/guide/typescript/", "/guide/Client"],
             },
             {
                 text: "Elements",
-                children: ["/elements/", "/elements/content/", "/elements/embed", "/elements/action-row"],
+                children: ["/elements/content/", "/elements/embed", "/elements/action-row"],
+            },
+            {
+                text: "Hooks",
+                children: ["/hooks/useMessageCtx/", "/hooks/useReplyEffect/"],
             },
             {
                 text: "Examples",

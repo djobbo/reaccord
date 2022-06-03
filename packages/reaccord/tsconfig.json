@@ -12,7 +12,7 @@
         "declaration": true,
         "strictNullChecks": true,
         "jsx": "react-jsx",
-        "jsxImportSource": "@reaccord/core",
+        "jsxImportSource": "@reaccord/jsx",
         "skipLibCheck": true,
         "noUnusedLocals": true
     },

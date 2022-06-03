@@ -3,14 +3,13 @@
     "version": "0.0.1-dev",
     "main": "bin/index.js",
     "types": "bin/index.d.ts",
-    "license": "MIT",
     "bin": {
         "cord": "./bin/index.js",
         "reaccord": "./bin/index.js"
     },
     "files": [
-		"dist"
-	],
+        "dist"
+    ],
     "scripts": {
         "build": "tsc",
         "build:w": "tsc --watch",
@@ -18,16 +17,17 @@
         "ci:deadcode": "ts-prune"
     },
     "devDependencies": {
+        "@types/node": "^17.0.39",
         "ts-prune": "^0.10.3",
         "typescript": "^4.6.2"
     },
     "dependencies": {
-        "reaccord": "^0.0.1-dev",
         "@rollup/plugin-typescript": "^8.3.1",
         "ink": "^3.2.0",
         "react": "^17.0.2",
         "rollup": "^2.70.1",
         "ts-node-dev": "^1.1.8",
+        "tslib": "^2.4.0",
         "yargs": "^17.3.1"
     }
 }

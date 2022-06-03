@@ -1,9 +1,9 @@
 import {
-    createClient,
+    Client,
     useMessageCtx,
     useModal,
-    useReactionAddEffect,
-    useReplyEffect,
+    useOnReactionAdd,
+    useOnReply,
 } from "reaccord"
 import { config as loadEnv } from "dotenv"
 import { useState } from "react"
@@ -12,7 +12,7 @@ loadEnv()
 
 const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
-const { connect, createCommand } = createClient({
+const client = new Client({
     token: DISCORD_TOKEN ?? "",
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
     devGuildId: DISCORD_DEV_GUILD_ID,
@@ -42,12 +42,12 @@ const App = ({ startCount }: { startCount: number }) => {
     const { client, message } = useMessageCtx()
     const { openModal } = useModal()
 
-    useReactionAddEffect((reaction, user) => {
+    useOnReactionAdd((reaction, user) => {
         setEmoji(reaction.emoji.name ?? "")
         setUsername(user.username ?? "")
     }, [])
 
-    useReplyEffect(
+    useOnReply(
         (message) => {
             message.react("❤️")
             message.reply(count.toString())
@@ -80,10 +80,11 @@ const App = ({ startCount }: { startCount: number }) => {
     )
 }
 
-createCommand("example", "Show React Example")
+client
+    .createSlashCommand("example", "Show React Example")
     .addInt("count", "Start count")
     .render(({ count }) => <App startCount={count ?? 0} />)
 
-connect((client) =>
+client.connect(() =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
 )

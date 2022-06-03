@@ -1,24 +1,19 @@
-import { GuildMember } from "discord.js"
-import { createClient } from "reaccord"
+import { Client, GuildMember } from "reaccord"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
 
 const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
-const {
-    connect,
-    createCommand,
-    createMessageCtxCommand,
-    createUserCtxCommand,
-} = createClient({
+const client = new Client({
     token: DISCORD_TOKEN ?? "",
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
     devGuildId: DISCORD_DEV_GUILD_ID,
     clientId: DISCORD_CLIENT_ID,
 })
 
-createCommand("avatar", "Get user avatar")
+client
+    .createSlashCommand("avatar", "Get user avatar")
     .addUser("user", "user", { required: true })
     .render(({ user }, interaction) => {
         const avatarUrl = user.avatarURL({ size: 1024 })
@@ -46,7 +41,8 @@ createCommand("avatar", "Get user avatar")
         )
     })
 
-createCommand("nick", "Set a user's nickname")
+client
+    .createSlashCommand("nick", "Set a user's nickname")
     .addMention("user", "User")
     .addString("nick", "Nickname")
     .exec(async ({ user, nick }, interaction) => {
@@ -72,11 +68,11 @@ createCommand("nick", "Set a user's nickname")
         }
     })
 
-createMessageCtxCommand("hello").render((msg) => (
-    <content>Message Id: {msg.id}</content>
-))
+client
+    .createMessageCtxCommand("hello")
+    .render((msg) => <content>Message Id: {msg.id}</content>)
 
-createUserCtxCommand("avatar").render((user, interaction) => (
+client.createUserCtxCommand("avatar").render((user, interaction) => (
     <embed>
         <color color="Blue" />
         <author
@@ -98,6 +94,6 @@ createUserCtxCommand("avatar").render((user, interaction) => (
     </embed>
 ))
 
-connect((client) =>
+client.connect(() =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
 )

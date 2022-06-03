@@ -3,7 +3,7 @@ import { NameModal } from "./NameModal"
 import { Navigation } from "./Navigation"
 import { fetchCharacters } from "./fetch"
 import { useEffect, useState } from "react"
-import { useModal } from "@reaccord/core"
+import { useModal } from "reaccord"
 import type { APIResponse, Character } from "./types"
 
 type AppProps = {
