@@ -169,8 +169,7 @@ importers:
   packages/reaccord:
     specifiers:
       '@discordjs/rest': ^0.4.1
-      '@reaccord/cli': 0.0.1-dev
-      '@reaccord/jsx': 0.0.1-dev
+      '@reaccord/jsx': dev
       '@types/react': ^17.0.39
       '@types/react-reconciler': ^0.26.4
       discord-api-types: ^0.33.2
@@ -181,8 +180,7 @@ importers:
       typescript: ^4.6.2
     dependencies:
       '@discordjs/rest': 0.4.1
-      '@reaccord/cli': link:../cli
-      '@reaccord/jsx': link:../jsx
+      '@reaccord/jsx': 0.0.1-dev.1654274637.4cfdac0
       discord-api-types: 0.33.2
       discord.js: 14.0.0-dev.1653480262-68d5169
       react: 17.0.2
@@ -405,6 +403,17 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
     dev: true
+
+  /@reaccord/jsx/0.0.1-dev.1654274637.4cfdac0:
+    resolution: {integrity: sha512-6g9CUi34kB71IgmW2en202vnLfZXCkkdZYBDaGC+69/O5uWDt73IYUn3Dkd2ZE8tVuPUcby/4MPmd5J/kb250w==}
+    dependencies:
+      discord.js: 14.0.0-dev.1653480262-68d5169
+      react: 17.0.2
+      react-reconciler: 0.26.2_react@17.0.2
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
 
   /@rollup/plugin-typescript/8.3.2_i2cmtaxdolycdms224vq2iy2ey:
     resolution: {integrity: sha512-MtgyR5LNHZr3GyN0tM7gNO9D0CS+Y+vflS4v/PHmrX17JCkHUYKvQ5jN5o3cz1YKllM3duXUqu3yOHwMPUxhDg==}
