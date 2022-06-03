@@ -13,7 +13,7 @@ export default defineUserConfig<DefaultThemeOptions>({
         ["meta", { name: "apple-mobile-web-app-status-bar-style", content: "black" }],
     ],
     themeConfig: {
-        repo: "AlfieGoldson/Reaccord",
+        repo: "djobbo/reaccord",
         editLinks: false,
         docsDir: "docs/guide",
         smoothScroll: true,
