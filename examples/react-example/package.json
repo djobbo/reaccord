@@ -10,6 +10,7 @@
         "ts:check": "tsc --noEmit"
     },
     "devDependencies": {
+        "@reaccord/cli": "0.0.1-dev",
         "@types/react": "^17.0.39",
         "typescript": "^4.6.2"
     },
