@@ -1,6 +1,6 @@
 import { EMPTY_STRING } from "../../helpers/constants"
 import { TextContainerNode } from "../_TextContainer"
-import type { Embed } from "discord.js"
+import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
 
 export class FooterNode extends TextContainerNode<"footer", EmbedNode> {
@@ -8,7 +8,7 @@ export class FooterNode extends TextContainerNode<"footer", EmbedNode> {
         super("footer")
     }
 
-    render(embed: Embed): void {
+    render(embed: EmbedBuilder): void {
         embed.setFooter({
             text: this.innerText ?? EMPTY_STRING,
             iconURL: this.attr.iconURL,

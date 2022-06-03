@@ -20,9 +20,14 @@ export const render: RenderFn = (Code, root, client, message) => {
     const rootContainer = reactReconcilerInstance.createContainer(
         root,
         0,
+        null,
         false,
         null,
+        "",
+        () => void 0,
+        null,
     )
+
     reactReconcilerInstance.updateContainer(
         <MessageProvider message={message} client={client}>
             <Code />

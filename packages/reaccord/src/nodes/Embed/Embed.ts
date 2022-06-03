@@ -1,5 +1,5 @@
 import { BaseNode } from "../_Base"
-import { Embed } from "discord.js"
+import { EmbedBuilder } from "discord.js"
 import type { FieldNode } from "./Field"
 import type { RootNode } from "../Root"
 import type { ThumbnailNode } from "./Thumbnail"
@@ -12,8 +12,8 @@ export class EmbedNode extends BaseNode<"embed", RootNode, EmbedChildren> {
         super("embed")
     }
 
-    render(): Embed {
-        const newEmbed = new Embed()
+    render(): EmbedBuilder {
+        const newEmbed = new EmbedBuilder()
         this.children.forEach((child) => child.render(newEmbed))
         return newEmbed
     }

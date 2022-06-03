@@ -1,5 +1,5 @@
 import { TextContainerNode } from "../_TextContainer"
-import type { Embed } from "discord.js"
+import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
 
 export class ImageNode extends TextContainerNode<"img", EmbedNode> {
@@ -7,7 +7,8 @@ export class ImageNode extends TextContainerNode<"img", EmbedNode> {
         super("img")
     }
 
-    render(embed: Embed): void {
-        embed.setImage(this.attr.src ?? null)
+    render(embed: EmbedBuilder): void {
+        if (!this.attr.src) return
+        embed.setImage(this.attr.src)
     }
 }

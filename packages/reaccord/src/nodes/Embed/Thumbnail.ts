@@ -1,5 +1,5 @@
 import { BaseNode } from "../_Base"
-import type { Embed } from "discord.js"
+import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
 
 export class ThumbnailNode extends BaseNode<"thumbnail", EmbedNode> {
@@ -7,7 +7,8 @@ export class ThumbnailNode extends BaseNode<"thumbnail", EmbedNode> {
         super("thumbnail")
     }
 
-    render(embed: Embed): void {
-        embed.setThumbnail(this.attr.src ?? null)
+    render(embed: EmbedBuilder): void {
+        if (!this.attr.src) return
+        embed.setThumbnail(this.attr.src)
     }
 }

@@ -19,9 +19,11 @@
         "typescript": "^4.6.2"
     },
     "dependencies": {
+        "@discordjs/rest": "^0.4.1",
         "@reaccord/cli": "0.0.1-dev",
         "@reaccord/jsx": "0.0.1-dev",
-        "discord.js": "13.7.0",
+        "discord-api-types": "^0.33.2",
+        "discord.js": "14.0.0-dev.1653480262-68d5169",
         "react": "^17.0.2",
         "react-reconciler": "^0.26.2"
     }

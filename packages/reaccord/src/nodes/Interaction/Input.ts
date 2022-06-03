@@ -1,6 +1,7 @@
 import { BaseNode } from "../_Base"
 import { EMPTY_STRING } from "../../helpers/constants"
-import { TextInputComponent, TextInputStyle } from "discord.js"
+import { TextInputBuilder } from "discord.js"
+import { TextInputStyle } from "discord.js"
 import type { ActionRowNode } from "./ActionRow"
 import type { TextNode } from "../Text"
 
@@ -13,9 +14,9 @@ export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
         return this.attr.id ? `${this.attr.id}-${this.uuid}` : this.uuid
     }
 
-    render(): TextInputComponent {
+    render(): TextInputBuilder {
         const { customId } = this
-        const input = new TextInputComponent()
+        const input = new TextInputBuilder()
             .setCustomId(customId)
             .setLabel(this.attr.label || EMPTY_STRING)
             .setValue(this.attr.value ?? EMPTY_STRING)

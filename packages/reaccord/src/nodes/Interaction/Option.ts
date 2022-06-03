@@ -1,6 +1,6 @@
 import { BaseNode } from "../_Base"
 import { EMPTY_STRING } from "../../helpers/constants"
-import { SelectMenuOption } from "discord.js"
+import { SelectMenuOptionBuilder } from "discord.js"
 import type { SelectNode } from "./Select"
 
 export class OptionNode extends BaseNode<"option", SelectNode> {
@@ -8,8 +8,8 @@ export class OptionNode extends BaseNode<"option", SelectNode> {
         super("option")
     }
 
-    render(): SelectMenuOption {
-        const option = new SelectMenuOption()
+    render(): SelectMenuOptionBuilder {
+        const option = new SelectMenuOptionBuilder()
             .setDefault(this.attr.default ?? false)
             .setLabel(this.attr.label ?? EMPTY_STRING)
             .setValue(this.attr.value ?? "")

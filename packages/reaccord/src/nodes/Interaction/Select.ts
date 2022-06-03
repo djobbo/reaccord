@@ -1,5 +1,5 @@
 import { BaseNode } from "../_Base"
-import { SelectMenuComponent } from "discord.js"
+import { SelectMenuBuilder } from "discord.js"
 import { isOptionNode } from "../guards"
 import type { ActionRowNode } from "./ActionRow"
 import type { Interaction } from "discord.js"
@@ -14,16 +14,16 @@ export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
         return this.attr.id ? `${this.attr.id}-${this.uuid}` : this.uuid
     }
 
-    render(): SelectMenuComponent {
+    render(): SelectMenuBuilder {
         const root = this.rootNode
         if (!root) throw new Error("Root element not found for dropdown")
 
         const { customId } = this
-        const select = new SelectMenuComponent()
+        const select = new SelectMenuBuilder()
             .setCustomId(customId)
             .setDisabled(this.attr.disabled ?? false)
             .setOptions(
-                ...this.children
+                this.children
                     .filter(isOptionNode)
                     .map((child) => child.render()),
             )
