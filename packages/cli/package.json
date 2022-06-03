@@ -8,7 +8,7 @@
         "reaccord": "./bin/index.js"
     },
     "files": [
-        "dist"
+        "bin"
     ],
     "scripts": {
         "build": "tsc",
