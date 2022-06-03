@@ -269,7 +269,7 @@ export class Client extends DiscordClient {
         await this.login(this.token)
     }
 
-    createCommand(name: string, description: string) {
+    createSlashCommand(name: string, description: string) {
         const command = new Command(this.renderMessage, { name, description })
         this.slashCommands.push(command)
         return command

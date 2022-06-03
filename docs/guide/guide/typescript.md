@@ -2,7 +2,7 @@
 
 ## Installation
 
-Reaccord has typescript support built-in, but for the optimal experience you might want to add `@types/react` to your devDependencies.
+Reaccord has typescript support built-in, but for the optimal experience you will want to add `@types/react` to your devDependencies.
 
 
 ```bash:no-line-numbers

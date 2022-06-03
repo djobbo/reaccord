@@ -14,7 +14,7 @@ const client = new Client({
 })
 
 client
-    .createCommand("avatar", "Get user avatar")
+    .createSlashCommand("avatar", "Get user avatar")
     .addUser("user", "user", { required: true })
     .render(({ user }, interaction) => {
         const avatarUrl = user.avatarURL({ size: 1024 })
@@ -43,7 +43,7 @@ client
     })
 
 client
-    .createCommand("nick", "Set a user's nickname")
+    .createSlashCommand("nick", "Set a user's nickname")
     .addMention("user", "User")
     .addString("nick", "Nickname")
     .exec(async ({ user, nick }, interaction) => {

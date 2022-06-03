@@ -5,7 +5,7 @@
 - `createClient`
 
 ## Commands
-- `createCommand`
+- `createSlashCommand`
 - `createMessageCtxCommand`
 - `createUserCtxCommand`
 - `refreshCommands`

@@ -14,7 +14,7 @@ const client = new Client({
     clientId: DISCORD_CLIENT_ID,
 })
 
-client.createCommand("router", "Discord Router example").render(() => (
+client.createSlashCommand("router", "Discord Router example").render(() => (
     <DiscordRouter>
         <App />
     </DiscordRouter>

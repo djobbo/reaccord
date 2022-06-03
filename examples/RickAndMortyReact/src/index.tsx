@@ -14,7 +14,7 @@ const client = new Client({
 })
 
 client
-    .createCommand("rick", "Rick and Morty characters info.")
+    .createSlashCommand("rick", "Rick and Morty characters info.")
     .addString("search", "Character name search")
     .render(({ search }) => <App search={search ?? ""} />)
 

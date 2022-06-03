@@ -21,13 +21,13 @@ Let's create a `/ping` slash command that will respond `Pong`.
 **1. Import `reaccord`**
 
 ```tsx
-import { createClient } from 'reaccord';
+import { Client } from 'reaccord';
 ```
 
 **2. Instantiate the client**
 
 ```tsx
-const { connect, createCommand } = createClient({
+const client = createClient({
     token: 'token',
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
     devGuildId: 'dev-guild-id',
@@ -35,18 +35,21 @@ const { connect, createCommand } = createClient({
 })
 ```
 
-**3. Register our slash command**
-
+**3. Register our slash command**  
+*render will respond to the interaction with a message built with react*
 ```tsx
-createCommand("ping", "Ping bot")
+client
+    .createSlashCommand("ping", "Ping bot")
     .render(() => (
         <content>Pong</content>
     ))
 ```
 
-> _**3.bis Respond to interaction directly**_
+> _**3.bis Respond to interaction directly**_  
+> *exec will allow you to respond to the interaction without needing to return a react component*
 > ```tsx
-> createCommand("ping", "Ping bot")
+> client
+>     .createSlashCommand("ping", "Ping bot")
 >     .exec((_, interaction) => {
 >         interaction.reply("Pong")
 >     })
@@ -54,7 +57,7 @@ createCommand("ping", "Ping bot")
 
 **4. Connect the client**
 ```tsx
-connect((client) =>
+client.connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
 );
 ```
@@ -62,20 +65,22 @@ connect((client) =>
 ### Complete code
 
 ```tsx
-import { createClient } from 'reaccord';
+import { Client } from 'reaccord';
 
-const { connect, createCommand } = createClient({
+const client = new Client({
     token: 'token',
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
     devGuildId: 'dev-guild-id',
     clientId: 'client-id',
 })
 
-createCommand("ping", "Ping bot").render(() => (
-    <content>Pong</content>
-))
+client
+    .createSlashCommand("ping", "Ping bot")
+    .render(() => (
+        <content>Pong</content>
+    ))
 
-connect((client) =>
+client.connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
 );
 ```

@@ -1,4 +1,4 @@
-# useReplyEffect
+# useOnReply
 
 Callback function is called when a user replies to the current message.
 
@@ -6,7 +6,7 @@ Callback function is called when a user replies to the current message.
 
 ```tsx
 const App = () => {
-    useReplyEffect((message) => {
+    useOnReply((message) => {
         message.react('❤️')
     }, [])
 
@@ -24,7 +24,7 @@ const options = {
 }
 
 const App = () => {
-    useReplyEffect((message) => {
+    useOnReply((message) => {
         message.react('❤️')
     }, [], options)
 

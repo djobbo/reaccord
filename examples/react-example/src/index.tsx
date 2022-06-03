@@ -81,7 +81,7 @@ const App = ({ startCount }: { startCount: number }) => {
 }
 
 client
-    .createCommand("example", "Show React Example")
+    .createSlashCommand("example", "Show React Example")
     .addInt("count", "Start count")
     .render(({ count }) => <App startCount={count ?? 0} />)
 

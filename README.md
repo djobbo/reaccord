@@ -18,7 +18,7 @@ const client = new Client({
 })
 
 // Register simple `ping` command
-client.createCommand("ping", "Ping").render(() => (
+client.createSlashCommand("ping", "Ping").render(() => (
     <content>Pong</content>
 ))
 
@@ -38,7 +38,7 @@ client.connect((client) =>
 
 ```tsx
 client
-    .createCommand("echo", "Echoes msg")
+    .createSlashCommand("echo", "Echoes msg")
     .addString("input", "Message to be echoed", { required: true })
     .render(({ input }) => <content>{input}</content>)
 ```
@@ -50,7 +50,7 @@ client
 
 ```tsx
 client
-    .createCommand("add", "Add two numbers")
+    .createSlashCommand("add", "Add two numbers")
     .addNumber("a", "First number")
     .addNumber("b", "Second number")
     .render(({ a = 0, b = 0 }) => (

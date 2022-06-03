@@ -29,11 +29,7 @@ export default defineUserConfig<DefaultThemeOptions>({
         sidebar: [
             {
                 text: "Guide",
-                children: ["/guide/", "/guide/typescript/"],
-            },
-            {
-                text: "Client",
-                children: ['/client/createClient'],
+                children: ["/guide/", "/guide/typescript/", "/guide/Client"],
             },
             {
                 text: "Elements",
