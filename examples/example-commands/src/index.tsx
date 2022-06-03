@@ -1,5 +1,4 @@
-import { Client } from "reaccord"
-import { GuildMember } from "discord.js"
+import { Client, GuildMember } from "reaccord"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
