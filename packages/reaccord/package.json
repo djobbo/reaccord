@@ -10,7 +10,9 @@
         "ci:deadcode": "ts-prune"
     },
     "files": [
-        "lib"
+        "lib",
+        "jsx-runtime.d.ts",
+        "jsx-runtime.js"
     ],
     "devDependencies": {
         "@types/react": "^17.0.39",
@@ -20,8 +22,7 @@
     },
     "dependencies": {
         "@discordjs/rest": "^0.4.1",
-        "@reaccord/cli": "0.0.1-dev",
-        "@reaccord/jsx": "0.0.1-dev",
+        "@reaccord/jsx": "dev",
         "discord-api-types": "^0.33.2",
         "discord.js": "14.0.0-dev.1653480262-68d5169",
         "react": "^17.0.2",
