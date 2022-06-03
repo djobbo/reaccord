@@ -13,7 +13,7 @@
         "ts:check": "turbo run ts:check",
         "madge": "madge --circular --extensions ts .",
         "ci:lint": "eslint --ext .js,.jsx,.ts,.tsx,.json .",
-        "ci": "yarn install --frozen-lockfile",
+        "ci": "pnpm install --frozen-lockfile",
         "ci:deadcode": "turbo run ci:deadcode"
     },
     "devDependencies": {
