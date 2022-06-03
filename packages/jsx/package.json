@@ -10,7 +10,8 @@
         "typescript": "^4.6.2"
     },
     "dependencies": {
-        "discord.js": "14.0.0-dev.1646914074.dcd4797",
+        "discord.js": "^13.7.0",
+        "react": "^17.0.2",
         "react-reconciler": "^0.26.2"
     }
 }
