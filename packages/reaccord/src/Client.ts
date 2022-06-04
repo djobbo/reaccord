@@ -1,7 +1,5 @@
-import { Command } from "./Command"
+import { Command, MessageContextCommand, UserContextCommand } from "./Command"
 import { Client as DiscordClient } from "discord.js"
-import { MessageContextCommand } from "./Command"
-import { UserContextCommand } from "./Command"
 import { refreshCommands } from "./refreshCommands"
 import { render, renderMessage } from "./renderer"
 import type {

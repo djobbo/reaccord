@@ -1,5 +1,4 @@
-import { ButtonBuilder } from "discord.js"
-import { ButtonStyle } from "discord.js"
+import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { TextContainerNode } from "../_TextContainer"
 import type { ActionRowNode } from "./ActionRow"
 import type { Interaction } from "discord.js"

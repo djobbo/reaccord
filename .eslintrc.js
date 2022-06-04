@@ -17,6 +17,7 @@ module.exports = {
         "@typescript-eslint",
         "sort-imports-es6-autofix",
         "prettier",
+        "import",
     ],
     rules: {
         "prettier/prettier": "error",
@@ -46,6 +47,7 @@ module.exports = {
                 prefer: "type-imports",
             },
         ],
+        "import/no-duplicates": ["error", { considerQueryString: true }],
     },
     settings: {
         react: {

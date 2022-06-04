@@ -4,8 +4,7 @@ import ReactReconciler from "react-reconciler"
 import type { Client } from "../Client"
 import type { JSX } from "../../jsx-runtime"
 import type { Message } from "discord.js"
-import type { ModalRootNode } from "../nodes"
-import type { RootNode } from "../nodes"
+import type { ModalRootNode, RootNode } from "../nodes"
 
 export type RenderFn = (
     Code: () => JSX.Element,
@@ -29,6 +28,7 @@ export const render: RenderFn = (Code, root, client, message) => {
     )
 
     reactReconcilerInstance.updateContainer(
+        // @ts-expect-error wrong react type??
         <MessageProvider message={message} client={client}>
             <Code />
         </MessageProvider>,

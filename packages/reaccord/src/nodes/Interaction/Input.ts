@@ -1,7 +1,6 @@
 import { BaseNode } from "../_Base"
 import { EMPTY_STRING } from "../../helpers/constants"
-import { TextInputBuilder } from "discord.js"
-import { TextInputStyle } from "discord.js"
+import { TextInputBuilder, TextInputStyle } from "discord.js"
 import type { ActionRowNode } from "./ActionRow"
 import type { TextNode } from "../Text"
 

@@ -2,10 +2,10 @@ import {
     ApplicationCommandOptionType,
     ApplicationCommandType,
     Message,
+    SlashCommandBuilder,
+    User,
 } from "discord.js"
 import { EMPTY_STRING } from "./helpers/constants"
-import { SlashCommandBuilder } from "discord.js"
-import { User } from "discord.js"
 import type {
     ChatInputCommandInteraction,
     GuildBasedChannel,

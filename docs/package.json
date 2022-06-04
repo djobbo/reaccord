@@ -1,6 +1,6 @@
 {
     "name": "docs",
-    "version": "0.0.0",
+    "version": "0.0.1-docs",
     "main": "index.js",
     "description": "The declarative framework for building fast and reliable Discord apps.",
     "scripts": {
@@ -12,9 +12,9 @@
         "@vuepress/client": "2.0.0-beta.45",
         "@vuepress/plugin-back-to-top": "^1.9.7",
         "@vuepress/plugin-pwa": "^1.9.7",
-        "@vuepress/plugin-search": "^2.0.0-beta.46",
+        "@vuepress/plugin-search": "^1.9.7",
         "lru-cache": "^7.10.1",
         "vue": "^3.2.36",
-        "vuepress": "^2.0.0-beta.46"
+        "vuepress": "^1.9.7"
     }
 }
