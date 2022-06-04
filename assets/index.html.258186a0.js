@@ -1,0 +1,1 @@
+const t={key:"v-fd354a90",path:"/hooks/",title:"Introduction",lang:"en-US",frontmatter:{},excerpt:"",headers:[],git:{updatedTime:165436082e4,contributors:[{name:"Djobbo Ma\xEFga",email:"4998293+AlfieGoldson@users.noreply.github.com",commits:1}]},filePathRelative:"hooks/README.md"};export{t as data};
