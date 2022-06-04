@@ -66,6 +66,7 @@ jobs:
         if: steps.pre-release.outputs.release == 'true'
         run: |
           cd ./packages/${{ matrix.folder }}
+          sed -i 's/"workspace:(\d|\.)+-dev"/dev/g' package.json
           pnpm version $(jq --raw-output '.version' package.json).$(date +%s).$(git rev-parse --short HEAD)
           pnpm publish --no-git-checks --tag dev --access public || true
         env:
