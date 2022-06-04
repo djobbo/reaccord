@@ -42,6 +42,7 @@ export const App = () => {
                 <Route path="/">
                     <Route
                         path="/"
+                        // @ts-expect-error wrong react type
                         element={
                             <embed>
                                 <title>Home</title>
@@ -50,6 +51,7 @@ export const App = () => {
                     />
                     <Route
                         path="/profile"
+                        // @ts-expect-error wrong react type
                         element={
                             <embed>
                                 <title>Profile</title>
@@ -58,6 +60,7 @@ export const App = () => {
                     />
                     <Route
                         path="/about"
+                        // @ts-expect-error wrong react type
                         element={
                             <embed>
                                 <title>About</title>
