@@ -67,6 +67,6 @@ jobs:
         run: |
           cd ./packages/${{ matrix.folder }}
           pnpm version $(jq --raw-output '.version' package.json).$(date +%s).$(git rev-parse --short HEAD)
-          pnpm publish --tag dev --access public || true
+          pnpm publish --no-git-checks --tag dev --access public || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
