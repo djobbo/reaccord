@@ -25,13 +25,18 @@ pnpm ci
 
 ./node_modules/.bin/turbo run build --filter=./packages/* --cache-dir=".turbo" --no-deps --include-dependencies
 
+# Deprecate previous packages
+
+for PACKAGE in "@reaccord/cli" "@reaccord/jsx" "@reaccord/router" "reaccord"
+do
+    # Deprecate old package version
+    pnpm deprecate ${PACKAGE}@${RAW_DEV_VERSION}-dev "no longer supported" || true
+done
+
 # Update packages version
 
 for PACKAGE in "cli" "jsx" "router" "reaccord"
 do
-    # Deprecate old package version
-    pnpm deprecate ${PACKAGE}@${RAW_DEV_VERSION}-dev "no longer supported" || true
-
     # Update package version
     cd packages/$PACKAGE
 
