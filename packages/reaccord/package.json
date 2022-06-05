@@ -1,6 +1,6 @@
 {
     "name": "reaccord",
-    "version": "0.0.1-dev",
+    "version": "0.0.0-dev",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
@@ -22,7 +22,7 @@
     },
     "dependencies": {
         "@discordjs/rest": "^0.5.0",
-        "@reaccord/jsx": "workspace:0.0.1-dev",
+        "@reaccord/jsx": "0.0.0-dev",
         "discord-api-types": "^0.33.3",
         "discord.js": "dev",
         "react": "^18.1.0",

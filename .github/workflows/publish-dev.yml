@@ -41,33 +41,7 @@ jobs:
           restore-keys: |
             turbo-${{ github.job }}-${{ github.ref_name }}-
 
-      - name: Check previous released version
-        id: pre-release
-        run: |
-          if [[ $(pnpm view ${{ matrix.package }}@dev version | grep -e "$(jq --raw-output '.version' packages/${{ matrix.folder }}/package.json).*.$(git rev-parse --short HEAD | cut -b1-3)") ]]; \
-          then echo '::set-output name=release::false'; \
-          else echo '::set-output name=release::true'; fi
-
-      - name: Install dependencies
-        if: steps.pre-release.outputs.release == 'true'
-        run: pnpm ci
-
-      - name: Build dependencies
-        if: steps.pre-release.outputs.release == 'true'
-        run: ./node_modules/.bin/turbo run build --scope="@reaccord/**" --scope="reaccord" --cache-dir=".turbo" --no-deps --include-dependencies
-
-      - name: Deprecate old versions
-        if: steps.pre-release.outputs.release == 'true'
-        run: pnpm deprecate ${{ matrix.package }}@"~$(jq --raw-output '.version' packages/${{ matrix.folder }}/package.json)" "no longer supported" || true
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-
       - name: Publish
-        if: steps.pre-release.outputs.release == 'true'
-        run: |
-          cd ./packages/${{ matrix.folder }}
-          sed -i 's/workspace:..*-dev/dev/g' package.json
-          pnpm version $(jq --raw-output '.version' package.json).$(date +%s).$(git rev-parse --short HEAD)
-          pnpm publish --no-git-checks --tag dev --access public || true
+        run: scripts/publish-dev.sh
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

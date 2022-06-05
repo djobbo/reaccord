@@ -1,6 +1,6 @@
 {
     "name": "@reaccord/jsx",
-    "version": "0.0.1-dev",
+    "version": "0.0.0-dev",
     "main": "jsx-runtime.js",
     "types": "jsx-runtime.d.ts",
     "devDependencies": {

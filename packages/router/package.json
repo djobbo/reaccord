@@ -1,6 +1,6 @@
 {
     "name": "@reaccord/router",
-    "version": "0.0.1-dev",
+    "version": "0.0.0-dev",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "query-string": "^7.1.1",
-        "reaccord": "workspace:0.0.1-dev",
+        "reaccord": "workspace:0.0.0-dev",
         "react": "^18.1.0",
         "react-router": "^6.3.0"
     }

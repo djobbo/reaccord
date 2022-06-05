@@ -52,11 +52,11 @@ importers:
 
   examples/RickAndMortyReact:
     specifiers:
-      '@reaccord/cli': workspace:0.0.1-dev
+      '@reaccord/cli': workspace:0.0.0-dev
       '@types/react': ^18.0.11
       axios: ^0.27.2
       dotenv: ^16.0.1
-      reaccord: workspace:0.0.1-dev
+      reaccord: workspace:0.0.0-dev
       react: ^18.1.0
       typescript: ^4.7.3
     dependencies:
@@ -71,11 +71,11 @@ importers:
 
   examples/RouterExample:
     specifiers:
-      '@reaccord/cli': workspace:0.0.1-dev
-      '@reaccord/router': workspace:0.0.1-dev
+      '@reaccord/cli': workspace:0.0.0-dev
+      '@reaccord/router': workspace:0.0.0-dev
       '@types/react': ^18.0.11
       dotenv: ^16.0.1
-      reaccord: workspace:0.0.1-dev
+      reaccord: workspace:0.0.0-dev
       react: ^18.1.0
       typescript: ^4.7.3
     dependencies:
@@ -90,10 +90,10 @@ importers:
 
   examples/example-commands:
     specifiers:
-      '@reaccord/cli': workspace:0.0.1-dev
+      '@reaccord/cli': workspace:0.0.0-dev
       '@types/react': ^18.0.11
       dotenv: ^16.0.1
-      reaccord: workspace:0.0.1-dev
+      reaccord: workspace:0.0.0-dev
       react: ^18.1.0
       typescript: ^4.7.3
     dependencies:
@@ -107,10 +107,10 @@ importers:
 
   examples/react-example:
     specifiers:
-      '@reaccord/cli': workspace:0.0.1-dev
+      '@reaccord/cli': workspace:0.0.0-dev
       '@types/react': ^18.0.11
       dotenv: ^16.0.1
-      reaccord: workspace:0.0.1-dev
+      reaccord: workspace:0.0.0-dev
       react: ^18.1.0
       typescript: ^4.7.3
     dependencies:
@@ -152,7 +152,7 @@ importers:
       ts-prune: ^0.10.3
       typescript: ^4.7.3
     dependencies:
-      discord.js: 14.0.0-dev.1654344262-a45bef4
+      discord.js: 14.0.0-dev.1654430643-7a1095b
       react: 18.1.0
       react-reconciler: 0.28.0_react@18.1.0
     devDependencies:
@@ -163,7 +163,7 @@ importers:
   packages/reaccord:
     specifiers:
       '@discordjs/rest': ^0.5.0
-      '@reaccord/jsx': workspace:0.0.1-dev
+      '@reaccord/jsx': 0.0.0-dev
       '@types/react': ^18.0.11
       '@types/react-reconciler': ^0.26.7
       discord-api-types: ^0.33.3
@@ -176,7 +176,7 @@ importers:
       '@discordjs/rest': 0.5.0
       '@reaccord/jsx': link:../jsx
       discord-api-types: 0.33.3
-      discord.js: 14.0.0-dev.1654344262-a45bef4
+      discord.js: 14.0.0-dev.1654430643-7a1095b
       react: 18.1.0
       react-reconciler: 0.28.0_react@18.1.0
     devDependencies:
@@ -188,7 +188,7 @@ importers:
   packages/router:
     specifiers:
       query-string: ^7.1.1
-      reaccord: workspace:0.0.1-dev
+      reaccord: workspace:0.0.0-dev
       react: ^18.1.0
       react-router: ^6.3.0
       ts-prune: ^0.10.3
@@ -1368,8 +1368,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
-  /@discordjs/builders/0.14.0:
-    resolution: {integrity: sha512-+fqLIqa9wN3R+kvlld8sgG0nt04BAZxdCDP4t2qZ9TJsquLWA+xMtT8Waibb3d4li4AQS+IOfjiHAznv/dhHgQ==}
+  /@discordjs/builders/0.15.0-dev.1654430642-7a1095b:
+    resolution: {integrity: sha512-gRmPIu6ehj1Opg9AE4tCjo7Esgft1lrslHVGWoGTv60UdyjQ2KeNEmp7ei1W0b3ms9/Zc0miwzYuUWY8o4tolQ==}
     engines: {node: '>=16.9.0'}
     dependencies:
       '@sapphire/shapeshift': 3.1.0
@@ -1385,11 +1385,28 @@ packages:
     engines: {node: '>=16.9.0'}
     dev: false
 
+  /@discordjs/collection/0.8.0-dev.1654430641-7a1095b:
+    resolution: {integrity: sha512-TmzwYSINQAZTnMFZ4JjGY3Fs9qjVflgCLqs0WnVNO5O2a7e01qLVotj6/eMSStTQ+aCgmdL9QtrT7R4KTfTNZQ==}
+    engines: {node: '>=16.9.0'}
+    dev: false
+
   /@discordjs/rest/0.5.0:
     resolution: {integrity: sha512-S4E1YNz1UxgUfMPpMeqzPPkCfXE877zOsvKM5WEmwIhcpz1PQV7lzqlEOuz194UuwOJLLjQFBgQELnQfCX9UfA==}
     engines: {node: '>=16.9.0'}
     dependencies:
       '@discordjs/collection': 0.7.0
+      '@sapphire/async-queue': 1.3.1
+      '@sapphire/snowflake': 3.2.2
+      discord-api-types: 0.33.3
+      tslib: 2.4.0
+      undici: 5.4.0
+    dev: false
+
+  /@discordjs/rest/0.6.0-dev.1654430647-7a1095b:
+    resolution: {integrity: sha512-IgflvwVikC5yfrjYl9YIJ38uZsqR6Dbmub0qoQXVd/e9zSaM4y6qEyIM/kNh7WzaAo+sfwMK7nYy9p7izsyVIQ==}
+    engines: {node: '>=16.9.0'}
+    dependencies:
+      '@discordjs/collection': 0.8.0-dev.1654430641-7a1095b
       '@sapphire/async-queue': 1.3.1
       '@sapphire/snowflake': 3.2.2
       discord-api-types: 0.33.3
@@ -3212,13 +3229,13 @@ packages:
     resolution: {integrity: sha512-P3A1RJXKEDmGPHrFTN5+gYLsBPGUVGj+D3+fa3m0K/umc+LMfqGuEad+p7cNq7ry/icReVhS3bz9jvBvne/BRA==}
     dev: false
 
-  /discord.js/14.0.0-dev.1654344262-a45bef4:
-    resolution: {integrity: sha512-qctPuuqkb+2rQ1KK9epsxQvyhxFsOQVwyrGT96I/QhOObmqHioKDx/CZOTRcuwlrSFLx3qh6y6qsKf/6oYMFMg==}
+  /discord.js/14.0.0-dev.1654430643-7a1095b:
+    resolution: {integrity: sha512-Y9Z+UGDPa+1bAHEogWyDCBQHt4CeD2+pXgcbF0V/T7U/nUx3V1d13OyCUHQWD1BeniQbFNcz1ORSkqEdYjqMyg==}
     engines: {node: '>=16.9.0'}
     dependencies:
-      '@discordjs/builders': 0.14.0
-      '@discordjs/collection': 0.7.0
-      '@discordjs/rest': 0.5.0
+      '@discordjs/builders': 0.15.0-dev.1654430642-7a1095b
+      '@discordjs/collection': 0.8.0-dev.1654430641-7a1095b
+      '@discordjs/rest': 0.6.0-dev.1654430647-7a1095b
       '@sapphire/snowflake': 3.2.2
       '@types/ws': 8.5.3
       discord-api-types: 0.33.3
