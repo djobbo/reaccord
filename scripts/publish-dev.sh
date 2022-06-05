@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 MAIN_PACKAGE="reaccord"
 
 RAW_DEV_VERSION=$(jq -r '.version' package.json)
