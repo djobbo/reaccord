@@ -49,4 +49,4 @@ done
 
 # Publish packages
 
-pnpm publish --no-git-checks --tag dev --access public
+pnpm -r publish --no-git-checks --tag dev --access public --filter packages/*
