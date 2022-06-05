@@ -30,7 +30,7 @@ pnpm ci
 for PACKAGE in "@reaccord/cli" "@reaccord/jsx" "@reaccord/router" "reaccord"
 do
     # Deprecate old package version
-    pnpm deprecate ${PACKAGE}@${RAW_DEV_VERSION}-dev "no longer supported" || true
+    pnpm deprecate ${PACKAGE}@${RAW_DEV_VERSION}-dev "no longer supported"
 done
 
 # Update packages version
@@ -47,4 +47,4 @@ done
 
 # Publish packages
 
-pnpm publish --no-git-checks --tag dev --access public || true
+pnpm publish --no-git-checks --tag dev --access public

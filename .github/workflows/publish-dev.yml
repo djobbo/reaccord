@@ -9,18 +9,6 @@ on:
 jobs:
   npm:
     name: npm
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - package: '@reaccord/jsx'
-            folder: 'jsx'
-          - package: '@reaccord/cli'
-            folder: 'cli'
-          - package: 'reaccord'
-            folder: 'reaccord'
-          - package: '@reaccord/router'
-            folder: 'router'
     runs-on: ubuntu-latest
     if: github.repository_owner == 'djobbo'
     steps:
