@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 MAIN_PACKAGE="reaccord"
+PACKGAGES=(
+    ["jsx"]="@reaccord/jsx"
+    ["reaccord"]="reaccord"
+    ["cli"]="@reaccord/cli"
+    ["router"]="@reaccord/router"
+)
 
 RAW_DEV_VERSION=$(jq -r '.version' package.json)
 echo "DEV_VERSION: $DEV_VERSION"
@@ -27,26 +33,26 @@ pnpm ci
 
 ./node_modules/.bin/turbo run build --filter=./packages/* --cache-dir=".turbo" --no-deps --include-dependencies
 
-# Deprecate previous packages
-
-for PACKAGE in "@reaccord/cli" "@reaccord/jsx" "@reaccord/router" "reaccord"
-do
-    # Deprecate old package version
-    pnpm deprecate ${PACKAGE}@${RAW_DEV_VERSION}-dev "no longer supported"
-done
-
 # Update packages version
 
-for PACKAGE in "cli" "jsx" "router" "reaccord"
+for PACKAGE in "${!PACKAGES[@]}"
 do
-    # Update package version
+    echo "Updating ${PACKAGE} version to ${NEW_DEV_VERSION}"
     cd packages/$PACKAGE
 
+    # Build package
+    pnpm build
+
+    # Deprecate old package version
+    pnpm deprecate ${PACKAGES[$PACKAGE]}@${RAW_DEV_VERSION}-dev "no longer supported"
+    echo "Deprecated ${PACKAGES[$PACKAGE]}@${RAW_DEV_VERSION}-dev"
+
+    # Update package version
     sed -i.bak "s/workspace:0.0.0-dev/${NEW_DEV_VERSION}/g" package.json && rm package.json.bak
     sed -i.bak "s/0.0.0-dev/${NEW_DEV_VERSION}/g" package.json && rm package.json.bak
+    
+    # Publish packages
+    pnpm publish --no-git-checks --tag dev --access public
+    echo "Published ${PACKAGE}@${NEW_DEV_VERSION}"
     cd ../..
 done
-
-# Publish packages
-
-pnpm -r publish --no-git-checks --tag dev --access public --filter packages/*
