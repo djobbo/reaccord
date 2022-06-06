@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
 MAIN_PACKAGE="reaccord"
-PACKGAGES=(
-    ["jsx"]="@reaccord/jsx"
-    ["reaccord"]="reaccord"
-    ["cli"]="@reaccord/cli"
-    ["router"]="@reaccord/router"
-)
+PKG_FOLDERS=("jsx" "reaccord" "cli" "router")
+PACKAGES=("@reaccord/jsx" "reaccord" "@reaccord/cli" "@reaccord/router")
 
 RAW_DEV_VERSION=$(jq -r '.version' package.json)
 echo "DEV_VERSION: $DEV_VERSION"
@@ -20,8 +16,8 @@ echo "Check previous released version of $MAIN_PACKAGE"
 LATEST_DEV_VERSION=$(pnpm view ${MAIN_PACKAGE}@dev version)
 echo "Latest version: $LATEST_DEV_VERSION"
 
-if [[ $(echo $LATEST_DEV_VERSION | grep -e "${RAW_DEV_VERSION}.*.${GIT_SHORT_HASH}") ]]; \
-then exit 0; fi
+if [[ $LATEST_DEV_VERSION =~ "${RAW_DEV_VERSION}"\..*\."${GIT_SHORT_HASH}" ]]; \
+then echo "Version already up to date"; exit 0; fi
 
 NEW_DEV_VERSION="${RAW_DEV_VERSION}.$(date +%s).${GIT_SHORT_HASH}"
 
@@ -35,17 +31,18 @@ pnpm ci
 
 # Update packages version
 
-for PACKAGE in "${!PACKAGES[@]}"
+for FOLDER in "${PKG_FOLDERS[@]}"
 do
+    PACKAGE=${PACKAGES[$FOLDER]}
     echo "Updating ${PACKAGE} version to ${NEW_DEV_VERSION}"
-    cd packages/$PACKAGE
+    cd packages/"$FOLDER" || exit 1
 
     # Build package
-    pnpm build
+    pnpm build || true
 
     # Deprecate old package version
-    pnpm deprecate ${PACKAGES[$PACKAGE]}@${RAW_DEV_VERSION}-dev "no longer supported"
-    echo "Deprecated ${PACKAGES[$PACKAGE]}@${RAW_DEV_VERSION}-dev"
+    pnpm deprecate "${PACKAGE}"@"${RAW_DEV_VERSION}"-dev "no longer supported"
+    echo "Deprecated ${PACKAGE}@${RAW_DEV_VERSION}-dev"
 
     # Update package version
     sed -i.bak "s/workspace:0.0.0-dev/${NEW_DEV_VERSION}/g" package.json && rm package.json.bak
@@ -54,5 +51,5 @@ do
     # Publish packages
     pnpm publish --no-git-checks --tag dev --access public
     echo "Published ${PACKAGE}@${NEW_DEV_VERSION}"
-    cd ../..
+    cd ../.. || exit 1
 done
