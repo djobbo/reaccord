@@ -19,7 +19,7 @@ echo "Latest version: $LATEST_DEV_VERSION"
 if [[ $LATEST_DEV_VERSION =~ "${RAW_DEV_VERSION}"\..*\."${GIT_SHORT_HASH}" ]]; \
 then echo "Version already up to date"; exit 0; fi
 
-NEW_DEV_VERSION="${RAW_DEV_VERSION}.$(date +%s).${GIT_SHORT_HASH}"
+NEW_DEV_VERSION="${RAW_DEV_VERSION}-dev.$(date +%s).${GIT_SHORT_HASH}"
 
 # Install dependencies
 
@@ -41,8 +41,9 @@ do
     pnpm build || true
 
     # Deprecate old package version
-    pnpm deprecate "${PACKAGE}"@"${RAW_DEV_VERSION}"-dev "no longer supported"
-    echo "Deprecated ${PACKAGE}@${RAW_DEV_VERSION}-dev"
+    OLD_DEV_VERSION=$(pnpm view ${PACKAGE}@dev version)
+    pnpm deprecate "${PACKAGE}"@"${OLD_DEV_VERSION}" "no longer supported"
+    echo "Deprecated ${PACKAGE}@${OLD_DEV_VERSION}"
 
     # Update package version
     sed -i.bak "s/workspace:0.0.0-dev/${NEW_DEV_VERSION}/g" package.json && rm package.json.bak
