@@ -41,8 +41,8 @@ do
     pnpm build || true
 
     # Deprecate old package version
-    OLD_DEV_VERSION=$(pnpm view ${PACKAGE}@dev version)
-    pnpm deprecate "${PACKAGE}"@"${OLD_DEV_VERSION}" "no longer supported"
+    OLD_DEV_VERSION=$(pnpm view "${PACKAGE}"@dev version)
+    pnpm deprecate "${PACKAGE}@${OLD_DEV_VERSION}" "no longer supported"
     echo "Deprecated ${PACKAGE}@${OLD_DEV_VERSION}"
 
     # Update package version
