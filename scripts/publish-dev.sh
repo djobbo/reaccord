@@ -42,8 +42,9 @@ do
 
     # Deprecate old package version
     OLD_DEV_VERSION=$(pnpm view "${PACKAGE}"@dev version)
-    pnpm deprecate "${PACKAGE}@${OLD_DEV_VERSION}" "no longer supported"
-    echo "Deprecated ${PACKAGE}@${OLD_DEV_VERSION}"
+    pnpm deprecate "${PACKAGE}"@"${OLD_DEV_VERSION}" "no longer supported" \
+    && echo "Deprecated ${PACKAGE}@${OLD_DEV_VERSION}" \
+    || echo "Failed to deprecate ${PACKAGE}@${OLD_DEV_VERSION}"
 
     # Update package version
     sed -i.bak "s/workspace:0.0.0-dev/${NEW_DEV_VERSION}/g" package.json && rm package.json.bak
