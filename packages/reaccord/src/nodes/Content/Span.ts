@@ -8,6 +8,8 @@ export class SpanNode extends TextContainerNode<"span", ContentNode> {
 
     render(): string {
         let str = this.innerText
+        if (!str) return ""
+
         if (this.attr.italic) str = `_${str}_`
         if (this.attr.bold) str = `**${str}**`
         return str

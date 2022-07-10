@@ -1,13 +1,13 @@
 import { TextContainerNode } from "../_TextContainer"
-import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
+import type { MessageEmbed } from "discord.js"
 
 export class UrlNode extends TextContainerNode<"url", EmbedNode> {
     constructor() {
         super("url")
     }
 
-    render(embed: EmbedBuilder): void {
+    render(embed: MessageEmbed): void {
         if (!this.attr.href) return
         embed.setURL(this.attr.href)
     }

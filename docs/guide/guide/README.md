@@ -21,66 +21,63 @@ Let's create a `/ping` slash command that will respond `Pong`.
 **1. Import `reaccord`**
 
 ```tsx
-import { Client } from 'reaccord';
+import { Client } from "reaccord"
 ```
 
 **2. Instantiate the client**
 
 ```tsx
 const client = createClient({
-    token: 'token',
+    token: "token",
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
-    devGuildId: 'dev-guild-id',
-    clientId: 'client-id',
+    devGuildId: "dev-guild-id",
+    clientId: "client-id",
 })
 ```
 
 **3. Register our slash command**  
-*render will respond to the interaction with a message built with react*
+_render will respond to the interaction with a message built with react_
+
 ```tsx
 client
     .createSlashCommand("ping", "Ping bot")
-    .render(() => (
-        <content>Pong</content>
-    ))
+    .render(() => <content>Pong</content>)
 ```
 
 > _**3.bis Respond to interaction directly**_  
-> *exec will allow you to respond to the interaction without needing to return a react component*
+> _exec will allow you to respond to the interaction without needing to return a react component_
+>
 > ```tsx
-> client
->     .createSlashCommand("ping", "Ping bot")
->     .exec((_, interaction) => {
->         interaction.reply("Pong")
->     })
+> client.createSlashCommand("ping", "Ping bot").exec((_, interaction) => {
+>     interaction.reply("Pong")
+> })
 > ```
 
 **4. Connect the client**
+
 ```tsx
 client.connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
-);
+)
 ```
 
 ### Complete code
 
 ```tsx
-import { Client } from 'reaccord';
+import { Client } from "reaccord"
 
 const client = new Client({
-    token: 'token',
+    token: "token",
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
-    devGuildId: 'dev-guild-id',
-    clientId: 'client-id',
+    devGuildId: "dev-guild-id",
+    clientId: "client-id",
 })
 
 client
     .createSlashCommand("ping", "Ping bot")
-    .render(() => (
-        <content>Pong</content>
-    ))
+    .render(() => <content>Pong</content>)
 
 client.connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
-);
+)
 ```

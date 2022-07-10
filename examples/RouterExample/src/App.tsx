@@ -76,18 +76,18 @@ export const App = () => {
                 </codeblock>
             </content>
             <action-row>
-                <Link to="/" style={pathname === "/" ? "Success" : "Secondary"}>
+                <Link to="/" style={pathname === "/" ? "SUCCESS" : "SECONDARY"}>
                     Home
                 </Link>
                 <Link
                     to="/profile"
-                    style={pathname === "/profile" ? "Success" : "Secondary"}
+                    style={pathname === "/profile" ? "SUCCESS" : "SECONDARY"}
                 >
                     Profile
                 </Link>
                 <Link
                     to="/about"
-                    style={pathname === "/about" ? "Success" : "Secondary"}
+                    style={pathname === "/about" ? "SUCCESS" : "SECONDARY"}
                 >
                     About
                 </Link>

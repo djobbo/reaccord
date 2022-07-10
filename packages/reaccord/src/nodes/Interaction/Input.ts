@@ -1,6 +1,7 @@
 import { BaseNode } from "../_Base"
 import { EMPTY_STRING } from "../../helpers/constants"
-import { TextInputBuilder, TextInputStyle } from "discord.js"
+import { TextInputComponent } from "discord.js"
+import { TextInputStyles } from "discord.js/typings/enums"
 import type { ActionRowNode } from "./ActionRow"
 import type { TextNode } from "../Text"
 
@@ -13,9 +14,9 @@ export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
         return this.attr.id ? `${this.attr.id}-${this.uuid}` : this.uuid
     }
 
-    render(): TextInputBuilder {
+    render(): TextInputComponent {
         const { customId } = this
-        const input = new TextInputBuilder()
+        const input = new TextInputComponent()
             .setCustomId(customId)
             .setLabel(this.attr.label || EMPTY_STRING)
             .setValue(this.attr.value ?? EMPTY_STRING)
@@ -23,8 +24,8 @@ export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
             .setRequired(this.attr.required ?? false)
             .setStyle(
                 this.attr.large
-                    ? TextInputStyle.Paragraph
-                    : TextInputStyle.Short,
+                    ? TextInputStyles.PARAGRAPH
+                    : TextInputStyles.SHORT,
             )
 
         return input

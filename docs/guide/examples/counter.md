@@ -1,16 +1,14 @@
 # Counter
 
 ```tsx
-import { useState } from 'react'
+import { useState } from "react"
 
 const Counter = () => {
     const [count, setCount] = useState(0)
 
-    const increment = () =>
-        setCount(count => count + 1)
+    const increment = () => setCount((count) => count + 1)
 
-    const decrement = () =>
-        setCount(count => count - 1)
+    const decrement = () => setCount((count) => count - 1)
 
     return (
         <action-row>
@@ -26,3 +24,4 @@ const Counter = () => {
         </action-row>
     )
 }
+```

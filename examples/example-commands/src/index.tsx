@@ -7,7 +7,7 @@ const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
 const client = new Client({
     token: DISCORD_TOKEN ?? "",
-    intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"],
     devGuildId: DISCORD_DEV_GUILD_ID,
     clientId: DISCORD_CLIENT_ID,
 })
@@ -21,14 +21,14 @@ client
         if (!avatarUrl)
             return (
                 <embed>
-                    <color color="Orange" />
+                    <color color="ORANGE" />
                     <title>Avatar not found</title>
                 </embed>
             )
 
         return (
             <embed>
-                <color color="Blue" />
+                <color color="BLUE" />
                 <author
                     name={interaction.user.username}
                     iconURL={interaction.user.avatarURL() ?? undefined}
@@ -74,7 +74,7 @@ client
 
 client.createUserCtxCommand("avatar").render((user, interaction) => (
     <embed>
-        <color color="Blue" />
+        <color color="BLUE" />
         <author
             name={user.username}
             iconURL={user.avatarURL({ size: 1024 }) ?? user.defaultAvatarURL}

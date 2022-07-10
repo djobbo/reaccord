@@ -27,32 +27,32 @@ export const Navigation = ({
     return (
         <action-row>
             <button
-                style="Secondary"
+                style="SECONDARY"
                 onClick={() => setCurrentPage(1)}
                 disabled={loading || page <= 1}
             >
                 {"<<"}
             </button>
             <button
-                style="Primary"
+                style="PRIMARY"
                 onClick={() => setCurrentPage(page - 1)}
                 disabled={loading || page <= 1}
             >
                 {"<"}
             </button>
-            <button style="Secondary" disabled>
+            <button style="SECONDARY" disabled>
                 Page {page}
                 {data?.info && ` / ${data.info.pages}`}
             </button>
             <button
-                style="Primary"
+                style="PRIMARY"
                 onClick={() => setCurrentPage(page + 1)}
                 disabled={loading || (!!data && data.info.pages <= page)}
             >
                 {">"}
             </button>
             <button
-                style="Secondary"
+                style="SECONDARY"
                 onClick={() => setCurrentPage(data?.info.pages ?? 1)}
                 disabled={loading || (!!data && data.info.pages <= page)}
             >

@@ -4,13 +4,13 @@
     "main": "jsx-runtime.js",
     "types": "jsx-runtime.d.ts",
     "devDependencies": {
-        "@types/react": "^18.0.11",
+        "@types/react": "^18.0.15",
         "ts-prune": "^0.10.3",
-        "typescript": "^4.7.3"
+        "typescript": "^4.7.4"
     },
     "dependencies": {
-        "discord.js": "dev",
-        "react": "^18.1.0",
-        "react-reconciler": "^0.28.0"
+        "discord.js": "^13.8.1",
+        "react": "^18.2.0",
+        "react-reconciler": "^0.29.0"
     }
 }

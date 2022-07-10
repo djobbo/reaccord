@@ -4,6 +4,7 @@ Reaccord's client is based on the DiscordJS Client with a few additional feature
 You can use this client just like you'd use DiscordJS' client.
 
 ### Usage
+
 ```ts
 import { Client } from "reaccord"
 
@@ -15,31 +16,36 @@ const client = new Client({
 
 ### Options
 
-**token** `string` *required*
+**token** `string` _required_
+
 > Required
 
 Discord bot token.
 
---- 
+---
 
-**intents** `Array<Intent>` *required*
+**intents** `Array<Intent>` _required_
+
 > Required
 
 Discord bot intents
 
 ---
 
-**devGuildId** `string` *optional*
+**devGuildId** `string` _optional_
+
 > Required in dev mode
 
 Id of the discord server you'll test your bot in.
 
 ---
 
-**clientId** `string`  *optional*
+**clientId** `string` _optional_
+
 > Required if you use **Slash commands** or **Message/User context menu commands**
 
 ### Other options
+
 > See DiscordJS's Client options
 
 # Client Object
@@ -48,6 +54,7 @@ Id of the discord server you'll test your bot in.
 
 **connect** `(callback: (client: Client)) => Promise<void>`  
 Connect the client using the token provided when instantiated
+
 ```ts:no-line-numbers
 client.connect(() => console.log('Hello World'))
 ```
@@ -56,14 +63,15 @@ client.connect(() => console.log('Hello World'))
 
 **renderMessage**  
 `(ref: Channel | Message | CommandInteraction, Code: () => JSX.Element)`  
-`  => Promise<Message>`  
+` => Promise<Message>`  
 Sends a message rendered with react  
 if `ref` is a Channel, sends message to channel  
 if `ref` is a Message, responds to message  
-if `ref` is an Interaction, responds to interaction  
+if `ref` is an Interaction, responds to interaction
+
 ```tsx:no-line-numbers
 client.renderMessage(channelObj, () => <MyCoolMessage />)
-``` 
+```
 
 ---
 

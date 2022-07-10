@@ -3,13 +3,11 @@
 ## Usage
 
 ```tsx
-
 const App = () => {
     const { message, client } = useMessageCtx()
 
     return <></>
 }
-
 ```
 
 ## MessageContext

@@ -34,9 +34,8 @@ Creates an interaction button.
 
 > Read more about [ButtonInteraction](https://discord.js.org/#/docs/discord.js/stable/class/ButtonInteraction) on the (discord.js docs)
 
-
 ```tsx
-<button onClick={({user}) => console.log(`Hi ${user.username}!`)}>
+<button onClick={({ user }) => console.log(`Hi ${user.username}!`)}>
     Say Hello
 </button>
 ```
@@ -60,7 +59,7 @@ Will trigger default behaviour
 ```tsx
 <button
     onClick={() => {
-        console.log('hello')
+        console.log("hello")
     }}
 >
     My Button
@@ -72,7 +71,7 @@ Won't trigger default behaviour, the interaction will fail if you don't handle i
 ```tsx
 <button
     onClick={() => {
-        console.log('hello')
+        console.log("hello")
         return true // or 1 or a non empty string etc...
     }}
 >

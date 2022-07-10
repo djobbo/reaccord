@@ -7,7 +7,7 @@ Callback function is called when a user replies to the current message.
 ```tsx
 const App = () => {
     useOnReply((message) => {
-        message.react('❤️')
+        message.react("❤️")
     }, [])
 
     return <></>

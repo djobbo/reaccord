@@ -1,26 +1,25 @@
 import {
-    ApplicationCommandOptionType,
-    ApplicationCommandType,
-    Message,
-    SlashCommandBuilder,
-    User,
-} from "discord.js"
+    ApplicationCommandOptionTypes,
+    ApplicationCommandTypes,
+} from "discord.js/typings/enums"
 import { EMPTY_STRING } from "./helpers/constants"
+import { Message, User } from "discord.js"
 import type {
-    ChatInputCommandInteraction,
+    ChatInputApplicationCommandData,
+    CommandInteraction,
     GuildBasedChannel,
     GuildMember,
     MessageApplicationCommandData,
-    MessageContextMenuCommandInteraction,
+    MessageContextMenuInteraction,
     Role,
     UserApplicationCommandData,
-    UserContextMenuCommandInteraction,
+    UserContextMenuInteraction,
 } from "discord.js"
 import type { JSX } from "../jsx-runtime"
 import type { RenderMessageFn } from "./renderer/renderMessage"
 
 type CommandParamOptions<Required extends boolean = false> = {
-    type: ApplicationCommandOptionType
+    type: ApplicationCommandOptionTypes
     required?: Required
 }
 
@@ -31,13 +30,13 @@ type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
 
 export class Command<Props extends { [k in string]: any } = {}> {
     #renderMessage: RenderMessageFn
-    #params: [name: string, type: ApplicationCommandOptionType][]
+    #params: [name: string, type: ApplicationCommandOptionTypes][]
     #interactionCallback?: CommandInteractionCallback<
         Props,
-        ChatInputCommandInteraction,
+        CommandInteraction,
         void
     >
-    slashCommand: SlashCommandBuilder
+    slashCommand: ChatInputApplicationCommandData
 
     constructor(
         renderMessage: RenderMessageFn,
@@ -49,9 +48,16 @@ export class Command<Props extends { [k in string]: any } = {}> {
             description?: string
         },
     ) {
-        this.slashCommand = new SlashCommandBuilder()
-        this.slashCommand.setName(name)
-        this.slashCommand.setDescription(description ?? EMPTY_STRING)
+        // TODO: check for builder in a later update
+        // this.slashCommand = new SlashCommandBuilder()
+        // this.slashCommand.setName(name)
+        // this.slashCommand.setDescription(description ?? EMPTY_STRING)
+
+        this.slashCommand = {
+            name,
+            description: description ?? EMPTY_STRING,
+            options: [],
+        }
 
         this.#renderMessage = renderMessage
         this.#params = []
@@ -79,40 +85,18 @@ export class Command<Props extends { [k in string]: any } = {}> {
     > {
         this.#params.push([name, type])
 
-        const addOption = (option: any) =>
-            option
-                .setName(name)
-                .setDescription(description)
-                .setRequired(required ?? false)
-
-        switch (type) {
-            case ApplicationCommandOptionType.Boolean:
-                this.slashCommand.addBooleanOption(addOption)
-                break
-            case ApplicationCommandOptionType.Channel:
-                this.slashCommand.addChannelOption(addOption)
-                break
-            case ApplicationCommandOptionType.Integer:
-                this.slashCommand.addIntegerOption(addOption)
-                break
-            case ApplicationCommandOptionType.Mentionable:
-                this.slashCommand.addMentionableOption(addOption)
-                break
-            case ApplicationCommandOptionType.Number:
-                this.slashCommand.addNumberOption(addOption)
-                break
-            case ApplicationCommandOptionType.Role:
-                this.slashCommand.addRoleOption(addOption)
-                break
-            case ApplicationCommandOptionType.String:
-                this.slashCommand.addStringOption(addOption)
-                break
-            case ApplicationCommandOptionType.User:
-                this.slashCommand.addUserOption(addOption)
-                break
-            default:
-                throw new Error(`Invalid slash command option type ${type}`)
+        if (!this.slashCommand.options) {
+            this.slashCommand.options = []
         }
+
+        // @ts-expect-error wrong type?
+        this.slashCommand.options.push({
+            name,
+            description,
+            type,
+            required: required ?? false,
+        })
+
         return this
     }
 
@@ -124,7 +108,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this.addParam<Name, boolean, Required>({
             name,
             description,
-            type: ApplicationCommandOptionType.Boolean,
+            type: ApplicationCommandOptionTypes.BOOLEAN,
             ...options,
         })
     }
@@ -137,7 +121,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this.addParam<Name, GuildBasedChannel, Required>({
             name,
             description,
-            type: ApplicationCommandOptionType.Boolean,
+            type: ApplicationCommandOptionTypes.CHANNEL,
             ...options,
         })
     }
@@ -150,7 +134,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this.addParam<Name, number, Required>({
             name,
             description,
-            type: ApplicationCommandOptionType.Integer,
+            type: ApplicationCommandOptionTypes.INTEGER,
             ...options,
         })
     }
@@ -163,7 +147,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this.addParam<Name, GuildMember | Role | User, Required>({
             name,
             description,
-            type: ApplicationCommandOptionType.Mentionable,
+            type: ApplicationCommandOptionTypes.MENTIONABLE,
             ...options,
         })
     }
@@ -176,7 +160,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this.addParam<Name, number, Required>({
             name,
             description,
-            type: ApplicationCommandOptionType.Number,
+            type: ApplicationCommandOptionTypes.NUMBER,
             ...options,
         })
     }
@@ -189,7 +173,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this.addParam<Name, Role, Required>({
             name,
             description,
-            type: ApplicationCommandOptionType.Role,
+            type: ApplicationCommandOptionTypes.ROLE,
             ...options,
         })
     }
@@ -202,7 +186,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this.addParam<Name, string, Required>({
             name,
             description,
-            type: ApplicationCommandOptionType.String,
+            type: ApplicationCommandOptionTypes.STRING,
             ...options,
         })
     }
@@ -215,7 +199,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this.addParam<Name, User, Required>({
             name,
             description,
-            type: ApplicationCommandOptionType.User,
+            type: ApplicationCommandOptionTypes.USER,
             ...options,
         })
     }
@@ -223,7 +207,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
     render(
         callback: CommandInteractionCallback<
             Props,
-            ChatInputCommandInteraction,
+            CommandInteraction,
             JSX.Element
         >,
     ): void {
@@ -233,36 +217,32 @@ export class Command<Props extends { [k in string]: any } = {}> {
     }
 
     exec(
-        callback: CommandInteractionCallback<
-            Props,
-            ChatInputCommandInteraction,
-            void
-        >,
+        callback: CommandInteractionCallback<Props, CommandInteraction, void>,
     ): void {
         this.#interactionCallback = callback
     }
 
-    replyToInteraction(interaction: ChatInputCommandInteraction) {
+    replyToInteraction(interaction: CommandInteraction) {
         const { options } = interaction
 
         const props = Object.fromEntries(
             this.#params.map(([name, type]) => {
                 switch (type) {
-                    case ApplicationCommandOptionType.Boolean:
+                    case ApplicationCommandOptionTypes.BOOLEAN:
                         return [name, options.getBoolean(name)]
-                    case ApplicationCommandOptionType.Channel:
+                    case ApplicationCommandOptionTypes.CHANNEL:
                         return [name, options.getChannel(name)]
-                    case ApplicationCommandOptionType.Integer:
+                    case ApplicationCommandOptionTypes.INTEGER:
                         return [name, options.getInteger(name)]
-                    case ApplicationCommandOptionType.Mentionable:
+                    case ApplicationCommandOptionTypes.MENTIONABLE:
                         return [name, options.getMentionable(name)]
-                    case ApplicationCommandOptionType.Number:
+                    case ApplicationCommandOptionTypes.NUMBER:
                         return [name, options.getNumber(name)]
-                    case ApplicationCommandOptionType.Role:
+                    case ApplicationCommandOptionTypes.ROLE:
                         return [name, options.getRole(name)]
-                    case ApplicationCommandOptionType.String:
+                    case ApplicationCommandOptionTypes.STRING:
                         return [name, options.getString(name)]
-                    case ApplicationCommandOptionType.User:
+                    case ApplicationCommandOptionTypes.USER:
                         return [name, options.getUser(name)]
                     default:
                         throw new Error(
@@ -281,8 +261,8 @@ abstract class ContextMenuCommand<
         | MessageApplicationCommandData
         | UserApplicationCommandData = any,
     InteractionType extends DataType extends MessageApplicationCommandData
-        ? MessageContextMenuCommandInteraction
-        : UserContextMenuCommandInteraction = any,
+        ? MessageContextMenuInteraction
+        : UserContextMenuInteraction = any,
     Props extends DataType extends MessageApplicationCommandData
         ? Message
         : User = any,
@@ -333,7 +313,7 @@ abstract class ContextMenuCommand<
 
 export class MessageContextCommand extends ContextMenuCommand<
     MessageApplicationCommandData,
-    MessageContextMenuCommandInteraction,
+    MessageContextMenuInteraction,
     Message
 > {
     constructor(
@@ -344,14 +324,12 @@ export class MessageContextCommand extends ContextMenuCommand<
         super(
             renderMessage,
             name,
-            ApplicationCommandType.Message,
+            ApplicationCommandTypes.MESSAGE,
             defaultPermission,
         )
     }
 
-    replyToInteraction(
-        interaction: MessageContextMenuCommandInteraction,
-    ): void {
+    replyToInteraction(interaction: MessageContextMenuInteraction): void {
         if (!(interaction.targetMessage instanceof Message)) {
             throw new Error("Unhandled interaction target message type")
         }
@@ -361,7 +339,7 @@ export class MessageContextCommand extends ContextMenuCommand<
 
 export class UserContextCommand extends ContextMenuCommand<
     UserApplicationCommandData,
-    UserContextMenuCommandInteraction,
+    UserContextMenuInteraction,
     User
 > {
     constructor(
@@ -372,12 +350,12 @@ export class UserContextCommand extends ContextMenuCommand<
         super(
             renderMessage,
             name,
-            ApplicationCommandType.User,
+            ApplicationCommandTypes.USER,
             defaultPermission,
         )
     }
 
-    replyToInteraction(interaction: UserContextMenuCommandInteraction): void {
+    replyToInteraction(interaction: UserContextMenuInteraction): void {
         if (!(interaction.targetUser instanceof User)) {
             throw new Error("Unhandled interaction target user type")
         }

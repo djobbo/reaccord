@@ -7,6 +7,7 @@ export class CodeNode extends TextContainerNode<"code", ContentNode> {
     }
 
     render(): string {
+        if (!this.innerText) return ""
         return `\`${this.innerText}\``
     }
 }

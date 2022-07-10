@@ -9,7 +9,7 @@ const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
 const client = new Client({
     token: DISCORD_TOKEN ?? "",
-    intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"],
     devGuildId: DISCORD_DEV_GUILD_ID,
     clientId: DISCORD_CLIENT_ID,
 })

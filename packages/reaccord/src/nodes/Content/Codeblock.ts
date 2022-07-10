@@ -7,6 +7,7 @@ export class CodeblockNode extends TextContainerNode<"codeblock", ContentNode> {
     }
 
     render(): string {
-        return `\`\`\`${this.attr.lang}\n${this.innerText}\n\`\`\``
+        if (!this.innerText) return ""
+        return `\`\`\`${this.attr.lang ?? ""}\n${this.innerText}\n\`\`\``
     }
 }

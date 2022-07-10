@@ -6,11 +6,14 @@ export default defineUserConfig<DefaultThemeOptions>({
     lang: "en-US",
     title: "Reaccord",
     description,
-    base: '/reaccord/',
+    base: "/reaccord/",
     head: [
         ["meta", { name: "theme-color", content: "#3eaf7c" }],
         ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
-        ["meta", { name: "apple-mobile-web-app-status-bar-style", content: "black" }],
+        [
+            "meta",
+            { name: "apple-mobile-web-app-status-bar-style", content: "black" },
+        ],
     ],
     themeConfig: {
         repo: "djobbo/reaccord",
@@ -33,7 +36,11 @@ export default defineUserConfig<DefaultThemeOptions>({
             },
             {
                 text: "Elements",
-                children: ["/elements/content/", "/elements/embed", "/elements/action-row"],
+                children: [
+                    "/elements/content/",
+                    "/elements/embed",
+                    "/elements/action-row",
+                ],
             },
             {
                 text: "Hooks",
@@ -55,14 +62,14 @@ export default defineUserConfig<DefaultThemeOptions>({
             },
         ],
         [
-            '@vuepress/plugin-search',
+            "@vuepress/plugin-search",
             {
                 locales: {
-                    '/': {
-                        placeholder: 'Search',
+                    "/": {
+                        placeholder: "Search",
                     },
                 },
-                isSearchable: (page) => page.path !== '/',
+                isSearchable: (page) => page.path !== "/",
             },
         ],
     ],

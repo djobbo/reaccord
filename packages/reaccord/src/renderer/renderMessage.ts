@@ -1,4 +1,4 @@
-import { CommandInteraction, Message } from "discord.js"
+import { CommandInteraction, ContextMenuInteraction, Message } from "discord.js"
 import { EMPTY_STRING } from "../helpers/constants"
 import { RootNode } from "../nodes"
 import type { Client } from "../Client"
@@ -29,7 +29,7 @@ const debounce = <T extends unknown[]>(fn: (...args: T) => void, ms = 300) => {
 }
 
 export type RenderMessageFn = (
-    ref: Channel | Message | CommandInteraction,
+    ref: Channel | Message | CommandInteraction | ContextMenuInteraction,
     Code: () => JSX.Element,
 ) => Promise<Message>
 
@@ -39,7 +39,8 @@ export const renderMessage =
         let message =
             ref instanceof Message
                 ? await ref.reply(EMPTY_STRING)
-                : ref instanceof CommandInteraction
+                : ref instanceof CommandInteraction ||
+                  ref instanceof ContextMenuInteraction
                 ? ((await ref.reply({
                       content: EMPTY_STRING,
                       fetchReply: true,

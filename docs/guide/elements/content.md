@@ -7,9 +7,7 @@ The message content is basically the text content of your message.
 To add text content to your message, wrap some text inside a `<content>` element. The `<content>` tag should be a direct child of `<message>`, and should not be nested further.
 
 ```tsx
-const App = () => (
-    <content>Hello</content>
-)
+const App = () => <content>Hello</content>
 ```
 
 ## Span
@@ -19,8 +17,9 @@ You can add bold or italic text using the span element.
 ### Usage
 
 Span can be used anywhere markdown is allowed:
-- Text content
-- Embed Field content
+
+-   Text content
+-   Embed Field content
 
 ```tsx
 <content>
@@ -51,5 +50,7 @@ Will render text in _italics_.
 `bold` and `italic` are compatible, and can be used at the same time to render **_Bold & Italic text_**
 
 ```tsx
-<span bold italic>Bold & Italic Text</span>
+<span bold italic>
+    Bold & Italic Text
+</span>
 ```

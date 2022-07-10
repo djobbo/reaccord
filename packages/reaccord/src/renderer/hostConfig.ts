@@ -71,7 +71,6 @@ export const hostConfig: HostConfig<
     clearContainer(node: BaseNode) {
         node.clear()
     },
-    now: Date.now,
     getRootHostContext: () => null,
     supportsMutation: true,
     supportsPersistence: false,
@@ -82,4 +81,11 @@ export const hostConfig: HostConfig<
     noTimeout: true,
     isPrimaryRenderer: true,
     supportsHydration: false,
+    getCurrentEventPriority: () => 99,
+    getInstanceFromNode: () => null,
+    beforeActiveInstanceBlur: () => null,
+    afterActiveInstanceBlur: () => null,
+    prepareScopeUpdate: () => null,
+    getInstanceFromScope: () => null,
+    detachDeletedInstance: () => null,
 }

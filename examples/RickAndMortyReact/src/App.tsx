@@ -36,7 +36,7 @@ export const App = ({ search }: AppProps) => {
             {loading ? (
                 <embed>
                     <title>Loading</title>
-                    <color color="Orange" />
+                    <color color="ORANGE" />
                 </embed>
             ) : (
                 <CharacterEmbed character={character} />
@@ -70,7 +70,7 @@ export const App = ({ search }: AppProps) => {
             )}
             <action-row>
                 <button
-                    style="Primary"
+                    style="PRIMARY"
                     onClick={openModal(
                         <NameModal
                             name={name}
@@ -85,11 +85,11 @@ export const App = ({ search }: AppProps) => {
                 </button>
                 {name && (
                     <>
-                        <button style="Secondary" disabled>
+                        <button style="SECONDARY" disabled>
                             Current search: {name}
                         </button>
                         <button
-                            style="Secondary"
+                            style="SECONDARY"
                             onClick={() =>
                                 setPageSearch(({ page }) => ({
                                     page,

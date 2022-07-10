@@ -4,7 +4,6 @@
 
 Reaccord has typescript support built-in, but for the optimal experience you will want to add `@types/react` to your devDependencies.
 
-
 ```bash:no-line-numbers
 npm install -D @types/react
 yarn add -D @types/react

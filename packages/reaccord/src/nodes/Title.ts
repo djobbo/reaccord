@@ -1,13 +1,13 @@
 import { TextContainerNode } from "./_TextContainer"
-import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed/Embed"
+import type { MessageEmbed } from "discord.js"
 
 export class TitleNode extends TextContainerNode<"title", EmbedNode> {
     constructor() {
         super("title")
     }
 
-    render(embed: EmbedBuilder): void {
+    render(embed: MessageEmbed): void {
         embed.setTitle(this.innerText)
     }
 }

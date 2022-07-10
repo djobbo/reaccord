@@ -7,30 +7,27 @@ A simple, and clean framework to build reactive discord apps using [React](https
 ## Usage
 
 ```tsx
-import { Client } from 'reaccord';
+import { Client } from "reaccord"
 
 // Create client
 const client = new Client({
-    token: 'token',
+    token: "token",
     intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
-    devGuildId: 'dev-guild-id',
-    clientId: 'client-id',
+    devGuildId: "dev-guild-id",
+    clientId: "client-id",
 })
 
 // Register simple `ping` command
-client.createSlashCommand("ping", "Ping").render(() => (
-    <content>Pong</content>
-))
+client.createSlashCommand("ping", "Ping").render(() => <content>Pong</content>)
 
 // Connect client
 client.connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
-);
+)
 ```
 
 **Result**  
 <img src="./assets/images/command_ping.png" alt="Ping Command" width="300">
-
 
 ## A few more examples
 

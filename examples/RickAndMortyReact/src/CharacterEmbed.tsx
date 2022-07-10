@@ -3,11 +3,11 @@ import type { Character, CharacterStatus } from "./types"
 const getColorFromCharacterStatus = (status: CharacterStatus) => {
     switch (status) {
         case "Alive":
-            return "Green"
+            return "GREEN"
         case "Dead":
-            return "Red"
+            return "RED"
         default:
-            return "Default"
+            return "DEFAULT"
     }
 }
 
@@ -20,7 +20,7 @@ export const CharacterEmbed = ({ character }: CharacterEmbedProps) => {
         return (
             <embed>
                 <title>Failed to fetch data, please retry</title>
-                <color color="Red" />
+                <color color="RED" />
             </embed>
         )
     }
