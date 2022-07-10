@@ -36,6 +36,7 @@ client
                     {user.username}
                     {`'`}s avatar
                 </author>
+                <footer>Requested by {interaction.user.username}</footer>
                 <img src={avatarUrl} />
             </embed>
         )
