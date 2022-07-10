@@ -1,8 +1,6 @@
 # Reaccord
 
-A simple, and clean framework to build reactive discord apps using [React](https://reactjs.org/) + JSX and [Discord.js](https://discord.js.org/).
-
-> Disclaimer: Reaccord is using the development version of `discord.js` (v14), so the API is still unstable and may not be suitable for production yet.
+A simple, and clean framework to build discord apps declaratively using [React](https://reactjs.org/) + JSX and [Discord.js](https://discord.js.org/).
 
 ## Usage
 
@@ -12,13 +10,17 @@ import { Client } from "reaccord"
 // Create client
 const client = new Client({
     token: "token",
-    intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"],
     devGuildId: "dev-guild-id",
     clientId: "client-id",
 })
 
-// Register simple `ping` command
-client.createSlashCommand("ping", "Ping").render(() => <content>Pong</content>)
+// Create a simple `ping` command
+const ping = new ChatInputCommand("ping", "Ping")
+    .render(() => <content>Pong</content>)
+
+// Register the command
+client.registerCommand(ping)
 
 // Connect client
 client.connect((client) =>
@@ -34,10 +36,11 @@ client.connect((client) =>
 ### `Echo` command with a required string parameter
 
 ```tsx
-client
-    .createSlashCommand("echo", "Echoes msg")
-    .addString("input", "Message to be echoed", { required: true })
+const echo = new ChatInputCommand("echo", "Echoes msg")
+    .stringParam("input", "Message to be echoed", { required: true })
     .render(({ input }) => <content>{input}</content>)
+
+client.registerCommand(echo)
 ```
 
 **Result**  
@@ -46,10 +49,9 @@ client
 ### `Add` command with two optional number parameters
 
 ```tsx
-client
-    .createSlashCommand("add", "Add two numbers")
-    .addNumber("a", "First number")
-    .addNumber("b", "Second number")
+const add = new ChatInputCommand("add", "Add two numbers")
+    .numberParam("a", "First number")
+    .numberParam("b", "Second number")
     .render(({ a = 0, b = 0 }) => (
         <embed>
             <title>Result: {a + b}</title>
@@ -58,6 +60,8 @@ client
             </desc>
         </embed>
     ))
+
+client.registerCommand(add)
 ```
 
 **Result**  

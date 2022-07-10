@@ -28,7 +28,6 @@ export const CounterApp = ({ start = 0 }: CounterAppProps) => {
 }
 
 // Create end-user command
-// TODO: { staleAfter: 300 }
 const counterCommand = new ChatInputCommand("counter", "A simple counter")
     .intParam("start", "Number to start counting from")
     .render(CounterApp)
