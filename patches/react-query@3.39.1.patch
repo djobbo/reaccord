@@ -1,0 +1,14 @@
+diff --git a/lib/react/setBatchUpdatesFn.js b/lib/react/setBatchUpdatesFn.js
+index fd70118872a175d8d6c88b9aafd4f956b862f22c..6398644ce4eda6ea46de1686231e831e9c0783be 100755
+--- a/lib/react/setBatchUpdatesFn.js
++++ b/lib/react/setBatchUpdatesFn.js
+@@ -2,6 +2,4 @@
+ 
+ var _core = require("../core");
+ 
+-var _reactBatchedUpdates = require("./reactBatchedUpdates");
+-
+-_core.notifyManager.setBatchNotifyFunction(_reactBatchedUpdates.unstable_batchedUpdates);
+\ No newline at end of file
++_core.notifyManager.setBatchNotifyFunction((cb) => cb());
+\ No newline at end of file

@@ -1,5 +1,6 @@
 import { App } from "./App"
 import { ChatInputCommand, Client } from "reaccord"
+import { QueryClient, QueryClientProvider } from "react-query"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
@@ -13,9 +14,15 @@ const client = new Client({
     clientId: DISCORD_CLIENT_ID,
 })
 
+const queryClient = new QueryClient()
+
 const rickCmd = new ChatInputCommand("rick", "Rick and Morty characters info.")
     .stringParam("search", "Character name search")
-    .render(({ search }) => <App search={search ?? ""} />)
+    .render(({ search }) => (
+        <QueryClientProvider client={queryClient}>
+            <App search={search} />
+        </QueryClientProvider>
+    ))
 
 client.registerCommand(rickCmd)
 

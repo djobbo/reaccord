@@ -22,8 +22,3 @@ export type Character = {
     }
     image: string
 }
-
-export type APIResponse = {
-    info: PageInfo
-    results: Character[]
-}

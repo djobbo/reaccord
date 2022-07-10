@@ -1,21 +1,19 @@
-import type { APIResponse } from "./types"
-import type { Dispatch, SetStateAction } from "react"
+import type { PageInfo } from "../types"
 
 type NavigationProps = {
-    data: APIResponse | null
+    pageInfo?: PageInfo
     setPage: (page: number) => void
     loading: boolean
     page: number
 }
 
 export const Navigation = ({
-    data,
+    pageInfo,
     setPage,
     loading,
     page,
 }: NavigationProps) => {
     const setCurrentPage = (newPage: number) => {
-        const pageInfo = data?.info
         if (!pageInfo) return setPage(1)
 
         if (newPage > pageInfo.pages) return setPage(pageInfo.pages)
@@ -42,19 +40,19 @@ export const Navigation = ({
             </button>
             <button style="SECONDARY" disabled>
                 Page {page}
-                {data?.info && ` / ${data.info.pages}`}
+                {pageInfo && ` / ${pageInfo.pages}`}
             </button>
             <button
                 style="PRIMARY"
                 onClick={() => setCurrentPage(page + 1)}
-                disabled={loading || (!!data && data.info.pages <= page)}
+                disabled={loading || (!!pageInfo && pageInfo.pages <= page)}
             >
                 {">"}
             </button>
             <button
                 style="SECONDARY"
-                onClick={() => setCurrentPage(data?.info.pages ?? 1)}
-                disabled={loading || (!!data && data.info.pages <= page)}
+                onClick={() => setCurrentPage(pageInfo?.pages ?? 1)}
+                disabled={loading || (!!pageInfo && pageInfo.pages <= page)}
             >
                 {">>"}
             </button>

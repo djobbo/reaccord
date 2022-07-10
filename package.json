@@ -36,5 +36,10 @@
         "npm": ">=7.0.0",
         "node": ">=14.0.0"
     },
-    "packageManager": "pnpm@7.1.7"
+    "packageManager": "pnpm@7.1.7",
+    "pnpm": {
+        "patchedDependencies": {
+            "react-query@3.39.1": "patches/react-query@3.39.1.patch"
+        }
+    }
 }

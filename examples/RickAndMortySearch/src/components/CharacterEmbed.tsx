@@ -1,4 +1,4 @@
-import type { Character, CharacterStatus } from "./types"
+import type { Character, CharacterStatus } from "../types"
 
 const getColorFromCharacterStatus = (status: CharacterStatus) => {
     switch (status) {
