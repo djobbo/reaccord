@@ -55,7 +55,24 @@ importers:
       vue: 3.2.37
       vuepress: 1.9.7
 
-  examples/RickAndMortyReact:
+  examples/basic-example:
+    specifiers:
+      '@reaccord/cli': workspace:0.0.0-dev
+      '@types/react': ^18.0.15
+      dotenv: ^16.0.1
+      reaccord: workspace:0.0.0-dev
+      react: ^18.2.0
+      typescript: ^4.7.4
+    dependencies:
+      dotenv: 16.0.1
+      reaccord: link:../../packages/reaccord
+      react: 18.2.0
+    devDependencies:
+      '@reaccord/cli': link:../../packages/cli
+      '@types/react': 18.0.15
+      typescript: 4.7.4
+
+  examples/rick-and-morty-search:
     specifiers:
       '@reaccord/cli': workspace:0.0.0-dev
       '@types/react': ^18.0.15
@@ -71,59 +88,6 @@ importers:
       reaccord: link:../../packages/reaccord
       react: 18.2.0
       react-query: 3.39.1_2r7olguuv2axw7n3wasaef23tm_react@18.2.0
-    devDependencies:
-      '@reaccord/cli': link:../../packages/cli
-      '@types/react': 18.0.15
-      typescript: 4.7.4
-
-  examples/RouterExample:
-    specifiers:
-      '@reaccord/cli': workspace:0.0.0-dev
-      '@reaccord/router': workspace:0.0.0-dev
-      '@types/react': ^18.0.15
-      dotenv: ^16.0.1
-      reaccord: workspace:0.0.0-dev
-      react: ^18.2.0
-      typescript: ^4.7.4
-    dependencies:
-      '@reaccord/router': link:../../packages/router
-      dotenv: 16.0.1
-      reaccord: link:../../packages/reaccord
-      react: 18.2.0
-    devDependencies:
-      '@reaccord/cli': link:../../packages/cli
-      '@types/react': 18.0.15
-      typescript: 4.7.4
-
-  examples/example-commands:
-    specifiers:
-      '@reaccord/cli': workspace:0.0.0-dev
-      '@types/react': ^18.0.15
-      dotenv: ^16.0.1
-      reaccord: workspace:0.0.0-dev
-      react: ^18.2.0
-      typescript: ^4.7.4
-    dependencies:
-      dotenv: 16.0.1
-      reaccord: link:../../packages/reaccord
-      react: 18.2.0
-    devDependencies:
-      '@reaccord/cli': link:../../packages/cli
-      '@types/react': 18.0.15
-      typescript: 4.7.4
-
-  examples/react-example:
-    specifiers:
-      '@reaccord/cli': workspace:0.0.0-dev
-      '@types/react': ^18.0.15
-      dotenv: ^16.0.1
-      reaccord: workspace:0.0.0-dev
-      react: ^18.2.0
-      typescript: ^4.7.4
-    dependencies:
-      dotenv: 16.0.1
-      reaccord: link:../../packages/reaccord
-      react: 18.2.0
     devDependencies:
       '@reaccord/cli': link:../../packages/cli
       '@types/react': 18.0.15
@@ -6647,18 +6611,6 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.1_debug@4.3.4:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4_supports-color@6.1.0
-    dev: true
-
   /for-in/1.0.2:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==}
     engines: {node: '>=0.10.0'}
@@ -7309,7 +7261,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.1_debug@4.3.4
+      follow-redirects: 1.15.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
