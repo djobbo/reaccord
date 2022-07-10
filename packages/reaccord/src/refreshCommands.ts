@@ -1,7 +1,7 @@
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
 import type {
-    Command,
+    ChatInputCommand,
     MessageContextCommand,
     UserContextCommand,
 } from "./Command"
@@ -10,7 +10,7 @@ const DEV = process.env.NODE_ENV !== "production"
 
 export const refreshCommands = async (
     token: string,
-    slashCommands: Command[],
+    slashCommands: ChatInputCommand[],
     ctxCommands: (MessageContextCommand | UserContextCommand)[],
     clientId?: string,
     devGuildId?: string,

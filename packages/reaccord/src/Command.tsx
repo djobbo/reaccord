@@ -2,7 +2,6 @@ import {
     ApplicationCommandOptionTypes,
     ApplicationCommandTypes,
 } from "discord.js/typings/enums"
-import { EMPTY_STRING } from "./helpers/constants"
 import { Message, User } from "discord.js"
 import type {
     ChatInputApplicationCommandData,
@@ -28,8 +27,8 @@ type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
     interaction: InteractionType,
 ) => ReturnValue
 
-export class Command<Props extends { [k in string]: any } = {}> {
-    #renderMessage: RenderMessageFn
+export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
+    #renderMessage?: RenderMessageFn
     #params: [name: string, type: ApplicationCommandOptionTypes][]
     #interactionCallback?: CommandInteractionCallback<
         Props,
@@ -38,16 +37,7 @@ export class Command<Props extends { [k in string]: any } = {}> {
     >
     slashCommand: ChatInputApplicationCommandData
 
-    constructor(
-        renderMessage: RenderMessageFn,
-        {
-            name,
-            description,
-        }: {
-            name: string
-            description?: string
-        },
-    ) {
+    constructor(name: string, description: string) {
         // TODO: check for builder in a later update
         // this.slashCommand = new SlashCommandBuilder()
         // this.slashCommand.setName(name)
@@ -55,19 +45,26 @@ export class Command<Props extends { [k in string]: any } = {}> {
 
         this.slashCommand = {
             name,
-            description: description ?? EMPTY_STRING,
+            description,
             options: [],
         }
 
-        this.#renderMessage = renderMessage
         this.#params = []
+    }
+
+    setRenderMessageFn(fn: RenderMessageFn): void {
+        this.#renderMessage = fn
     }
 
     get name() {
         return this.slashCommand.name
     }
 
-    addParam<Name extends string, Type extends any, Required extends boolean>({
+    registerParam<
+        Name extends string,
+        Type extends any,
+        Required extends boolean,
+    >({
         name,
         description,
         type,
@@ -76,9 +73,9 @@ export class Command<Props extends { [k in string]: any } = {}> {
         name: Name
         description: string
     }): Omit<
-        Command<
+        ChatInputCommand<
             Props & {
-                [k in Name]: Required extends true ? Type : Type | null
+                [k in Name]: Required extends true ? Type : Type | undefined
             }
         >,
         "addSubcommand" | "addSubcommandGroup"
@@ -100,12 +97,12 @@ export class Command<Props extends { [k in string]: any } = {}> {
         return this
     }
 
-    addBool<Name extends string, Required extends boolean>(
+    boolParam<Name extends string, Required extends boolean>(
         name: Name,
         description: string,
         options: Omit<CommandParamOptions<Required>, "type"> = {},
     ) {
-        return this.addParam<Name, boolean, Required>({
+        return this.registerParam<Name, boolean, Required>({
             name,
             description,
             type: ApplicationCommandOptionTypes.BOOLEAN,
@@ -113,12 +110,12 @@ export class Command<Props extends { [k in string]: any } = {}> {
         })
     }
 
-    addChannel<Name extends string, Required extends boolean>(
+    channelParam<Name extends string, Required extends boolean>(
         name: Name,
         description: string,
         options: Omit<CommandParamOptions<Required>, "type"> = {},
     ) {
-        return this.addParam<Name, GuildBasedChannel, Required>({
+        return this.registerParam<Name, GuildBasedChannel, Required>({
             name,
             description,
             type: ApplicationCommandOptionTypes.CHANNEL,
@@ -126,12 +123,12 @@ export class Command<Props extends { [k in string]: any } = {}> {
         })
     }
 
-    addInt<Name extends string, Required extends boolean>(
+    intParam<Name extends string, Required extends boolean>(
         name: Name,
         description: string,
         options: Omit<CommandParamOptions<Required>, "type"> = {},
     ) {
-        return this.addParam<Name, number, Required>({
+        return this.registerParam<Name, number, Required>({
             name,
             description,
             type: ApplicationCommandOptionTypes.INTEGER,
@@ -139,12 +136,12 @@ export class Command<Props extends { [k in string]: any } = {}> {
         })
     }
 
-    addMention<Name extends string, Required extends boolean>(
+    mentionParam<Name extends string, Required extends boolean>(
         name: Name,
         description: string,
         options: Omit<CommandParamOptions<Required>, "type"> = {},
     ) {
-        return this.addParam<Name, GuildMember | Role | User, Required>({
+        return this.registerParam<Name, GuildMember | Role | User, Required>({
             name,
             description,
             type: ApplicationCommandOptionTypes.MENTIONABLE,
@@ -152,12 +149,12 @@ export class Command<Props extends { [k in string]: any } = {}> {
         })
     }
 
-    addNumber<Name extends string, Required extends boolean>(
+    numberParam<Name extends string, Required extends boolean>(
         name: Name,
         description: string,
         options: Omit<CommandParamOptions<Required>, "type"> = {},
     ) {
-        return this.addParam<Name, number, Required>({
+        return this.registerParam<Name, number, Required>({
             name,
             description,
             type: ApplicationCommandOptionTypes.NUMBER,
@@ -165,12 +162,12 @@ export class Command<Props extends { [k in string]: any } = {}> {
         })
     }
 
-    addRole<Name extends string, Required extends boolean>(
+    roleParam<Name extends string, Required extends boolean>(
         name: Name,
         description: string,
         options: Omit<CommandParamOptions<Required>, "type"> = {},
     ) {
-        return this.addParam<Name, Role, Required>({
+        return this.registerParam<Name, Role, Required>({
             name,
             description,
             type: ApplicationCommandOptionTypes.ROLE,
@@ -178,12 +175,12 @@ export class Command<Props extends { [k in string]: any } = {}> {
         })
     }
 
-    addString<Name extends string, Required extends boolean>(
+    stringParam<Name extends string, Required extends boolean>(
         name: Name,
         description: string,
         options: Omit<CommandParamOptions<Required>, "type"> = {},
     ) {
-        return this.addParam<Name, string, Required>({
+        return this.registerParam<Name, string, Required>({
             name,
             description,
             type: ApplicationCommandOptionTypes.STRING,
@@ -191,12 +188,12 @@ export class Command<Props extends { [k in string]: any } = {}> {
         })
     }
 
-    addUser<Name extends string, Required extends boolean>(
+    userParam<Name extends string, Required extends boolean>(
         name: Name,
         description: string,
         options: Omit<CommandParamOptions<Required>, "type"> = {},
     ) {
-        return this.addParam<Name, User, Required>({
+        return this.registerParam<Name, User, Required>({
             name,
             description,
             type: ApplicationCommandOptionTypes.USER,
@@ -210,16 +207,20 @@ export class Command<Props extends { [k in string]: any } = {}> {
             CommandInteraction,
             JSX.Element
         >,
-    ): void {
+    ) {
         this.#interactionCallback = (props, interaction) => {
+            if (!this.#renderMessage)
+                throw new Error("Command wasn't registered correctly")
             this.#renderMessage(interaction, () => callback(props, interaction))
         }
+        return this
     }
 
     exec(
         callback: CommandInteractionCallback<Props, CommandInteraction, void>,
-    ): void {
+    ) {
         this.#interactionCallback = callback
+        return this
     }
 
     replyToInteraction(interaction: CommandInteraction) {
@@ -229,21 +230,21 @@ export class Command<Props extends { [k in string]: any } = {}> {
             this.#params.map(([name, type]) => {
                 switch (type) {
                     case ApplicationCommandOptionTypes.BOOLEAN:
-                        return [name, options.getBoolean(name)]
+                        return [name, options.getBoolean(name) ?? undefined]
                     case ApplicationCommandOptionTypes.CHANNEL:
-                        return [name, options.getChannel(name)]
+                        return [name, options.getChannel(name) ?? undefined]
                     case ApplicationCommandOptionTypes.INTEGER:
-                        return [name, options.getInteger(name)]
+                        return [name, options.getInteger(name) ?? undefined]
                     case ApplicationCommandOptionTypes.MENTIONABLE:
-                        return [name, options.getMentionable(name)]
+                        return [name, options.getMentionable(name) ?? undefined]
                     case ApplicationCommandOptionTypes.NUMBER:
-                        return [name, options.getNumber(name)]
+                        return [name, options.getNumber(name) ?? undefined]
                     case ApplicationCommandOptionTypes.ROLE:
-                        return [name, options.getRole(name)]
+                        return [name, options.getRole(name) ?? undefined]
                     case ApplicationCommandOptionTypes.STRING:
-                        return [name, options.getString(name)]
+                        return [name, options.getString(name) ?? undefined]
                     case ApplicationCommandOptionTypes.USER:
-                        return [name, options.getUser(name)]
+                        return [name, options.getUser(name) ?? undefined]
                     default:
                         throw new Error(
                             `Invalid slash command option type ${type}`,
@@ -267,7 +268,7 @@ abstract class ContextMenuCommand<
         ? Message
         : User = any,
 > {
-    #renderMessage: RenderMessageFn
+    #renderMessage?: RenderMessageFn
     data: DataType
     interactionCallback?: CommandInteractionCallback<
         Props,
@@ -276,18 +277,20 @@ abstract class ContextMenuCommand<
     >
 
     constructor(
-        renderMessage: RenderMessageFn,
         name: string,
         type: DataType["type"],
         defaultPermission?: boolean,
     ) {
-        this.#renderMessage = renderMessage
         //@ts-expect-error
         this.data = {
             name,
             defaultPermission,
             type,
         }
+    }
+
+    setRenderMessageFn(fn: RenderMessageFn): void {
+        this.#renderMessage = fn
     }
 
     render(
@@ -298,14 +301,16 @@ abstract class ContextMenuCommand<
         >,
     ) {
         this.interactionCallback = (props, interaction) => {
+            if (!this.#renderMessage)
+                throw new Error("Command wasn't registered correctly")
             this.#renderMessage(interaction, () => callback(props, interaction))
         }
+        return this
     }
 
-    exec(
-        callback: CommandInteractionCallback<Props, InteractionType, void>,
-    ): void {
+    exec(callback: CommandInteractionCallback<Props, InteractionType, void>) {
         this.interactionCallback = callback
+        return this
     }
 
     abstract replyToInteraction(interaction: InteractionType): void
@@ -316,17 +321,8 @@ export class MessageContextCommand extends ContextMenuCommand<
     MessageContextMenuInteraction,
     Message
 > {
-    constructor(
-        renderMessage: RenderMessageFn,
-        name: string,
-        defaultPermission?: boolean | undefined,
-    ) {
-        super(
-            renderMessage,
-            name,
-            ApplicationCommandTypes.MESSAGE,
-            defaultPermission,
-        )
+    constructor(name: string, defaultPermission?: boolean | undefined) {
+        super(name, ApplicationCommandTypes.MESSAGE, defaultPermission)
     }
 
     replyToInteraction(interaction: MessageContextMenuInteraction): void {
@@ -342,17 +338,8 @@ export class UserContextCommand extends ContextMenuCommand<
     UserContextMenuInteraction,
     User
 > {
-    constructor(
-        renderMessage: RenderMessageFn,
-        name: string,
-        defaultPermission?: boolean | undefined,
-    ) {
-        super(
-            renderMessage,
-            name,
-            ApplicationCommandTypes.USER,
-            defaultPermission,
-        )
+    constructor(name: string, defaultPermission?: boolean | undefined) {
+        super(name, ApplicationCommandTypes.USER, defaultPermission)
     }
 
     replyToInteraction(interaction: UserContextMenuInteraction): void {

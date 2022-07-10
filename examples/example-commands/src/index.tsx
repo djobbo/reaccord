@@ -1,4 +1,10 @@
-import { Client, GuildMember } from "reaccord"
+import {
+    ChatInputCommand,
+    Client,
+    GuildMember,
+    MessageContextCommand,
+    UserContextCommand,
+} from "reaccord"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
@@ -12,9 +18,8 @@ const client = new Client({
     clientId: DISCORD_CLIENT_ID,
 })
 
-client
-    .createSlashCommand("avatar", "Get user avatar")
-    .addUser("user", "user", { required: true })
+const avatarCmd = new ChatInputCommand("avatar", "Get user avatar")
+    .userParam("user", "user", { required: true })
     .render(({ user }, interaction) => {
         const avatarUrl = user.avatarURL({ size: 1024 })
 
@@ -42,10 +47,9 @@ client
         )
     })
 
-client
-    .createSlashCommand("nick", "Set a user's nickname")
-    .addMention("user", "User")
-    .addString("nick", "Nickname")
+const nickCmd = new ChatInputCommand("nick", "Set a user's nickname")
+    .mentionParam("user", "User")
+    .stringParam("nick", "Nickname")
     .exec(async ({ user, nick }, interaction) => {
         const member = user ?? interaction.member
         if (!(member instanceof GuildMember))
@@ -69,31 +73,42 @@ client
         }
     })
 
-client
-    .createMessageCtxCommand("hello")
-    .render((msg) => <content>Message Id: {msg.id}</content>)
-
-client.createUserCtxCommand("avatar").render((user, interaction) => (
-    <embed>
-        <color color="BLUE" />
-        <author
-            name={user.username}
-            iconURL={user.avatarURL({ size: 1024 }) ?? user.defaultAvatarURL}
-        >
-            {user.username}
-            {`'`}s avatar
-        </author>
-        <img src={user.avatarURL({ size: 1024 }) ?? user.defaultAvatarURL} />
-        <footer
-            iconURL={
-                interaction.user.avatarURL() ??
-                interaction.user.defaultAvatarURL
-            }
-        >
-            Requested by {interaction.user.username}
-        </footer>
-    </embed>
+const msgCtxHelloCmd = new MessageContextCommand("hello").render((msg) => (
+    <content>Message Id: {msg.id}</content>
 ))
+
+const userCtxAvatarCmd = new UserContextCommand("avatar").render(
+    (user, interaction) => (
+        <embed>
+            <color color="BLUE" />
+            <author
+                name={user.username}
+                iconURL={
+                    user.avatarURL({ size: 1024 }) ?? user.defaultAvatarURL
+                }
+            >
+                {user.username}
+                {`'`}s avatar
+            </author>
+            <img
+                src={user.avatarURL({ size: 1024 }) ?? user.defaultAvatarURL}
+            />
+            <footer
+                iconURL={
+                    interaction.user.avatarURL() ??
+                    interaction.user.defaultAvatarURL
+                }
+            >
+                Requested by {interaction.user.username}
+            </footer>
+        </embed>
+    ),
+)
+
+client.registerCommand(avatarCmd)
+client.registerCommand(nickCmd)
+client.registerCommand(msgCtxHelloCmd)
+client.registerCommand(userCtxAvatarCmd)
 
 client.connect(() =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),

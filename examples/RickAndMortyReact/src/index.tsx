@@ -1,5 +1,5 @@
 import { App } from "./App"
-import { Client } from "reaccord"
+import { ChatInputCommand, Client } from "reaccord"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
@@ -13,10 +13,11 @@ const client = new Client({
     clientId: DISCORD_CLIENT_ID,
 })
 
-client
-    .createSlashCommand("rick", "Rick and Morty characters info.")
-    .addString("search", "Character name search")
+const rickCmd = new ChatInputCommand("rick", "Rick and Morty characters info.")
+    .stringParam("search", "Character name search")
     .render(({ search }) => <App search={search ?? ""} />)
+
+client.registerCommand(rickCmd)
 
 client.connect((client) =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),

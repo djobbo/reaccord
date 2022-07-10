@@ -1,4 +1,8 @@
-import { Command, MessageContextCommand, UserContextCommand } from "./Command"
+import {
+    ChatInputCommand,
+    MessageContextCommand,
+    UserContextCommand,
+} from "./Command"
 import { Client as DiscordClient } from "discord.js"
 import { refreshCommands } from "./refreshCommands"
 import { render, renderMessage } from "./renderer"
@@ -22,7 +26,7 @@ export class Client extends DiscordClient {
 
     renderMessage: RenderMessageFn
 
-    slashCommands: Command[] = []
+    slashCommands: ChatInputCommand[] = []
     msgCtxCommands: MessageContextCommand[] = []
     userCtxCommands: UserContextCommand[] = []
     commandsDisposer?: () => void
@@ -267,29 +271,17 @@ export class Client extends DiscordClient {
         await this.login(this.token)
     }
 
-    createSlashCommand(name: string, description: string) {
-        const command = new Command(this.renderMessage, { name, description })
-        this.slashCommands.push(command)
-        return command
-    }
+    registerCommand(
+        command: ChatInputCommand | MessageContextCommand | UserContextCommand,
+    ) {
+        command.setRenderMessageFn(this.renderMessage)
 
-    createUserCtxCommand(name: string, defaultPermission?: boolean) {
-        const command = new UserContextCommand(
-            this.renderMessage,
-            name,
-            defaultPermission,
-        )
-        this.userCtxCommands.push(command)
-        return command
-    }
-
-    createMessageCtxCommand(name: string, defaultPermission?: boolean) {
-        const command = new MessageContextCommand(
-            this.renderMessage,
-            name,
-            defaultPermission,
-        )
-        this.msgCtxCommands.push(command)
-        return command
+        if (command instanceof ChatInputCommand) {
+            this.slashCommands.push(command)
+        } else if (command instanceof UserContextCommand) {
+            this.userCtxCommands.push(command)
+        } else if (command instanceof MessageContextCommand) {
+            this.msgCtxCommands.push(command)
+        }
     }
 }

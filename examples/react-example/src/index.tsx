@@ -1,4 +1,5 @@
 import {
+    ChatInputCommand,
     Client,
     useMessageCtx,
     useModal,
@@ -35,7 +36,7 @@ const Modal = () => {
     )
 }
 
-const App = ({ startCount }: { startCount: number }) => {
+const App = ({ startCount = 0 }: { startCount?: number }) => {
     const [count, setCount] = useState(startCount)
     const [emoji, setEmoji] = useState("")
     const [username, setUsername] = useState("")
@@ -80,10 +81,11 @@ const App = ({ startCount }: { startCount: number }) => {
     )
 }
 
-client
-    .createSlashCommand("example", "Show React Example")
-    .addInt("count", "Start count")
-    .render(({ count }) => <App startCount={count ?? 0} />)
+const exampleCmd = new ChatInputCommand("example", "Show React Example")
+    .intParam("count", "Start count")
+    .render(({ count }) => <App startCount={count} />)
+
+client.registerCommand(exampleCmd)
 
 client.connect(() =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),

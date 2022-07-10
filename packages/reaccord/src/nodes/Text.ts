@@ -6,7 +6,7 @@ export class TextNode extends BaseNode<"textnode", BaseNode, BaseNode> {
 
     constructor(textContent: string) {
         super("textnode")
-        this.textContent = textContent
+        this.textContent = textContent.toString()
     }
 
     setTextContent(textContent: string) {

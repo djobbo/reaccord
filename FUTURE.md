@@ -36,7 +36,7 @@ import { slashCommand } from "reaccord"
 import { Counter } from "./Counter"
 
 export const counterCommand = slashCommand("Counter", "A simple counter", {
-    staleTime: 300,
+    staleAfter: 300,
 })
     .addInt("startCount", "Number to start counting from")
     .render(Counter)

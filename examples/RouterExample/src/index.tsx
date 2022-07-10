@@ -1,5 +1,5 @@
 import { App } from "./App"
-import { Client } from "reaccord"
+import { ChatInputCommand, Client } from "reaccord"
 import { DiscordRouter } from "@reaccord/router"
 import { config as loadEnv } from "dotenv"
 
@@ -14,7 +14,10 @@ const client = new Client({
     clientId: DISCORD_CLIENT_ID,
 })
 
-client.createSlashCommand("router", "Discord Router example").render(() => (
+const routerCmd = new ChatInputCommand(
+    "router",
+    "Discord Router example",
+).render(() => (
     <DiscordRouter>
         <App />
     </DiscordRouter>
