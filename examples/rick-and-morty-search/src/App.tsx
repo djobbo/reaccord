@@ -3,9 +3,6 @@ import { CharacterSelect } from "./components/CharacterSelect"
 import { Navigation } from "./components/Navigation"
 import { SearchCharacterRow } from "./components/SearchCharacterRow"
 import { useCharacterSearch } from "./hooks/useCharacterSearch"
-import { useCharacters } from "./hooks/useCharacters"
-import { useState } from "react"
-import type { Character } from "./types"
 
 type AppProps = {
     search?: string
