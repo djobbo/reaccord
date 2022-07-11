@@ -56,8 +56,8 @@ for (const [packageFolder, packageName] of packages) {
     await $`pnpm build || true`
 
     // Update package version
-    await $`sed "s/workspace:${PLACEHOLDER_VERSION}/${newDevVersion}/g" package.json`
-    await $`sed "s/${PLACEHOLDER_VERSION}/${newDevVersion}/g" package.json`
+    await $`sed -i "s/workspace:${PLACEHOLDER_VERSION}/${newDevVersion}/g" package.json`
+    await $`sed -i "s/${PLACEHOLDER_VERSION}/${newDevVersion}/g" package.json`
 
     // Publish package
     console.log(`Publishing '${packageName}'...`)
