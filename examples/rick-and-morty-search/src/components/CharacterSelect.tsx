@@ -4,16 +4,21 @@ type CharacterSelectProps = {
     characters: Character[]
     character: Character | undefined
     onSelectCharacter: (val: string) => void
+    isLoading?: boolean
 }
 
 export const CharacterSelect = ({
     characters,
     character,
     onSelectCharacter,
+    isLoading,
 }: CharacterSelectProps) => {
     return (
         <action-row>
-            <select onChange={([val]) => onSelectCharacter(val)}>
+            <select
+                onChange={([val]) => onSelectCharacter(val)}
+                disabled={isLoading}
+            >
                 {characters.map((char, i) => (
                     <option
                         key={char.id}

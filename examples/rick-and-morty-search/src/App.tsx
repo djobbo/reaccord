@@ -2,6 +2,7 @@ import { CharacterEmbed } from "./components/CharacterEmbed"
 import { CharacterSelect } from "./components/CharacterSelect"
 import { Navigation } from "./components/Navigation"
 import { SearchCharacterRow } from "./components/SearchCharacterRow"
+import { useCharacterSearch } from "./hooks/useCharacterSearch"
 import { useCharacters } from "./hooks/useCharacters"
 import { useState } from "react"
 import type { Character } from "./types"
@@ -11,39 +12,27 @@ type AppProps = {
 }
 
 export const App = ({ search: defaultSearch }: AppProps) => {
-    const [search, setSearch] = useState(defaultSearch ?? "")
-    const [page, setPage] = useState(1)
-    const [character, setCharacter] = useState<Character | undefined>(undefined)
-    const { data: { characters, pageInfo } = {}, isLoading } = useCharacters(
+    const {
         search,
+        setSearch,
         page,
-        {
-            onSuccess: (data) => setCharacter(data.characters[0]),
-            onError: () => setCharacter(undefined),
-        },
-    )
+        setPage,
+        characters,
+        pageInfo,
+        isLoading,
+        character,
+        selectCharacter,
+    } = useCharacterSearch(defaultSearch)
 
     return (
         <>
-            {isLoading ? (
-                <embed>
-                    <title>Loading</title>
-                    <color color="ORANGE" />
-                </embed>
-            ) : (
-                <CharacterEmbed character={character} />
-            )}
+            <CharacterEmbed character={character} isLoading={isLoading} />
             {characters && (
                 <CharacterSelect
                     characters={characters}
                     character={character}
-                    onSelectCharacter={(id) => {
-                        setCharacter(
-                            characters.find(
-                                (char) => char.id.toString() === id,
-                            ),
-                        )
-                    }}
+                    onSelectCharacter={selectCharacter}
+                    isLoading={isLoading}
                 />
             )}
             <SearchCharacterRow

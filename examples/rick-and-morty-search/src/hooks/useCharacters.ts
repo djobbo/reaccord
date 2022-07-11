@@ -12,32 +12,29 @@ type Response = {
     pageInfo: PageInfo
 }
 
+type Options = {
+    onSuccess: (res: Response) => void
+    onError: () => void
+}
+
 export const useCharacters = (
     name: string,
     page: number,
-    {
-        onSuccess,
-        onError,
-    }: {
-        onSuccess: (res: Response) => void
-        onError: () => void
-    },
+    { onSuccess, onError }: Options,
 ) => {
-    const { data, ...query } = useQuery(
+    const { data, ...query } = useQuery<Response>(
         ["character", { name, page }],
         async () => {
             const res = await axios.get<APIResponse>(
                 `https://rickandmortyapi.com/api/character/?name=${name}&page=${page}`,
             )
+
             return {
                 characters: res.data.results,
                 pageInfo: res.data.info,
             }
         },
-        {
-            onSuccess,
-            onError,
-        },
+        { onSuccess, onError },
     )
 
     return { data, ...query }

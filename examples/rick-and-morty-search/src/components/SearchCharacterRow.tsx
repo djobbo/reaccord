@@ -14,16 +14,15 @@ export const SearchCharacterRow = ({
 }: SearchCharacterRowProps) => {
     const { openModal } = useModal()
 
+    const openCharacterSearchModal = openModal(
+        <CharacterSearchModal search={search} setSearch={setSearch} />,
+    )
+
     return (
         <action-row>
             <button
                 style="PRIMARY"
-                onClick={openModal(
-                    <CharacterSearchModal
-                        search={search}
-                        setSearch={setSearch}
-                    />,
-                )}
+                onClick={openCharacterSearchModal}
                 disabled={isLoading}
             >
                 Search Character 🔎

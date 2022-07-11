@@ -1,6 +1,9 @@
 import type { Character, CharacterStatus } from "../types"
+import type { ColorResolvable } from "reaccord"
 
-const getColorFromCharacterStatus = (status: CharacterStatus) => {
+const getColorFromCharacterStatus = (
+    status: CharacterStatus,
+): ColorResolvable => {
     switch (status) {
         case "Alive":
             return "GREEN"
@@ -13,17 +16,28 @@ const getColorFromCharacterStatus = (status: CharacterStatus) => {
 
 type CharacterEmbedProps = {
     character?: Character
+    isLoading?: boolean
 }
 
-export const CharacterEmbed = ({ character }: CharacterEmbedProps) => {
-    if (!character) {
+export const CharacterEmbed = ({
+    character,
+    isLoading,
+}: CharacterEmbedProps) => {
+    if (isLoading)
+        return (
+            <embed>
+                <title>Loading</title>
+                <color color="ORANGE" />
+            </embed>
+        )
+
+    if (!character)
         return (
             <embed>
                 <title>Failed to fetch data, please retry</title>
                 <color color="RED" />
             </embed>
         )
-    }
 
     return (
         <embed>
