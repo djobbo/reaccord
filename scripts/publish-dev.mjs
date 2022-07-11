@@ -30,21 +30,12 @@ console.log(`Publishing new dev version '${newDevVersion}'...`)
 
 await $`pnpm ci`
 
-try {
-    await $`./node_modules/.bin/turbo run build --filter=./packages/* --cache-dir=".turbo" --no-deps --include-dependencies`
-} catch {
-    console.error("Failed to build packages.")
-    process.exit(1)
-}
-
 for (const [packageFolder, packageName] of packages) {
     console.log(`Updating ${packageName} version to ${newDevVersion}`)
 
     // Deprecate the old version
     const oldDevVersion =
         `${await $`pnpm view ${packageName}@dev version`}`.slice(0, -1)
-
-    console.log({ oldDevVersion })
 
     if (!!oldDevVersion) {
         try {
@@ -61,9 +52,12 @@ for (const [packageFolder, packageName] of packages) {
 
     await cd(packagePath)
 
+    // Build package
+    await $`pnpm build || true`
+
     // Update package version
-    await $`sed -i.bak "s/workspace:${PLACEHOLDER_VERSION}/${newDevVersion}/g" package.json`
-    await $`sed -i.bak "s/${PLACEHOLDER_VERSION}/${newDevVersion}/g" package.json`
+    await $`sed "s/workspace:${PLACEHOLDER_VERSION}/${newDevVersion}/g" package.json`
+    await $`sed "s/${PLACEHOLDER_VERSION}/${newDevVersion}/g" package.json`
 
     // Publish package
     console.log(`Publishing '${packageName}'...`)

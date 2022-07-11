@@ -10,7 +10,7 @@
         "ci:deadcode": "ts-prune"
     },
     "files": [
-        "dist"
+        "lib"
     ],
     "devDependencies": {
         "ts-prune": "^0.10.3",
