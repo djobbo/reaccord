@@ -1,13 +1,13 @@
 import { BaseNode } from "../_Base"
+import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
-import type { MessageEmbed } from "discord.js"
 
 export class TimestampNode extends BaseNode<"timestamp", EmbedNode> {
     constructor() {
         super("timestamp")
     }
 
-    render(embed: MessageEmbed): void {
+    render(embed: EmbedBuilder): void {
         embed.setTimestamp(this.attr.timestamp)
     }
 }

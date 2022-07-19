@@ -1,16 +1,16 @@
 import { EMPTY_STRING } from "../../helpers/constants"
 import { TextContainerNode } from "../_TextContainer"
+import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
-import type { MessageEmbed } from "discord.js"
 
 export class AuthorNode extends TextContainerNode<"author", EmbedNode> {
     constructor() {
         super("author")
     }
 
-    render(embed: MessageEmbed): void {
+    render(embed: EmbedBuilder): void {
         if (!this.innerText) {
-            embed.author = null
+            embed.setAuthor(null)
             return
         }
 

@@ -1,24 +1,25 @@
 import {
-    ApplicationCommandOptionTypes,
-    ApplicationCommandTypes,
-} from "discord.js/typings/enums"
-import { Message, User } from "discord.js"
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+    Message,
+    User,
+} from "discord.js"
 import type {
     ChatInputApplicationCommandData,
     CommandInteraction,
     GuildBasedChannel,
     GuildMember,
     MessageApplicationCommandData,
-    MessageContextMenuInteraction,
+    MessageContextMenuCommandInteraction,
     Role,
     UserApplicationCommandData,
-    UserContextMenuInteraction,
+    UserContextMenuCommandInteraction,
 } from "discord.js"
 import type { JSX } from "../jsx-runtime"
 import type { RenderMessageFn } from "./renderer/renderMessage"
 
 type CommandParamOptions<Required extends boolean = false> = {
-    type: ApplicationCommandOptionTypes
+    type: ApplicationCommandOptionType
     required?: Required
 }
 
@@ -29,7 +30,7 @@ type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
 
 export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
     #renderMessage?: RenderMessageFn
-    #params: [name: string, type: ApplicationCommandOptionTypes][]
+    #params: string[]
     #interactionCallback?: CommandInteractionCallback<
         Props,
         CommandInteraction,
@@ -80,11 +81,9 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         >,
         "addSubcommand" | "addSubcommandGroup"
     > {
-        this.#params.push([name, type])
+        this.#params.push(name)
 
-        if (!this.slashCommand.options) {
-            this.slashCommand.options = []
-        }
+        this.slashCommand.options ??= []
 
         // @ts-expect-error wrong type?
         this.slashCommand.options.push({
@@ -105,7 +104,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         return this.registerParam<Name, boolean, Required>({
             name,
             description,
-            type: ApplicationCommandOptionTypes.BOOLEAN,
+            type: ApplicationCommandOptionType.Boolean,
             ...options,
         })
     }
@@ -118,7 +117,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         return this.registerParam<Name, GuildBasedChannel, Required>({
             name,
             description,
-            type: ApplicationCommandOptionTypes.CHANNEL,
+            type: ApplicationCommandOptionType.Channel,
             ...options,
         })
     }
@@ -131,7 +130,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         return this.registerParam<Name, number, Required>({
             name,
             description,
-            type: ApplicationCommandOptionTypes.INTEGER,
+            type: ApplicationCommandOptionType.Integer,
             ...options,
         })
     }
@@ -144,7 +143,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         return this.registerParam<Name, GuildMember | Role | User, Required>({
             name,
             description,
-            type: ApplicationCommandOptionTypes.MENTIONABLE,
+            type: ApplicationCommandOptionType.Mentionable,
             ...options,
         })
     }
@@ -157,7 +156,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         return this.registerParam<Name, number, Required>({
             name,
             description,
-            type: ApplicationCommandOptionTypes.NUMBER,
+            type: ApplicationCommandOptionType.Number,
             ...options,
         })
     }
@@ -170,7 +169,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         return this.registerParam<Name, Role, Required>({
             name,
             description,
-            type: ApplicationCommandOptionTypes.ROLE,
+            type: ApplicationCommandOptionType.Role,
             ...options,
         })
     }
@@ -183,7 +182,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         return this.registerParam<Name, string, Required>({
             name,
             description,
-            type: ApplicationCommandOptionTypes.STRING,
+            type: ApplicationCommandOptionType.String,
             ...options,
         })
     }
@@ -196,7 +195,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         return this.registerParam<Name, User, Required>({
             name,
             description,
-            type: ApplicationCommandOptionTypes.USER,
+            type: ApplicationCommandOptionType.User,
             ...options,
         })
     }
@@ -227,30 +226,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         const { options } = interaction
 
         const props = Object.fromEntries(
-            this.#params.map(([name, type]) => {
-                switch (type) {
-                    case ApplicationCommandOptionTypes.BOOLEAN:
-                        return [name, options.getBoolean(name) ?? undefined]
-                    case ApplicationCommandOptionTypes.CHANNEL:
-                        return [name, options.getChannel(name) ?? undefined]
-                    case ApplicationCommandOptionTypes.INTEGER:
-                        return [name, options.getInteger(name) ?? undefined]
-                    case ApplicationCommandOptionTypes.MENTIONABLE:
-                        return [name, options.getMentionable(name) ?? undefined]
-                    case ApplicationCommandOptionTypes.NUMBER:
-                        return [name, options.getNumber(name) ?? undefined]
-                    case ApplicationCommandOptionTypes.ROLE:
-                        return [name, options.getRole(name) ?? undefined]
-                    case ApplicationCommandOptionTypes.STRING:
-                        return [name, options.getString(name) ?? undefined]
-                    case ApplicationCommandOptionTypes.USER:
-                        return [name, options.getUser(name) ?? undefined]
-                    default:
-                        throw new Error(
-                            `Invalid slash command option type ${type}`,
-                        )
-                }
-            }),
+            this.#params.map((name) => [name, options.get(name) ?? undefined]),
         ) as Props
 
         this.#interactionCallback?.(props, interaction)
@@ -262,8 +238,8 @@ abstract class ContextMenuCommand<
         | MessageApplicationCommandData
         | UserApplicationCommandData = any,
     InteractionType extends DataType extends MessageApplicationCommandData
-        ? MessageContextMenuInteraction
-        : UserContextMenuInteraction = any,
+        ? MessageContextMenuCommandInteraction
+        : UserContextMenuCommandInteraction = any,
     Props extends DataType extends MessageApplicationCommandData
         ? Message
         : User = any,
@@ -318,14 +294,16 @@ abstract class ContextMenuCommand<
 
 export class MessageContextCommand extends ContextMenuCommand<
     MessageApplicationCommandData,
-    MessageContextMenuInteraction,
+    MessageContextMenuCommandInteraction,
     Message
 > {
     constructor(name: string, defaultPermission?: boolean | undefined) {
-        super(name, ApplicationCommandTypes.MESSAGE, defaultPermission)
+        super(name, ApplicationCommandType.Message, defaultPermission)
     }
 
-    replyToInteraction(interaction: MessageContextMenuInteraction): void {
+    replyToInteraction(
+        interaction: MessageContextMenuCommandInteraction,
+    ): void {
         if (!(interaction.targetMessage instanceof Message)) {
             throw new Error("Unhandled interaction target message type")
         }
@@ -335,14 +313,14 @@ export class MessageContextCommand extends ContextMenuCommand<
 
 export class UserContextCommand extends ContextMenuCommand<
     UserApplicationCommandData,
-    UserContextMenuInteraction,
+    UserContextMenuCommandInteraction,
     User
 > {
     constructor(name: string, defaultPermission?: boolean | undefined) {
-        super(name, ApplicationCommandTypes.USER, defaultPermission)
+        super(name, ApplicationCommandType.User, defaultPermission)
     }
 
-    replyToInteraction(interaction: UserContextMenuInteraction): void {
+    replyToInteraction(interaction: UserContextMenuCommandInteraction): void {
         if (!(interaction.targetUser instanceof User)) {
             throw new Error("Unhandled interaction target user type")
         }

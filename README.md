@@ -16,8 +16,9 @@ const client = new Client({
 })
 
 // Create a simple `ping` command
-const ping = new ChatInputCommand("ping", "Ping")
-    .render(() => <content>Pong</content>)
+const ping = new ChatInputCommand("ping", "Ping").render(() => (
+    <content>Pong</content>
+))
 
 // Register the command
 client.registerCommand(ping)

@@ -6,11 +6,11 @@ const getColorFromCharacterStatus = (
 ): ColorResolvable => {
     switch (status) {
         case "Alive":
-            return "GREEN"
+            return "Green"
         case "Dead":
-            return "RED"
+            return "Red"
         default:
-            return "DEFAULT"
+            return "Default"
     }
 }
 
@@ -27,7 +27,7 @@ export const CharacterEmbed = ({
         return (
             <embed>
                 <title>Loading</title>
-                <color color="ORANGE" />
+                <color color="Orange" />
             </embed>
         )
 
@@ -35,7 +35,7 @@ export const CharacterEmbed = ({
         return (
             <embed>
                 <title>Failed to fetch data, please retry</title>
-                <color color="RED" />
+                <color color="Red" />
             </embed>
         )
 

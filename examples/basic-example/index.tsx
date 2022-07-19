@@ -1,4 +1,4 @@
-import { ChatInputCommand, Client } from "reaccord"
+import { ChatInputCommand, Client, GatewayIntentBits } from "reaccord"
 import { config as loadEnv } from "dotenv"
 import { useState } from "react"
 
@@ -35,7 +35,11 @@ const counterCommand = new ChatInputCommand("counter", "A simple counter")
 // Create gateway client
 const client = new Client({
     token: DISCORD_TOKEN ?? "",
-    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"],
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+    ],
     devGuildId: DISCORD_DEV_GUILD_ID,
     clientId: DISCORD_CLIENT_ID,
 })

@@ -224,21 +224,21 @@ export class Client extends DiscordClient {
 
     initInteractions() {
         const init = (interaction: Interaction) => {
-            if (interaction.isCommand()) {
+            if (interaction.isChatInputCommand()) {
                 const command = this.slashCommands.find(
                     (c) => c.name === interaction.commandName,
                 )
                 if (!command) return
 
                 command.replyToInteraction(interaction)
-            } else if (interaction.isMessageContextMenu()) {
+            } else if (interaction.isMessageContextMenuCommand()) {
                 const command = this.msgCtxCommands.find(
                     (c) => c.data.name === interaction.commandName,
                 )
                 if (!command) return
 
                 command.replyToInteraction(interaction)
-            } else if (interaction.isUserContextMenu()) {
+            } else if (interaction.isUserContextMenuCommand()) {
                 const command = this.userCtxCommands.find(
                     (c) => c.data.name === interaction.commandName,
                 )

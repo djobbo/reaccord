@@ -1,5 +1,5 @@
 import { App } from "./App"
-import { ChatInputCommand, Client } from "reaccord"
+import { ChatInputCommand, Client, GatewayIntentBits } from "reaccord"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { config as loadEnv } from "dotenv"
 
@@ -9,7 +9,7 @@ const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
 const client = new Client({
     token: DISCORD_TOKEN ?? "",
-    intents: ["GUILDS", "GUILD_MESSAGES"],
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
     devGuildId: DISCORD_DEV_GUILD_ID,
     clientId: DISCORD_CLIENT_ID,
 })
