@@ -1,1 +1,1 @@
-packages/reaccord/README.md
+./packages/reaccord/README.md
