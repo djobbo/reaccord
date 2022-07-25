@@ -1,12 +1,12 @@
 <div align="center">
     <img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/reaccord.svg" alt="Reaccord Logo" width="100">
     <h1 style="font-weight: bold">
-        <a href="https://djobbo.github.io/reaccord">Reaccord</a>
+        <a href="https://djobbo.github.io/reaccord" target="_blank" rel="noreferrer">Reaccord</a>
         <div>
-        <a aria-label="reaccord NPM version" href="https://www.npmjs.com/package/reaccord">
+        <a aria-label="reaccord NPM version" href="https://www.npmjs.com/package/reaccord" target="_blank" rel="noreferrer">
             <img alt="" src="https://img.shields.io/npm/v/reaccord.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm&label=reaccord">
         </a>
-        <a aria-label="reaccord router NPM version" href="https://www.npmjs.com/package/@reaccord/router">
+        <a aria-label="reaccord router NPM version" href="https://www.npmjs.com/package/@reaccord/router" target="_blank" rel="noreferrer">
             <img alt="" src="https://img.shields.io/npm/v/@reaccord/router.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm&label=@reaccord/router">
         </a>
         </div>
@@ -14,7 +14,7 @@
 
 A simple, and clean framework to build discord apps declaratively using [React](https://reactjs.org/) + JSX and [Discord.js](https://discord.js.org/).
 
-<a href="https://djobbo.github.io/reaccord" style="font-size: 1.2rem">Explore the docs...</a>
+<a href="https://djobbo.github.io/reaccord" target="_blank" rel="noreferrer">Explore the docs...</a>
 
 </div>
 
