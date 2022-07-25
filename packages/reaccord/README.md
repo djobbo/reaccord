@@ -1,5 +1,5 @@
 <div style="text-align: center">
-    <img src="./assets/reaccord.svg" alt="Reaccord Logo" width="100">
+    <img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/reaccord.svg" alt="Reaccord Logo" width="100">
     <h1 style="font-weight: bold">
         <a href="https://djobbo.github.io/reaccord">Reaccord</a>
         <div>
@@ -46,7 +46,7 @@ client.connect((client) =>
 ```
 
 **Result**  
-<img src="./assets/command_ping.png" alt="Ping Command" width="300">
+<img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/command_ping.png" alt="Ping Command" width="300">
 
 ## A few more examples
 
@@ -61,7 +61,7 @@ client.registerCommand(echo)
 ```
 
 **Result**  
-<img src="./assets/command_echo.png" alt="Echo Command" width="300">
+<img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/command_echo.png" alt="Echo Command" width="300">
 
 ### `Add` command with two optional number parameters
 
@@ -82,4 +82,4 @@ client.registerCommand(add)
 ```
 
 **Result**  
-<img src="./assets/command_add.png" alt="Add Command" width="250">
+<img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/command_add.png" alt="Add Command" width="250">
