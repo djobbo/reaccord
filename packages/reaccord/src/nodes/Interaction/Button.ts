@@ -20,8 +20,11 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
         const button = new ButtonBuilder()
             .setCustomId(customId)
             .setDisabled(this.attr.disabled ?? false)
-            .setStyle(this.attr.style ?? "PRIMARY")
             .setLabel(this.innerText)
+
+        if (this.attr.style) {
+            button.setStyle(this.attr.style)
+        }
 
         const listener = async (interaction: Interaction) => {
             if (!interaction.isButton()) return

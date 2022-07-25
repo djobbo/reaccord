@@ -1,5 +1,5 @@
 {
-    "name": "@example/future",
+    "name": "@example/basic",
     "version": "0.0.0-dev",
     "main": "out/index.js",
     "private": true,

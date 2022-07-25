@@ -1,4 +1,9 @@
-import { ChatInputCommand, Client, GatewayIntentBits } from "reaccord"
+import {
+    ButtonStyle,
+    ChatInputCommand,
+    Client,
+    GatewayIntentBits,
+} from "reaccord"
 import { config as loadEnv } from "dotenv"
 import { useState } from "react"
 
@@ -19,7 +24,7 @@ export const CounterApp = ({ start = 0 }: CounterAppProps) => {
         <>
             <content>Count: {count}</content>
             <action-row>
-                <button onClick={increment} style="DANGER">
+                <button onClick={increment} style={ButtonStyle.Danger}>
                     +
                 </button>
             </action-row>

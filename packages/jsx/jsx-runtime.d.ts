@@ -1,7 +1,7 @@
 import type {
     ButtonInteraction,
+    ButtonStyle,
     ColorResolvable,
-    MessageButtonStyleResolvable,
     ModalSubmitInteraction,
     SelectMenuInteraction,
 } from "discord.js"
@@ -104,7 +104,7 @@ export namespace JSX {
         onClick?: (interaction: ButtonInteraction) => any
         children?: Element
         disabled?: boolean
-        style?: MessageButtonStyleResolvable
+        style?: ButtonStyle
     }
     interface SelectAttributes {
         id?: string

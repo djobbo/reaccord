@@ -1,6 +1,6 @@
 import { App } from "./App"
 import { ChatInputCommand, Client, GatewayIntentBits } from "reaccord"
-import { QueryClient, QueryClientProvider } from "react-query"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
