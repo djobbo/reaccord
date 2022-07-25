@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<div align="center">
     <img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/reaccord.svg" alt="Reaccord Logo" width="100">
     <h1 style="font-weight: bold">
         <a href="https://djobbo.github.io/reaccord">Reaccord</a>
