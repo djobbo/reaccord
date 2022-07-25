@@ -5,12 +5,12 @@ A simple, and clean framework to build discord apps declaratively using [React](
 ## Usage
 
 ```tsx
-import { Client } from "reaccord"
+import { Client, GatewayIntentBits, ChatInputCommand } from "reaccord"
 
 // Create client
 const client = new Client({
     token: "token",
-    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"],
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
     devGuildId: "dev-guild-id",
     clientId: "client-id",
 })
