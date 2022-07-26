@@ -24,7 +24,7 @@ export const CounterApp = ({ start = 0 }: CounterAppProps) => {
         <>
             <content>Count: {count}</content>
             <action-row>
-                <button onClick={increment} style={ButtonStyle.Danger}>
+                <button onClick={increment} style={ButtonStyle.Primary}>
                     +
                 </button>
             </action-row>

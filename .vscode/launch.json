@@ -3,7 +3,14 @@
     "configurations": [
         {
             "name": "Reaccord: Debug Rick and Morty Example",
-            "cwd": "${workspaceFolder}/examples/rick-and-morty-search",
+            "cwd": "${workspaceFolder}/examples/rick-and-morty-api",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "pnpm dev",
+        },
+        {
+            "name": "Reaccord: Debug Simple Counter Example",
+            "cwd": "${workspaceFolder}/examples/simple-counter",
             "type": "node-terminal",
             "request": "launch",
             "command": "pnpm dev",

@@ -244,7 +244,10 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         const { options } = interaction
 
         const props = Object.fromEntries(
-            this.#params.map((name) => [name, options.get(name) ?? undefined]),
+            this.#params.map((name) => [
+                name,
+                options.get(name)?.value ?? undefined,
+            ]),
         ) as Props
 
         this.#interactionCallback?.(props, interaction)

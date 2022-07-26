@@ -18,68 +18,67 @@ A simple, and clean framework to build discord apps declaratively using [React](
 
 </div>
 
-## Basic Usage
+## Let's build a simple counter
 
-```tsx
-import { Client, GatewayIntentBits, ChatInputCommand } from "reaccord"
+<img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/simple-counter.gif" alt="Simple Counter">
 
-// Instantiate gateway client
+[View complete typescript example here](https://github.com/djobbo/reaccord/examples/simple-counter)
+
+**imports**
+```jsx
+import {
+    ButtonStyle,
+    ChatInputCommand,
+    Client,
+    GatewayIntentBits,
+} from "reaccord"
+import { useState } from "react"
+```
+
+**Define App behavior**, just like in a React app.
+```jsx
+export const CounterApp = ({ start = 0 }) => {
+    const [count, setCount] = useState(start)
+    const increment = () => setCount((count) => count + 1)
+
+    return (
+        <>
+            <content>Count: {count}</content>
+            <action-row>
+                <button onClick={increment} style={ButtonStyle.Primary}>
+                    +
+                </button>
+            </action-row>
+        </>
+    )
+}
+```
+
+**Create end-user command.**
+```jsx
+const counterCommand = new ChatInputCommand("counter", "A simple counter")
+    .intParam("start", "Number to start counting from")
+    .render(CounterApp)
+```
+
+**Instantiate the gateway client**, and register the command.
+```jsx
 const client = new Client({
-    token: "your-discord-token",
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
-    devGuildId: "dev-guild-id",
-    clientId: "client-id",
+    token: DISCORD_TOKEN ?? "",
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+    ],
+    devGuildId: DISCORD_DEV_GUILD_ID,
+    clientId: DISCORD_CLIENT_ID,
 })
 
-// Create a simple `ping` command
-const ping = new ChatInputCommand("ping", "Ping").render(() => (
-    <content>Pong</content>
-))
+client.registerCommand(counterCommand)
 
-// Register the command
-client.registerCommand(ping)
-
-// Connect client
-client.connect((client) =>
+// Connect client to gateway
+client.connect(() =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
 )
+
 ```
-
-**Result**  
-<img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/command_ping.png" alt="Ping Command" width="300">
-
-## A few more examples
-
-### `Echo` command with a required string parameter
-
-```tsx
-const echo = new ChatInputCommand("echo", "Echoes msg")
-    .stringParam("input", "Message to be echoed", { required: true })
-    .render(({ input }) => <content>{input}</content>)
-
-client.registerCommand(echo)
-```
-
-**Result**  
-<img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/command_echo.png" alt="Echo Command" width="300">
-
-### `Add` command with two optional number parameters
-
-```tsx
-const add = new ChatInputCommand("add", "Add two numbers")
-    .numberParam("a", "First number")
-    .numberParam("b", "Second number")
-    .render(({ a = 0, b = 0 }) => (
-        <embed>
-            <title>Result: {a + b}</title>
-            <desc>
-                {a} + {b}
-            </desc>
-        </embed>
-    ))
-
-client.registerCommand(add)
-```
-
-**Result**  
-<img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/command_add.png" alt="Add Command" width="250">
