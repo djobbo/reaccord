@@ -11,12 +11,14 @@ import type {
     Interaction,
 } from "discord.js"
 import type { EventHandler, EventListener } from "./react/MessageContext"
+import type { MessageResponseOptions } from "./nodes"
 import type { RenderMessageFn } from "./renderer/renderMessage"
 
 type ClientOptions = DiscordClientOptions & {
     token: string
     devGuildId?: string
     clientId?: string
+    messageResponseOptions?: MessageResponseOptions
 }
 
 export class Client extends DiscordClient {
@@ -24,7 +26,9 @@ export class Client extends DiscordClient {
     devGuildId?: string
     clientId?: string
 
-    renderMessage: RenderMessageFn
+    renderMessage: (
+        messageResponseOptions?: MessageResponseOptions,
+    ) => RenderMessageFn
 
     slashCommands: ChatInputCommand[] = []
     msgCtxCommands: MessageContextCommand[] = []
@@ -42,15 +46,28 @@ export class Client extends DiscordClient {
     reactionRemoveAllDisposer?: () => void
     reactionRemoveEmojiDisposer?: () => void
     replyDisposer?: () => void
+    #messageResponseOptions: MessageResponseOptions = {}
 
-    constructor({ token, devGuildId, clientId, ...options }: ClientOptions) {
+    constructor({
+        token,
+        devGuildId,
+        clientId,
+        messageResponseOptions,
+        ...options
+    }: ClientOptions) {
         super(options)
 
         this.token = token
         this.devGuildId = devGuildId
         this.clientId = clientId
 
-        this.renderMessage = renderMessage(render, this)
+        this.renderMessage = (
+            messageResponseOptions?: MessageResponseOptions,
+        ) =>
+            renderMessage(render, this, {
+                ...this.#messageResponseOptions,
+                ...messageResponseOptions,
+            })
 
         this.initInteractions()
     }

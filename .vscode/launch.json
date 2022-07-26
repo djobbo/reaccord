@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Reaccord: Debug Rick and Morty Example",
+            "cwd": "${workspaceFolder}/examples/rick-and-morty-search",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "pnpm dev",
+        }
+    ]
+}

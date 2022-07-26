@@ -1,5 +1,6 @@
 import { MessageProvider } from "../react/MessageContext"
 import { hostConfig } from "./hostConfig"
+import { isRootNode } from "../nodes/guards"
 import ReactReconciler from "react-reconciler"
 import type { Client } from "../Client"
 import type { JSX } from "../../jsx-runtime"
@@ -29,10 +30,27 @@ export const render: RenderFn = (Code, root, client, message) => {
 
     reactReconcilerInstance.updateContainer(
         // @ts-expect-error wrong react type??
-        <MessageProvider message={message} client={client}>
+        <MessageProvider
+            message={message}
+            client={client}
+            onInteractionTerminated={() =>
+                reactReconcilerInstance.updateContainer(
+                    null,
+                    rootContainer,
+                    null,
+                )
+            }
+        >
             <Code />
         </MessageProvider>,
         rootContainer,
         null,
     )
+
+    if (isRootNode(root) && !!root.messageResponseOptions.staleAfter) {
+        setTimeout(() => {
+            reactReconcilerInstance.updateContainer(null, rootContainer, null)
+            root.resetListeners()
+        }, root.messageResponseOptions.staleAfter * 1000)
+    }
 }

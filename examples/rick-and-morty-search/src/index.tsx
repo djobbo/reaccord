@@ -16,7 +16,11 @@ const client = new Client({
 
 const queryClient = new QueryClient()
 
-const rickCmd = new ChatInputCommand("rick", "Rick and Morty characters info.")
+const rickCmd = new ChatInputCommand(
+    "rick",
+    "Rick and Morty characters info.",
+    { staleAfter: 10 },
+)
     .stringParam("search", "Character name search")
     .render(({ search }) => (
         <QueryClientProvider client={queryClient}>

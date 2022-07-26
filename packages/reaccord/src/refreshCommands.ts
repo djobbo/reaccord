@@ -15,7 +15,7 @@ export const refreshCommands = async (
     clientId?: string,
     devGuildId?: string,
 ) => {
-    const rest = new REST({ version: "9" }).setToken(token)
+    const rest = new REST({ version: "10" }).setToken(token)
     if (!clientId)
         throw new Error(
             "Can't create slash command. No `clientId` was provided.",

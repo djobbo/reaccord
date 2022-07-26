@@ -15,27 +15,40 @@ export type MessageReactionType =
     | "REMOVE_ALL"
     | "REMOVE_EMOJI"
 
+export type MessageResponseOptions = {
+    /**
+     * Interactions will not respond after this amount of time (s).
+     * @default 300 (5min)
+     */
+    staleAfter?: number | null
+}
+
 export class RootNode extends BaseNode<"root", BaseNode, BaseNode> {
     client: Client
-
     onRender: ((node: RootNode) => void) | undefined
-
     interactionListeners: Record<
         string,
         (interaction: Interaction) => unknown
     > = {}
-
     message: Message
+    messageResponseOptions: MessageResponseOptions = {
+        staleAfter: 5 * 60,
+    }
 
     constructor(
         client: Client,
         message: Message,
         onRender?: (node: RootNode) => void | undefined,
+        options: MessageResponseOptions = {},
     ) {
         super("root")
         this.client = client
         this.message = message
         this.onRender = onRender
+        this.messageResponseOptions = {
+            ...this.messageResponseOptions,
+            ...options,
+        }
 
         client.on("interactionCreate", (interaction) => {
             // TODO: Add proper disposal

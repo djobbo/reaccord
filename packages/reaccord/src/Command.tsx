@@ -16,6 +16,7 @@ import type {
     UserContextMenuCommandInteraction,
 } from "discord.js"
 import type { JSX } from "../jsx-runtime"
+import type { MessageResponseOptions } from "./nodes"
 import type { RenderMessageFn } from "./renderer/renderMessage"
 
 type CommandParamOptions<Required extends boolean = false> = {
@@ -29,7 +30,9 @@ type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
 ) => ReturnValue
 
 export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
-    #renderMessage?: RenderMessageFn
+    #renderMessage?: (
+        messageResponseOptions?: MessageResponseOptions,
+    ) => RenderMessageFn
     #params: string[]
     #interactionCallback?: CommandInteractionCallback<
         Props,
@@ -37,8 +40,13 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         void
     >
     slashCommand: ChatInputApplicationCommandData
+    #messageResponseOptions: MessageResponseOptions = {}
 
-    constructor(name: string, description: string) {
+    constructor(
+        name: string,
+        description: string,
+        messageResponseOptions?: MessageResponseOptions,
+    ) {
         // TODO: check for builder in a later update
         // this.slashCommand = new SlashCommandBuilder()
         // this.slashCommand.setName(name)
@@ -51,9 +59,17 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         }
 
         this.#params = []
+        this.#messageResponseOptions = {
+            ...this.#messageResponseOptions,
+            ...messageResponseOptions,
+        }
     }
 
-    setRenderMessageFn(fn: RenderMessageFn): void {
+    setRenderMessageFn(
+        fn: (
+            messageResponseOptions?: MessageResponseOptions,
+        ) => RenderMessageFn,
+    ): void {
         this.#renderMessage = fn
     }
 
@@ -210,7 +226,9 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
         this.#interactionCallback = (props, interaction) => {
             if (!this.#renderMessage)
                 throw new Error("Command wasn't registered correctly")
-            this.#renderMessage(interaction, () => callback(props, interaction))
+            this.#renderMessage(this.#messageResponseOptions)(interaction, () =>
+                callback(props, interaction),
+            )
         }
         return this
     }
@@ -244,18 +262,22 @@ abstract class ContextMenuCommand<
         ? Message
         : User = any,
 > {
-    #renderMessage?: RenderMessageFn
+    #renderMessage?: (
+        messageResponseOptions?: MessageResponseOptions,
+    ) => RenderMessageFn
     data: DataType
     interactionCallback?: CommandInteractionCallback<
         Props,
         InteractionType,
         void
     >
+    #messageResponseOptions: MessageResponseOptions = {}
 
     constructor(
         name: string,
         type: DataType["type"],
         defaultPermission?: boolean,
+        messageResponseOptions?: MessageResponseOptions,
     ) {
         //@ts-expect-error
         this.data = {
@@ -263,9 +285,17 @@ abstract class ContextMenuCommand<
             defaultPermission,
             type,
         }
+        this.#messageResponseOptions = {
+            ...this.#messageResponseOptions,
+            ...messageResponseOptions,
+        }
     }
 
-    setRenderMessageFn(fn: RenderMessageFn): void {
+    setRenderMessageFn(
+        fn: (
+            messageResponseOptions?: MessageResponseOptions,
+        ) => RenderMessageFn,
+    ): void {
         this.#renderMessage = fn
     }
 
@@ -279,7 +309,9 @@ abstract class ContextMenuCommand<
         this.interactionCallback = (props, interaction) => {
             if (!this.#renderMessage)
                 throw new Error("Command wasn't registered correctly")
-            this.#renderMessage(interaction, () => callback(props, interaction))
+            this.#renderMessage(this.#messageResponseOptions)(interaction, () =>
+                callback(props, interaction),
+            )
         }
         return this
     }

@@ -15,6 +15,7 @@ import type {
     ThreadChannel,
 } from "discord.js"
 import type { JSX } from "../../jsx-runtime"
+import type { MessageResponseOptions } from "../nodes"
 import type { RenderFn } from "./render"
 
 type Channel =
@@ -38,17 +39,21 @@ export type RenderMessageFn = (
 ) => Promise<Message>
 
 export const renderMessage =
-    (render: RenderFn, client: Client): RenderMessageFn =>
+    (
+        render: RenderFn,
+        client: Client,
+        rootOptions: MessageResponseOptions,
+    ): RenderMessageFn =>
     async (ref, Code) => {
         let message =
             ref instanceof Message
                 ? await ref.reply(EMPTY_STRING)
                 : ref instanceof CommandInteraction ||
                   ref instanceof ContextMenuCommandInteraction
-                ? ((await ref.reply({
+                ? await ref.reply({
                       content: EMPTY_STRING,
                       fetchReply: true,
-                  })) as Message) // TODO: do proper type checking, APIMessage type doesn't have `.reply()`
+                  })
                 : await ref.send(EMPTY_STRING)
 
         const cb = async (root: RootNode) => {
@@ -58,7 +63,12 @@ export const renderMessage =
             throw new Error("Failed to send message")
         }
 
-        const root = new RootNode(client, message, debounce(cb, 50))
+        const root = new RootNode(
+            client,
+            message,
+            debounce(cb, 50),
+            rootOptions,
+        )
         render(Code, root, client, message)
         return message
     }

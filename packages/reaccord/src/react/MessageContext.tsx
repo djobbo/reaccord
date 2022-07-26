@@ -20,6 +20,7 @@ export type MessageContext = {
     onReactionRemoveAll: EventHandler<"messageReactionRemoveAll">
     onReactionRemoveEmoji: EventHandler<"messageReactionRemoveEmoji">
     onReply: EventHandler<"messageCreate">
+    terminateInteraction: () => void
 }
 
 const messageContext = createContext<MessageContext>({
@@ -35,12 +36,14 @@ export type MessageProviderProps = {
     client: Client
     message: Message
     children?: JSX.Element
+    onInteractionTerminated: () => void
 }
 
 export const MessageProvider = ({
     children,
     client,
     message,
+    onInteractionTerminated,
 }: MessageProviderProps) => {
     return (
         <messageContext.Provider
@@ -84,6 +87,7 @@ export const MessageProvider = ({
                             createdMessage.reference.messageId === message.id &&
                             isAllowed(createdMessage, ...args),
                     ),
+                terminateInteraction: onInteractionTerminated,
             }}
         >
             {children}
