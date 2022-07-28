@@ -25,6 +25,7 @@ A simple, and clean framework to build discord apps declaratively using [React](
 [View complete typescript example here](https://github.com/djobbo/reaccord/examples/simple-counter)
 
 **imports**
+
 ```jsx
 import {
     ButtonStyle,
@@ -36,6 +37,7 @@ import { useState } from "react"
 ```
 
 **Define App behavior**, just like in a React app.
+
 ```jsx
 export const CounterApp = ({ start = 0 }) => {
     const [count, setCount] = useState(start)
@@ -55,6 +57,7 @@ export const CounterApp = ({ start = 0 }) => {
 ```
 
 **Create end-user command.**
+
 ```jsx
 const counterCommand = new ChatInputCommand("counter", "A simple counter")
     .intParam("start", "Number to start counting from")
@@ -62,6 +65,7 @@ const counterCommand = new ChatInputCommand("counter", "A simple counter")
 ```
 
 **Instantiate the gateway client**, and register the command.
+
 ```jsx
 const client = new Client({
     token: DISCORD_TOKEN ?? "",
@@ -80,5 +84,4 @@ client.registerCommand(counterCommand)
 client.connect(() =>
     console.log(`🚀 Client connected as ${client.user?.username}!`),
 )
-
 ```
