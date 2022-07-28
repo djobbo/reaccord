@@ -6,8 +6,7 @@ export {
 } from "./Command"
 export * from "./react"
 export * from "discord.js"
-import React from "react"
-export default React
+export { renderMessage } from "./renderer"
 
 export type ReaccordConfig = {
     /**
