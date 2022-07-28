@@ -33,7 +33,7 @@ export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
             if (interaction.type !== InteractionType.ModalSubmit) return
             if (interaction.customId !== customId) return
 
-            if (!this.attr.onSubmit?.(interaction)) {
+            if (!(await this.attr.onSubmit?.(interaction))) {
                 await interaction.reply({ content: "done ✅" })
                 await interaction.deleteReply()
             }

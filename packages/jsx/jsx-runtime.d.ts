@@ -101,7 +101,7 @@ export namespace JSX {
         /**
          * By default, onClick will trigger a defered update, to prevent this, return a truthy value
          */
-        onClick?: (interaction: ButtonInteraction) => any
+        onClick?: (interaction: ButtonInteraction) => any | Promise<any>
         children?: Element
         disabled?: boolean
         style?: ButtonStyle
@@ -111,7 +111,10 @@ export namespace JSX {
         /**
          * By default, onChange will trigger a defered update, to prevent this, return a truthy value
          */
-        onChange?: (values: string[], interaction: SelectMenuInteraction) => any
+        onChange?: (
+            values: string[],
+            interaction: SelectMenuInteraction,
+        ) => any | Promise<any>
         children?: Element
         disabled?: boolean
     }
@@ -123,7 +126,10 @@ export namespace JSX {
     }
     interface TextInputAttributes {
         id?: string
-        onChange?: (value: string, interaction: ModalSubmitInteraction) => void
+        onChange?: (
+            value: string,
+            interaction: ModalSubmitInteraction,
+        ) => any | Promise<any>
         label?: string
         value?: string
         placeholder?: string
@@ -140,7 +146,7 @@ export namespace JSX {
          * in order to respond to the interaction.
          * To prevent this, return a truthy value
          */
-        onSubmit?: (interaction: ModalSubmitInteraction) => void
+        onSubmit?: (interaction: ModalSubmitInteraction) => any | Promise<any>
     }
     interface IntrinsicElements {
         // Text

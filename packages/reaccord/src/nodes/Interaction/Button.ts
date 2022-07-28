@@ -1,4 +1,4 @@
-import { ButtonBuilder } from "discord.js"
+import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { TextContainerNode } from "../_TextContainer"
 import type { ActionRowNode } from "./ActionRow"
 import type { Interaction } from "discord.js"
@@ -23,14 +23,14 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
             .setLabel(this.innerText)
 
         if (this.attr.style) {
-            button.setStyle(this.attr.style)
+            button.setStyle(this.attr.style ?? ButtonStyle.Secondary)
         }
 
         const listener = async (interaction: Interaction) => {
             if (!interaction.isButton()) return
             if (interaction.customId !== customId) return
 
-            if (!this.attr.onClick?.(interaction))
+            if (!(await this.attr.onClick?.(interaction)))
                 await interaction.deferUpdate()
         }
 

@@ -28,11 +28,11 @@ export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
                     .map((child) => child.render()),
             )
 
-        const listener = (interaction: Interaction) => {
+        const listener = async (interaction: Interaction) => {
             if (!interaction.isSelectMenu()) return
             if (interaction.customId !== customId) return
 
-            if (!this.attr.onChange?.(interaction.values, interaction))
+            if (!(await this.attr.onChange?.(interaction.values, interaction)))
                 interaction.deferUpdate()
         }
 
