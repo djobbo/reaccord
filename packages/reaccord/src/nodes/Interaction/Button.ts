@@ -21,10 +21,7 @@ export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
             .setCustomId(customId)
             .setDisabled(this.attr.disabled ?? false)
             .setLabel(this.innerText)
-
-        if (this.attr.style) {
-            button.setStyle(this.attr.style ?? ButtonStyle.Secondary)
-        }
+            .setStyle(this.attr.style ?? ButtonStyle.Secondary)
 
         const listener = async (interaction: Interaction) => {
             if (!interaction.isButton()) return
