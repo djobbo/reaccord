@@ -5,7 +5,7 @@ import {
 } from "./Command"
 import { Client as DiscordClient } from "discord.js"
 import { refreshCommands } from "./refreshCommands"
-import { render, renderMessage } from "./renderer"
+import { renderMessage } from "./renderer"
 import type {
     ClientOptions as DiscordClientOptions,
     Interaction,
@@ -64,7 +64,7 @@ export class Client extends DiscordClient {
         this.renderMessage = (
             messageResponseOptions?: MessageResponseOptions,
         ) =>
-            renderMessage(render, this, {
+            renderMessage(this, {
                 ...this.#messageResponseOptions,
                 ...messageResponseOptions,
             })

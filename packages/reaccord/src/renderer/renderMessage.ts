@@ -5,6 +5,7 @@ import {
 } from "discord.js"
 import { EMPTY_STRING } from "../helpers/constants"
 import { RootNode } from "../nodes"
+import { render } from "./render"
 import type { Client } from "../Client"
 import type {
     DMChannel,
@@ -16,7 +17,6 @@ import type {
 } from "discord.js"
 import type { JSX } from "../../jsx-runtime"
 import type { MessageResponseOptions } from "../nodes"
-import type { RenderFn } from "./render"
 
 type Channel =
     | DMChannel
@@ -39,11 +39,7 @@ export type RenderMessageFn = (
 ) => Promise<Message>
 
 export const renderMessage =
-    (
-        render: RenderFn,
-        client: Client,
-        rootOptions: MessageResponseOptions,
-    ): RenderMessageFn =>
+    (client: Client, rootOptions: MessageResponseOptions): RenderMessageFn =>
     async (ref, Code) => {
         let message =
             ref instanceof Message
