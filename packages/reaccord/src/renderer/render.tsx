@@ -28,18 +28,22 @@ export const render: RenderFn = (Code, root, client, message) => {
         null,
     )
 
+    let timeout: NodeJS.Timeout | undefined
+
     reactReconcilerInstance.updateContainer(
         // @ts-expect-error wrong react type??
         <MessageProvider
             message={message}
             client={client}
-            onInteractionTerminated={() =>
+            onInteractionTerminated={() => {
+                if (timeout) clearTimeout(timeout)
+
                 reactReconcilerInstance.updateContainer(
                     null,
                     rootContainer,
                     null,
                 )
-            }
+            }}
         >
             <Code />
         </MessageProvider>,
@@ -48,7 +52,7 @@ export const render: RenderFn = (Code, root, client, message) => {
     )
 
     if (isRootNode(root) && !!root.messageResponseOptions.staleAfter) {
-        setTimeout(() => {
+        timeout = setTimeout(() => {
             reactReconcilerInstance.updateContainer(null, rootContainer, null)
             root.resetListeners()
         }, root.messageResponseOptions.staleAfter * 1000)

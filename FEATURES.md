@@ -49,3 +49,6 @@
 
 TODO: add some kind of warning when interaction is stale
 .onStaleInteraction((interaction) => interaction.reply('Interaction is stale'))
+
+TODO: when message is deleted
+    remove all interaction listeners
