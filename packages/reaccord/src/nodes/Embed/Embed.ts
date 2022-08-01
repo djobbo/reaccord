@@ -8,13 +8,13 @@ import type { TitleNode } from "../Title"
 type EmbedChildren = TitleNode | FieldNode | ThumbnailNode
 
 export class EmbedNode extends BaseNode<"embed", RootNode, EmbedChildren> {
-    constructor() {
-        super("embed")
-    }
+	constructor() {
+		super("embed")
+	}
 
-    render(): EmbedBuilder {
-        const newEmbed = new EmbedBuilder()
-        this.children.forEach((child) => child.render(newEmbed))
-        return newEmbed
-    }
+	render(): EmbedBuilder {
+		const newEmbed = new EmbedBuilder()
+		this.children.forEach((child) => child.render(newEmbed))
+		return newEmbed
+	}
 }

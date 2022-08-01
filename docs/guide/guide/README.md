@@ -28,10 +28,10 @@ import { Client } from "reaccord"
 
 ```tsx
 const client = createClient({
-    token: "token",
-    intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
-    devGuildId: "dev-guild-id",
-    clientId: "client-id",
+	token: "token",
+	intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+	devGuildId: "dev-guild-id",
+	clientId: "client-id",
 })
 ```
 
@@ -40,8 +40,8 @@ _render will respond to the interaction with a message built with react_
 
 ```tsx
 client
-    .createSlashCommand("ping", "Ping bot")
-    .render(() => <content>Pong</content>)
+	.createSlashCommand("ping", "Ping bot")
+	.render(() => <content>Pong</content>)
 ```
 
 > _**3.bis Respond to interaction directly**_  
@@ -49,7 +49,7 @@ client
 >
 > ```tsx
 > client.createSlashCommand("ping", "Ping bot").exec((_, interaction) => {
->     interaction.reply("Pong")
+> 	interaction.reply("Pong")
 > })
 > ```
 
@@ -57,7 +57,7 @@ client
 
 ```tsx
 client.connect((client) =>
-    console.log(`🚀 Client connected as ${client.user?.username}!`),
+	console.log(`🚀 Client connected as ${client.user?.username}!`),
 )
 ```
 
@@ -67,17 +67,17 @@ client.connect((client) =>
 import { Client } from "reaccord"
 
 const client = new Client({
-    token: "token",
-    intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
-    devGuildId: "dev-guild-id",
-    clientId: "client-id",
+	token: "token",
+	intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
+	devGuildId: "dev-guild-id",
+	clientId: "client-id",
 })
 
 client
-    .createSlashCommand("ping", "Ping bot")
-    .render(() => <content>Pong</content>)
+	.createSlashCommand("ping", "Ping bot")
+	.render(() => <content>Pong</content>)
 
 client.connect((client) =>
-    console.log(`🚀 Client connected as ${client.user?.username}!`),
+	console.log(`🚀 Client connected as ${client.user?.username}!`),
 )
 ```

@@ -28,82 +28,82 @@ import type { TitleNode } from "./Title"
 import type { UrlNode } from "./Embed/Url"
 
 export const isRootNode = (node: BaseNode): node is RootNode =>
-    node.type === "root"
+	node.type === "root"
 
 export const isTitleNode = (node: BaseNode): node is TitleNode =>
-    node.type === "title"
+	node.type === "title"
 
 export const isAnchorNode = (node: BaseNode): node is AnchorNode =>
-    node.type === "a"
+	node.type === "a"
 
 export const isCodeNode = (node: BaseNode): node is CodeNode =>
-    node.type === "code"
+	node.type === "code"
 
 export const isCodeblockNode = (node: BaseNode): node is CodeblockNode =>
-    node.type === "codeblock"
+	node.type === "codeblock"
 
 export const isContentNode = (node: BaseNode): node is ContentNode =>
-    node.type === "content"
+	node.type === "content"
 
 export const isLineBreakNode = (node: BaseNode): node is LineBreakNode =>
-    node.type === "br"
+	node.type === "br"
 
 export const isSpanNode = (node: BaseNode): node is SpanNode =>
-    node.type === "span"
+	node.type === "span"
 
 export const isAuthorNode = (node: BaseNode): node is AuthorNode =>
-    node.type === "author"
+	node.type === "author"
 
 export const isColorNode = (node: BaseNode): node is ColorNode =>
-    node.type === "color"
+	node.type === "color"
 
 export const isDescriptionNode = (node: BaseNode): node is DescriptionNode =>
-    node.type === "desc"
+	node.type === "desc"
 
 export const isEmbedNode = (node: BaseNode): node is EmbedNode =>
-    node.type === "embed"
+	node.type === "embed"
 
 export const isFieldNode = (node: BaseNode): node is FieldNode =>
-    node.type === "field"
+	node.type === "field"
 
 export const isFooterNode = (node: BaseNode): node is FooterNode =>
-    node.type === "footer"
+	node.type === "footer"
 
 export const isImageNode = (node: BaseNode): node is ImageNode =>
-    node.type === "img"
+	node.type === "img"
 
 export const isThumbnailNode = (node: BaseNode): node is ThumbnailNode =>
-    node.type === "thumbnail"
+	node.type === "thumbnail"
 
 export const isTimestampNode = (node: BaseNode): node is TimestampNode =>
-    node.type === "timestamp"
+	node.type === "timestamp"
 
 export const isUrlNode = (node: BaseNode): node is UrlNode =>
-    node.type === "url"
+	node.type === "url"
 
 export const isActionRowNode = (node: BaseNode): node is ActionRowNode =>
-    node.type === "action-row"
+	node.type === "action-row"
 
 export const isButtonNode = (node: BaseNode): node is ButtonNode =>
-    node.type === "button"
+	node.type === "button"
 
 export const isInputNode = (node: BaseNode): node is InputNode =>
-    node.type === "input"
+	node.type === "input"
 
 export const isModalNode = (node: BaseNode): node is ModalNode =>
-    node.type === "modal"
+	node.type === "modal"
 
 export const isModalRowNode = (node: BaseNode): node is ModalRowNode =>
-    node.type === "modal-row"
+	node.type === "modal-row"
 
 export const isOptionNode = (node: BaseNode): node is OptionNode =>
-    node.type === "option"
+	node.type === "option"
 
 export const isSelectNode = (node: BaseNode): node is SelectNode =>
-    node.type === "select"
+	node.type === "select"
 
 export const isTextNode = (node: BaseNode): node is TextNode =>
-    node.type === "textnode"
+	node.type === "textnode"
 
 export const isModalRootNode = (node: BaseNode): node is ModalRootNode =>
-    node.type === "modal-root"
+	node.type === "modal-root"

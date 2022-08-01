@@ -23,7 +23,7 @@ Span can be used anywhere markdown is allowed:
 
 ```tsx
 <content>
-    <span>Text</span>
+	<span>Text</span>
 </content>
 ```
 
@@ -51,6 +51,6 @@ Will render text in _italics_.
 
 ```tsx
 <span bold italic>
-    Bold & Italic Text
+	Bold & Italic Text
 </span>
 ```

@@ -4,9 +4,9 @@
 
 ```tsx
 const App = () => {
-    const { message, client } = useMessageCtx()
+	const { message, client } = useMessageCtx()
 
-    return <></>
+	return <></>
 }
 ```
 

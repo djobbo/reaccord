@@ -4,79 +4,79 @@ import type { DependencyList } from "react"
 import type { EventListener } from "./MessageContext"
 
 type EventHandlerOptions = Partial<{
-    allowBot: boolean
-    allowMe: boolean
+	allowBot: boolean
+	allowMe: boolean
 }>
 
 export const useOnReactionAdd = (
-    handler: EventListener<"messageReactionAdd">,
-    deps: DependencyList | undefined = undefined,
-    { allowBot = true, allowMe = true }: EventHandlerOptions = {},
+	handler: EventListener<"messageReactionAdd">,
+	deps: DependencyList | undefined = undefined,
+	{ allowBot = true, allowMe = true }: EventHandlerOptions = {},
 ) => {
-    const { onReactionAdd } = useMessageCtx()
+	const { onReactionAdd } = useMessageCtx()
 
-    useEffect(
-        () =>
-            onReactionAdd(handler, (reaction, user) => {
-                if (!allowBot && user.bot) return false
-                if (!allowMe && reaction.me) return false
-                return true
-            }),
-        deps,
-    )
+	useEffect(
+		() =>
+			onReactionAdd(handler, (reaction, user) => {
+				if (!allowBot && user.bot) return false
+				if (!allowMe && reaction.me) return false
+				return true
+			}),
+		deps,
+	)
 }
 
 export const useOnReactionRemove = (
-    handler: EventListener<"messageReactionRemove">,
-    deps: DependencyList | undefined = undefined,
-    { allowBot = true, allowMe = true }: EventHandlerOptions = {},
+	handler: EventListener<"messageReactionRemove">,
+	deps: DependencyList | undefined = undefined,
+	{ allowBot = true, allowMe = true }: EventHandlerOptions = {},
 ) => {
-    const { onReactionRemove } = useMessageCtx()
+	const { onReactionRemove } = useMessageCtx()
 
-    useEffect(
-        () =>
-            onReactionRemove(handler, (reaction, user) => {
-                if (!allowBot && user.bot) return false
-                if (!allowMe && reaction.me) return false
-                return true
-            }),
-        deps,
-    )
+	useEffect(
+		() =>
+			onReactionRemove(handler, (reaction, user) => {
+				if (!allowBot && user.bot) return false
+				if (!allowMe && reaction.me) return false
+				return true
+			}),
+		deps,
+	)
 }
 
 export const useOnReactionRemoveAll = (
-    handler: EventListener<"messageReactionRemoveAll">,
-    deps: DependencyList | undefined = undefined,
+	handler: EventListener<"messageReactionRemoveAll">,
+	deps: DependencyList | undefined = undefined,
 ) => {
-    const { onReactionRemoveAll } = useMessageCtx()
+	const { onReactionRemoveAll } = useMessageCtx()
 
-    useEffect(() => onReactionRemoveAll(handler, () => true), deps)
+	useEffect(() => onReactionRemoveAll(handler, () => true), deps)
 }
 
 export const useOnReactionRemoveEmoji = (
-    handler: EventListener<"messageReactionRemoveEmoji">,
-    deps: DependencyList | undefined = undefined,
+	handler: EventListener<"messageReactionRemoveEmoji">,
+	deps: DependencyList | undefined = undefined,
 ) => {
-    const { onReactionRemoveEmoji } = useMessageCtx()
+	const { onReactionRemoveEmoji } = useMessageCtx()
 
-    useEffect(() => onReactionRemoveEmoji(handler, () => true), deps)
+	useEffect(() => onReactionRemoveEmoji(handler, () => true), deps)
 }
 
 export const useOnReply = (
-    handler: EventListener<"messageCreate">,
-    deps: DependencyList | undefined = undefined,
-    { allowBot = true, allowMe = true }: EventHandlerOptions = {},
+	handler: EventListener<"messageCreate">,
+	deps: DependencyList | undefined = undefined,
+	{ allowBot = true, allowMe = true }: EventHandlerOptions = {},
 ) => {
-    const { onReply, client } = useMessageCtx()
+	const { onReply, client } = useMessageCtx()
 
-    useEffect(
-        () =>
-            onReply(handler, (message) => {
-                if (!allowBot && message.author.bot) return false
-                if (!allowMe && message.author.id === client.user?.id)
-                    return false
-                return true
-            }),
-        deps,
-    )
+	useEffect(
+		() =>
+			onReply(handler, (message) => {
+				if (!allowBot && message.author.bot) return false
+				if (!allowMe && message.author.id === client.user?.id)
+					return false
+				return true
+			}),
+		deps,
+	)
 }

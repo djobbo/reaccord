@@ -28,10 +28,10 @@ A simple, and clean framework to build discord apps declaratively using [React](
 
 ```jsx
 import {
-    ButtonStyle,
-    ChatInputCommand,
-    Client,
-    GatewayIntentBits,
+	ButtonStyle,
+	ChatInputCommand,
+	Client,
+	GatewayIntentBits,
 } from "reaccord"
 import { useState } from "react"
 ```
@@ -40,19 +40,19 @@ import { useState } from "react"
 
 ```jsx
 export const CounterApp = ({ start = 0 }) => {
-    const [count, setCount] = useState(start)
-    const increment = () => setCount((count) => count + 1)
+	const [count, setCount] = useState(start)
+	const increment = () => setCount((count) => count + 1)
 
-    return (
-        <>
-            <content>Count: {count}</content>
-            <action-row>
-                <button onClick={increment} style={ButtonStyle.Primary}>
-                    +
-                </button>
-            </action-row>
-        </>
-    )
+	return (
+		<>
+			<content>Count: {count}</content>
+			<action-row>
+				<button onClick={increment} style={ButtonStyle.Primary}>
+					+
+				</button>
+			</action-row>
+		</>
+	)
 }
 ```
 
@@ -60,28 +60,28 @@ export const CounterApp = ({ start = 0 }) => {
 
 ```jsx
 const counterCommand = new ChatInputCommand("counter", "A simple counter")
-    .intParam("start", "Number to start counting from")
-    .render(CounterApp)
+	.intParam("start", "Number to start counting from")
+	.render(CounterApp)
 ```
 
 **Instantiate the gateway client**, and register the command.
 
 ```jsx
 const client = new Client({
-    token: DISCORD_TOKEN ?? "",
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
-    ],
-    devGuildId: DISCORD_DEV_GUILD_ID,
-    clientId: DISCORD_CLIENT_ID,
+	token: DISCORD_TOKEN ?? "",
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMessageReactions,
+	],
+	devGuildId: DISCORD_DEV_GUILD_ID,
+	clientId: DISCORD_CLIENT_ID,
 })
 
 client.registerCommand(counterCommand)
 
 // Connect client to gateway
 client.connect(() =>
-    console.log(`🚀 Client connected as ${client.user?.username}!`),
+	console.log(`🚀 Client connected as ${client.user?.username}!`),
 )
 ```
