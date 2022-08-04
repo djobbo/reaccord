@@ -7,6 +7,7 @@ const packages = [
 	["reaccord", "reaccord"],
 	["cli", "@reaccord/cli"],
 	["router", "@reaccord/router"],
+	["canvas", "@reaccord/canvas"],
 ]
 
 const rawDevVersion = `${await $`npm show . version`}`.slice(0, -1)
