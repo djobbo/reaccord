@@ -7,7 +7,8 @@
 		"dev": "reaccord dev",
 		"start": "reaccord start",
 		"build": "reaccord build",
-		"ts:check": "tsc --noEmit"
+		"ts:check": "tsc --noEmit",
+		"inspect": "reaccord dev --inspect"
 	},
 	"devDependencies": {
 		"@reaccord/cli": "workspace:0.0.0-dev",
