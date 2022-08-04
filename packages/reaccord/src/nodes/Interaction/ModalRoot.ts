@@ -4,7 +4,7 @@ import { isModalNode } from "../guards"
 import type { Client, Interaction, ModalBuilder } from "discord.js"
 import type { ModalNode } from "./Modal"
 
-export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
+export class ModalRootNode extends BaseNode<"ModalRoot", BaseNode, ModalNode> {
 	client: Client
 
 	interactionListeners: Record<
@@ -13,7 +13,7 @@ export class ModalRootNode extends BaseNode<"modal-root", BaseNode, ModalNode> {
 	> = {}
 
 	constructor(client: Client) {
-		super("modal-root")
+		super("ModalRoot")
 		this.client = client
 
 		client.on("interactionCreate", (interaction) => {

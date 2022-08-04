@@ -3,9 +3,9 @@ import { EMPTY_STRING } from "../../helpers/constants"
 import { SelectMenuOptionBuilder } from "discord.js"
 import type { SelectNode } from "./Select"
 
-export class OptionNode extends BaseNode<"option", SelectNode> {
+export class OptionNode extends BaseNode<"Option", SelectNode> {
 	constructor() {
-		super("option")
+		super("Option")
 	}
 
 	render(): SelectMenuOptionBuilder {

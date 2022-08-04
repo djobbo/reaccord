@@ -3,7 +3,6 @@ import { hostConfig } from "./hostConfig"
 import { isRootNode } from "../nodes/guards"
 import ReactReconciler from "react-reconciler"
 import type { Client } from "../Client"
-import type { JSX } from "../../jsx-runtime"
 import type { Message } from "discord.js"
 import type { ModalRootNode, RootNode } from "../nodes"
 
@@ -31,7 +30,6 @@ export const render: RenderFn = (Code, root, client, message) => {
 	let timeout: NodeJS.Timeout | undefined
 
 	reactReconcilerInstance.updateContainer(
-		// @ts-expect-error wrong react type??
 		<MessageProvider
 			message={message}
 			client={client}

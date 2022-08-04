@@ -7,12 +7,12 @@ import type { RootNode } from "../Root"
 import type { SelectNode } from "./Select"
 
 export class ActionRowNode extends BaseNode<
-	"action-row",
+	"ActionRow",
 	RootNode,
 	ButtonNode | SelectNode
 > {
 	constructor() {
-		super("action-row")
+		super("ActionRow")
 	}
 
 	render(): ActionRowBuilder<MessageActionRowComponentBuilder> {

@@ -5,9 +5,9 @@ import type { ActionRowNode } from "./ActionRow"
 import type { Interaction } from "discord.js"
 import type { OptionNode } from "./Option"
 
-export class SelectNode extends BaseNode<"select", ActionRowNode, OptionNode> {
+export class SelectNode extends BaseNode<"Select", ActionRowNode, OptionNode> {
 	constructor() {
-		super("select")
+		super("Select")
 	}
 
 	get customId() {

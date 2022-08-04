@@ -1,9 +1,9 @@
 import { TextContainerNode } from "../_TextContainer"
 import type { RootNode } from "../Root"
 
-export class ContentNode extends TextContainerNode<"content", RootNode> {
+export class ContentNode extends TextContainerNode<"Content", RootNode> {
 	constructor() {
-		super("content")
+		super("Content")
 	}
 
 	render(): string {

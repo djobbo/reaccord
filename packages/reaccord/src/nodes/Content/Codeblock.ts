@@ -1,9 +1,9 @@
 import { TextContainerNode } from "../_TextContainer"
 import type { ContentNode } from "./Content"
 
-export class CodeblockNode extends TextContainerNode<"codeblock", ContentNode> {
+export class CodeblockNode extends TextContainerNode<"CodeBlock", ContentNode> {
 	constructor() {
-		super("codeblock")
+		super("CodeBlock")
 	}
 
 	render(): string {

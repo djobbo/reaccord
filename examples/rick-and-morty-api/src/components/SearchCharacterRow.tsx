@@ -1,4 +1,4 @@
-import { ButtonStyle, useModal } from "reaccord"
+import { ActionRow, Button, ButtonStyle, useModal } from "reaccord"
 import { CharacterSearchModal } from "./CharacterSearchModal"
 
 type SearchCharacterRowProps = {
@@ -19,28 +19,28 @@ export const SearchCharacterRow = ({
 	)
 
 	return (
-		<action-row>
-			<button
+		<ActionRow>
+			<Button
 				style={ButtonStyle.Primary}
 				onClick={openCharacterSearchModal}
 				disabled={isLoading}
 			>
 				Search Character 🔎
-			</button>
+			</Button>
 			{search && (
 				<>
-					<button style={ButtonStyle.Secondary} disabled>
+					<Button style={ButtonStyle.Secondary} disabled>
 						Current search: {search}
-					</button>
-					<button
+					</Button>
+					<Button
 						style={ButtonStyle.Secondary}
 						onClick={() => setSearch("")}
 						disabled={isLoading}
 					>
 						Clear search
-					</button>
+					</Button>
 				</>
 			)}
-		</action-row>
+		</ActionRow>
 	)
 }

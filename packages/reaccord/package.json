@@ -2,7 +2,7 @@
 	"name": "reaccord",
 	"version": "0.0.0-dev",
 	"main": "lib/index.js",
-	"types": "lib/index.d.ts",
+	"types": "reaccord.d.ts",
 	"scripts": {
 		"build": "tsc",
 		"build:w": "tsc --watch",
@@ -12,6 +12,7 @@
 		"test:w": "jest --watch"
 	},
 	"files": [
+		"reaccord.d.ts",
 		"lib",
 		"jsx-runtime.d.ts",
 		"jsx-runtime.js"
@@ -27,7 +28,6 @@
 	},
 	"dependencies": {
 		"@discordjs/rest": "^1.0.0",
-		"@reaccord/jsx": "workspace:0.0.0-dev",
 		"discord-api-types": "^0.36.3",
 		"discord.js": "^14.0.3",
 		"react": "^18.2.0",

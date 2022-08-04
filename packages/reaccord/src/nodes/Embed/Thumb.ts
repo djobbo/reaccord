@@ -2,9 +2,9 @@ import { BaseNode } from "../_Base"
 import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
 
-export class ThumbnailNode extends BaseNode<"thumbnail", EmbedNode> {
+export class ThumbNode extends BaseNode<"Thumb", EmbedNode> {
 	constructor() {
-		super("thumbnail")
+		super("Thumb")
 	}
 
 	render(embed: EmbedBuilder): void {

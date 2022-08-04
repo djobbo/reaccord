@@ -3,7 +3,6 @@ import { createNodeFromTag } from "../helpers"
 import { isTextNode } from "../nodes/guards"
 import type { BaseNode, NodeType } from "../nodes"
 import type { HostConfig } from "react-reconciler"
-import type { JSX } from "../../jsx-runtime"
 
 export const hostConfig: HostConfig<
 	NodeType,

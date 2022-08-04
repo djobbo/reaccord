@@ -4,9 +4,9 @@ import { TextInputBuilder, TextInputStyle } from "discord.js"
 import type { ActionRowNode } from "./ActionRow"
 import type { TextNode } from "../Text"
 
-export class InputNode extends BaseNode<"input", ActionRowNode, TextNode> {
+export class InputNode extends BaseNode<"Input", ActionRowNode, TextNode> {
 	constructor() {
-		super("input")
+		super("Input")
 	}
 
 	get customId() {

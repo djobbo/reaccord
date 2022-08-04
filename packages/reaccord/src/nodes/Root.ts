@@ -23,7 +23,7 @@ export type MessageResponseOptions = {
 	staleAfter?: number | null
 }
 
-export class RootNode extends BaseNode<"root", BaseNode, BaseNode> {
+export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
 	client: Client
 	onRender: ((node: RootNode) => void) | undefined
 	interactionListeners: Record<
@@ -41,7 +41,7 @@ export class RootNode extends BaseNode<"root", BaseNode, BaseNode> {
 		onRender?: (node: RootNode) => void | undefined,
 		options: MessageResponseOptions = {},
 	) {
-		super("root")
+		super("Root")
 		this.client = client
 		this.message = message
 		this.onRender = onRender

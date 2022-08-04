@@ -1,9 +1,9 @@
-import { AnchorNode } from "./Anchor"
+import { LinkNode } from "./Link"
 import { TextNode } from "../Text"
 
-describe("AnchorNode", () => {
+describe("LinkNode", () => {
 	it("should render", () => {
-		const node = new AnchorNode()
+		const node = new LinkNode()
 
 		node.children = [new TextNode("Example")]
 		node.attr.href = "https://example.com"
@@ -17,7 +17,7 @@ describe("AnchorNode", () => {
 	})
 
 	it("should render empty string if no href attr or there is no inner content", () => {
-		const node = new AnchorNode()
+		const node = new LinkNode()
 
 		node.children = []
 		node.attr.href = "https://example.com"

@@ -1,7 +1,10 @@
 import {
+	ActionRow,
+	Button,
 	ButtonStyle,
 	ChatInputCommand,
 	Client,
+	Content,
 	GatewayIntentBits,
 } from "reaccord"
 import { config as loadEnv } from "dotenv"
@@ -22,12 +25,12 @@ export const CounterApp = ({ start = 0 }: CounterAppProps) => {
 
 	return (
 		<>
-			<content>Count: {count}</content>
-			<action-row>
-				<button onClick={increment} style={ButtonStyle.Primary}>
+			<Content>Count: {count}</Content>
+			<ActionRow>
+				<Button onClick={increment} style={ButtonStyle.Primary}>
 					+
-				</button>
-			</action-row>
+				</Button>
+			</ActionRow>
 		</>
 	)
 }

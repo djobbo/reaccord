@@ -3,9 +3,9 @@ import { TextContainerNode } from "../_TextContainer"
 import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
 
-export class FooterNode extends TextContainerNode<"footer", EmbedNode> {
+export class FooterNode extends TextContainerNode<"Footer", EmbedNode> {
 	constructor() {
-		super("footer")
+		super("Footer")
 	}
 
 	render(embed: EmbedBuilder): void {

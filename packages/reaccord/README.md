@@ -28,10 +28,12 @@ A simple, and clean framework to build discord apps declaratively using [React](
 
 ```jsx
 import {
+	ActionRow,
+	Button,
 	ButtonStyle,
 	ChatInputCommand,
+	Content,
 	Client,
-	GatewayIntentBits,
 } from "reaccord"
 import { useState } from "react"
 ```
@@ -39,18 +41,18 @@ import { useState } from "react"
 **Define App behavior**, just like in a React app.
 
 ```jsx
-export const CounterApp = ({ start = 0 }) => {
+const CounterApp = ({ start = 0 }) => {
 	const [count, setCount] = useState(start)
 	const increment = () => setCount((count) => count + 1)
 
 	return (
 		<>
-			<content>Count: {count}</content>
-			<action-row>
-				<button onClick={increment} style={ButtonStyle.Primary}>
+			<Content>Count: {count}</Content>
+			<ActionRow>
+				<Button onClick={increment} style={ButtonStyle.Primary}>
 					+
-				</button>
-			</action-row>
+				</Button>
+			</ActionRow>
 		</>
 	)
 }
@@ -69,11 +71,7 @@ const counterCommand = new ChatInputCommand("counter", "A simple counter")
 ```jsx
 const client = new Client({
 	token: DISCORD_TOKEN ?? "",
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.GuildMessageReactions,
-	],
+	intents: [],
 	devGuildId: DISCORD_DEV_GUILD_ID,
 	clientId: DISCORD_CLIENT_ID,
 })
