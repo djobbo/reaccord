@@ -71,7 +71,7 @@ const counterCommand = new ChatInputCommand("counter", "A simple counter")
 ```jsx
 const client = new Client({
 	token: DISCORD_TOKEN ?? "",
-	intents: [],
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 	devGuildId: DISCORD_DEV_GUILD_ID,
 	clientId: DISCORD_CLIENT_ID,
 })

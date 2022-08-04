@@ -36,3 +36,6 @@ export const Select: FC<ReaccordElement["Select"]>
 export const Option: FC<ReaccordElement["Option"]>
 export const Input: FC<ReaccordElement["Input"]>
 export const Modal: FC<ReaccordElement["Modal"]>
+
+// Attachments
+export const File: FC<ReaccordElement["File"]>

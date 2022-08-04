@@ -49,4 +49,7 @@ export const Option = "Option"
 export const Input = "Input"
 export const Modal = "Modal"
 
+// Attachments
+export const File = "File"
+
 export * from "./jsx"

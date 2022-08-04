@@ -3,6 +3,7 @@ export * from "./_TextContainer"
 export * from "./Root"
 export * from "./Text"
 export * from "./Title"
+export * from "./File"
 
 export * from "./Content/Link"
 export * from "./Content/Code"

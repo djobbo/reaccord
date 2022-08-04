@@ -6,15 +6,19 @@ import {
 	ChatInputCommand,
 	Client,
 	Content,
+	Embed,
+	File,
+	GatewayIntentBits,
+	Thumb,
 } from "reaccord"
 import {
 	QueryClient,
 	QueryClientProvider,
-	useQuery,
+	defaultContext,
 } from "@tanstack/react-query"
 import { Readable } from "stream"
 import { config as loadEnv } from "dotenv"
-import { renderToImageBuffer } from "@reaccord/canvas"
+import { renderToImageBuffer, useRenderAttachment } from "@reaccord/canvas"
 import { useState } from "react"
 
 loadEnv()
@@ -24,45 +28,50 @@ const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 export const CounterApp = ({ start = 0 }: { start?: number }) => {
 	const [count, setCount] = useState(start)
 	const increment = () => setCount((count) => count + 1)
-	const { data: imageFile, isLoading } = useQuery(
+	const { data: imageFile, isError } = useRenderAttachment(
 		["imageFile", count],
-		async () => {
-			const imageBuffer = await renderToImageBuffer(
-				() => (
-					<>
-						<script src="https://cdn.tailwindcss.com"></script>
-						<h1 className="text-slate-700 font-bold text-3xl pb-1">
-							Hello {count}!
-						</h1>
-					</>
-				),
-				{
-					viewport: {
-						width: 480,
-						height: 240,
-					},
-				},
-			)
-
-			const imageStream = Readable.from(imageBuffer)
-			const imageAttachment = new AttachmentBuilder(imageStream)
-
-			return imageAttachment
+		() => (
+			<>
+				<script src="https://cdn.tailwindcss.com"></script>
+				<div className="flex w-full h-full justify-center align-center">
+					<h1 className="text-slate-700 font-bold text-4xl pb-1">
+						{count}
+					</h1>
+				</div>
+			</>
+		),
+		{
+			viewport: {
+				width: 120,
+				height: 120,
+			},
+			queryOptions: {
+				keepPreviousData: true,
+				// Without this react-query fails to find the current queryClient
+				context: defaultContext,
+			},
 		},
 	)
 
+	if (!imageFile) {
+		return <Content>Loading...</Content>
+	}
+
 	return (
 		<>
-			<Content>Count: {count}</Content>
+			<Embed>
+				<Thumb src={`attachment://${imageFile.name}`} />
+			</Embed>
 			<ActionRow>
 				<Button onClick={increment} style={ButtonStyle.Primary}>
 					+
 				</Button>
 			</ActionRow>
-			{/* TODO: <Files></Files> */}
+			{!isError && !!imageFile && <File file={imageFile} />}
 		</>
 	)
 }
+
 const queryClient = new QueryClient()
 
 const counterCommand = new ChatInputCommand("counter", "Counter app").render(
@@ -126,7 +135,7 @@ const imageGenCommand = new ChatInputCommand(
 
 const client = new Client({
 	token: DISCORD_TOKEN ?? "",
-	intents: [],
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 	devGuildId: DISCORD_DEV_GUILD_ID,
 	clientId: DISCORD_CLIENT_ID,
 })

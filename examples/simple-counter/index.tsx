@@ -43,11 +43,7 @@ const counterCommand = new ChatInputCommand("counter", "A simple counter")
 // Create gateway client
 const client = new Client({
 	token: DISCORD_TOKEN ?? "",
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.GuildMessageReactions,
-	],
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 	devGuildId: DISCORD_DEV_GUILD_ID,
 	clientId: DISCORD_CLIENT_ID,
 })

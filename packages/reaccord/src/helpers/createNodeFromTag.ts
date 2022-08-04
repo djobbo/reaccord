@@ -10,6 +10,7 @@ import {
 	DescNode,
 	EmbedNode,
 	FieldNode,
+	FileNode,
 	FooterNode,
 	ImageNode,
 	InputNode,
@@ -76,7 +77,9 @@ export const createNodeFromTag = (tag: NodeType) => {
 			return new TimestampNode()
 		case "Image":
 			return new ImageNode()
+		case "File":
+			return new FileNode()
 		default:
-			throw new Error(`<${tag.toString()}/> is not yet implemented :(`)
+			throw new Error(`<${tag}/> is not yet implemented :(`)
 	}
 }

@@ -2,6 +2,7 @@ import type {
 	ButtonInteraction,
 	ButtonStyle,
 	ColorResolvable,
+	MessageEditOptions,
 	ModalSubmitInteraction,
 	SelectMenuInteraction,
 } from "discord.js"
@@ -135,5 +136,10 @@ export type ReaccordElement = {
 		 * To prevent this, return a truthy value
 		 */
 		onSubmit?: (interaction: ModalSubmitInteraction) => any | Promise<any>
+	} & BaseAttributes
+
+	// Attachments
+	File: {
+		file: NonNullable<MessageEditOptions["files"]>[0]
 	} & BaseAttributes
 }

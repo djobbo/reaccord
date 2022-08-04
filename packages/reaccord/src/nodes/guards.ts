@@ -10,6 +10,7 @@ import type { ContentNode } from "./Content/Content"
 import type { DescNode } from "./Embed/Desc"
 import type { EmbedNode } from "./Embed/Embed"
 import type { FieldNode } from "./Embed/Field"
+import type { FileNode } from "./File"
 import type { FooterNode } from "./Embed/Footer"
 import type { ImageNode } from "./Embed/Image"
 import type { InputNode } from "./Interaction/Input"
@@ -106,3 +107,6 @@ export const isTextNode = (node: BaseNode): node is TextNode =>
 
 export const isModalRootNode = (node: BaseNode): node is ModalRootNode =>
 	node.type === "ModalRoot"
+
+export const isFileNode = (node: BaseNode): node is FileNode =>
+	node.type === "File"

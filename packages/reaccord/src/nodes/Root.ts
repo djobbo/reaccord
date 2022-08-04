@@ -1,6 +1,11 @@
 import { BaseNode } from "./_Base"
 import { EMPTY_STRING } from "../helpers/constants"
-import { isActionRowNode, isContentNode, isEmbedNode } from "./guards"
+import {
+	isActionRowNode,
+	isContentNode,
+	isEmbedNode,
+	isFileNode,
+} from "./guards"
 import type {
 	Client,
 	Interaction,
@@ -92,6 +97,9 @@ export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
 				.map((child) => child.render()),
 			components: this.children
 				.filter(isActionRowNode)
+				.map((child) => child.render()),
+			files: this.children
+				.filter(isFileNode)
 				.map((child) => child.render()),
 		}
 	}
