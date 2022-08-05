@@ -47,9 +47,10 @@ if (latestCommitPublished === gitShortHash) {
 	logWarning(`No new version found, skipping publish.`)
 	process.exit(0)
 }
+logInfo(`A more recent commit was found, publishing new version.`)
 
 const timestamp = Date.now()
-const newDevVersion = `${version}.${timestamp}.${gitShortHash}`
+const newDevVersion = `${version}-dev.${timestamp}.${gitShortHash}`
 
 newLine()
 logBoxed(`New dev version: ${chalk.green(`v${newDevVersion}`)}`)
