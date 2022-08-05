@@ -1,16 +1,26 @@
 import type {
+	Attachment,
+	AttachmentBuilder,
 	ButtonInteraction,
 	ButtonStyle,
 	ColorResolvable,
-	MessageEditOptions,
 	ModalSubmitInteraction,
 	SelectMenuInteraction,
 } from "discord.js"
+import type { Buffer } from "node:buffer"
 import type { ReactNode } from "react"
+import type { Stream } from "node:stream"
 
 type BaseAttributes = {
 	key?: number | string | null
 }
+
+export type FileAttachment =
+	| Buffer
+	| Stream
+	| string
+	| AttachmentBuilder
+	| Attachment
 
 // TODO: add a script that checks if all elements are correctly exported
 export type ReaccordElement = {
@@ -58,12 +68,8 @@ export type ReaccordElement = {
 		children?: ReactNode
 		iconURL?: string
 	} & BaseAttributes
-	Image: {
-		src: string
-	} & BaseAttributes
-	Thumb: {
-		src: string
-	} & BaseAttributes
+	Image: ({ src: string } | { file: FileAttachment }) & BaseAttributes
+	Thumb: ({ src: string } | { file: FileAttachment }) & BaseAttributes
 	Timestamp: {
 		timestamp?: Date | number | null
 	} & BaseAttributes
@@ -139,7 +145,5 @@ export type ReaccordElement = {
 	} & BaseAttributes
 
 	// Attachments
-	File: {
-		file: NonNullable<MessageEditOptions["files"]>[0]
-	} & BaseAttributes
+	File: { file: FileAttachment } & BaseAttributes
 }

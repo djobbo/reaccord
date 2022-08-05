@@ -23,7 +23,7 @@ export type RenderContext = {
 	page: Page
 }
 
-export type Options = {
+export type RenderOptions = {
 	viewport?: Viewport
 	screenshotOptions?: PageScreenshotOptions
 	beforeRender?: (context: RenderContext) => Promise<void>
@@ -43,7 +43,7 @@ export const renderToImageBuffer = async (
 		browserOptions,
 		browserType = "chromium",
 		pageOptions,
-	}: Options = {},
+	}: RenderOptions = {},
 ) => {
 	const browserBase = browsers[browserType]
 	const browser = await browserBase.launch({
@@ -69,7 +69,7 @@ export const renderToImageBuffer = async (
 
 export const renderToBase64 = async (
 	Element: (props: RenderContext) => ReactElement,
-	options: Options = {},
+	options: RenderOptions = {},
 ) => {
 	const imageBuffer = await renderToImageBuffer(Element, options)
 	return imageBuffer.toString("base64")
@@ -77,7 +77,7 @@ export const renderToBase64 = async (
 
 export const renderToBase64String = async (
 	Element: (props: RenderContext) => ReactElement,
-	options: Options = {},
+	options: RenderOptions = {},
 ) => {
 	const base64Img = await renderToBase64(Element, options)
 	return `data:image/${

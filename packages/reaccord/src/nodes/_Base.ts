@@ -1,5 +1,5 @@
 import { isRootNode } from "./guards"
-import { randomUUID } from "node:crypto"
+import { v4 as uuidv4 } from "uuid"
 import type { ModalRootNode } from "./Interaction/ModalRoot"
 import type { ReaccordElement } from "../jsx"
 import type { RootNode } from "./Root"
@@ -32,7 +32,7 @@ export abstract class BaseNode<
 		: {} = {}
 
 	constructor(type: Type) {
-		this.uuid = randomUUID()
+		this.uuid = uuidv4()
 		this.type = type
 		this.children = []
 	}

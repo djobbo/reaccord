@@ -1,13 +1,12 @@
 import { AttachmentBuilder } from "discord.js"
-import { Readable } from "node:stream"
 import { renderToImageBuffer } from "./render"
 import { useQuery } from "@tanstack/react-query"
-import { v4 } from "uuid"
+import { v4 as uuidv4 } from "uuid"
 import type { QueryKey, UseQueryOptions } from "@tanstack/react-query"
 import type { ReactElement } from "react"
-import type { RenderContext, Options as RenderOptions } from "./render"
+import type { RenderContext, RenderOptions } from "./render"
 
-type Options<TQueryKey extends QueryKey> = {
+export type RenderImageFileQueryOptions<TQueryKey extends QueryKey> = {
 	queryOptions?: UseQueryOptions<
 		AttachmentBuilder,
 		unknown,
@@ -20,12 +19,15 @@ type Options<TQueryKey extends QueryKey> = {
  * A valid `@tanstack/react-query` setup is required for this hook to work.
  * @see https://tanstack.com/query/v4/docs/quick-start
  */
-export const useRenderAttachment = <TQueryKey extends QueryKey>(
+export const useRenderImageFile = <TQueryKey extends QueryKey>(
 	queryKey: TQueryKey,
 	Element: (props: RenderContext) => ReactElement,
-	{ queryOptions, ...renderOptions }: Options<TQueryKey> = {},
+	{
+		queryOptions,
+		...renderOptions
+	}: RenderImageFileQueryOptions<TQueryKey> = {},
 ) => {
-	return useQuery(
+	const { data: imageFile, ...query } = useQuery(
 		queryKey,
 		async () => {
 			const imageBuffer = await renderToImageBuffer(
@@ -33,13 +35,21 @@ export const useRenderAttachment = <TQueryKey extends QueryKey>(
 				renderOptions,
 			)
 
-			const imageStream = Readable.from(imageBuffer)
-			const imageFile = new AttachmentBuilder(imageStream).setName(
-				`${v4()}.${renderOptions.screenshotOptions?.type ?? "png"}`,
+			const imageFile = new AttachmentBuilder(imageBuffer).setName(
+				`${uuidv4()}.${renderOptions.screenshotOptions?.type ?? "png"}`,
 			)
 
 			return imageFile
 		},
 		queryOptions,
 	)
+
+	return {
+		imageFile,
+		imageFilename: imageFile?.name,
+		imageAttachmentName: imageFile?.name
+			? `attachment://${imageFile.name}`
+			: undefined,
+		...query,
+	}
 }

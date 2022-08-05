@@ -21,6 +21,9 @@ export const Author: FC<ReaccordElement["Author"]>
 export const Color: FC<ReaccordElement["Color"]>
 export const Desc: FC<ReaccordElement["Desc"]>
 export const Footer: FC<ReaccordElement["Footer"]>
+/**
+ * Can be used at the Root to send an image file or inside an Embed.
+ */
 export const Image: FC<ReaccordElement["Image"]>
 export const Thumb: FC<ReaccordElement["Thumb"]>
 export const Timestamp: FC<ReaccordElement["Timestamp"]>

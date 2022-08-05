@@ -48,6 +48,7 @@ module.exports = {
 			},
 		],
 		"import/no-duplicates": ["error", { considerQueryString: true }],
+		"no-console": "off",
 	},
 	settings: {
 		react: {

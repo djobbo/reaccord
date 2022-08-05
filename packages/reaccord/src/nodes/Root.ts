@@ -5,6 +5,7 @@ import {
 	isContentNode,
 	isEmbedNode,
 	isFileNode,
+	isImageNode,
 } from "./guards"
 import type {
 	Client,
@@ -13,6 +14,7 @@ import type {
 	MessageEditOptions,
 	MessageOptions,
 } from "discord.js"
+import type { FileAttachment } from "../jsx"
 
 export type MessageReactionType =
 	| "ADD"
@@ -35,6 +37,7 @@ export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
 		string,
 		(interaction: Interaction) => unknown
 	> = {}
+	files = new Set<FileAttachment>()
 	message: Message
 	messageResponseOptions: MessageResponseOptions = {
 		staleAfter: 5 * 60,
@@ -83,8 +86,17 @@ export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
 		this.interactionListeners = {}
 	}
 
+	addFile(file: FileAttachment) {
+		this.files.add(file)
+	}
+
+	resetFiles() {
+		this.files.clear()
+	}
+
 	render(): MessageOptions | MessageEditOptions {
 		this.resetListeners()
+		this.resetFiles()
 
 		return {
 			content:
@@ -98,9 +110,16 @@ export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
 			components: this.children
 				.filter(isActionRowNode)
 				.map((child) => child.render()),
-			files: this.children
-				.filter(isFileNode)
-				.map((child) => child.render()),
+			files: [
+				...this.files,
+				...this.children
+					.filter(isFileNode)
+					.map((child) => child.render()),
+				...(this.children
+					.filter(isImageNode)
+					.map((child) => child.render())
+					.filter(Boolean) as FileAttachment[]),
+			],
 		}
 	}
 }

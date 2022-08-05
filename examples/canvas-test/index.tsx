@@ -5,12 +5,10 @@ import {
 	ButtonStyle,
 	ChatInputCommand,
 	Client,
-	Content,
 	Embed,
-	File,
 	GatewayIntentBits,
-	Thumb,
 } from "reaccord"
+import { CanvasImage, renderToImageBuffer } from "@reaccord/canvas"
 import {
 	QueryClient,
 	QueryClientProvider,
@@ -18,69 +16,72 @@ import {
 } from "@tanstack/react-query"
 import { Readable } from "stream"
 import { config as loadEnv } from "dotenv"
-import { renderToImageBuffer, useRenderAttachment } from "@reaccord/canvas"
 import { useState } from "react"
+import type { User } from "reaccord"
 
 loadEnv()
 
 const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
-export const CounterApp = ({ start = 0 }: { start?: number }) => {
+export const CounterApp = ({
+	start = 0,
+	user,
+}: {
+	start?: number
+	user: User
+}) => {
 	const [count, setCount] = useState(start)
 	const increment = () => setCount((count) => count + 1)
-	const { data: imageFile, isError } = useRenderAttachment(
-		["imageFile", count],
-		() => (
-			<>
-				<script src="https://cdn.tailwindcss.com"></script>
-				<div className="flex w-full h-full justify-center align-center">
-					<h1 className="text-slate-700 font-bold text-4xl pb-1">
-						{count}
-					</h1>
-				</div>
-			</>
-		),
-		{
-			viewport: {
-				width: 120,
-				height: 120,
-			},
-			queryOptions: {
-				keepPreviousData: true,
-				// Without this react-query fails to find the current queryClient
-				context: defaultContext,
-			},
-		},
-	)
-
-	if (!imageFile) {
-		return <Content>Loading...</Content>
-	}
 
 	return (
 		<>
+			<CanvasImage
+				id="user-welcome"
+				width={240}
+				height={40}
+				options={{ queryOptions: { context: defaultContext } }}
+			>
+				<script src="https://cdn.tailwindcss.com"></script>
+				<div className="flex w-full h-full justify-center align-center">
+					<h1 className="text-orange-600 text-2xl pb-1">
+						Hello {user.username}!
+					</h1>
+				</div>
+			</CanvasImage>
 			<Embed>
-				<Thumb src={`attachment://${imageFile.name}`} />
+				<CanvasImage
+					id={["my-canvas-thumb", count]}
+					as="Thumb"
+					width={60}
+					height={60}
+					options={{ queryOptions: { context: defaultContext } }}
+				>
+					<script src="https://cdn.tailwindcss.com"></script>
+					<div className="flex w-full h-full justify-center align-center bg-slate-200">
+						<h1 className="text-slate-700 font-bold text-4xl p-4">
+							{count}
+						</h1>
+					</div>
+				</CanvasImage>
 			</Embed>
 			<ActionRow>
 				<Button onClick={increment} style={ButtonStyle.Primary}>
 					+
 				</Button>
 			</ActionRow>
-			{!isError && !!imageFile && <File file={imageFile} />}
 		</>
 	)
 }
 
 const queryClient = new QueryClient()
 
-const counterCommand = new ChatInputCommand("counter", "Counter app").render(
-	() => (
+const counterCommand = new ChatInputCommand("counter", "Counter app")
+	.intParam("start", "Start count")
+	.render(({ start }, interaction) => (
 		<QueryClientProvider client={queryClient}>
-			<CounterApp />
+			<CounterApp start={start} user={interaction.user} />
 		</QueryClientProvider>
-	),
-)
+	))
 
 const imageGenCommand = new ChatInputCommand(
 	"hello",
