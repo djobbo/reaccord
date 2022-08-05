@@ -14,7 +14,6 @@ import {
 	QueryClientProvider,
 	defaultContext,
 } from "@tanstack/react-query"
-import { Readable } from "stream"
 import { config as loadEnv } from "dotenv"
 import { useState } from "react"
 import type { User } from "reaccord"
@@ -126,8 +125,7 @@ const imageGenCommand = new ChatInputCommand(
 			},
 		)
 
-		const imageStream = Readable.from(imageBuffer)
-		const imageAttachment = new AttachmentBuilder(imageStream)
+		const imageAttachment = new AttachmentBuilder(imageBuffer)
 
 		interaction.reply({
 			files: [imageAttachment],

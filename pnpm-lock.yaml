@@ -77,6 +77,25 @@ importers:
       '@types/react': 18.0.15
       typescript: 4.7.4
 
+  examples/canvas-test copy:
+    specifiers:
+      '@reaccord/canvas': workspace:0.0.0-dev
+      '@reaccord/cli': workspace:0.0.0-dev
+      '@types/react': ^18.0.15
+      dotenv: ^16.0.1
+      reaccord: workspace:0.0.0-dev
+      react: ^18.2.0
+      typescript: ^4.7.4
+    dependencies:
+      '@reaccord/canvas': link:../../packages/canvas
+      dotenv: 16.0.1
+      reaccord: link:../../packages/reaccord
+      react: 18.2.0
+    devDependencies:
+      '@reaccord/cli': link:../../packages/cli
+      '@types/react': 18.0.15
+      typescript: 4.7.4
+
   examples/rick-and-morty-api:
     specifiers:
       '@reaccord/cli': workspace:0.0.0-dev

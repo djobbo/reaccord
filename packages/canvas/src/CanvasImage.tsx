@@ -1,4 +1,5 @@
-import { Image, Thumb } from "reaccord"
+import { Image, Thumb, useMessageCtx } from "reaccord"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useRenderImageFile } from "./useRenderAttachment"
 import type { QueryKey } from "@tanstack/react-query"
 import type { ReactElement, ReactNode } from "react"
@@ -14,11 +15,17 @@ export type CanvasImageProps<Key extends QueryKey | string> = {
 	children: ReactNode | ((context: RenderContext) => ReactElement)
 	width?: number
 	height?: number
-	options?: RenderImageFileQueryOptions<Key extends string ? [Key] : Key>
+	options?: RenderImageFileQueryOptions<
+		// @ts-expect-error - wontfix for now
+		Key extends string ? [string, Key] : [string, ...Key]
+	>
 	as?: "Image" | "Thumb"
 }
 
-export const CanvasImage = <Key extends QueryKey | string>({
+// TODO: add a way to block rendering if the image is not ready
+// ex: const {setBlockRender} = useMessageCtx()
+// + find a way for the first render not to be an edit
+const CanvasImageContent = <Key extends QueryKey | string>({
 	id,
 	children,
 	width,
@@ -26,8 +33,10 @@ export const CanvasImage = <Key extends QueryKey | string>({
 	options,
 	as = "Image",
 }: CanvasImageProps<Key>) => {
+	const { message } = useMessageCtx()
+
 	const { imageFile } = useRenderImageFile(
-		typeof id === "string" ? [id] : id,
+		typeof id === "string" ? [message.id, id] : [message, ...id],
 		typeof children === "function" ? children : () => <>{children}</>,
 		// @ts-expect-error - wontfix for now
 		{
@@ -51,3 +60,14 @@ export const CanvasImage = <Key extends QueryKey | string>({
 			return <Image file={imageFile} />
 	}
 }
+
+// TODO: add a way to pass in a custom client
+const queryClient = new QueryClient()
+
+export const CanvasImage = <Key extends QueryKey | string>(
+	props: CanvasImageProps<Key>,
+) => (
+	<QueryClientProvider client={queryClient}>
+		<CanvasImageContent {...props} />
+	</QueryClientProvider>
+)
