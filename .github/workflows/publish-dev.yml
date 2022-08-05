@@ -28,6 +28,8 @@ jobs:
             turbo-${{ github.job }}-${{ github.ref_name }}-
 
       - name: Publish
-        run: pnpx zx ./scripts/publish-dev.mjs
+        run: |
+          pnpm ci
+          pnpm publish:dev
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
