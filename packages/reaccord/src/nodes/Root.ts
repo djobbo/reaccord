@@ -1,6 +1,12 @@
 import { BaseNode } from "./_Base"
 import { EMPTY_STRING } from "../helpers/constants"
-import { isActionRowNode, isContentNode, isEmbedNode } from "./guards"
+import {
+	isActionRowNode,
+	isContentNode,
+	isEmbedNode,
+	isFileNode,
+	isImageNode,
+} from "./guards"
 import type {
 	Client,
 	Interaction,
@@ -8,6 +14,7 @@ import type {
 	MessageEditOptions,
 	MessageOptions,
 } from "discord.js"
+import type { FileAttachment } from "../jsx"
 
 export type MessageReactionType =
 	| "ADD"
@@ -23,13 +30,14 @@ export type MessageResponseOptions = {
 	staleAfter?: number | null
 }
 
-export class RootNode extends BaseNode<"root", BaseNode, BaseNode> {
+export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
 	client: Client
 	onRender: ((node: RootNode) => void) | undefined
 	interactionListeners: Record<
 		string,
 		(interaction: Interaction) => unknown
 	> = {}
+	files = new Set<FileAttachment>()
 	message: Message
 	messageResponseOptions: MessageResponseOptions = {
 		staleAfter: 5 * 60,
@@ -41,7 +49,7 @@ export class RootNode extends BaseNode<"root", BaseNode, BaseNode> {
 		onRender?: (node: RootNode) => void | undefined,
 		options: MessageResponseOptions = {},
 	) {
-		super("root")
+		super("Root")
 		this.client = client
 		this.message = message
 		this.onRender = onRender
@@ -78,8 +86,17 @@ export class RootNode extends BaseNode<"root", BaseNode, BaseNode> {
 		this.interactionListeners = {}
 	}
 
+	addFile(file: FileAttachment) {
+		this.files.add(file)
+	}
+
+	resetFiles() {
+		this.files.clear()
+	}
+
 	render(): MessageOptions | MessageEditOptions {
 		this.resetListeners()
+		this.resetFiles()
 
 		return {
 			content:
@@ -93,6 +110,16 @@ export class RootNode extends BaseNode<"root", BaseNode, BaseNode> {
 			components: this.children
 				.filter(isActionRowNode)
 				.map((child) => child.render()),
+			files: [
+				...this.files,
+				...this.children
+					.filter(isFileNode)
+					.map((child) => child.render()),
+				...(this.children
+					.filter(isImageNode)
+					.map((child) => child.render())
+					.filter(Boolean) as FileAttachment[]),
+			],
 		}
 	}
 }

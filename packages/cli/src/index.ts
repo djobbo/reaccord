@@ -18,7 +18,7 @@ const rollupConfig = defineConfig({
 })
 
 const main = async () => {
-	const [, , command = "dev"] = process.argv
+	const [, , command = "dev", ...argv] = process.argv
 	const { version } = pkg
 
 	if (["-v", "--version", "version"].includes(command)) {
@@ -47,7 +47,7 @@ const main = async () => {
 
 	switch (command) {
 		case "dev": {
-			dev(entry)
+			dev(entry, argv)
 			break
 		}
 		case "build": {
@@ -55,7 +55,7 @@ const main = async () => {
 			break
 		}
 		case "start": {
-			start(rollupConfig, reaccordConfig)
+			start(rollupConfig, reaccordConfig, argv)
 			break
 		}
 		default:

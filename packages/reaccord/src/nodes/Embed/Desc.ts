@@ -1,14 +1,14 @@
+import { EMPTY_STRING } from "../../helpers/constants"
 import { TextContainerNode } from "../_TextContainer"
 import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
 
-export class ImageNode extends TextContainerNode<"img", EmbedNode> {
+export class DescNode extends TextContainerNode<"Desc", EmbedNode> {
 	constructor() {
-		super("img")
+		super("Desc")
 	}
 
 	render(embed: EmbedBuilder): void {
-		if (!this.attr.src) return
-		embed.setImage(this.attr.src)
+		embed.setDescription(this.innerText ?? EMPTY_STRING)
 	}
 }

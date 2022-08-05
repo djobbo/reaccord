@@ -3,9 +3,9 @@ import { TextContainerNode } from "../_TextContainer"
 import type { ActionRowNode } from "./ActionRow"
 import type { Interaction } from "discord.js"
 
-export class ButtonNode extends TextContainerNode<"button", ActionRowNode> {
+export class ButtonNode extends TextContainerNode<"Button", ActionRowNode> {
 	constructor() {
-		super("button")
+		super("Button")
 	}
 
 	get customId() {

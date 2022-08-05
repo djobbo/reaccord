@@ -1,11 +1,11 @@
 import { BaseNode } from "./_Base"
 import type { BaseNodeDisplay } from "./_Base"
 
-export class TextNode extends BaseNode<"textnode", BaseNode, BaseNode> {
+export class TextNode extends BaseNode<"Text", BaseNode, BaseNode> {
 	textContent: string = ""
 
 	constructor(textContent: string) {
-		super("textnode")
+		super("Text")
 		this.textContent = textContent.toString()
 	}
 

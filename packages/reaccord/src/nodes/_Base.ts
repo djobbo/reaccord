@@ -1,14 +1,10 @@
 import { isRootNode } from "./guards"
-import { randomUUID } from "node:crypto"
-import type { JSX } from "../../jsx-runtime"
+import { v4 as uuidv4 } from "uuid"
 import type { ModalRootNode } from "./Interaction/ModalRoot"
+import type { ReaccordElement } from "../jsx"
 import type { RootNode } from "./Root"
 
-export type NodeType =
-	| keyof JSX.IntrinsicElements
-	| "textnode"
-	| "root"
-	| "modal-root"
+export type NodeType = keyof ReaccordElement | "Text" | "Root" | "ModalRoot"
 
 export type BaseNodeDisplay = {
 	uuid: string
@@ -31,12 +27,12 @@ export abstract class BaseNode<
 	parent: ParentNodeType | null = null
 
 	// @ts-expect-error
-	attr: Type extends keyof JSX.IntrinsicElements
-		? Partial<JSX.IntrinsicElements[Type]>
+	attr: Type extends keyof ReaccordElement
+		? Partial<ReaccordElement[Type]>
 		: {} = {}
 
 	constructor(type: Type) {
-		this.uuid = randomUUID()
+		this.uuid = uuidv4()
 		this.type = type
 		this.children = []
 	}

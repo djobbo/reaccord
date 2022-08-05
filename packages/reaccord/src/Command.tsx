@@ -15,7 +15,6 @@ import type {
 	UserApplicationCommandData,
 	UserContextMenuCommandInteraction,
 } from "discord.js"
-import type { JSX } from "../jsx-runtime"
 import type { MessageResponseOptions } from "./nodes"
 import type { RenderMessageFn } from "./renderer/renderMessage"
 

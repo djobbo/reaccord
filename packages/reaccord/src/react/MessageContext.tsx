@@ -1,7 +1,6 @@
 import { createContext, useContext } from "react"
 import type { Client } from "../Client"
 import type { ClientEvents, Message } from "discord.js"
-import type { JSX } from "../../jsx-runtime"
 
 export type EventListener<Event extends keyof ClientEvents> = (
 	...args: ClientEvents[Event]

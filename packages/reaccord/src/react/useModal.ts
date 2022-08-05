@@ -3,7 +3,6 @@ import { render } from "../renderer/render"
 import { useMessageCtx } from "./MessageContext"
 import type { ButtonInteraction, Message } from "discord.js"
 import type { Client } from "../Client"
-import type { JSX } from "../../jsx-runtime"
 import type { RenderFn } from "../renderer/render"
 
 const createModal = (

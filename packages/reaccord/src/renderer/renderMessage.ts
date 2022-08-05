@@ -17,7 +17,6 @@ import type {
 	TextChannel,
 	ThreadChannel,
 } from "discord.js"
-import type { JSX } from "../../jsx-runtime"
 import type { MessageResponseOptions } from "../nodes"
 
 type Channel =
@@ -64,7 +63,7 @@ export const renderMessage =
 
 		const cb = async (root: RootNode) => {
 			const rendered = root.render()
-			if (message)
+			if (message && message.editable)
 				return await message.edit(rendered as MessageEditOptions)
 			throw new Error("Failed to send message")
 		}

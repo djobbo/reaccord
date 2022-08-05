@@ -6,9 +6,9 @@ import type { Interaction } from "discord.js"
 import type { ModalRootNode } from "./ModalRoot"
 import type { ModalRowNode } from "./ModalRow"
 
-export class ModalNode extends BaseNode<"modal", ModalRootNode, ModalRowNode> {
+export class ModalNode extends BaseNode<"Modal", ModalRootNode, ModalRowNode> {
 	constructor() {
-		super("modal")
+		super("Modal")
 	}
 
 	get customId() {

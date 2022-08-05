@@ -1,25 +1,26 @@
 import {
 	ActionRowNode,
-	AnchorNode,
 	AuthorNode,
+	BrNode,
 	ButtonNode,
 	CodeNode,
 	CodeblockNode,
 	ColorNode,
 	ContentNode,
-	DescriptionNode,
+	DescNode,
 	EmbedNode,
 	FieldNode,
+	FileNode,
 	FooterNode,
 	ImageNode,
 	InputNode,
-	LineBreakNode,
+	LinkNode,
 	ModalNode,
 	ModalRowNode,
 	OptionNode,
 	SelectNode,
 	SpanNode,
-	ThumbnailNode,
+	ThumbNode,
 	TimestampNode,
 	TitleNode,
 	UrlNode,
@@ -28,54 +29,56 @@ import type { NodeType } from "../nodes"
 
 export const createNodeFromTag = (tag: NodeType) => {
 	switch (tag) {
-		case "action-row":
+		case "ActionRow":
 			return new ActionRowNode()
-		case "a":
-			return new AnchorNode()
-		case "author":
+		case "Link":
+			return new LinkNode()
+		case "Author":
 			return new AuthorNode()
-		case "desc":
-			return new DescriptionNode()
-		case "button":
+		case "Desc":
+			return new DescNode()
+		case "Button":
 			return new ButtonNode()
-		case "code":
+		case "Code":
 			return new CodeNode()
-		case "codeblock":
+		case "CodeBlock":
 			return new CodeblockNode()
-		case "color":
+		case "Color":
 			return new ColorNode()
-		case "content":
+		case "Content":
 			return new ContentNode()
-		case "footer":
+		case "Footer":
 			return new FooterNode()
-		case "embed":
+		case "Embed":
 			return new EmbedNode()
-		case "field":
+		case "Field":
 			return new FieldNode()
-		case "input":
+		case "Input":
 			return new InputNode()
-		case "br":
-			return new LineBreakNode()
-		case "modal":
+		case "Br":
+			return new BrNode()
+		case "Modal":
 			return new ModalNode()
-		case "modal-row":
+		case "ModalRow":
 			return new ModalRowNode()
-		case "option":
+		case "Option":
 			return new OptionNode()
-		case "select":
+		case "Select":
 			return new SelectNode()
-		case "span":
+		case "Span":
 			return new SpanNode()
-		case "thumbnail":
-			return new ThumbnailNode()
-		case "title":
+		case "Thumb":
+			return new ThumbNode()
+		case "Title":
 			return new TitleNode()
-		case "url":
+		case "Url":
 			return new UrlNode()
-		case "timestamp":
+		case "Timestamp":
 			return new TimestampNode()
-		case "img":
+		case "Image":
 			return new ImageNode()
+		case "File":
+			return new FileNode()
 		default:
 			throw new Error(`<${tag}/> is not yet implemented :(`)
 	}

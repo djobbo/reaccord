@@ -1,3 +1,4 @@
+import { ActionRow, Option, Select } from "reaccord"
 import type { Character } from "../types"
 
 type CharacterSelectProps = {
@@ -14,13 +15,13 @@ export const CharacterSelect = ({
 	isLoading,
 }: CharacterSelectProps) => {
 	return (
-		<action-row>
-			<select
+		<ActionRow>
+			<Select
 				onChange={([val]) => onSelectCharacter(val)}
 				disabled={isLoading}
 			>
 				{characters.map((char, i) => (
-					<option
+					<Option
 						key={char.id}
 						label={char.name}
 						value={char.id.toString()}
@@ -28,7 +29,7 @@ export const CharacterSelect = ({
 						default={character ? char.id === character.id : i === 0}
 					/>
 				))}
-			</select>
-		</action-row>
+			</Select>
+		</ActionRow>
 	)
 }
