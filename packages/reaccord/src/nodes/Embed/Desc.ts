@@ -4,11 +4,11 @@ import type { EmbedBuilder } from "discord.js"
 import type { EmbedNode } from "./Embed"
 
 export class DescNode extends TextContainerNode<"Desc", EmbedNode> {
-	constructor() {
-		super("Desc")
-	}
+  constructor() {
+    super("Desc")
+  }
 
-	render(embed: EmbedBuilder): void {
-		embed.setDescription(this.innerText ?? EMPTY_STRING)
-	}
+  render(embed: EmbedBuilder): void {
+    embed.setDescription(this.innerText ?? EMPTY_STRING)
+  }
 }

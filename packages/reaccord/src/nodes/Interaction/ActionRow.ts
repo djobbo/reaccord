@@ -7,22 +7,21 @@ import type { RootNode } from "../Root"
 import type { SelectNode } from "./Select"
 
 export class ActionRowNode extends BaseNode<
-	"ActionRow",
-	RootNode,
-	ButtonNode | SelectNode
+  "ActionRow",
+  RootNode,
+  ButtonNode | SelectNode
 > {
-	constructor() {
-		super("ActionRow")
-	}
+  constructor() {
+    super("ActionRow")
+  }
 
-	render(): ActionRowBuilder<MessageActionRowComponentBuilder> {
-		const actionRow =
-			new ActionRowBuilder<MessageActionRowComponentBuilder>()
-		actionRow.setComponents(
-			this.children
-				.filter((child) => isButtonNode(child) || isSelectNode(child))
-				.map((child) => child.render()),
-		)
-		return actionRow
-	}
+  render(): ActionRowBuilder<MessageActionRowComponentBuilder> {
+    const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>()
+    actionRow.setComponents(
+      this.children
+        .filter((child) => isButtonNode(child) || isSelectNode(child))
+        .map((child) => child.render()),
+    )
+    return actionRow
+  }
 }

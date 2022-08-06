@@ -34,32 +34,32 @@ And even generate images using a reactDOM renderer, with client side libraries l
 
 ```tsx
 const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
-	(_, interaction) => (
-		<>
-			<Content>{interaction.user.toString()}, welcome!</Content>
-			<Embed>
-				<Title>I am a bot designed to greet you!</Title>
-				<Color color="Orange" />
-				{/* Generate images with a react-dom-canvas component. */}
-				<CanvasImage id="greeting" width={320} height={80}>
-					<script src="https://cdn.tailwindcss.com"></script>
-					<div className="bg-gray-800 w-screen h-screen flex justify-center items-center">
-						<h1 className="text-lg font-bold text-white">
-							Hello {interaction.user.username}!
-						</h1>
-					</div>
-				</CanvasImage>
-			</Embed>
-			<ActionRow>
-				<Button
-					onClick={() => {
-						interaction.channel?.send("Hello!")
-					}}
-				>
-					Say Hello!
-				</Button>
-			</ActionRow>
-		</>
-	),
+  (_, interaction) => (
+    <>
+      <Content>{interaction.user.toString()}, welcome!</Content>
+      <Embed>
+        <Title>I am a bot designed to greet you!</Title>
+        <Color color="Orange" />
+        {/* Generate images with a react-dom-canvas component. */}
+        <CanvasImage id="greeting" width={320} height={80}>
+          <script src="https://cdn.tailwindcss.com"></script>
+          <div className="bg-gray-800 w-screen h-screen flex justify-center items-center">
+            <h1 className="text-lg font-bold text-white">
+              Hello {interaction.user.username}!
+            </h1>
+          </div>
+        </CanvasImage>
+      </Embed>
+      <ActionRow>
+        <Button
+          onClick={() => {
+            interaction.channel?.send("Hello!")
+          }}
+        >
+          Say Hello!
+        </Button>
+      </ActionRow>
+    </>
+  ),
 )
 ```

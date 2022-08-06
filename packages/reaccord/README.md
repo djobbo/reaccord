@@ -25,12 +25,12 @@ A simple, and clean framework to build discord apps declaratively using [React](
 
 ```jsx
 import {
-	ActionRow,
-	Button,
-	ButtonStyle,
-	ChatInputCommand,
-	Content,
-	Client,
+  ActionRow,
+  Button,
+  ButtonStyle,
+  ChatInputCommand,
+  Content,
+  Client,
 } from "reaccord"
 import { useState } from "react"
 ```
@@ -39,19 +39,19 @@ import { useState } from "react"
 
 ```jsx
 const CounterApp = ({ start = 0 }) => {
-	const [count, setCount] = useState(start)
-	const increment = () => setCount((count) => count + 1)
+  const [count, setCount] = useState(start)
+  const increment = () => setCount((count) => count + 1)
 
-	return (
-		<>
-			<Content>Count: {count}</Content>
-			<ActionRow>
-				<Button onClick={increment} style={ButtonStyle.Primary}>
-					+
-				</Button>
-			</ActionRow>
-		</>
-	)
+  return (
+    <>
+      <Content>Count: {count}</Content>
+      <ActionRow>
+        <Button onClick={increment} style={ButtonStyle.Primary}>
+          +
+        </Button>
+      </ActionRow>
+    </>
+  )
 }
 ```
 
@@ -59,24 +59,24 @@ const CounterApp = ({ start = 0 }) => {
 
 ```jsx
 const counterCommand = new ChatInputCommand("counter", "A simple counter")
-	.intParam("start", "Number to start counting from")
-	.render(CounterApp)
+  .intParam("start", "Number to start counting from")
+  .render(CounterApp)
 ```
 
 **Instantiate the gateway client**, and register the command.
 
 ```jsx
 const client = new Client({
-	token: DISCORD_TOKEN ?? "",
-	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
-	devGuildId: DISCORD_DEV_GUILD_ID,
-	clientId: DISCORD_CLIENT_ID,
+  token: DISCORD_TOKEN ?? "",
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+  devGuildId: DISCORD_DEV_GUILD_ID,
+  clientId: DISCORD_CLIENT_ID,
 })
 
 client.registerCommand(counterCommand)
 
 // Connect client to gateway
 client.connect(() =>
-	console.log(`🚀 Client connected as ${client.user?.username}!`),
+  console.log(`🚀 Client connected as ${client.user?.username}!`),
 )
 ```

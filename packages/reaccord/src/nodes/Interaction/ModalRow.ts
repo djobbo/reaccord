@@ -6,15 +6,15 @@ import type { ModalActionRowComponentBuilder } from "discord.js"
 import type { RootNode } from "../Root"
 
 export class ModalRowNode extends BaseNode<"ModalRow", RootNode, InputNode> {
-	constructor() {
-		super("ModalRow")
-	}
+  constructor() {
+    super("ModalRow")
+  }
 
-	render(): ActionRowBuilder<ModalActionRowComponentBuilder> {
-		const actionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>()
-		actionRow.setComponents(
-			this.children.filter(isInputNode).map((child) => child.render()),
-		)
-		return actionRow
-	}
+  render(): ActionRowBuilder<ModalActionRowComponentBuilder> {
+    const actionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>()
+    actionRow.setComponents(
+      this.children.filter(isInputNode).map((child) => child.render()),
+    )
+    return actionRow
+  }
 }

@@ -7,114 +7,112 @@ import type { RootNode } from "./Root"
 export type NodeType = keyof ReaccordElement | "Text" | "Root" | "ModalRoot"
 
 export type BaseNodeDisplay = {
-	uuid: string
-	type: NodeType
-	children: BaseNodeDisplay[]
-	props: any
+  uuid: string
+  type: NodeType
+  children: BaseNodeDisplay[]
+  props: any
 }
 
 export abstract class BaseNode<
-	Type extends NodeType = NodeType,
-	ParentNodeType extends BaseNode = any,
-	ChildrenNodeType extends BaseNode = any,
+  Type extends NodeType = NodeType,
+  ParentNodeType extends BaseNode = any,
+  ChildrenNodeType extends BaseNode = any,
 > {
-	uuid: string
+  uuid: string
 
-	type: Type
+  type: Type
 
-	children: ChildrenNodeType[] = []
+  children: ChildrenNodeType[] = []
 
-	parent: ParentNodeType | null = null
+  parent: ParentNodeType | null = null
 
-	// @ts-expect-error
-	attr: Type extends keyof ReaccordElement
-		? Partial<ReaccordElement[Type]>
-		: {} = {}
+  // @ts-expect-error
+  attr: Type extends keyof ReaccordElement
+    ? Partial<ReaccordElement[Type]>
+    : {} = {}
 
-	constructor(type: Type) {
-		this.uuid = uuidv4()
-		this.type = type
-		this.children = []
-	}
+  constructor(type: Type) {
+    this.uuid = uuidv4()
+    this.type = type
+    this.children = []
+  }
 
-	setParent(node: ParentNodeType): void {
-		this.parent = node
-		this.onNodeRender()
-	}
+  setParent(node: ParentNodeType): void {
+    this.parent = node
+    this.onNodeRender()
+  }
 
-	insertBefore(node: ChildrenNodeType, anchor?: BaseNode): void {
-		if (!node) throw new Error("Wrong child type")
-		if (anchor) {
-			const anchorIndex = this.children.findIndex(
-				(child) => anchor === child,
-			)
-			this.children.splice(anchorIndex, 0, node)
-		} else this.children.push(node)
+  insertBefore(node: ChildrenNodeType, anchor?: BaseNode): void {
+    if (!node) throw new Error("Wrong child type")
+    if (anchor) {
+      const anchorIndex = this.children.findIndex((child) => anchor === child)
+      this.children.splice(anchorIndex, 0, node)
+    } else this.children.push(node)
 
-		node.setParent(this)
-	}
+    node.setParent(this)
+  }
 
-	setAttribute(name: string, value: any): void {
-		// @ts-expect-error
-		this.attr[name] = value
-	}
+  setAttribute(name: string, value: any): void {
+    // @ts-expect-error
+    this.attr[name] = value
+  }
 
-	replaceAttributes(attr: Record<string, any>): void {
-		// @ts-expect-error
-		this.attr = attr
-		this.onNodeRender()
-	}
+  replaceAttributes(attr: Record<string, any>): void {
+    // @ts-expect-error
+    this.attr = attr
+    this.onNodeRender()
+  }
 
-	get rootNode(): RootNode | ModalRootNode | undefined {
-		// Could be slow if element is deeply nested, maybe cache this in local variable
-		return this.parent?.rootNode
-	}
+  get rootNode(): RootNode | ModalRootNode | undefined {
+    // Could be slow if element is deeply nested, maybe cache this in local variable
+    return this.parent?.rootNode
+  }
 
-	get parentNode(): ParentNodeType {
-		if (!this.parent) throw new TypeError(`Couldn't find parent of ${this}`)
-		return this.parent
-	}
+  get parentNode(): ParentNodeType {
+    if (!this.parent) throw new TypeError(`Couldn't find parent of ${this}`)
+    return this.parent
+  }
 
-	get firstChild(): ChildrenNodeType | undefined {
-		return this.children[0]
-	}
+  get firstChild(): ChildrenNodeType | undefined {
+    return this.children[0]
+  }
 
-	get nextSibling(): ParentNodeType["children"][number] | undefined {
-		const parent = this.parentNode
-		if (!parent) throw new TypeError(`Couldn't find parent of ${this}`)
+  get nextSibling(): ParentNodeType["children"][number] | undefined {
+    const parent = this.parentNode
+    if (!parent) throw new TypeError(`Couldn't find parent of ${this}`)
 
-		const nodeIndex = parent.children.findIndex((child) => child === this)
+    const nodeIndex = parent.children.findIndex((child) => child === this)
 
-		if (nodeIndex < 0) throw new TypeError(`Bad node ${this}`)
+    if (nodeIndex < 0) throw new TypeError(`Bad node ${this}`)
 
-		return parent.children[nodeIndex + 1]
-	}
+    return parent.children[nodeIndex + 1]
+  }
 
-	removeChild(node: ChildrenNodeType): void {
-		this.children = this.children.filter((child) => child !== node)
-	}
+  removeChild(node: ChildrenNodeType): void {
+    this.children = this.children.filter((child) => child !== node)
+  }
 
-	clear(): void {
-		this.children = []
-	}
+  clear(): void {
+    this.children = []
+  }
 
-	onNodeRender(): void {
-		if (!this.rootNode || !isRootNode(this.rootNode)) return
-		this.rootNode.onNodeRender()
-	}
+  onNodeRender(): void {
+    if (!this.rootNode || !isRootNode(this.rootNode)) return
+    this.rootNode.onNodeRender()
+  }
 
-	get display(): BaseNodeDisplay {
-		return {
-			uuid: this.uuid,
-			type: this.type,
-			props: this.attr,
-			children: this.children.map((child) => child.display),
-		}
-	}
+  get display(): BaseNodeDisplay {
+    return {
+      uuid: this.uuid,
+      type: this.type,
+      props: this.attr,
+      children: this.children.map((child) => child.display),
+    }
+  }
 
-	toString(): string {
-		return JSON.stringify(this.display, null, 2)
-	}
+  toString(): string {
+    return JSON.stringify(this.display, null, 2)
+  }
 
-	abstract render(parent?: unknown): unknown
+  abstract render(parent?: unknown): unknown
 }

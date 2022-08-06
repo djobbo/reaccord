@@ -1,3 +1,3 @@
 export type ReaccordConfig = {
-	entry?: string
+  entry?: string
 }

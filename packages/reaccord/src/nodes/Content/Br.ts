@@ -2,11 +2,11 @@ import { TextContainerNode } from "../_TextContainer"
 import type { ContentNode } from "./Content"
 
 export class BrNode extends TextContainerNode<"Br", ContentNode> {
-	constructor() {
-		super("Br")
-	}
+  constructor() {
+    super("Br")
+  }
 
-	render(): string {
-		return `\n`
-	}
+  render(): string {
+    return `\n`
+  }
 }

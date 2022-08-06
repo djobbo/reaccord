@@ -1,38 +1,38 @@
 {
-	"name": "reaccord",
-	"version": "0.0.0-dev",
-	"main": "lib/index.js",
-	"types": "reaccord.d.ts",
-	"scripts": {
-		"build": "tsc --project tsconfig.build.json",
-		"build:w": "tsc --watch",
-		"ts:check": "tsc --noEmit",
-		"ci:deadcode": "ts-prune",
-		"test": "jest",
-		"test:w": "jest --watch"
-	},
-	"files": [
-		"reaccord.d.ts",
-		"lib",
-		"jsx-runtime.d.ts",
-		"jsx-runtime.js"
-	],
-	"devDependencies": {
-		"@types/jest": "^28.1.6",
-		"@types/react": "^18.0.15",
-		"@types/react-reconciler": "^0.28.0",
-		"@types/uuid": "^8.3.4",
-		"jest": "^28.1.3",
-		"ts-jest": "^28.0.7",
-		"ts-prune": "^0.10.3",
-		"typescript": "^4.7.4"
-	},
-	"dependencies": {
-		"@discordjs/rest": "^1.0.1",
-		"discord-api-types": "^0.37.1",
-		"discord.js": "^14.1.2",
-		"react": "^18.2.0",
-		"react-reconciler": "^0.29.0",
-		"uuid": "^8.3.2"
-	}
+  "name": "reaccord",
+  "version": "0.0.0-dev",
+  "main": "lib/index.js",
+  "types": "reaccord.d.ts",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "build:w": "tsc --watch",
+    "ts:check": "tsc --noEmit",
+    "ci:deadcode": "ts-prune",
+    "test": "jest",
+    "test:w": "jest --watch"
+  },
+  "files": [
+    "reaccord.d.ts",
+    "lib",
+    "jsx-runtime.d.ts",
+    "jsx-runtime.js"
+  ],
+  "devDependencies": {
+    "@types/jest": "^28.1.6",
+    "@types/react": "^18.0.15",
+    "@types/react-reconciler": "^0.28.0",
+    "@types/uuid": "^8.3.4",
+    "jest": "^28.1.3",
+    "ts-jest": "^28.0.7",
+    "ts-prune": "^0.10.3",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@discordjs/rest": "^1.0.1",
+    "discord-api-types": "^0.37.1",
+    "discord.js": "^14.1.2",
+    "react": "^18.2.0",
+    "react-reconciler": "^0.29.0",
+    "uuid": "^8.3.2"
+  }
 }
