@@ -2,26 +2,10 @@
     <img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/reaccord.svg" alt="Reaccord Logo" width="100">
     <h1 style="font-weight: bold">
         <a href="https://djobbo.github.io/reaccord" target="_blank" rel="noreferrer">Reaccord</a>
-        <div>
-        <a aria-label="reaccord NPM button" href="https://www.npmjs.com/package/reaccord" target="_blank" rel="noreferrer">
-            <img alt="" src="https://img.shields.io/badge/reaccord--_.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm">
-        </a>
-        <a aria-label="reaccord router NPM button" href="https://www.npmjs.com/package/@reaccord/router" target="_blank" rel="noreferrer">
-            <img alt="" src="https://img.shields.io/badge/@reaccord/router--_.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm">
-        </a>
-				<a aria-label="reaccord canvas NPM button" href="https://www.npmjs.com/package/@reaccord/canvas" target="_blank" rel="noreferrer">
-            <img alt="" src="https://img.shields.io/badge/@reaccord/canvas--_.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm">
-        </a>
-				<!-- Use these shields when non-dev versions of the packages are available -->
-        <!-- <a aria-label="reaccord NPM version button" href="https://www.npmjs.com/package/reaccord" target="_blank" rel="noreferrer">
-            <img alt="" src="https://img.shields.io/npm/v/reaccord.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm&label=reaccord">
-        </a>
-        <a aria-label="reaccord router NPM version button" href="https://www.npmjs.com/package/@reaccord/router" target="_blank" rel="noreferrer">
-            <img alt="" src="https://img.shields.io/npm/v/@reaccord/router.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm&label=@reaccord/router">
-        </a>
-				<a aria-label="reaccord canvas NPM version button" href="https://www.npmjs.com/package/@reaccord/canvas" target="_blank" rel="noreferrer">
-            <img alt="" src="https://img.shields.io/npm/v/@reaccord/canvas.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm&label=@reaccord/canvas">
-        </a> -->
+				<div>
+					<a aria-label="reaccord NPM version button" href="https://www.npmjs.com/package/reaccord" target="_blank" rel="noreferrer">
+							<img alt="" src="https://img.shields.io/npm/v/reaccord.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm&label=reaccord">
+					</a>
         </div>
     </h1>
 
