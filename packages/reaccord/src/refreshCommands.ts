@@ -10,8 +10,7 @@ const DEV = process.env.NODE_ENV !== "production"
 
 export const refreshCommands = async (
   token: string,
-  slashCommands: ChatInputCommand[],
-  ctxCommands: (MessageContextCommand | UserContextCommand)[],
+  commands: (ChatInputCommand | MessageContextCommand | UserContextCommand)[],
   clientId?: string,
   devGuildId?: string,
 ) => {
@@ -21,10 +20,7 @@ export const refreshCommands = async (
   try {
     console.log("✨ Started refreshing application (/) commands.")
 
-    const body = [
-      ...slashCommands.map((c) => c.slashCommand),
-      ...ctxCommands.map((c) => c.data),
-    ]
+    const body = commands.map((c) => c.commandData)
 
     if (DEV) {
       if (!devGuildId)

@@ -2,12 +2,22 @@ import {
   ApplicationCommandOptionType,
   ApplicationCommandType,
   Message,
+  SlashCommandAttachmentOption,
+  SlashCommandBooleanOption,
+  SlashCommandBuilder,
+  SlashCommandChannelOption,
+  SlashCommandIntegerOption,
+  SlashCommandMentionableOption,
+  SlashCommandNumberOption,
+  SlashCommandRoleOption,
+  SlashCommandStringOption,
+  SlashCommandUserOption,
   User,
 } from "discord.js"
+import { EMPTY_STRING } from "./helpers/constants"
 import type {
-  ChatInputApplicationCommandData,
+  Channel,
   CommandInteraction,
-  GuildBasedChannel,
   GuildMember,
   MessageApplicationCommandData,
   MessageContextMenuCommandInteraction,
@@ -28,17 +38,30 @@ type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
   interaction: InteractionType,
 ) => ReturnValue
 
-export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
-  #renderMessage?: (
+class CommandBase {
+  renderMessage?: (
     messageResponseOptions?: MessageResponseOptions,
   ) => RenderMessageFn
+
+  constructor() {}
+
+  setRenderMessageFn(
+    fn: (messageResponseOptions?: MessageResponseOptions) => RenderMessageFn,
+  ): void {
+    this.renderMessage = fn
+  }
+}
+
+export class ChatInputCommand<
+  Props extends { [k in string]: any } = {},
+> extends CommandBase {
   #params: string[]
   #interactionCallback?: CommandInteractionCallback<
     Props,
     CommandInteraction,
     void
   >
-  slashCommand: ChatInputApplicationCommandData
+  commandData: SlashCommandBuilder
   #messageResponseOptions: MessageResponseOptions = {}
 
   constructor(
@@ -46,16 +69,11 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
     description: string,
     messageResponseOptions?: MessageResponseOptions,
   ) {
-    // TODO: check for builder in a later update
-    // this.slashCommand = new SlashCommandBuilder()
-    // this.slashCommand.setName(name)
-    // this.slashCommand.setDescription(description ?? EMPTY_STRING)
+    super()
 
-    this.slashCommand = {
-      name,
-      description,
-      options: [],
-    }
+    this.commandData = new SlashCommandBuilder()
+      .setName(name)
+      .setDescription(description ?? EMPTY_STRING)
 
     this.#params = []
     this.#messageResponseOptions = {
@@ -64,14 +82,8 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
     }
   }
 
-  setRenderMessageFn(
-    fn: (messageResponseOptions?: MessageResponseOptions) => RenderMessageFn,
-  ): void {
-    this.#renderMessage = fn
-  }
-
   get name() {
-    return this.slashCommand.name
+    return this.commandData.name
   }
 
   registerParam<
@@ -85,6 +97,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
     required,
   }: CommandParamOptions<Required> & {
     name: Name
+    type: ApplicationCommandOptionType
     description: string
   }): Omit<
     ChatInputCommand<
@@ -96,15 +109,74 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
   > {
     this.#params.push(name)
 
-    this.slashCommand.options ??= []
+    switch (type) {
+      case ApplicationCommandOptionType.Attachment:
+        this.commandData.addAttachmentOption(
+          new SlashCommandAttachmentOption()
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      case ApplicationCommandOptionType.Boolean:
+        this.commandData.addBooleanOption(
+          new SlashCommandBooleanOption()
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      case ApplicationCommandOptionType.Channel:
+        this.commandData.addChannelOption(
+          new SlashCommandChannelOption()
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      case ApplicationCommandOptionType.Integer:
+        this.commandData.addIntegerOption(
+          new SlashCommandIntegerOption()
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      case ApplicationCommandOptionType.Mentionable:
+        this.commandData.addMentionableOption(
+          new SlashCommandMentionableOption()
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      case ApplicationCommandOptionType.Number:
+        this.commandData.addNumberOption(
+          new SlashCommandNumberOption()
 
-    // @ts-expect-error wrong type?
-    this.slashCommand.options.push({
-      name,
-      description,
-      type,
-      required: required ?? false,
-    })
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      case ApplicationCommandOptionType.Role:
+        this.commandData.addRoleOption(
+          new SlashCommandRoleOption()
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      case ApplicationCommandOptionType.String:
+        this.commandData.addStringOption(
+          new SlashCommandStringOption()
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      case ApplicationCommandOptionType.User:
+        this.commandData.addUserOption(
+          new SlashCommandUserOption()
+            .setName(name)
+            .setDescription(description)
+            .setRequired(required ?? false),
+        )
+      default:
+        throw new Error(`Unknown option type: ${type}`)
+    }
 
     return this
   }
@@ -127,7 +199,7 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
     description: string,
     options: Omit<CommandParamOptions<Required>, "type"> = {},
   ) {
-    return this.registerParam<Name, GuildBasedChannel, Required>({
+    return this.registerParam<Name, Channel, Required>({
       name,
       description,
       type: ApplicationCommandOptionType.Channel,
@@ -221,9 +293,9 @@ export class ChatInputCommand<Props extends { [k in string]: any } = {}> {
     >,
   ) {
     this.#interactionCallback = (props, interaction) => {
-      if (!this.#renderMessage)
+      if (!this.renderMessage)
         throw new Error("Command wasn't registered correctly")
-      this.#renderMessage(this.#messageResponseOptions)(interaction, () =>
+      this.renderMessage(this.#messageResponseOptions)(interaction, () =>
         callback(props, interaction),
       )
     }
@@ -256,11 +328,8 @@ abstract class ContextMenuCommand<
   Props extends DataType extends MessageApplicationCommandData
     ? Message
     : User = any,
-> {
-  #renderMessage?: (
-    messageResponseOptions?: MessageResponseOptions,
-  ) => RenderMessageFn
-  data: DataType
+> extends CommandBase {
+  commandData: DataType
   interactionCallback?: CommandInteractionCallback<Props, InteractionType, void>
   #messageResponseOptions: MessageResponseOptions = {}
 
@@ -270,8 +339,10 @@ abstract class ContextMenuCommand<
     defaultPermission?: boolean,
     messageResponseOptions?: MessageResponseOptions,
   ) {
+    super()
+
     //@ts-expect-error
-    this.data = {
+    this.commandData = {
       name,
       defaultPermission,
       type,
@@ -282,19 +353,13 @@ abstract class ContextMenuCommand<
     }
   }
 
-  setRenderMessageFn(
-    fn: (messageResponseOptions?: MessageResponseOptions) => RenderMessageFn,
-  ): void {
-    this.#renderMessage = fn
-  }
-
   render(
     callback: CommandInteractionCallback<Props, InteractionType, JSX.Element>,
   ) {
     this.interactionCallback = (props, interaction) => {
-      if (!this.#renderMessage)
+      if (!this.renderMessage)
         throw new Error("Command wasn't registered correctly")
-      this.#renderMessage(this.#messageResponseOptions)(interaction, () =>
+      this.renderMessage(this.#messageResponseOptions)(interaction, () =>
         callback(props, interaction),
       )
     }
