@@ -6,7 +6,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx,.json .",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json,cjs,prettierrc}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json,mjs,cjs,prettierrc}\"",
     "build:w": "turbo run build:w",
     "docs:dev": "turbo run docs:dev",
     "docs:build": "turbo run docs:build",
