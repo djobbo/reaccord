@@ -117,6 +117,7 @@ export class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       case ApplicationCommandOptionType.Boolean:
         this.commandData.addBooleanOption(
           new SlashCommandBooleanOption()
@@ -124,6 +125,7 @@ export class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       case ApplicationCommandOptionType.Channel:
         this.commandData.addChannelOption(
           new SlashCommandChannelOption()
@@ -131,6 +133,7 @@ export class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       case ApplicationCommandOptionType.Integer:
         this.commandData.addIntegerOption(
           new SlashCommandIntegerOption()
@@ -138,6 +141,7 @@ export class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       case ApplicationCommandOptionType.Mentionable:
         this.commandData.addMentionableOption(
           new SlashCommandMentionableOption()
@@ -145,6 +149,7 @@ export class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       case ApplicationCommandOptionType.Number:
         this.commandData.addNumberOption(
           new SlashCommandNumberOption()
@@ -153,6 +158,7 @@ export class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       case ApplicationCommandOptionType.Role:
         this.commandData.addRoleOption(
           new SlashCommandRoleOption()
@@ -160,6 +166,7 @@ export class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       case ApplicationCommandOptionType.String:
         this.commandData.addStringOption(
           new SlashCommandStringOption()
@@ -167,6 +174,7 @@ export class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       case ApplicationCommandOptionType.User:
         this.commandData.addUserOption(
           new SlashCommandUserOption()
