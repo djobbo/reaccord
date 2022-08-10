@@ -26,6 +26,10 @@ export class SelectNode extends BaseNode<"Select", ActionRowNode, OptionNode> {
         this.children.filter(isOptionNode).map((child) => child.render()),
       )
 
+    if (this.attr.placeholder) {
+      select.setPlaceholder(this.attr.placeholder)
+    }
+
     const listener = async (interaction: Interaction) => {
       if (!interaction.isSelectMenu()) return
       if (interaction.customId !== customId) return

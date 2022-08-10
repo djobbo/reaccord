@@ -113,6 +113,7 @@ export type ReaccordElement = {
     ) => any | Promise<any>
     children?: ReactNode
     disabled?: boolean
+    placeholder?: string
   } & BaseAttributes
   Option: {
     default?: boolean
