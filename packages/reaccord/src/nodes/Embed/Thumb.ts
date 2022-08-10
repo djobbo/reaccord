@@ -12,7 +12,7 @@ export class ThumbNode extends BaseNode<"Thumb", EmbedNode> {
   render(embed: EmbedBuilder): void {
     if ("src" in this.attr) {
       if (!this.attr.src) return
-      embed.setImage(this.attr.src)
+      embed.setThumbnail(this.attr.src)
       return
     }
 
@@ -27,7 +27,7 @@ export class ThumbNode extends BaseNode<"Thumb", EmbedNode> {
       )
 
       this.rootNode.addFile(file)
-      embed.setImage(filename)
+      embed.setThumbnail(filename)
     }
   }
 }
