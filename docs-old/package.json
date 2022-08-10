@@ -1,20 +1,20 @@
 {
-    "name": "docs-old",
-    "version": "0.0.1-docs",
-    "main": "index.js",
-    "description": "The declarative framework for building fast and reliable Discord apps.",
-    "scripts": {
-        "docs:dev": "vuepress dev guide",
-        "docs:build": "vuepress build guide"
-    },
-    "devDependencies": {
-        "@vue/component-compiler-utils": "^3.3.0",
-        "@vuepress/client": "2.0.0-beta.48",
-        "@vuepress/plugin-back-to-top": "2.0.0-beta.48",
-        "@vuepress/plugin-pwa": "2.0.0-beta.48",
-        "@vuepress/plugin-search": "2.0.0-beta.48",
-        "lru-cache": "^7.12.0",
-        "vue": "^3.2.37",
-        "vuepress": "2.0.0-beta.48"
-    }
+  "name": "docs-old",
+  "version": "0.0.1-docs",
+  "main": "index.js",
+  "description": "The declarative framework for building fast and reliable Discord apps.",
+  "scripts": {
+    "docs:dev": "vuepress dev guide",
+    "docs:build": "vuepress build guide"
+  },
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^3.3.0",
+    "@vuepress/client": "2.0.0-beta.48",
+    "@vuepress/plugin-back-to-top": "2.0.0-beta.48",
+    "@vuepress/plugin-pwa": "2.0.0-beta.48",
+    "@vuepress/plugin-search": "2.0.0-beta.48",
+    "lru-cache": "^7.12.0",
+    "vue": "^3.2.37",
+    "vuepress": "2.0.0-beta.48"
+  }
 }
