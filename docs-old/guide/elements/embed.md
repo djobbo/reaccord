@@ -6,9 +6,9 @@ Adding embeds to your messages is very easy, just create a `<embed>` tag and the
 
 ```tsx
 const App = () => (
-    <embed>
-        <title>Hello</title>
-    </embed>
+  <embed>
+    <title>Hello</title>
+  </embed>
 )
 ```
 
@@ -20,7 +20,7 @@ Changes the embed title
 
 ```tsx
 <embed>
-    <title>My Title</title>
+  <title>My Title</title>
 </embed>
 ```
 
@@ -30,8 +30,8 @@ As an embed can only have one title, if mutiple are encountered, the last one wi
 
 ```tsx
 <embed>
-    <title>My Title</title>
-    <title>A Better Title</title>
+  <title>My Title</title>
+  <title>A Better Title</title>
 </embed>
 ```
 
@@ -39,7 +39,7 @@ is equivalent to
 
 ```tsx
 <embed>
-    <title>A Better Title</title>
+  <title>A Better Title</title>
 </embed>
 ```
 

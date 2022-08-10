@@ -1,1 +1,1 @@
-export * from "@reaccord/jsx"
+export * from "react/jsx-runtime"

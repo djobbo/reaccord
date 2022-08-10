@@ -1,44 +1,44 @@
 {
-    "$schema": "https://turborepo.org/schema.json",
-    "baseBranch": "origin/master",
-    "pipeline": {
-        "build": {
-            "dependsOn": ["^build"],
-            "outputs": ["dist/**", ".next/**", "lib/**"]
-        },
-        "lint": {
-            "outputs": []
-        },
-        "ci:deadcode": {
-            "outputs": []
-        },
-        "dev": {
-            "cache": false,
-            "dependsOn": ["^build"]
-        },
-        "ts:check": {
-            "cache": false,
-            "dependsOn": ["^build"]
-        },
-        "build:w": {
-            "cache": false,
-            "outputs": []
-        },
-        "docs:dev": {
-            "cache": false,
-            "outputs": [".cache/**", ".temp/**"]
-        },
-        "docs:build": {
-            "cache": false,
-            "outputs": ["dist/**"]
-        },
-        "test": {
-            "cache": false,
-            "outputs": []
-        },
-        "test:w": {
-            "cache": false,
-            "outputs": []
-        }
+  "$schema": "https://turborepo.org/schema.json",
+  "baseBranch": "origin/master",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "lib/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "ci:deadcode": {
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "dependsOn": ["^build"]
+    },
+    "ts:check": {
+      "cache": false,
+      "dependsOn": ["^build"]
+    },
+    "build:w": {
+      "cache": false,
+      "outputs": []
+    },
+    "docs:dev": {
+      "cache": false,
+      "outputs": [".cache/**", ".temp/**"]
+    },
+    "docs:build": {
+      "cache": false,
+      "outputs": ["dist/**"]
+    },
+    "test": {
+      "cache": false,
+      "outputs": []
+    },
+    "test:w": {
+      "cache": false,
+      "outputs": []
     }
+  }
 }

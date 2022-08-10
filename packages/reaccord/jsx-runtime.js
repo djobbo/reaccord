@@ -1,1 +1,1 @@
-module.exports = require("@reaccord/jsx")
+module.exports = require("react/jsx-runtime")

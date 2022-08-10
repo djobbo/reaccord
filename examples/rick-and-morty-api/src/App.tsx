@@ -5,47 +5,47 @@ import { SearchCharacterRow } from "./components/SearchCharacterRow"
 import { useCharacterSearch } from "./hooks/useCharacterSearch"
 
 type AppProps = {
-    search?: string
+  search?: string
 }
 
 export const App = ({ search: defaultSearch }: AppProps) => {
-    const {
-        search,
-        setSearch,
-        page,
-        setPage,
-        characters,
-        pageInfo,
-        isLoading,
-        character,
-        selectCharacter,
-    } = useCharacterSearch(defaultSearch)
+  const {
+    search,
+    setSearch,
+    page,
+    setPage,
+    characters,
+    pageInfo,
+    isLoading,
+    character,
+    selectCharacter,
+  } = useCharacterSearch(defaultSearch)
 
-    return (
-        <>
-            <CharacterEmbed character={character} isLoading={isLoading} />
-            {characters && (
-                <CharacterSelect
-                    characters={characters}
-                    character={character}
-                    onSelectCharacter={selectCharacter}
-                    isLoading={isLoading}
-                />
-            )}
-            <SearchCharacterRow
-                search={search}
-                setSearch={(val) => {
-                    setSearch(val)
-                    setPage(1)
-                }}
-                isLoading={isLoading}
-            />
-            <Navigation
-                pageInfo={pageInfo}
-                loading={isLoading}
-                page={page}
-                setPage={(page) => setPage(page)}
-            />
-        </>
-    )
+  return (
+    <>
+      <CharacterEmbed character={character} isLoading={isLoading} />
+      {characters && (
+        <CharacterSelect
+          characters={characters}
+          character={character}
+          onSelectCharacter={selectCharacter}
+          isLoading={isLoading}
+        />
+      )}
+      <SearchCharacterRow
+        search={search}
+        setSearch={(val) => {
+          setSearch(val)
+          setPage(1)
+        }}
+        isLoading={isLoading}
+      />
+      <Navigation
+        pageInfo={pageInfo}
+        loading={isLoading}
+        page={page}
+        setPage={(page) => setPage(page)}
+      />
+    </>
+  )
 }

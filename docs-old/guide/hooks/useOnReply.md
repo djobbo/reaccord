@@ -6,11 +6,11 @@ Callback function is called when a user replies to the current message.
 
 ```tsx
 const App = () => {
-    useOnReply((message) => {
-        message.react("❤️")
-    }, [])
+  useOnReply((message) => {
+    message.react("❤️")
+  }, [])
 
-    return <></>
+  return <></>
 }
 ```
 

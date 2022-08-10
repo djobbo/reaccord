@@ -18,12 +18,12 @@ You can add bold or italic text using the span element.
 
 Span can be used anywhere markdown is allowed:
 
--   Text content
--   Embed Field content
+- Text content
+- Embed Field content
 
 ```tsx
 <content>
-    <span>Text</span>
+  <span>Text</span>
 </content>
 ```
 
@@ -51,6 +51,6 @@ Will render text in _italics_.
 
 ```tsx
 <span bold italic>
-    Bold & Italic Text
+  Bold & Italic Text
 </span>
 ```

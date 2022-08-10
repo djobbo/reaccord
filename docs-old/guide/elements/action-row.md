@@ -8,9 +8,9 @@
 
 ```tsx
 const App = () => (
-    <action-row>
-        <button>Click Me!</button>
-    </action-row>
+  <action-row>
+    <button>Click Me!</button>
+  </action-row>
 )
 ```
 
@@ -24,7 +24,7 @@ Creates an interaction button.
 
 ```tsx
 <action-row>
-    <button>My Button</button>
+  <button>My Button</button>
 </action-row>
 ```
 
@@ -36,7 +36,7 @@ Creates an interaction button.
 
 ```tsx
 <button onClick={({ user }) => console.log(`Hi ${user.username}!`)}>
-    Say Hello
+  Say Hello
 </button>
 ```
 
@@ -58,11 +58,11 @@ Will trigger default behaviour
 
 ```tsx
 <button
-    onClick={() => {
-        console.log("hello")
-    }}
+  onClick={() => {
+    console.log("hello")
+  }}
 >
-    My Button
+  My Button
 </button>
 ```
 
@@ -70,11 +70,11 @@ Won't trigger default behaviour, the interaction will fail if you don't handle i
 
 ```tsx
 <button
-    onClick={() => {
-        console.log("hello")
-        return true // or 1 or a non empty string etc...
-    }}
+  onClick={() => {
+    console.log("hello")
+    return true // or 1 or a non empty string etc...
+  }}
 >
-    My Button
+  My Button
 </button>
 ```

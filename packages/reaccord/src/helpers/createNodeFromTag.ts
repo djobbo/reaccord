@@ -1,82 +1,85 @@
 import {
-    ActionRowNode,
-    AnchorNode,
-    AuthorNode,
-    ButtonNode,
-    CodeNode,
-    CodeblockNode,
-    ColorNode,
-    ContentNode,
-    DescriptionNode,
-    EmbedNode,
-    FieldNode,
-    FooterNode,
-    ImageNode,
-    InputNode,
-    LineBreakNode,
-    ModalNode,
-    ModalRowNode,
-    OptionNode,
-    SelectNode,
-    SpanNode,
-    ThumbnailNode,
-    TimestampNode,
-    TitleNode,
-    UrlNode,
+  ActionRowNode,
+  AuthorNode,
+  BrNode,
+  ButtonNode,
+  CodeNode,
+  CodeblockNode,
+  ColorNode,
+  ContentNode,
+  DescNode,
+  EmbedNode,
+  FieldNode,
+  FileNode,
+  FooterNode,
+  ImageNode,
+  InputNode,
+  LinkNode,
+  ModalNode,
+  ModalRowNode,
+  OptionNode,
+  SelectNode,
+  SpanNode,
+  ThumbNode,
+  TimestampNode,
+  TitleNode,
+  UrlNode,
 } from "../nodes"
 import type { NodeType } from "../nodes"
 
 export const createNodeFromTag = (tag: NodeType) => {
-    switch (tag) {
-        case "action-row":
-            return new ActionRowNode()
-        case "a":
-            return new AnchorNode()
-        case "author":
-            return new AuthorNode()
-        case "desc":
-            return new DescriptionNode()
-        case "button":
-            return new ButtonNode()
-        case "code":
-            return new CodeNode()
-        case "codeblock":
-            return new CodeblockNode()
-        case "color":
-            return new ColorNode()
-        case "content":
-            return new ContentNode()
-        case "footer":
-            return new FooterNode()
-        case "embed":
-            return new EmbedNode()
-        case "field":
-            return new FieldNode()
-        case "input":
-            return new InputNode()
-        case "br":
-            return new LineBreakNode()
-        case "modal":
-            return new ModalNode()
-        case "modal-row":
-            return new ModalRowNode()
-        case "option":
-            return new OptionNode()
-        case "select":
-            return new SelectNode()
-        case "span":
-            return new SpanNode()
-        case "thumbnail":
-            return new ThumbnailNode()
-        case "title":
-            return new TitleNode()
-        case "url":
-            return new UrlNode()
-        case "timestamp":
-            return new TimestampNode()
-        case "img":
-            return new ImageNode()
-        default:
-            throw new Error(`<${tag}/> is not yet implemented :(`)
-    }
+  switch (tag) {
+    case "ActionRow":
+      return new ActionRowNode()
+    case "Link":
+      return new LinkNode()
+    case "Author":
+      return new AuthorNode()
+    case "Desc":
+      return new DescNode()
+    case "Button":
+      return new ButtonNode()
+    case "Code":
+      return new CodeNode()
+    case "CodeBlock":
+      return new CodeblockNode()
+    case "Color":
+      return new ColorNode()
+    case "Content":
+      return new ContentNode()
+    case "Footer":
+      return new FooterNode()
+    case "Embed":
+      return new EmbedNode()
+    case "Field":
+      return new FieldNode()
+    case "Input":
+      return new InputNode()
+    case "Br":
+      return new BrNode()
+    case "Modal":
+      return new ModalNode()
+    case "ModalRow":
+      return new ModalRowNode()
+    case "Option":
+      return new OptionNode()
+    case "Select":
+      return new SelectNode()
+    case "Span":
+      return new SpanNode()
+    case "Thumb":
+      return new ThumbNode()
+    case "Title":
+      return new TitleNode()
+    case "Url":
+      return new UrlNode()
+    case "Timestamp":
+      return new TimestampNode()
+    case "Image":
+      return new ImageNode()
+    case "File":
+      return new FileNode()
+    default:
+      throw new Error(`<${tag}/> is not yet implemented :(`)
+  }
 }
