@@ -1,39 +1,11 @@
-import {
-  ActionRow,
-  Button,
-  ButtonStyle,
-  ChatInputCommand,
-  Client,
-  Content,
-  GatewayIntentBits,
-} from "reaccord"
+import { ChatInputCommand, Client, GatewayIntentBits } from "reaccord"
+import { CounterApp } from "./CounterApp"
 import { config as loadEnv } from "dotenv"
 import { useState } from "react"
 
 loadEnv()
 
 const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
-
-// Define app behavior
-type CounterAppProps = {
-  start?: number
-}
-
-export const CounterApp = ({ start = 0 }: CounterAppProps) => {
-  const [count, setCount] = useState(start)
-  const increment = () => setCount((count) => count + 1)
-
-  return (
-    <>
-      <Content>Count: {count}</Content>
-      <ActionRow>
-        <Button onClick={increment} style={ButtonStyle.Primary}>
-          +
-        </Button>
-      </ActionRow>
-    </>
-  )
-}
 
 // Create end-user command
 const counterCommand = new ChatInputCommand("counter", "A simple counter")

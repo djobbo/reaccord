@@ -1,15 +1,18 @@
 import { createContext, useContext } from "react"
 import type { Client } from "../Client"
 import type { Message } from "discord.js"
+import type { ModalRootNode, RootNode } from "../nodes"
 
 export type MessageContext = {
   client: Client
-  message: Message
+  /**
+   * Message will be `null` on the initial render.
+   */
+  message: Message | null
   terminateInteraction: () => void
 }
 
 const messageContext = createContext<MessageContext>({
-  // @ts-expect-error
   message: null,
   // @ts-expect-error
   client: null,
@@ -18,23 +21,21 @@ const messageContext = createContext<MessageContext>({
 export const useMessageCtx = () => useContext(messageContext)
 
 export type MessageProviderProps = {
-  client: Client
-  message: Message
+  rootNode: RootNode | ModalRootNode
   children?: JSX.Element
   onInteractionTerminated: () => void
 }
 
 export const MessageProvider = ({
+  rootNode,
   children,
-  client,
-  message,
   onInteractionTerminated,
 }: MessageProviderProps) => {
   return (
     <messageContext.Provider
       value={{
-        client,
-        message,
+        client: rootNode.client,
+        message: rootNode.message,
         terminateInteraction: onInteractionTerminated,
       }}
     >

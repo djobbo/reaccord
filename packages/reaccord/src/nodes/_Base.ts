@@ -39,7 +39,7 @@ export abstract class BaseNode<
 
   setParent(node: ParentNodeType): void {
     this.parent = node
-    this.onNodeRender()
+    this.onNodeUpdated()
   }
 
   insertBefore(node: ChildrenNodeType, anchor?: BaseNode): void {
@@ -55,12 +55,13 @@ export abstract class BaseNode<
   setAttribute(name: string, value: any): void {
     // @ts-expect-error
     this.attr[name] = value
+    this.onNodeUpdated()
   }
 
   replaceAttributes(attr: Record<string, any>): void {
     // @ts-expect-error
     this.attr = attr
-    this.onNodeRender()
+    this.onNodeUpdated()
   }
 
   get rootNode(): RootNode | ModalRootNode | undefined {
@@ -96,9 +97,9 @@ export abstract class BaseNode<
     this.children = []
   }
 
-  onNodeRender(): void {
+  onNodeUpdated(): void {
     if (!this.rootNode || !isRootNode(this.rootNode)) return
-    this.rootNode.onNodeRender()
+    this.rootNode.updateMessage()
   }
 
   get display(): BaseNodeDisplay {

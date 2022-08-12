@@ -11,8 +11,8 @@ const createModal = (
   code: JSX.Element,
   message: Message,
 ) => {
-  const modal = new ModalRootNode(client)
-  render(() => code, modal, client, message)
+  const modal = new ModalRootNode(client, message)
+  render(() => code, modal)
 
   return modal.render()
 }
@@ -21,9 +21,10 @@ const createModal = (
 // will prevent the app from defering update, because opening a modal is
 // already an interaction response.
 const openModal =
-  (render: RenderFn, client: Client, message: Message) =>
+  (render: RenderFn, client: Client, message: Message | null) =>
   (modal: JSX.Element) =>
   (interaction: ButtonInteraction): true => {
+    if (!message) return true
     interaction.showModal(createModal(render, client, modal, message))
     return true
   }

@@ -2,20 +2,21 @@ import { MessageProvider } from "../react/MessageContext"
 import { hostConfig } from "./hostConfig"
 import { isRootNode } from "../nodes/guards"
 import ReactReconciler from "react-reconciler"
-import type { Client } from "../Client"
-import type { Message } from "discord.js"
 import type { ModalRootNode, RootNode } from "../nodes"
 
 export type RenderFn = (
   Code: () => JSX.Element,
   root: RootNode | ModalRootNode,
-  client: Client,
-  message: Message,
 ) => void
 
 const reactReconcilerInstance = ReactReconciler(hostConfig)
+reactReconcilerInstance.injectIntoDevTools({
+  bundleType: 1, //DEV ? 1 : 0,
+  rendererPackageName: "reaccord",
+  version: "0.0.0",
+})
 
-export const render: RenderFn = (Code, root, client, message) => {
+export const render: RenderFn = (Code, root) => {
   const rootContainer = reactReconcilerInstance.createContainer(
     root,
     0,
@@ -31,8 +32,7 @@ export const render: RenderFn = (Code, root, client, message) => {
 
   reactReconcilerInstance.updateContainer(
     <MessageProvider
-      message={message}
-      client={client}
+      rootNode={isRootNode(root) ? root : root.rootNode}
       onInteractionTerminated={() => {
         if (timeout) clearTimeout(timeout)
 

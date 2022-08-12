@@ -4,7 +4,7 @@
   "main": "out/index.js",
   "private": true,
   "scripts": {
-    "dev": "reaccord dev",
+    "dev": "reaccord dev --trace-warnings",
     "start": "reaccord start",
     "build": "reaccord build",
     "ts:check": "tsc --noEmit",
