@@ -6,7 +6,6 @@
     "lib": ["esnext"],
     "moduleResolution": "node",
     "jsx": "react-jsx",
-    "jsxImportSource": "reaccord",
     "target": "es6",
     "skipLibCheck": true,
     "sourceMap": true

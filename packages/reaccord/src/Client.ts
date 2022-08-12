@@ -12,7 +12,7 @@ import type {
   Interaction,
 } from "discord.js"
 import type { MessageResponseOptions } from "./nodes"
-import type { RenderMessageFn } from "./renderer/renderMessage"
+import type { RenderMessageFn } from "./renderer/render"
 
 type ClientOptions = DiscordClientOptions & {
   token: string

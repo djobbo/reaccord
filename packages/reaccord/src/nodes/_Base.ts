@@ -94,6 +94,7 @@ export abstract class BaseNode<
   }
 
   clear(): void {
+    this.children.map((child) => child.clear())
     this.children = []
   }
 
