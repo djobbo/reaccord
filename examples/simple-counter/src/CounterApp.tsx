@@ -1,5 +1,5 @@
 import { ActionRow, Button, ButtonStyle, Content } from "reaccord"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 
 // Define app behavior
 type CounterAppProps = {

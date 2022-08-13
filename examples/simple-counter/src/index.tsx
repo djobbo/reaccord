@@ -9,7 +9,7 @@ const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 // Create end-user command
 const counterCommand = new ChatInputCommand("counter", "A simple counter")
   .intParam("start", "Number to start counting from")
-  .render(() => <CounterApp />)
+  .render(({ start }) => <CounterApp start={start} />)
 
 // Create gateway client
 const client = new Client({
