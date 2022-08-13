@@ -31,7 +31,7 @@ export const renderMessage =
 
 const reactReconcilerInstance = ReactReconciler(hostConfig)
 reactReconcilerInstance.injectIntoDevTools({
-  bundleType: 1, //DEV ? 1 : 0,
+  bundleType: process.env.NODE_ENV === "production" ? 0 : 1,
   rendererPackageName: "reaccord",
   version: "0.0.0",
 })
