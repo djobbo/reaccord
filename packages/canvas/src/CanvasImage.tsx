@@ -1,6 +1,7 @@
 import { Image, Thumb, useMessageCtx } from "reaccord"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useRenderImageFile } from "./useRenderAttachment"
+import { v4 as uuidv4 } from "uuid"
 import type { QueryKey } from "@tanstack/react-query"
 import type { ReactElement, ReactNode } from "react"
 import type { RenderContext } from "./render"
@@ -36,7 +37,9 @@ const CanvasImageContent = <Key extends QueryKey | string>({
   const { message } = useMessageCtx()
 
   const { imageFile } = useRenderImageFile(
-    typeof id === "string" ? [message.id, id] : [message, ...id],
+    typeof id === "string"
+      ? [message?.id ?? uuidv4(), id]
+      : [message?.id ?? uuidv4(), ...id],
     typeof children === "function" ? children : () => <>{children}</>,
     // @ts-expect-error - wontfix for now
     {

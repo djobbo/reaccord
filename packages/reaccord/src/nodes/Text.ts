@@ -11,7 +11,7 @@ export class TextNode extends BaseNode<"Text", BaseNode, BaseNode> {
 
   setTextContent(textContent: string) {
     this.textContent = textContent
-    this.onNodeRender()
+    this.onNodeUpdated()
   }
 
   get display(): BaseNodeDisplay & { textContent: string } {

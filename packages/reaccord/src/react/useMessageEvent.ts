@@ -18,6 +18,7 @@ export const useReactionAdded = (
   useEffect(
     () =>
       client.listenTo("messageReactionAdd", (reaction, user) => {
+        if (!message) return
         if (reaction.message.id !== message.id) return
         if (!allowBot && user.bot) return
         if (!allowMe && reaction.me) return
@@ -38,6 +39,7 @@ export const useReactionRemoved = (
   useEffect(
     () =>
       client.listenTo("messageReactionRemove", (reaction, user) => {
+        if (!message) return
         if (reaction.message.id !== message.id) return
         if (!allowBot && user.bot) return
         if (!allowMe && reaction.me) return
@@ -59,6 +61,7 @@ export const useAllReactionRemoved = (
       client.listenTo(
         "messageReactionRemoveAll",
         async (reactionMessage, reactions) => {
+          if (!message) return
           if (reactionMessage.id !== message.id) return
           await handler(reactionMessage, reactions)
         },
@@ -76,6 +79,7 @@ export const useReactionEmojiRemoved = (
   useEffect(
     () =>
       client.listenTo("messageReactionRemoveEmoji", async (reaction) => {
+        if (!message) return
         if (reaction.message.id !== message.id) return
         await handler(reaction)
       }),
@@ -93,6 +97,7 @@ export const useReceivedReply = (
   useEffect(
     () =>
       client.listenTo("messageCreate", async (createdMessage) => {
+        if (!message) return
         if (
           !createdMessage.reference?.messageId ||
           createdMessage.reference.messageId !== message.id
@@ -116,6 +121,7 @@ export const useMessageDeleted = (
   useEffect(
     () =>
       client.listenTo("messageDelete", async (deletedMessage) => {
+        if (!message) return
         if (deletedMessage.id !== message.id) return
 
         await Promise.all([terminateInteraction(), handler(deletedMessage)])

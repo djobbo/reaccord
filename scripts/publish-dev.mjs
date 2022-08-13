@@ -12,7 +12,6 @@ const PLACEHOLDER_VERSION = "0.0.0-dev"
 const mainPackage = "reaccord"
 const packages = [
   ["reaccord", "reaccord"],
-  ["cli", "@reaccord/cli"],
   ["router", "@reaccord/router"],
   ["canvas", "@reaccord/canvas"],
 ]
