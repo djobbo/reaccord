@@ -58,4 +58,4 @@ scheduleRefresh
 console.log('[React Refresh] Rendering new root:', root.containerInfo.message?.id, root.containerInfo.client.user?.username);
 
 react-refresh-runtime.development.js
-    -> mountedRoots to check if we clean old roots correctly
+-> mountedRoots to check if we clean old roots correctly

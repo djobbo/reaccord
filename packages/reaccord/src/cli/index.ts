@@ -6,7 +6,7 @@ import { start } from "./start"
 import typescript from "@rollup/plugin-typescript"
 import type { ReaccordConfig } from "./types"
 
-const pkg = require("../package.json")
+const pkg = require("../../package.json")
 
 const rollupConfig = defineConfig({
   input: "src/main.js",
@@ -22,7 +22,7 @@ const main = async () => {
   const { version } = pkg
 
   if (["-v", "--version", "version"].includes(command)) {
-    console.info(`@reaccord/cli v${version}`)
+    console.info(`reaccord v${version}`)
     process.exit(0)
   }
 
