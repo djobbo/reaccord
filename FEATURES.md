@@ -52,3 +52,10 @@ TODO: add some kind of warning when interaction is stale
 
 TODO: when message is deleted
 remove all interaction listeners
+
+performReactRefresh
+scheduleRefresh
+console.log('[React Refresh] Rendering new root:', root.containerInfo.message?.id, root.containerInfo.client.user?.username);
+
+react-refresh-runtime.development.js
+    -> mountedRoots to check if we clean old roots correctly

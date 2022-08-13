@@ -67,8 +67,6 @@ const startDevServer = async (
 }
 
 export const dev = async (entry: string, argv: string[] = []) => {
-  process.env.NODE_ENV = "development"
-
   console.log("⚙️ Starting development server...")
 
   const rootPath = process.cwd()

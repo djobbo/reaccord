@@ -35,7 +35,6 @@ const main = async () => {
   }
 
   process.env.REACCORD_CLI_VERSION = version
-  process.env.NODE_ENV = "production"
 
   const { entry } = reaccordConfig
   if (!entry) {
@@ -45,14 +44,17 @@ const main = async () => {
 
   switch (command) {
     case "dev": {
+      process.env.NODE_ENV = "development"
       dev(entry, argv)
       break
     }
     case "build": {
+      process.env.NODE_ENV = "production"
       build(rollupConfig, reaccordConfig)
       break
     }
     case "start": {
+      process.env.NODE_ENV = "production"
       start(rollupConfig, reaccordConfig, argv)
       break
     }
