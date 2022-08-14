@@ -1,35 +1,65 @@
-import { isRootNode } from "./guards"
+import { isRootNode } from "./Root"
+import { isTextNode } from "./Text"
 import { v4 as uuidv4 } from "uuid"
-import type { ModalRootNode } from "./Interaction/ModalRoot"
-import type { ReaccordElement } from "../jsx"
+import type { ActionRowElements } from "./ActionRow"
+import type { EmbedElements } from "./Embed"
+import type { FileAttachmentElements } from "./FileAttachment"
+import type { ModalElements } from "./Modal"
+import type { ModalRootNode } from "./ModalRoot"
 import type { RootNode } from "./Root"
+import type { TextElements } from "./Text"
 
-export type NodeType = keyof ReaccordElement | "Text" | "Root" | "ModalRoot"
+export type ReaccordElements = EmbedElements &
+  ActionRowElements &
+  ModalElements &
+  FileAttachmentElements &
+  TextElements
+
+export type ReaccordElement = keyof ReaccordElements
+
+type NodeElements = ReaccordElements & {
+  Text: {}
+  Root: {}
+  ModalRoot: {}
+}
+
+export type NodeElement = keyof NodeElements
 
 export type BaseNodeDisplay = {
   uuid: string
-  type: NodeType
+  type: NodeElement
   children: BaseNodeDisplay[]
   props: any
 }
 
-export abstract class BaseNode<
-  Type extends NodeType = NodeType,
-  ParentNodeType extends BaseNode = any,
-  ChildrenNodeType extends BaseNode = any,
-> {
+export function assertIsNode<T extends NodeElement>(
+  node: BaseNode,
+  type: T | T[],
+): asserts node is BaseNode<T> {
+  if (Array.isArray(type) ? type.includes(node.type as T) : node.type === type)
+    return
+  throw new Error(
+    `Unexpected node type: ${node.type}, expected: ${
+      Array.isArray(type) ? type.join(" or ") : type
+    }`,
+  )
+}
+
+export function assertIsInstanceOf<T extends Function>(
+  object: unknown,
+  constructor: T,
+): asserts object is T {
+  if (object instanceof constructor) return
+  throw new Error("Unexpected object type")
+}
+
+export class BaseNode<Type extends NodeElement = NodeElement> {
   uuid: string
-
   type: Type
+  children: BaseNode[] = []
+  parent: BaseNode | null = null
 
-  children: ChildrenNodeType[] = []
-
-  parent: ParentNodeType | null = null
-
-  // @ts-expect-error
-  attr: Type extends keyof ReaccordElement
-    ? Partial<ReaccordElement[Type]>
-    : {} = {}
+  props: Partial<NodeElements[Type]> = {}
 
   constructor(type: Type) {
     this.uuid = uuidv4()
@@ -37,12 +67,12 @@ export abstract class BaseNode<
     this.children = []
   }
 
-  setParent(node: ParentNodeType): void {
+  setParent(node: BaseNode): void {
     this.parent = node
     this.onNodeUpdated()
   }
 
-  insertBefore(node: ChildrenNodeType, anchor?: BaseNode): void {
+  insertBefore(node: BaseNode, anchor?: BaseNode): void {
     if (!node) throw new Error("Wrong child type")
     if (anchor) {
       const anchorIndex = this.children.findIndex((child) => anchor === child)
@@ -54,13 +84,13 @@ export abstract class BaseNode<
 
   setAttribute(name: string, value: any): void {
     // @ts-expect-error
-    this.attr[name] = value
+    this.props[name] = value
     this.onNodeUpdated()
   }
 
   replaceAttributes(attr: Record<string, any>): void {
     // @ts-expect-error
-    this.attr = attr
+    this.props = attr
     this.onNodeUpdated()
   }
 
@@ -69,16 +99,16 @@ export abstract class BaseNode<
     return this.parent?.rootNode
   }
 
-  get parentNode(): ParentNodeType {
+  get parentNode(): BaseNode {
     if (!this.parent) throw new TypeError(`Couldn't find parent of ${this}`)
     return this.parent
   }
 
-  get firstChild(): ChildrenNodeType | undefined {
+  get firstChild(): BaseNode | undefined {
     return this.children[0]
   }
 
-  get nextSibling(): ParentNodeType["children"][number] | undefined {
+  get nextSibling(): BaseNode["children"][number] | undefined {
     const parent = this.parentNode
     if (!parent) throw new TypeError(`Couldn't find parent of ${this}`)
 
@@ -89,7 +119,7 @@ export abstract class BaseNode<
     return parent.children[nodeIndex + 1]
   }
 
-  removeChild(node: ChildrenNodeType): void {
+  removeChild(node: BaseNode): void {
     this.children = this.children.filter((child) => child !== node)
   }
 
@@ -107,7 +137,7 @@ export abstract class BaseNode<
     return {
       uuid: this.uuid,
       type: this.type,
-      props: this.attr,
+      props: this.props,
       children: this.children.map((child) => child.display),
     }
   }
@@ -116,5 +146,24 @@ export abstract class BaseNode<
     return JSON.stringify(this.display, null, 2)
   }
 
-  abstract render(parent?: unknown): unknown
+  get innerText(): string {
+    const innerText = this.children
+      .filter(isTextNode)
+      .map((child) => child.render())
+      .join("")
+    return innerText
+  }
+
+  get customId(): string {
+    assertIsNode(this, ["Button", "SelectMenu", "Modal"])
+
+    return (
+      (this.props as BaseNode<"Button" | "SelectMenu" | "Modal">["props"]).id ??
+      this.uuid
+    )
+  }
+
+  render(parent?: unknown): unknown {
+    throw new Error(`Render method not implemented for ${this.type}`)
+  }
 }

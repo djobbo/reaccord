@@ -1,7 +1,8 @@
 import { createContext, useContext } from "react"
 import type { Client } from "../Client"
 import type { Message } from "discord.js"
-import type { ModalRootNode, RootNode } from "../nodes"
+import type { ModalRootNode } from "../nodes/ModalRoot"
+import type { RootNode } from "../nodes/Root"
 
 export type MessageContext = {
   client: Client

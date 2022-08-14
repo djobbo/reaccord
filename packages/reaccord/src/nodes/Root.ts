@@ -8,13 +8,9 @@ import {
 } from "discord.js"
 import { EMPTY_STRING } from "../helpers/constants"
 import { debounce } from "../helpers/debounce"
-import {
-  isActionRowNode,
-  isContentNode,
-  isEmbedNode,
-  isFileNode,
-  isImageNode,
-} from "./guards"
+import { isActionRowNode } from "./ActionRow"
+import { isEmbedNode } from "./Embed"
+import { isFileAttachmentNode } from "./FileAttachment"
 import type {
   Channel,
   Interaction,
@@ -24,7 +20,7 @@ import type {
   ReplyMessageOptions,
 } from "discord.js"
 import type { Client } from "../Client"
-import type { FileAttachment } from "../jsx"
+import type { FileAttachment } from "./FileAttachment"
 
 export type MessageReactionType =
   | "ADD"
@@ -50,7 +46,10 @@ export type InteractionRef =
 
 const MESSAGE_UPDATE_DEBOUNCE_MS = 50
 
-export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
+export const isRootNode = (node: BaseNode): node is RootNode =>
+  node.type === "Root"
+
+export class RootNode extends BaseNode<"Root"> {
   client: Client
   ref: InteractionRef
   message: Message | null = null
@@ -109,35 +108,38 @@ export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
     this.files.clear()
   }
 
-  render() {
+  render(): void {
     this.updateMessage()
   }
 
   updateMessage = debounce(async () => {
     this.resetListeners()
     this.resetFiles()
+
     const messageOptions: MessageOptions &
       MessageEditOptions &
       ReplyMessageOptions &
       InteractionReplyOptions = {
-      content:
-        this.children
-          .filter(isContentNode)
-          .map((child) => child.render())
-          .at(-1) || EMPTY_STRING,
+      content: this.innerText,
       embeds: this.children.filter(isEmbedNode).map((child) => child.render()),
       components: this.children
         .filter(isActionRowNode)
         .map((child) => child.render()),
       files: [
         ...this.files,
-        ...this.children.filter(isFileNode).map((child) => child.render()),
         ...(this.children
-          .filter(isImageNode)
-          .map((child) => child.render())
+          .filter(isFileAttachmentNode)
+          .map((child) => child.render(null))
           .filter(Boolean) as FileAttachment[]),
       ],
     }
+
+    if (
+      !messageOptions.content &&
+      (!messageOptions.embeds || messageOptions.embeds.length === 0) &&
+      (!messageOptions.files || messageOptions.files.length === 0)
+    )
+      messageOptions.content = EMPTY_STRING
 
     if (!this.message) {
       this.message =

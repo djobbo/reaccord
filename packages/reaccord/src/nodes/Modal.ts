@@ -74,7 +74,7 @@ export class ModalNode extends BaseNode<"Modal"> {
         assertIsDefined(input.props.label, "TextInput label is required")
 
         return new TextInputBuilder({
-          customId: input.props.name + input.uuid,
+          customId: input.props.name,
           label: input.props.label,
           value: input.props.value,
           placeholder: input.props.placeholder,
@@ -103,7 +103,7 @@ export class ModalNode extends BaseNode<"Modal"> {
           assertIsNode(input, "TextInput")
           assertIsDefined(input.props.name, "TextInput name is required")
 
-          const customId = input.props.name + input.uuid
+          const customId = input.props.name
           const value = interaction.fields.getTextInputValue(customId)
           input.props.onChange?.(value, interaction)
           props.set(input.props.name, value)

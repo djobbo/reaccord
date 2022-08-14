@@ -1,85 +1,40 @@
-import {
-  ActionRowNode,
-  AuthorNode,
-  BrNode,
-  ButtonNode,
-  CodeNode,
-  CodeblockNode,
-  ColorNode,
-  ContentNode,
-  DescNode,
-  EmbedNode,
-  FieldNode,
-  FileNode,
-  FooterNode,
-  ImageNode,
-  InputNode,
-  LinkNode,
-  ModalNode,
-  ModalRowNode,
-  OptionNode,
-  SelectNode,
-  SpanNode,
-  ThumbNode,
-  TimestampNode,
-  TitleNode,
-  UrlNode,
-} from "../nodes"
-import type { NodeType } from "../nodes"
+import { ActionRowNode } from "../nodes/ActionRow"
+import { BaseNode } from "../nodes/_Base"
+import { EmbedNode } from "../nodes/Embed"
+import { FileAttachmentNode } from "../nodes/FileAttachment"
+import { ModalNode } from "../nodes/Modal"
+import { TextNode } from "../nodes/Text"
+import type { ReaccordElement } from "../nodes/_Base"
 
-export const createNodeFromTag = (tag: NodeType) => {
-  switch (tag) {
-    case "ActionRow":
-      return new ActionRowNode()
-    case "Link":
-      return new LinkNode()
-    case "Author":
-      return new AuthorNode()
-    case "Desc":
-      return new DescNode()
-    case "Button":
-      return new ButtonNode()
-    case "Code":
-      return new CodeNode()
-    case "CodeBlock":
-      return new CodeblockNode()
-    case "Color":
-      return new ColorNode()
-    case "Content":
-      return new ContentNode()
-    case "Footer":
-      return new FooterNode()
-    case "Embed":
-      return new EmbedNode()
-    case "Field":
-      return new FieldNode()
-    case "Input":
-      return new InputNode()
-    case "Br":
-      return new BrNode()
-    case "Modal":
-      return new ModalNode()
-    case "ModalRow":
-      return new ModalRowNode()
-    case "Option":
-      return new OptionNode()
-    case "Select":
-      return new SelectNode()
-    case "Span":
-      return new SpanNode()
-    case "Thumb":
-      return new ThumbNode()
-    case "Title":
-      return new TitleNode()
-    case "Url":
-      return new UrlNode()
-    case "Timestamp":
-      return new TimestampNode()
-    case "Image":
-      return new ImageNode()
-    case "File":
-      return new FileNode()
-    default:
-      throw new Error(`<${tag}/> is not yet implemented :(`)
-  }
+const nodeGenerators: Record<ReaccordElement, () => BaseNode> = {
+  ActionRow: () => new ActionRowNode(),
+  Embed: () => new EmbedNode(),
+  File: () => new FileAttachmentNode("File"),
+  Image: () => new FileAttachmentNode("Image"),
+  Thumbnail: () => new FileAttachmentNode("Thumbnail"),
+  Modal: () => new ModalNode(),
+  Author: () => new BaseNode("Author"),
+  Button: () => new BaseNode("Button"),
+  Description: () => new BaseNode("Description"),
+  Field: () => new BaseNode("Field"),
+  Footer: () => new BaseNode("Footer"),
+  LinkButton: () => new BaseNode("LinkButton"),
+  ModalRow: () => new BaseNode("ModalRow"),
+  Option: () => new BaseNode("Option"),
+  SelectMenu: () => new BaseNode("SelectMenu"),
+  TextInput: () => new BaseNode("TextInput"),
+  Title: () => new BaseNode("Title"),
+  Br: () => new TextNode("Br"),
+  Code: () => new TextNode("Code"),
+  CodeBlock: () => new TextNode("CodeBlock"),
+  Span: () => new TextNode("Span"),
+  Link: () => new TextNode("Link"),
+}
+
+export const createNodeFromTag = (type: ReaccordElement) => {
+  const node = nodeGenerators[type]()
+
+  if (!node) throw new Error(`Unknown node type: ${type}`)
+
+  return node
 }

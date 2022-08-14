@@ -1,11 +1,10 @@
-import { TextNode } from "../nodes"
+import { TextNode, isTextNode } from "../nodes/Text"
 import { createNodeFromTag } from "../helpers"
-import { isTextNode } from "../nodes/guards"
-import type { BaseNode, NodeType } from "../nodes"
+import type { BaseNode, ReaccordElement } from "../nodes/_Base"
 import type { HostConfig } from "react-reconciler"
 
 export const hostConfig: HostConfig<
-  NodeType,
+  ReaccordElement,
   JSX.IntrinsicElements[keyof JSX.IntrinsicElements],
   BaseNode,
   BaseNode,
@@ -34,12 +33,13 @@ export const hostConfig: HostConfig<
   prepareUpdate: () => true,
   shouldSetTextContent: (_tag, attr: any) =>
     attr.children === "string" || typeof attr.children === "number",
-  createTextInstance: (textContent: string) => new TextNode(textContent),
+  createTextInstance: (textContent: string) =>
+    new TextNode("Text", textContent),
   commitMount() {},
   commitUpdate(node, _updatePayload, _tag, _oldAttr, attr) {
     node.replaceAttributes(attr)
   },
-  resetTextContent(textNode) {
+  resetTextContent(textNode: TextNode) {
     if (isTextNode(textNode)) textNode.setTextContent("")
   },
   commitTextUpdate(textNode, _oldTextContent, textContent) {
@@ -57,10 +57,10 @@ export const hostConfig: HostConfig<
   insertInContainerBefore(parent, node, anchor?: BaseNode) {
     parent.insertBefore(node, anchor)
   },
-  removeChild(parent, node) {
+  removeChild(parent, node: BaseNode) {
     parent.removeChild(node)
   },
-  removeChildFromContainer(parent, node) {
+  removeChildFromContainer(parent, node: BaseNode) {
     parent.removeChild(node)
   },
   hideInstance() {},

@@ -1,6 +1,7 @@
 import { BaseNode, assertIsNode } from "./_Base"
 import { EmbedBuilder } from "discord.js"
 import { assertIsDefined } from "../helpers/asserts"
+import { assertIsFileAttachmentNode } from "./FileAttachment"
 import type { ColorResolvable } from "discord.js"
 import type { ReactNode } from "react"
 
@@ -9,7 +10,7 @@ export type EmbedElements = {
     children?: ReactNode
     url?: string
     timestamp?: Date | number | null
-    color: ColorResolvable
+    color?: ColorResolvable
   }
   Title: {
     children?: ReactNode
@@ -20,12 +21,6 @@ export type EmbedElements = {
   Footer: {
     children?: ReactNode
     iconURL?: string
-  }
-  Image: {
-    url?: string
-  }
-  Thumbnail: {
-    url?: string
   }
   // Not available in discord.js builders
   // Video: {
@@ -66,46 +61,53 @@ export class EmbedNode extends BaseNode<"Embed"> {
       switch (child.type) {
         case "Title":
           assertIsNode(child, "Title")
-          return embed.setTitle(child.innerText)
+          embed.setTitle(child.innerText)
+          return
 
         case "Description":
           assertIsNode(child, "Description")
-          return embed.setDescription(child.innerText)
+          embed.setDescription(child.innerText)
+          return
 
         case "Footer":
           assertIsNode(child, "Footer")
-          return embed.setFooter({
+          embed.setFooter({
             text: child.innerText,
             iconURL: child.props.iconURL,
           })
+          return
 
         case "Image":
-          assertIsNode(child, "Image")
-          return embed.setImage(child.props.url ?? null)
+          assertIsFileAttachmentNode(child, "Image")
+          child.render(embed)
+          return
 
         case "Thumbnail":
           assertIsNode(child, "Thumbnail")
-          return embed.setThumbnail(child.props.url ?? null)
+          child.render(embed)
+          return
 
         case "Author":
           assertIsNode(child, "Author")
           assertIsDefined(child.props.name, "Author name is required")
 
-          return embed.setAuthor({
+          embed.setAuthor({
             name: child.props.name,
             url: child.props.url,
             iconURL: child.props.iconURL,
           })
+          return
 
         case "Field":
           assertIsNode(child, "Field")
           assertIsDefined(child.props.title, "Field title is required")
 
-          return embed.addFields({
+          embed.addFields({
             name: child.props.title,
             value: child.innerText,
             inline: child.props.inline ?? false,
           })
+          return
 
         default:
           throw new Error(`Unexpected element type: ${child.type} inside Embed`)

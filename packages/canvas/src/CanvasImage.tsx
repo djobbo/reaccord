@@ -1,4 +1,4 @@
-import { Image, Thumb, useMessageCtx } from "reaccord"
+import { Image, Thumbnail, useMessageCtx } from "reaccord"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useRenderImageFile } from "./useRenderAttachment"
 import { v4 as uuidv4 } from "uuid"
@@ -58,7 +58,7 @@ const CanvasImageContent = <Key extends QueryKey | string>({
 
   switch (as) {
     case "Thumb":
-      return <Thumb file={imageFile} />
+      return <Thumbnail file={imageFile} />
     default:
       return <Image file={imageFile} />
   }

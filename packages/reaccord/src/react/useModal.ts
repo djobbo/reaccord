@@ -1,4 +1,4 @@
-import { ModalRootNode } from "../nodes/Interaction/ModalRoot"
+import { ModalRootNode } from "../nodes/ModalRoot"
 import { render } from "../renderer/render"
 import { useMessageCtx } from "./MessageContext"
 import type { ButtonInteraction, Message } from "discord.js"

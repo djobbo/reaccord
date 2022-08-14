@@ -1,15 +1,11 @@
 import { MessageProvider } from "../react/MessageContext"
-import { RootNode } from "../nodes"
+import { RootNode, isRootNode } from "../nodes/Root"
 import { hostConfig } from "./hostConfig"
-import { isRootNode } from "../nodes/guards"
 import ReactReconciler from "react-reconciler"
 import type { Client } from "../Client"
-import type {
-  InteractionRef,
-  MessageResponseOptions,
-  ModalRootNode,
-} from "../nodes"
+import type { InteractionRef, MessageResponseOptions } from "../nodes/Root"
 import type { Message } from "discord.js"
+import type { ModalRootNode } from "../nodes/ModalRoot"
 
 export type RenderFn = (
   Code: () => JSX.Element,

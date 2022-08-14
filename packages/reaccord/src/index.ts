@@ -24,32 +24,28 @@ export const CodeBlock = "CodeBlock"
 export const Span = "Span"
 export const Link = "Link"
 
-// Content
-export const Content = "Content"
-
 // Embed
 export const Embed = "Embed"
 export const Author = "Author"
-export const Color = "Color"
-export const Desc = "Desc"
+export const Description = "Description"
 export const Footer = "Footer"
+
 export const Image = "Image"
-export const Thumb = "Thumb"
-export const Timestamp = "Timestamp"
+export const Thumbnail = "Thumbnail"
 export const Title = "Title"
-export const Url = "Url"
 export const Field = "Field"
 
 // Interaction Components
 export const ActionRow = "ActionRow"
 export const ModalRow = "ModalRow"
 export const Button = "Button"
-export const Select = "Select"
+export const LinkButton = "LinkButton"
+export const SelectMenu = "SelectMenu"
 export const Option = "Option"
-export const Input = "Input"
+export const TextInput = "TextInput"
 export const Modal = "Modal"
 
 // Attachments
 export const File = "File"
 
-export * from "./jsx"
+export { ReaccordElements, ReaccordElement } from "./nodes/_Base"

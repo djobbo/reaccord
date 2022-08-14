@@ -3,8 +3,6 @@ import {
   Button,
   ChatInputCommand,
   Client,
-  Color,
-  Content,
   Embed,
   GatewayIntentBits,
   Title,
@@ -19,10 +17,9 @@ const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
   (_, interaction) => (
     <>
-      <Content>{interaction.user.toString()}, welcome!</Content>
-      <Embed>
+      {interaction.user.toString()}, welcome!
+      <Embed color="Orange">
         <Title>I am a bot designed to greet you!</Title>
-        <Color color="Orange" />
         <CanvasImage id="greeting" width={320} height={80}>
           <script src="https://cdn.tailwindcss.com"></script>
           <div className="bg-gray-800 w-screen h-screen flex justify-center items-center">

@@ -73,7 +73,7 @@ export class ActionRowNode extends BaseNode<"ActionRow"> {
 
     const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>()
 
-    this.children.map((child) => {
+    this.children.forEach((child) => {
       switch (child.type) {
         case "Button": {
           assertIsNode(child, "Button")
@@ -97,7 +97,8 @@ export class ActionRowNode extends BaseNode<"ActionRow"> {
           }
 
           root.addInteractionListener(customId, listener)
-          return actionRow.addComponents(button)
+          actionRow.addComponents(button)
+          return
         }
 
         case "LinkButton":
@@ -111,7 +112,8 @@ export class ActionRowNode extends BaseNode<"ActionRow"> {
             url: child.props.url,
           })
 
-          return actionRow.addComponents(linkButton)
+          actionRow.addComponents(linkButton)
+          return
 
         case "SelectMenu": {
           assertIsNode(child, "SelectMenu")
@@ -150,7 +152,8 @@ export class ActionRowNode extends BaseNode<"ActionRow"> {
           }
 
           root.addInteractionListener(customId, listener)
-          return actionRow.addComponents(selectMenu)
+          actionRow.addComponents(selectMenu)
+          return
         }
 
         default:
