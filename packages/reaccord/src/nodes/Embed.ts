@@ -1,53 +1,12 @@
-import { BaseNode, assertIsNode } from "./_Base"
 import { EmbedBuilder } from "discord.js"
+import { Node } from "./Node"
 import { assertIsDefined } from "../helpers/asserts"
-import { assertIsFileAttachmentNode } from "./FileAttachment"
-import type { ColorResolvable } from "discord.js"
-import type { ReactNode } from "react"
+import { assertIsNode } from "./helpers/assertIsNode"
+import type { RootNode } from "./Root"
 
-export type EmbedElements = {
-  Embed: {
-    children?: ReactNode
-    url?: string
-    timestamp?: Date | number | null
-    color?: ColorResolvable
-  }
-  Title: {
-    children?: ReactNode
-  }
-  Description: {
-    children?: ReactNode
-  }
-  Footer: {
-    children?: ReactNode
-    iconURL?: string
-  }
-  // Not available in discord.js builders
-  // Video: {
-  //   url?: string
-  //   height?: number
-  //   width?: number
-  // }
-  // Not available in discord.js builders
-  // Provider: {
-  //   name?: string
-  //   url?: ReactNode
-  // }
-  Author: {
-    name: string
-    url?: string
-    iconURL?: string
-  }
-  Field: {
-    title: string
-    children?: ReactNode
-    inline?: boolean
-  }
-}
-
-export class EmbedNode extends BaseNode<"Embed"> {
-  constructor() {
-    super("Embed")
+export class EmbedNode extends Node<"Embed"> {
+  constructor(rootNode: RootNode) {
+    super("Embed", rootNode)
   }
 
   render(): EmbedBuilder {
@@ -78,12 +37,10 @@ export class EmbedNode extends BaseNode<"Embed"> {
           return
 
         case "Image":
-          assertIsFileAttachmentNode(child, "Image")
           child.render(embed)
           return
 
         case "Thumbnail":
-          assertIsNode(child, "Thumbnail")
           child.render(embed)
           return
 
@@ -117,6 +74,3 @@ export class EmbedNode extends BaseNode<"Embed"> {
     return embed
   }
 }
-
-export const isEmbedNode = (node: BaseNode): node is EmbedNode =>
-  node.type === "Embed"

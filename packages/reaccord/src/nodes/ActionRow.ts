@@ -5,66 +5,15 @@ import {
   SelectMenuBuilder,
   SelectMenuOptionBuilder,
 } from "discord.js"
-import { BaseNode, assertIsNode } from "./_Base"
+import { Node } from "./Node"
 import { assertIsDefined } from "../helpers/asserts"
-import type {
-  ButtonInteraction,
-  Interaction,
-  MessageActionRowComponentBuilder,
-  SelectMenuInteraction,
-} from "discord.js"
-import type { ReactNode } from "react"
+import { assertIsNode } from "./helpers/assertIsNode"
+import type { Interaction, MessageActionRowComponentBuilder } from "discord.js"
+import type { RootNode } from "./Root"
 
-type _ButtonBase = {
-  /**
-   * Label for the button, max 80 characters
-   */
-  children?: ReactNode
-  style?: ButtonStyle
-  emoji?: never
-  disabled?: boolean
-}
-
-export type ActionRowElements = {
-  // Interaction Components
-  ActionRow: {
-    children?: ReactNode
-  }
-  Button: _ButtonBase & {
-    id?: string
-    /**
-     * By default, onClick will trigger a defered update, to prevent this, return a truthy value
-     */
-    onClick?: (interaction: ButtonInteraction) => any | Promise<any>
-    style?: Exclude<ButtonStyle, ButtonStyle.Link>
-  }
-  LinkButton: _ButtonBase & {
-    url: string
-  }
-  SelectMenu: {
-    id?: string
-    /**
-     * By default, onChange will trigger a defered update, to prevent this, return a truthy value
-     */
-    onChange?: (
-      values: string[],
-      interaction: SelectMenuInteraction,
-    ) => any | Promise<any>
-    children?: ReactNode
-    disabled?: boolean
-    placeholder?: string
-  }
-  Option: {
-    default?: boolean
-    description?: string
-    children?: ReactNode
-    value?: string
-  }
-}
-
-export class ActionRowNode extends BaseNode<"ActionRow"> {
-  constructor() {
-    super("ActionRow")
+export class ActionRowNode extends Node<"ActionRow"> {
+  constructor(rootNode: RootNode) {
+    super("ActionRow", rootNode)
   }
 
   render(): ActionRowBuilder<MessageActionRowComponentBuilder> {
@@ -165,6 +114,3 @@ export class ActionRowNode extends BaseNode<"ActionRow"> {
     return actionRow
   }
 }
-
-export const isActionRowNode = (node: BaseNode): node is ActionRowNode =>
-  node.type === "ActionRow"

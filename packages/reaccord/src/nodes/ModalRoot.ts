@@ -1,30 +1,27 @@
-import { BaseNode } from "./_Base"
 import { InteractionType } from "discord.js"
-import { isModalNode } from "./Modal"
+import { Node } from "./Node"
+import { isModalNode } from "./helpers/guards"
 import type { Client } from "../Client"
 import type { Interaction, Message, ModalBuilder } from "discord.js"
+import type { RootNode } from "./Root"
 
-export class ModalRootNode extends BaseNode<"ModalRoot"> {
+export class ModalRootNode extends Node<"ModalRoot"> {
   client: Client
   message: Message
 
   interactionListeners: Record<string, (interaction: Interaction) => unknown> =
     {}
 
-  constructor(client: Client, message: Message) {
-    super("ModalRoot")
-    this.client = client
-    this.message = message
+  constructor(rootNode: RootNode) {
+    super("ModalRoot", rootNode)
+    this.client = rootNode.client
+    this.message = rootNode.message!
 
-    client.on("interactionCreate", (interaction) => {
+    this.client.on("interactionCreate", (interaction) => {
       if (interaction.type !== InteractionType.ModalSubmit) return
       const listener = this.interactionListeners[interaction.customId]
       listener?.(interaction)
     })
-  }
-
-  get rootNode() {
-    return this
   }
 
   addInteractionListener(

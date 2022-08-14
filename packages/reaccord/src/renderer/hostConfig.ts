@@ -1,13 +1,18 @@
-import { TextNode, isTextNode } from "../nodes/Text"
+import { TextNode } from "../nodes/Text"
 import { createNodeFromTag } from "./createNodeFromTag"
-import type { BaseNode, ReaccordElement } from "../nodes/_Base"
+import { isTextNode } from "../nodes/helpers/guards"
 import type { HostConfig } from "react-reconciler"
+import type { Node } from "../nodes/Node"
+import type { ReaccordElement } from "../nodes/elements"
+import type { RootNode } from "../nodes/Root"
 
-export const hostConfig: HostConfig<
+export const getHostConfig = (
+  rootNode: RootNode,
+): HostConfig<
   ReaccordElement,
   JSX.IntrinsicElements[keyof JSX.IntrinsicElements],
-  BaseNode,
-  BaseNode,
+  Node,
+  Node,
   TextNode,
   unknown,
   unknown,
@@ -17,12 +22,12 @@ export const hostConfig: HostConfig<
   unknown,
   unknown,
   unknown
-> = {
+> => ({
   getChildHostContext: () => null,
   prepareForCommit: () => null,
   resetAfterCommit() {},
   createInstance: (tag, attr) => {
-    const node = createNodeFromTag(tag)
+    const node = createNodeFromTag(tag, rootNode)
     node.replaceAttributes(attr)
     return node
   },
@@ -34,7 +39,7 @@ export const hostConfig: HostConfig<
   shouldSetTextContent: (_tag, attr: any) =>
     attr.children === "string" || typeof attr.children === "number",
   createTextInstance: (textContent: string) =>
-    new TextNode("Text", textContent),
+    new TextNode("Text", rootNode, textContent),
   commitMount() {},
   commitUpdate(node, _updatePayload, _tag, _oldAttr, attr) {
     node.replaceAttributes(attr)
@@ -51,23 +56,23 @@ export const hostConfig: HostConfig<
   appendChildToContainer(parent, node) {
     parent.insertBefore(node)
   },
-  insertBefore(parent, node, anchor?: BaseNode) {
+  insertBefore(parent, node, anchor?: Node) {
     parent.insertBefore(node, anchor)
   },
-  insertInContainerBefore(parent, node, anchor?: BaseNode) {
+  insertInContainerBefore(parent, node, anchor?: Node) {
     parent.insertBefore(node, anchor)
   },
-  removeChild(parent, node: BaseNode) {
+  removeChild(parent, node: Node) {
     parent.removeChild(node)
   },
-  removeChildFromContainer(parent, node: BaseNode) {
+  removeChildFromContainer(parent, node: Node) {
     parent.removeChild(node)
   },
   hideInstance() {},
   hideTextInstance() {},
   unhideInstance() {},
   unhideTextInstance() {},
-  clearContainer(node: BaseNode) {
+  clearContainer(node: Node) {
     node.clear()
   },
   getRootHostContext: () => null,
@@ -87,4 +92,4 @@ export const hostConfig: HostConfig<
   prepareScopeUpdate: () => null,
   getInstanceFromScope: () => null,
   detachDeletedInstance: () => null,
-}
+})

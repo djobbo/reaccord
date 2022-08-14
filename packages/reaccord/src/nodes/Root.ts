@@ -1,4 +1,3 @@
-import { BaseNode } from "./_Base"
 import {
   CommandInteraction,
   ContextMenuCommandInteraction,
@@ -7,9 +6,9 @@ import {
   ModalSubmitInteraction,
 } from "discord.js"
 import { EMPTY_STRING } from "../helpers/constants"
+import { Node } from "./Node"
 import { debounce } from "../helpers/debounce"
-import { isActionRowNode } from "./ActionRow"
-import { isEmbedNode } from "./Embed"
+import { isActionRowNode, isEmbedNode } from "./helpers/guards"
 import { isFileAttachmentNode } from "./FileAttachment"
 import type {
   Channel,
@@ -20,13 +19,7 @@ import type {
   ReplyMessageOptions,
 } from "discord.js"
 import type { Client } from "../Client"
-import type { FileAttachment } from "./FileAttachment"
-
-export type MessageReactionType =
-  | "ADD"
-  | "REMOVE"
-  | "REMOVE_ALL"
-  | "REMOVE_EMOJI"
+import type { FileAttachment } from "./elements"
 
 export type MessageResponseOptions = {
   /**
@@ -46,10 +39,9 @@ export type InteractionRef =
 
 const MESSAGE_UPDATE_DEBOUNCE_MS = 50
 
-export const isRootNode = (node: BaseNode): node is RootNode =>
-  node.type === "Root"
+export const isRootNode = (node: Node): node is RootNode => node.type === "Root"
 
-export class RootNode extends BaseNode<"Root"> {
+export class RootNode extends Node<"Root"> {
   client: Client
   ref: InteractionRef
   message: Message | null = null
@@ -65,7 +57,12 @@ export class RootNode extends BaseNode<"Root"> {
     ref: InteractionRef,
     options: MessageResponseOptions = {},
   ) {
-    super("Root")
+    super(
+      "Root",
+      // @ts-expect-error: we need to call super() before we can set this.root to this
+      null,
+    )
+    this.rootNode = this
 
     this.client = client
     this.ref = ref
@@ -85,10 +82,6 @@ export class RootNode extends BaseNode<"Root"> {
     })
   }
 
-  get rootNode() {
-    return this
-  }
-
   addInteractionListener(
     uuid: string,
     fn: (interaction: Interaction) => unknown,
@@ -106,6 +99,10 @@ export class RootNode extends BaseNode<"Root"> {
 
   resetFiles() {
     this.files.clear()
+  }
+
+  onNodeUpdated(): void {
+    this.updateMessage()
   }
 
   render(): void {

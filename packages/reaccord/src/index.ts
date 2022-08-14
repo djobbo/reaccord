@@ -48,4 +48,4 @@ export const Modal = "Modal"
 // Attachments
 export const File = "File"
 
-export { ReaccordElements, ReaccordElement } from "./nodes/_Base"
+export { ReaccordElements, ReaccordElement } from "./nodes/elements"

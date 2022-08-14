@@ -5,52 +5,15 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js"
-import { BaseNode, assertIsNode } from "./_Base"
+import { Node } from "./Node"
 import { assertIsDefined } from "../helpers/asserts"
-import type { Interaction, ModalSubmitInteraction } from "discord.js"
-import type { ReactNode } from "react"
+import { assertIsNode } from "./helpers/assertIsNode"
+import type { Interaction } from "discord.js"
+import type { RootNode } from "./Root"
 
-export type ModalElements<
-  FieldName extends string = string,
-  Props extends Record<FieldName, string> = Record<FieldName, string>,
-> = {
-  Modal: {
-    id?: string
-    children?: ReactNode
-    title: string
-    /**
-     * By default, onSubmit will trigger a message and then delete it
-     * in order to respond to the interaction.
-     * To prevent this, return a truthy value
-     */
-    onSubmit?: (
-      props: Partial<Props>,
-      interaction: ModalSubmitInteraction,
-    ) => any | Promise<any>
-  }
-  ModalRow: {
-    children?: ReactNode
-  }
-  TextInput: {
-    /**
-     * Input name should be unique per modal
-     */
-    name: FieldName
-    onChange?: (
-      value: string,
-      interaction: ModalSubmitInteraction,
-    ) => any | Promise<any>
-    label?: string
-    value?: string
-    placeholder?: string
-    required?: boolean
-    paragraph?: boolean
-  }
-}
-
-export class ModalNode extends BaseNode<"Modal"> {
-  constructor() {
-    super("Modal")
+export class ModalNode extends Node<"Modal"> {
+  constructor(rootNode: RootNode) {
+    super("Modal", rootNode)
   }
 
   render(): ModalBuilder {
@@ -122,6 +85,3 @@ export class ModalNode extends BaseNode<"Modal"> {
     return modal
   }
 }
-
-export const isModalNode = (node: BaseNode): node is ModalNode =>
-  node.type === "Modal"

@@ -1,35 +1,15 @@
-import { BaseNode, assertIsNode } from "./_Base"
-import type { ReactNode } from "react"
-
-export type TextElements = {
-  // TODO: update these
-  Br: {}
-  Code: {
-    children?: ReactNode
-  }
-  CodeBlock: {
-    lang: string //TODO: add some lang suggestions
-    children?: ReactNode
-    multiline?: boolean
-  }
-  Span: {
-    italic?: boolean
-    bold?: boolean
-    children?: ReactNode
-  }
-  Link: {
-    href: string
-    children?: ReactNode
-  }
-}
+import { Node } from "./Node"
+import { assertIsNode } from "./helpers/assertIsNode"
+import type { RootNode } from "./Root"
+import type { TextElements } from "./elements"
 
 export class TextNode<
   NodeType extends keyof TextElements | "Text" = keyof TextElements | "Text",
-> extends BaseNode<NodeType> {
+> extends Node<NodeType> {
   textContent?: string
 
-  constructor(type: NodeType, textContent?: string) {
-    super(type)
+  constructor(type: NodeType, rootNode: RootNode, textContent?: string) {
+    super(type, rootNode)
 
     this.textContent = textContent
   }
@@ -38,7 +18,7 @@ export class TextNode<
     this.textContent = textContent
   }
 
-  render(): string {
+  renderAsText(): string {
     switch (this.type) {
       case "Text":
         return this.textContent ?? ""
@@ -64,7 +44,8 @@ export class TextNode<
         throw new Error(`Unknown text node type: ${this.type}`)
     }
   }
-}
 
-export const isTextNode = (node: BaseNode): node is TextNode =>
-  node instanceof TextNode
+  render(): string {
+    return this.renderAsText()
+  }
+}
