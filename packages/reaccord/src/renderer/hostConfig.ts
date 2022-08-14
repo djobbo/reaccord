@@ -1,5 +1,5 @@
 import { TextNode, isTextNode } from "../nodes/Text"
-import { createNodeFromTag } from "../helpers"
+import { createNodeFromTag } from "./createNodeFromTag"
 import type { BaseNode, ReaccordElement } from "../nodes/_Base"
 import type { HostConfig } from "react-reconciler"
 

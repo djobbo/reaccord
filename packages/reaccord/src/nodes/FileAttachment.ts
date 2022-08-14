@@ -2,7 +2,7 @@ import { BaseNode, assertIsNode } from "./_Base"
 import { EmbedBuilder } from "discord.js"
 import { P, match } from "ts-pattern"
 import { RootNode } from "./Root"
-import { getFileFromAttachment } from "../helpers/getFileFromAttachment"
+import { getFileFromAttachment } from "./helpers/getFileFromAttachment"
 import type { Attachment, AttachmentBuilder } from "discord.js"
 import type { Stream } from "node:stream"
 
