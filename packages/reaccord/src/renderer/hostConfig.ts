@@ -2,13 +2,12 @@ import { TextNode } from "../nodes/Text"
 import { createNodeFromTag } from "./createNodeFromTag"
 import { isTextNode } from "../nodes/helpers/guards"
 import type { HostConfig } from "react-reconciler"
+import type { ModalRootNode } from "../nodes/ModalRoot"
 import type { Node } from "../nodes/Node"
 import type { ReaccordElement } from "../nodes/elements"
 import type { RootNode } from "../nodes/Root"
 
-export const getHostConfig = (
-  rootNode: RootNode,
-): HostConfig<
+export const hostConfig: HostConfig<
   ReaccordElement,
   JSX.IntrinsicElements[keyof JSX.IntrinsicElements],
   Node,
@@ -22,12 +21,12 @@ export const getHostConfig = (
   unknown,
   unknown,
   unknown
-> => ({
+> = {
   getChildHostContext: () => null,
   prepareForCommit: () => null,
   resetAfterCommit() {},
-  createInstance: (tag, attr) => {
-    const node = createNodeFromTag(tag, rootNode)
+  createInstance: (tag, attr, rootNode: RootNode | ModalRootNode) => {
+    const node = createNodeFromTag(tag, rootNode.rootNode)
     node.replaceAttributes(attr)
     return node
   },
@@ -38,8 +37,10 @@ export const getHostConfig = (
   prepareUpdate: () => true,
   shouldSetTextContent: (_tag, attr: any) =>
     attr.children === "string" || typeof attr.children === "number",
-  createTextInstance: (textContent: string) =>
-    new TextNode("Text", rootNode, textContent),
+  createTextInstance: (
+    textContent: string,
+    rootNode: RootNode | ModalRootNode,
+  ) => new TextNode("Text", rootNode.rootNode, textContent),
   commitMount() {},
   commitUpdate(node, _updatePayload, _tag, _oldAttr, attr) {
     node.replaceAttributes(attr)
@@ -92,4 +93,4 @@ export const getHostConfig = (
   prepareScopeUpdate: () => null,
   getInstanceFromScope: () => null,
   detachDeletedInstance: () => null,
-})
+}

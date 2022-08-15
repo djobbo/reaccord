@@ -36,8 +36,6 @@ export class ActionRowNode extends Node<"ActionRow"> {
           })
 
           const listener = async (interaction: Interaction) => {
-            assertIsNode(child, "Button")
-
             if (!interaction.isButton()) return
             if (interaction.customId !== customId) return
 
@@ -89,8 +87,6 @@ export class ActionRowNode extends Node<"ActionRow"> {
           selectMenu.addOptions(options)
 
           const listener = async (interaction: Interaction) => {
-            assertIsNode(this, "SelectMenu")
-
             if (!interaction.isSelectMenu()) return
             if (interaction.customId !== customId) return
 

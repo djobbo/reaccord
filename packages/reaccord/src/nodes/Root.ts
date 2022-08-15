@@ -52,6 +52,8 @@ export class RootNode extends Node<"Root"> {
     staleAfter: 5 * 60,
   }
 
+  lastMessageUpdatePromise: Promise<Message> | null = null
+
   constructor(
     client: Client,
     ref: InteractionRef,
@@ -139,17 +141,25 @@ export class RootNode extends Node<"Root"> {
       messageOptions.content = EMPTY_STRING
 
     if (!this.message) {
-      this.message =
-        this.ref instanceof Message
-          ? await this.ref.reply(messageOptions)
-          : this.ref instanceof CommandInteraction ||
-            this.ref instanceof ContextMenuCommandInteraction ||
-            this.ref instanceof MessageComponentInteraction ||
-            this.ref instanceof ModalSubmitInteraction
-          ? await this.ref.reply({ ...messageOptions, fetchReply: true })
-          : await this.ref.send(messageOptions)
-      return this.message
+      // If no message creation request is pending, create a new one
+      if (!this.lastMessageUpdatePromise) {
+        this.lastMessageUpdatePromise =
+          this.ref instanceof Message
+            ? this.ref.reply(messageOptions)
+            : this.ref instanceof CommandInteraction ||
+              this.ref instanceof ContextMenuCommandInteraction ||
+              this.ref instanceof MessageComponentInteraction ||
+              this.ref instanceof ModalSubmitInteraction
+            ? this.ref.reply({ ...messageOptions, fetchReply: true })
+            : this.ref.send(messageOptions)
+        this.message = await this.lastMessageUpdatePromise
+        return this.message
+      }
+      // If a message creation request is pending, wait for it to complete
+      this.message = await this.lastMessageUpdatePromise
     }
+
+    if (!this.message) throw new Error("No message to update")
 
     if (!this.message.editable) throw new Error("Message is not editable")
     this.message.edit(messageOptions)

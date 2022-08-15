@@ -1,6 +1,6 @@
 import { MessageProvider } from "../react/MessageContext"
 import { RootNode, isRootNode } from "../nodes/Root"
-import { getHostConfig } from "./hostConfig"
+import { hostConfig } from "./hostConfig"
 import ReactReconciler from "react-reconciler"
 import type { Client } from "../Client"
 import type { InteractionRef, MessageResponseOptions } from "../nodes/Root"
@@ -25,13 +25,14 @@ export const renderMessage =
     return root.updateMessage()
   }
 
+const reactReconcilerInstance = ReactReconciler(hostConfig)
+reactReconcilerInstance.injectIntoDevTools({
+  bundleType: process.env.NODE_ENV === "production" ? 0 : 1,
+  rendererPackageName: "reaccord",
+  version: "0.0.0",
+})
+
 export const render: RenderFn = (Code, root) => {
-  const reactReconcilerInstance = ReactReconciler(getHostConfig(root.rootNode))
-  reactReconcilerInstance.injectIntoDevTools({
-    bundleType: process.env.NODE_ENV === "production" ? 0 : 1,
-    rendererPackageName: "reaccord",
-    version: "0.0.0",
-  })
   const rootContainer = reactReconcilerInstance.createContainer(
     root,
     0,
