@@ -43,6 +43,7 @@ export const isRootNode = (node: Node): node is RootNode => node.type === "Root"
 
 export class RootNode extends Node<"Root"> {
   client: Client
+  terminateInteraction: () => void = () => void 0
   ref: InteractionRef
   message: Message | null = null
   interactionListeners: Record<string, (interaction: Interaction) => unknown> =

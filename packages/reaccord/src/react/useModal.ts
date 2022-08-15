@@ -1,6 +1,6 @@
 import { ModalRootNode } from "../nodes/ModalRoot"
 import { render } from "../renderer/render"
-import { useMessageCtxInternal } from "./MessageContext"
+import { useRootNodeContextInternal } from "./MessageContext"
 import type { ButtonInteraction } from "discord.js"
 import type { RenderFn } from "../renderer/render"
 import type { RootNode } from "../nodes/Root"
@@ -29,7 +29,7 @@ const openModal =
   }
 
 export const useModal = () => {
-  const { rootNode } = useMessageCtxInternal()
+  const rootNode = useRootNodeContextInternal()
 
   return { openModal: openModal(render, rootNode) }
 }

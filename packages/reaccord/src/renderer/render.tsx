@@ -44,27 +44,29 @@ export const render: RenderFn = (Code, root) => {
     null,
   )
 
-  let timeout: NodeJS.Timeout | undefined
+  if (isRootNode(root)) {
+    let timeout: NodeJS.Timeout | undefined
+
+    root.terminateInteraction = () => {
+      if (timeout) clearTimeout(timeout)
+
+      reactReconcilerInstance.updateContainer(null, rootContainer, null)
+      root.resetListeners()
+      root.clear()
+    }
+
+    if (!!root.messageResponseOptions.staleAfter) {
+      timeout = setTimeout(() => {
+        root.terminateInteraction()
+      }, root.messageResponseOptions.staleAfter * 1000)
+    }
+  }
 
   reactReconcilerInstance.updateContainer(
-    <MessageProvider
-      rootNode={root.rootNode}
-      onInteractionTerminated={() => {
-        if (timeout) clearTimeout(timeout)
-
-        reactReconcilerInstance.updateContainer(null, rootContainer, null)
-      }}
-    >
+    <MessageProvider rootNode={root.rootNode}>
       <Code />
     </MessageProvider>,
     rootContainer,
     null,
   )
-
-  if (isRootNode(root) && !!root.messageResponseOptions.staleAfter) {
-    timeout = setTimeout(() => {
-      reactReconcilerInstance.updateContainer(null, rootContainer, null)
-      root.resetListeners()
-    }, root.messageResponseOptions.staleAfter * 1000)
-  }
 }
