@@ -76,7 +76,7 @@ export class ModalNode extends Node<"Modal"> {
       if (
         !(await this.props.onSubmit?.(Object.fromEntries(props), interaction))
       ) {
-        await interaction.deferReply()
+        await interaction.deferUpdate()
       }
     }
 

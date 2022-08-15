@@ -77,7 +77,12 @@ export class RootNode extends Node<"Root"> {
     client.on("interactionCreate", (interaction) => {
       // TODO: Add proper disposal
       if (!this.message) return
-      if (!interaction.isButton() && !interaction.isSelectMenu()) return
+      if (
+        !interaction.isButton() &&
+        !interaction.isSelectMenu() &&
+        !interaction.isModalSubmit()
+      )
+        return
 
       const listener = this.interactionListeners[interaction.customId]
       listener?.(interaction)
