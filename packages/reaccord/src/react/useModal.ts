@@ -1,18 +1,17 @@
-import { ModalRootNode } from "../nodes/Interaction/ModalRoot"
+import { ModalRootNode } from "../nodes/ModalRoot"
 import { render } from "../renderer/render"
-import { useMessageCtx } from "./MessageContext"
-import type { ButtonInteraction, Message } from "discord.js"
-import type { Client } from "../Client"
+import { useMessageCtxInternal } from "./MessageContext"
+import type { ButtonInteraction } from "discord.js"
 import type { RenderFn } from "../renderer/render"
+import type { RootNode } from "../nodes/Root"
 
 const createModal = (
   render: RenderFn,
-  client: Client,
   code: JSX.Element,
-  message: Message,
+  rootNode: RootNode,
 ) => {
-  const modal = new ModalRootNode(client)
-  render(() => code, modal, client, message)
+  const modal = new ModalRootNode(rootNode)
+  render(() => code, modal)
 
   return modal.render()
 }
@@ -21,15 +20,16 @@ const createModal = (
 // will prevent the app from defering update, because opening a modal is
 // already an interaction response.
 const openModal =
-  (render: RenderFn, client: Client, message: Message) =>
+  (render: RenderFn, rootNode: RootNode) =>
   (modal: JSX.Element) =>
   (interaction: ButtonInteraction): true => {
-    interaction.showModal(createModal(render, client, modal, message))
+    if (!rootNode.message) return true
+    interaction.showModal(createModal(render, modal, rootNode))
     return true
   }
 
 export const useModal = () => {
-  const { client, message } = useMessageCtx()
+  const { rootNode } = useMessageCtxInternal()
 
-  return { openModal: openModal(render, client, message) }
+  return { openModal: openModal(render, rootNode) }
 }

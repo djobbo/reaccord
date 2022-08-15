@@ -1,40 +1,51 @@
 import { createContext, useContext } from "react"
 import type { Client } from "../Client"
 import type { Message } from "discord.js"
+import type { RootNode } from "../nodes/Root"
 
 export type MessageContext = {
   client: Client
-  message: Message
+  /**
+   * Message will be `null` on the initial render.
+   */
+  message: Message | null
+  rootNode: RootNode
   terminateInteraction: () => void
 }
 
 const messageContext = createContext<MessageContext>({
-  // @ts-expect-error
   message: null,
   // @ts-expect-error
   client: null,
+  // @ts-expect-error
+  rootNode: null,
+  terminateInteraction: () => void 0,
 })
 
-export const useMessageCtx = () => useContext(messageContext)
+export const useMessageCtx = () => {
+  const { rootNode, ...publicCtx } = useContext(messageContext)
+  return publicCtx
+}
+
+export const useMessageCtxInternal = () => useContext(messageContext)
 
 export type MessageProviderProps = {
-  client: Client
-  message: Message
+  rootNode: RootNode
   children?: JSX.Element
   onInteractionTerminated: () => void
 }
 
 export const MessageProvider = ({
+  rootNode,
   children,
-  client,
-  message,
   onInteractionTerminated,
 }: MessageProviderProps) => {
   return (
     <messageContext.Provider
       value={{
-        client,
-        message,
+        rootNode,
+        client: rootNode.client,
+        message: rootNode.message,
         terminateInteraction: onInteractionTerminated,
       }}
     >

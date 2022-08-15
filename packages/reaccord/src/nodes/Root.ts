@@ -1,26 +1,25 @@
-import { BaseNode } from "./_Base"
-import { EMPTY_STRING } from "../helpers/constants"
 import {
-  isActionRowNode,
-  isContentNode,
-  isEmbedNode,
-  isFileNode,
-  isImageNode,
-} from "./guards"
-import type {
-  Client,
-  Interaction,
+  CommandInteraction,
+  ContextMenuCommandInteraction,
   Message,
+  MessageComponentInteraction,
+  ModalSubmitInteraction,
+} from "discord.js"
+import { EMPTY_STRING } from "../helpers/constants"
+import { Node } from "./Node"
+import { debounce } from "../helpers/debounce"
+import { isActionRowNode, isEmbedNode } from "./helpers/guards"
+import { isFileAttachmentNode } from "./FileAttachment"
+import type {
+  Channel,
+  Interaction,
+  InteractionReplyOptions,
   MessageEditOptions,
   MessageOptions,
+  ReplyMessageOptions,
 } from "discord.js"
-import type { FileAttachment } from "../jsx"
-
-export type MessageReactionType =
-  | "ADD"
-  | "REMOVE"
-  | "REMOVE_ALL"
-  | "REMOVE_EMOJI"
+import type { Client } from "../Client"
+import type { FileAttachment } from "./elements"
 
 export type MessageResponseOptions = {
   /**
@@ -30,27 +29,46 @@ export type MessageResponseOptions = {
   staleAfter?: number | null
 }
 
-export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
+export type InteractionRef =
+  | Extract<Channel, { send: any }>
+  | Message
+  | CommandInteraction
+  | ContextMenuCommandInteraction
+  | MessageComponentInteraction
+  | ModalSubmitInteraction
+
+const MESSAGE_UPDATE_DEBOUNCE_MS = 50
+
+export const isRootNode = (node: Node): node is RootNode => node.type === "Root"
+
+export class RootNode extends Node<"Root"> {
   client: Client
-  onRender: ((node: RootNode) => void) | undefined
+  ref: InteractionRef
+  message: Message | null = null
   interactionListeners: Record<string, (interaction: Interaction) => unknown> =
     {}
   files = new Set<FileAttachment>()
-  message: Message
   messageResponseOptions: MessageResponseOptions = {
     staleAfter: 5 * 60,
   }
 
+  lastMessageUpdatePromise: Promise<Message> | null = null
+
   constructor(
     client: Client,
-    message: Message,
-    onRender?: (node: RootNode) => void | undefined,
+    ref: InteractionRef,
     options: MessageResponseOptions = {},
   ) {
-    super("Root")
+    super(
+      "Root",
+      // @ts-expect-error: we need to call super() before we can set this.root to this
+      null,
+    )
+    this.rootNode = this
+
     this.client = client
-    this.message = message
-    this.onRender = onRender
+    this.ref = ref
+
     this.messageResponseOptions = {
       ...this.messageResponseOptions,
       ...options,
@@ -58,19 +76,17 @@ export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
 
     client.on("interactionCreate", (interaction) => {
       // TODO: Add proper disposal
-      if (!interaction.isButton() && !interaction.isSelectMenu()) return
-      interaction
+      if (!this.message) return
+      if (
+        !interaction.isButton() &&
+        !interaction.isSelectMenu() &&
+        !interaction.isModalSubmit()
+      )
+        return
+
       const listener = this.interactionListeners[interaction.customId]
       listener?.(interaction)
     })
-  }
-
-  onNodeRender() {
-    this.onRender?.(this)
-  }
-
-  get rootNode() {
-    return this
   }
 
   addInteractionListener(
@@ -92,28 +108,66 @@ export class RootNode extends BaseNode<"Root", BaseNode, BaseNode> {
     this.files.clear()
   }
 
-  render(): MessageOptions | MessageEditOptions {
+  onNodeUpdated(): void {
+    this.updateMessage()
+  }
+
+  render(): void {
+    this.updateMessage()
+  }
+
+  updateMessage = debounce(async () => {
     this.resetListeners()
     this.resetFiles()
 
-    return {
-      content:
-        this.children
-          .filter(isContentNode)
-          .map((child) => child.render())
-          .at(-1) || EMPTY_STRING,
+    const messageOptions: MessageOptions &
+      MessageEditOptions &
+      ReplyMessageOptions &
+      InteractionReplyOptions = {
+      content: this.innerText,
       embeds: this.children.filter(isEmbedNode).map((child) => child.render()),
       components: this.children
         .filter(isActionRowNode)
         .map((child) => child.render()),
       files: [
         ...this.files,
-        ...this.children.filter(isFileNode).map((child) => child.render()),
         ...(this.children
-          .filter(isImageNode)
-          .map((child) => child.render())
+          .filter(isFileAttachmentNode)
+          .map((child) => child.render(null))
           .filter(Boolean) as FileAttachment[]),
       ],
     }
-  }
+
+    if (
+      !messageOptions.content &&
+      (!messageOptions.embeds || messageOptions.embeds.length === 0) &&
+      (!messageOptions.files || messageOptions.files.length === 0)
+    )
+      messageOptions.content = EMPTY_STRING
+
+    if (!this.message) {
+      // If no message creation request is pending, create a new one
+      if (!this.lastMessageUpdatePromise) {
+        this.lastMessageUpdatePromise =
+          this.ref instanceof Message
+            ? this.ref.reply(messageOptions)
+            : this.ref instanceof CommandInteraction ||
+              this.ref instanceof ContextMenuCommandInteraction ||
+              this.ref instanceof MessageComponentInteraction ||
+              this.ref instanceof ModalSubmitInteraction
+            ? this.ref.reply({ ...messageOptions, fetchReply: true })
+            : this.ref.send(messageOptions)
+        this.message = await this.lastMessageUpdatePromise
+        return this.message
+      }
+      // If a message creation request is pending, wait for it to complete
+      this.message = await this.lastMessageUpdatePromise
+    }
+
+    if (!this.message) throw new Error("No message to update")
+
+    if (!this.message.editable) throw new Error("Message is not editable")
+    this.message.edit(messageOptions)
+    return this.message
+  }, MESSAGE_UPDATE_DEBOUNCE_MS)
 }

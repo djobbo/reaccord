@@ -19,7 +19,7 @@ const queryClient = new QueryClient()
 const rickCmd = new ChatInputCommand(
   "rick",
   "Rick and Morty characters info.",
-  { staleAfter: 10 },
+  { staleAfter: 300 },
 )
   .stringParam("search", "Character name search")
   .render(({ search }) => (

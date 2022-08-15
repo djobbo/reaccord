@@ -7,6 +7,7 @@ import {
   Client,
   Embed,
   GatewayIntentBits,
+  Thumbnail,
 } from "reaccord"
 import { CanvasImage, renderToImageBuffer } from "@reaccord/canvas"
 import {
@@ -35,7 +36,7 @@ export const CounterApp = ({
   return (
     <>
       <CanvasImage
-        id="user-welcome"
+        id={["user-welcome", user.username]}
         width={240}
         height={40}
         options={{ queryOptions: { context: defaultContext } }}
@@ -50,10 +51,11 @@ export const CounterApp = ({
       <Embed>
         <CanvasImage
           id={["my-canvas-thumb", count]}
-          as="Thumb"
+          as={Thumbnail}
           width={60}
           height={60}
           options={{ queryOptions: { context: defaultContext } }}
+          placeholderUrl="https://via.placeholder.com/60x60"
         >
           <script src="https://cdn.tailwindcss.com"></script>
           <div className="flex w-full h-full justify-center align-center bg-slate-200">

@@ -1,4 +1,4 @@
-import { Color, Embed, Field, Thumb, Title } from "reaccord"
+import { Embed, Field, Thumbnail, Title } from "reaccord"
 import type { Character, CharacterStatus } from "../types"
 import type { ColorResolvable } from "reaccord"
 
@@ -26,22 +26,20 @@ export const CharacterEmbed = ({
 }: CharacterEmbedProps) => {
   if (isLoading)
     return (
-      <Embed>
+      <Embed color="Orange">
         <Title>Loading</Title>
-        <Color color="Orange" />
       </Embed>
     )
 
   if (!character)
     return (
-      <Embed>
+      <Embed color="Red">
         <Title>Failed to fetch data, please retry</Title>
-        <Color color="Red" />
       </Embed>
     )
 
   return (
-    <Embed>
+    <Embed color={getColorFromCharacterStatus(character.status ?? "unknown")}>
       <Title>{character.name}</Title>
       <Field title="Species" inline>
         {character.species ?? "unknown"}
@@ -51,10 +49,7 @@ export const CharacterEmbed = ({
         {character.location.name ?? "unknown"}
       </Field>
       <Field title="Origin">{character.origin.name ?? "unknown"}</Field>
-      {character.image && <Thumb src={character.image} />}
-      <Color
-        color={getColorFromCharacterStatus(character.status ?? "unknown")}
-      />
+      {character.image && <Thumbnail src={character.image} />}
     </Embed>
   )
 }

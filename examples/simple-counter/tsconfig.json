@@ -6,10 +6,10 @@
     "lib": ["esnext"],
     "moduleResolution": "node",
     "jsx": "react-jsx",
-    "jsxImportSource": "reaccord",
     "target": "es6",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "sourceMap": true
   },
-  "include": ["index.tsx"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

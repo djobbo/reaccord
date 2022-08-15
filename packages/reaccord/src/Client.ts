@@ -11,8 +11,8 @@ import type {
   ClientOptions as DiscordClientOptions,
   Interaction,
 } from "discord.js"
-import type { MessageResponseOptions } from "./nodes"
-import type { RenderMessageFn } from "./renderer/renderMessage"
+import type { MessageResponseOptions } from "./nodes/Root"
+import type { RenderMessageFn } from "./renderer/render"
 
 type ClientOptions = DiscordClientOptions & {
   token: string

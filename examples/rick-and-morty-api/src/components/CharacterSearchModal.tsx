@@ -1,4 +1,4 @@
-import { Input, Modal, ModalRow } from "reaccord"
+import { Modal, ModalRow, TextInput } from "reaccord"
 
 type CharacterSearchModalProps = {
   search: string
@@ -12,8 +12,8 @@ export const CharacterSearchModal = ({
   return (
     <Modal title="Search character">
       <ModalRow>
-        <Input
-          id="name"
+        <TextInput
+          name="name"
           label="Enter character name..."
           value={search}
           onChange={(newName) => setSearch(newName)}

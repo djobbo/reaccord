@@ -1,14 +1,17 @@
-import { TextNode } from "../nodes"
-import { createNodeFromTag } from "../helpers"
-import { isTextNode } from "../nodes/guards"
-import type { BaseNode, NodeType } from "../nodes"
+import { TextNode } from "../nodes/Text"
+import { createNodeFromTag } from "./createNodeFromTag"
+import { isTextNode } from "../nodes/helpers/guards"
 import type { HostConfig } from "react-reconciler"
+import type { ModalRootNode } from "../nodes/ModalRoot"
+import type { Node } from "../nodes/Node"
+import type { ReaccordElement } from "../nodes/elements"
+import type { RootNode } from "../nodes/Root"
 
 export const hostConfig: HostConfig<
-  NodeType,
+  ReaccordElement,
   JSX.IntrinsicElements[keyof JSX.IntrinsicElements],
-  BaseNode,
-  BaseNode,
+  Node,
+  Node,
   TextNode,
   unknown,
   unknown,
@@ -22,8 +25,8 @@ export const hostConfig: HostConfig<
   getChildHostContext: () => null,
   prepareForCommit: () => null,
   resetAfterCommit() {},
-  createInstance: (tag, attr) => {
-    const node = createNodeFromTag(tag)
+  createInstance: (tag, attr, rootNode: RootNode | ModalRootNode) => {
+    const node = createNodeFromTag(tag, rootNode.rootNode)
     node.replaceAttributes(attr)
     return node
   },
@@ -34,12 +37,15 @@ export const hostConfig: HostConfig<
   prepareUpdate: () => true,
   shouldSetTextContent: (_tag, attr: any) =>
     attr.children === "string" || typeof attr.children === "number",
-  createTextInstance: (textContent: string) => new TextNode(textContent),
+  createTextInstance: (
+    textContent: string,
+    rootNode: RootNode | ModalRootNode,
+  ) => new TextNode("Text", rootNode.rootNode, textContent),
   commitMount() {},
   commitUpdate(node, _updatePayload, _tag, _oldAttr, attr) {
     node.replaceAttributes(attr)
   },
-  resetTextContent(textNode) {
+  resetTextContent(textNode: TextNode) {
     if (isTextNode(textNode)) textNode.setTextContent("")
   },
   commitTextUpdate(textNode, _oldTextContent, textContent) {
@@ -51,23 +57,23 @@ export const hostConfig: HostConfig<
   appendChildToContainer(parent, node) {
     parent.insertBefore(node)
   },
-  insertBefore(parent, node, anchor?: BaseNode) {
+  insertBefore(parent, node, anchor?: Node) {
     parent.insertBefore(node, anchor)
   },
-  insertInContainerBefore(parent, node, anchor?: BaseNode) {
+  insertInContainerBefore(parent, node, anchor?: Node) {
     parent.insertBefore(node, anchor)
   },
-  removeChild(parent, node) {
+  removeChild(parent, node: Node) {
     parent.removeChild(node)
   },
-  removeChildFromContainer(parent, node) {
+  removeChildFromContainer(parent, node: Node) {
     parent.removeChild(node)
   },
   hideInstance() {},
   hideTextInstance() {},
   unhideInstance() {},
   unhideTextInstance() {},
-  clearContainer(node: BaseNode) {
+  clearContainer(node: Node) {
     node.clear()
   },
   getRootHostContext: () => null,
