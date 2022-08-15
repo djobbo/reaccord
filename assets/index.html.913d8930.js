@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-fd354a90","path":"/hooks/","title":"Introduction","lang":"en-US","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1660526837000,"contributors":[{"name":"Djobbo-Victor","email":"4998293+djobbo@users.noreply.github.com","commits":1}]},"filePathRelative":"hooks/README.md"}');export{t as data};
