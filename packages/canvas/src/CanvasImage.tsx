@@ -1,11 +1,12 @@
-import { Image, Thumbnail, useMessageCtx } from "reaccord"
+import { Image } from "reaccord"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { useId } from "react"
 import { useRenderImageFile } from "./useRenderAttachment"
-import { v4 as uuidv4 } from "uuid"
 import type { QueryKey } from "@tanstack/react-query"
 import type { ReactElement, ReactNode } from "react"
 import type { RenderContext } from "./render"
 import type { RenderImageFileQueryOptions } from "./useRenderAttachment"
+import type { Thumbnail } from "reaccord"
 
 const DEFAULT_WIDTH = 1920
 const DEFAULT_HEIGHT = 1080
@@ -20,7 +21,7 @@ export type CanvasImageProps<Key extends QueryKey | string> = {
     // @ts-expect-error - wontfix for now
     Key extends string ? [string, Key] : [string, ...Key]
   >
-  as?: "Image" | "Thumb"
+  as?: typeof Image | typeof Thumbnail
 }
 
 // TODO: add a way to block rendering if the image is not ready
@@ -32,14 +33,12 @@ const CanvasImageContent = <Key extends QueryKey | string>({
   width,
   height,
   options,
-  as = "Image",
+  as: As = Image,
 }: CanvasImageProps<Key>) => {
-  const { message } = useMessageCtx()
+  const uniqueImageId = useId()
 
   const { imageFile } = useRenderImageFile(
-    typeof id === "string"
-      ? [message?.id ?? uuidv4(), id]
-      : [message?.id ?? uuidv4(), ...id],
+    typeof id === "string" ? [uniqueImageId, id] : [uniqueImageId, ...id],
     typeof children === "function" ? children : () => <>{children}</>,
     // @ts-expect-error - wontfix for now
     {
@@ -56,12 +55,7 @@ const CanvasImageContent = <Key extends QueryKey | string>({
 
   if (!imageFile) return null
 
-  switch (as) {
-    case "Thumb":
-      return <Thumbnail file={imageFile} />
-    default:
-      return <Image file={imageFile} />
-  }
+  return <As file={imageFile} />
 }
 
 // TODO: add a way to pass in a custom client

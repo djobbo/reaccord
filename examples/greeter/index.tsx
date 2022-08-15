@@ -20,7 +20,11 @@ const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
       {interaction.user.toString()}, welcome!
       <Embed color="Orange">
         <Title>I am a bot designed to greet you!</Title>
-        <CanvasImage id="greeting" width={320} height={80}>
+        <CanvasImage
+          id={["greeting", interaction.user.username]}
+          width={320}
+          height={80}
+        >
           <script src="https://cdn.tailwindcss.com"></script>
           <div className="bg-gray-800 w-screen h-screen flex justify-center items-center">
             <h1 className="text-lg font-bold text-white">
