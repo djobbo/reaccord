@@ -7,6 +7,7 @@ import {
   Client,
   Embed,
   GatewayIntentBits,
+  Thumbnail,
 } from "reaccord"
 import { CanvasImage, renderToImageBuffer } from "@reaccord/canvas"
 import {
@@ -50,7 +51,7 @@ export const CounterApp = ({
       <Embed>
         <CanvasImage
           id={["my-canvas-thumb", count]}
-          as="Thumb"
+          as={Thumbnail}
           width={60}
           height={60}
           options={{ queryOptions: { context: defaultContext } }}
