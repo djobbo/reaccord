@@ -1,1 +1,0 @@
-const t=JSON.parse('{"key":"v-fd354a90","path":"/hooks/","title":"Introduction","lang":"en-US","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1660527021000,"contributors":[{"name":"Djobbo","email":"hi@djobbo.com","commits":1}]},"filePathRelative":"hooks/README.md"}');export{t as data};
