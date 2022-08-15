@@ -22,6 +22,7 @@ export type CanvasImageProps<Key extends QueryKey | string> = {
     Key extends string ? [string, Key] : [string, ...Key]
   >
   as?: typeof Image | typeof Thumbnail
+  placeholderUrl?: string
 }
 
 // TODO: add a way to block rendering if the image is not ready
@@ -34,6 +35,7 @@ const CanvasImageContent = <Key extends QueryKey | string>({
   height,
   options,
   as: As = Image,
+  placeholderUrl,
 }: CanvasImageProps<Key>) => {
   const uniqueImageId = useId()
 
@@ -53,7 +55,10 @@ const CanvasImageContent = <Key extends QueryKey | string>({
     },
   )
 
-  if (!imageFile) return null
+  if (!imageFile) {
+    if (!placeholderUrl) return null
+    return <As src={placeholderUrl} />
+  }
 
   return <As file={imageFile} />
 }

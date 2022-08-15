@@ -24,6 +24,7 @@ const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
           id={["greeting", interaction.user.username]}
           width={320}
           height={80}
+          placeholderUrl="https://via.placeholder.com/320x80"
         >
           <script src="https://cdn.tailwindcss.com"></script>
           <div className="bg-gray-800 w-screen h-screen flex justify-center items-center">
