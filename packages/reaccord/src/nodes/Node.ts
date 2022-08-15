@@ -1,48 +1,37 @@
-import { isRootNode } from "./guards"
+import { assertIsNode } from "./helpers/assertIsNode"
 import { v4 as uuidv4 } from "uuid"
-import type { ModalRootNode } from "./Interaction/ModalRoot"
-import type { ReaccordElement } from "../jsx"
+import type { NodeElement, NodeElements } from "./elements"
 import type { RootNode } from "./Root"
 
-export type NodeType = keyof ReaccordElement | "Text" | "Root" | "ModalRoot"
-
-export type BaseNodeDisplay = {
+export type NodeDisplay = {
   uuid: string
-  type: NodeType
-  children: BaseNodeDisplay[]
+  type: NodeElement
+  children: NodeDisplay[]
   props: any
 }
 
-export abstract class BaseNode<
-  Type extends NodeType = NodeType,
-  ParentNodeType extends BaseNode = any,
-  ChildrenNodeType extends BaseNode = any,
-> {
+export class Node<Type extends NodeElement = NodeElement> {
   uuid: string
-
   type: Type
+  children: Node[] = []
+  rootNode: RootNode
+  parent: Node | null = null
 
-  children: ChildrenNodeType[] = []
+  props: Partial<NodeElements[Type]> = {}
 
-  parent: ParentNodeType | null = null
-
-  // @ts-expect-error
-  attr: Type extends keyof ReaccordElement
-    ? Partial<ReaccordElement[Type]>
-    : {} = {}
-
-  constructor(type: Type) {
+  constructor(type: Type, rootNode: RootNode) {
     this.uuid = uuidv4()
     this.type = type
+    this.rootNode = rootNode
     this.children = []
   }
 
-  setParent(node: ParentNodeType): void {
+  setParent(node: Node): void {
     this.parent = node
     this.onNodeUpdated()
   }
 
-  insertBefore(node: ChildrenNodeType, anchor?: BaseNode): void {
+  insertBefore(node: Node, anchor?: Node): void {
     if (!node) throw new Error("Wrong child type")
     if (anchor) {
       const anchorIndex = this.children.findIndex((child) => anchor === child)
@@ -54,31 +43,26 @@ export abstract class BaseNode<
 
   setAttribute(name: string, value: any): void {
     // @ts-expect-error
-    this.attr[name] = value
+    this.props[name] = value
     this.onNodeUpdated()
   }
 
   replaceAttributes(attr: Record<string, any>): void {
     // @ts-expect-error
-    this.attr = attr
+    this.props = attr
     this.onNodeUpdated()
   }
 
-  get rootNode(): RootNode | ModalRootNode | undefined {
-    // Could be slow if element is deeply nested, maybe cache this in local variable
-    return this.parent?.rootNode
-  }
-
-  get parentNode(): ParentNodeType {
+  get parentNode(): Node {
     if (!this.parent) throw new TypeError(`Couldn't find parent of ${this}`)
     return this.parent
   }
 
-  get firstChild(): ChildrenNodeType | undefined {
+  get firstChild(): Node | undefined {
     return this.children[0]
   }
 
-  get nextSibling(): ParentNodeType["children"][number] | undefined {
+  get nextSibling(): Node["children"][number] | undefined {
     const parent = this.parentNode
     if (!parent) throw new TypeError(`Couldn't find parent of ${this}`)
 
@@ -89,7 +73,7 @@ export abstract class BaseNode<
     return parent.children[nodeIndex + 1]
   }
 
-  removeChild(node: ChildrenNodeType): void {
+  removeChild(node: Node): void {
     this.children = this.children.filter((child) => child !== node)
   }
 
@@ -98,16 +82,23 @@ export abstract class BaseNode<
     this.children = []
   }
 
-  onNodeUpdated(): void {
-    if (!this.rootNode || !isRootNode(this.rootNode)) return
-    this.rootNode.updateMessage()
+  get innerText(): string {
+    const innerText = this.children
+      .map((child) => child.renderAsText())
+      .join("")
+    return innerText
   }
 
-  get display(): BaseNodeDisplay {
+  onNodeUpdated(): void {
+    // TODO: not the best way to do this
+    this.parent?.onNodeUpdated()
+  }
+
+  get display(): NodeDisplay {
     return {
       uuid: this.uuid,
       type: this.type,
-      props: this.attr,
+      props: this.props,
       children: this.children.map((child) => child.display),
     }
   }
@@ -116,5 +107,20 @@ export abstract class BaseNode<
     return JSON.stringify(this.display, null, 2)
   }
 
-  abstract render(parent?: unknown): unknown
+  renderAsText(): string {
+    return ""
+  }
+
+  get customId(): string {
+    assertIsNode(this, ["Button", "SelectMenu", "Modal"])
+
+    return (
+      (this.props as Node<"Button" | "SelectMenu" | "Modal">["props"]).id ??
+      this.uuid
+    )
+  }
+
+  render(parent?: unknown): unknown {
+    throw new Error(`Render method not implemented for ${this.type}`)
+  }
 }

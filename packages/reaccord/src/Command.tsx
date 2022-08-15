@@ -25,7 +25,7 @@ import type {
   UserApplicationCommandData,
   UserContextMenuCommandInteraction,
 } from "discord.js"
-import type { MessageResponseOptions } from "./nodes"
+import type { MessageResponseOptions } from "./nodes/Root"
 import type { RenderMessageFn } from "./renderer/render"
 
 type CommandParamOptions<Required extends boolean = false> = {

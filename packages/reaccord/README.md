@@ -30,9 +30,10 @@ Turn your react code into fully featured discord bots **[now](https://djobbo.git
 
 What we will be building:  
 <img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/simple-counter.gif" alt="Simple Counter">  
-*You can view the complete source code [here](https://github.com/djobbo/reaccord/tree/master/examples/simple-counter).*  
+_You can view the complete source code [here](https://github.com/djobbo/reaccord/tree/master/examples/simple-counter)._
 
 **Define App behavior**, just like in a React app.
+
 ```jsx
 const CounterApp = ({ start = 0 }) => {
   const [count, setCount] = useState(start)
@@ -52,30 +53,34 @@ const CounterApp = ({ start = 0 }) => {
 ```
 
 **Create end-user command.**
+
 ```jsx
 const counterCommand = new ChatInputCommand("counter", "A simple counter")
   .intParam("start", "Number to start counting from")
-  .render(({ start }) => <CounterApp start={start}/>)
+  .render(({ start }) => <CounterApp start={start} />)
 ```
 
 **Instantiate the gateway client**, and register the command.
+
 ```jsx
 const client = new Client({
-  token: 'bot-token',
+  token: "bot-token",
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
-  devGuildId: 'dev-guild-id',
-  clientId: 'bot-client-id',
+  devGuildId: "dev-guild-id",
+  clientId: "bot-client-id",
 })
 
 client.registerCommand(counterCommand)
 ```
 
 **Connect the client to discord's gateway**
+
 ```js
 client.connect(() =>
   console.log(`🚀 Client connected as ${client.user?.username}!`),
 )
 ```
+
 <div align="center">
 
 **Congratulations**, now you can go ahead and try your brand new command!

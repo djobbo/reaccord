@@ -1,7 +1,7 @@
 import { AttachmentBuilder } from "discord.js"
 import { Buffer } from "node:buffer"
 import { Stream } from "node:stream"
-import type { FileAttachment } from "../jsx"
+import type { FileAttachment } from "../elements"
 
 const getAttachmentNameFromFilename = (filename: string): string =>
   `attachment://${filename}`
