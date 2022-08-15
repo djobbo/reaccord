@@ -1,3 +1,4 @@
+import HomepageFeatures from "@site/src/components/HomepageFeatures"
 import Layout from "@theme/Layout"
 import Link from "@docusaurus/Link"
 import React from "react"
@@ -26,7 +27,7 @@ const HomepageHeader = () => {
   )
 }
 
-const HomePage = () => {
+const Home = () => {
   const { siteConfig } = useDocusaurusContext()
   return (
     <Layout
@@ -34,8 +35,11 @@ const HomePage = () => {
       description="Description will go into a meta tag in <head />"
     >
       <HomepageHeader />
+      <main>
+        <HomepageFeatures />
+      </main>
     </Layout>
   )
 }
 
-export default HomePage
+export default Home
