@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext, useEffect, useReducer } from "react"
 import type { Client } from "../Client"
 import type { Message } from "discord.js"
 import type { RootNode } from "../nodes/Root"
@@ -8,8 +8,14 @@ const rootNodeContextInternal = createContext<RootNode>(
   null,
 )
 
-export const useRootNodeContextInternal = () =>
-  useContext(rootNodeContextInternal)
+export const useRootNodeContextInternal = () => {
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const rootNode = useContext(rootNodeContextInternal)
+
+  useEffect(() => rootNode.addHydrationHook(forceUpdate), [])
+
+  return rootNode
+}
 
 export type MessageContext = {
   client: Client

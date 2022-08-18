@@ -46,6 +46,7 @@ export class RootNode extends Node<"Root"> {
   terminateInteraction: () => void = () => void 0
   ref: InteractionRef
   message: Message | null = null
+  hydrationHooks: ((message: Message) => void)[] = []
   interactionListeners: Record<string, (interaction: Interaction) => unknown> =
     {}
   files = new Set<FileAttachment>()
@@ -117,6 +118,14 @@ export class RootNode extends Node<"Root"> {
     this.updateMessage()
   }
 
+  addHydrationHook(fn: (message: Message) => void) {
+    this.hydrationHooks.push(fn)
+
+    return () => {
+      this.hydrationHooks = this.hydrationHooks.filter((hook) => hook !== fn)
+    }
+  }
+
   updateMessage = debounce(async () => {
     this.resetListeners()
     this.resetFiles()
@@ -149,15 +158,24 @@ export class RootNode extends Node<"Root"> {
     if (!this.message) {
       // If no message creation request is pending, create a new one
       if (!this.lastMessageUpdatePromise) {
-        this.lastMessageUpdatePromise =
-          this.ref instanceof Message
+        const createMessageAndHydrate = async () => {
+          this.message = await (this.ref instanceof Message
             ? this.ref.reply(messageOptions)
             : this.ref instanceof CommandInteraction ||
               this.ref instanceof ContextMenuCommandInteraction ||
               this.ref instanceof MessageComponentInteraction ||
               this.ref instanceof ModalSubmitInteraction
             ? this.ref.reply({ ...messageOptions, fetchReply: true })
-            : this.ref.send(messageOptions)
+            : this.ref.send(messageOptions))
+
+          if (this.hydrationHooks.length > 0) {
+            this.hydrationHooks.forEach((hook) => hook(this.message!))
+          }
+
+          return this.message
+        }
+
+        this.lastMessageUpdatePromise = createMessageAndHydrate()
         this.message = await this.lastMessageUpdatePromise
         return this.message
       }

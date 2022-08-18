@@ -1,7 +1,8 @@
-import { useEffect } from "react"
+import { useEffect, useReducer } from "react"
 import { useMessageCtx } from "./MessageContext"
 import type { DependencyList } from "react"
 import type { EventHandler } from "../Client"
+import type { Message } from "discord.js"
 
 type EventHandlerOptions = Partial<{
   allowBot: boolean
@@ -10,7 +11,7 @@ type EventHandlerOptions = Partial<{
 
 export const useReactionAdded = (
   handler: EventHandler<"messageReactionAdd">,
-  deps: DependencyList | undefined = undefined,
+  deps: DependencyList | undefined = [],
   { allowBot = true, allowMe = true }: EventHandlerOptions = {},
 ) => {
   const { client, message } = useMessageCtx()
@@ -25,13 +26,13 @@ export const useReactionAdded = (
 
         handler(reaction, user)
       }),
-    deps,
+    [message, ...deps],
   )
 }
 
 export const useReactionRemoved = (
   handler: EventHandler<"messageReactionRemove">,
-  deps: DependencyList | undefined = undefined,
+  deps: DependencyList | undefined = [],
   { allowBot = true, allowMe = true }: EventHandlerOptions = {},
 ) => {
   const { client, message } = useMessageCtx()
@@ -46,13 +47,13 @@ export const useReactionRemoved = (
 
         handler(reaction, user)
       }),
-    deps,
+    [message, ...deps],
   )
 }
 
 export const useAllReactionRemoved = (
   handler: EventHandler<"messageReactionRemoveAll">,
-  deps: DependencyList | undefined = undefined,
+  deps: DependencyList | undefined = [],
 ) => {
   const { client, message } = useMessageCtx()
 
@@ -66,13 +67,13 @@ export const useAllReactionRemoved = (
           await handler(reactionMessage, reactions)
         },
       ),
-    deps,
+    [message, ...deps],
   )
 }
 
 export const useReactionEmojiRemoved = (
   handler: EventHandler<"messageReactionRemoveEmoji">,
-  deps: DependencyList | undefined = undefined,
+  deps: DependencyList | undefined = [],
 ) => {
   const { client, message } = useMessageCtx()
 
@@ -83,13 +84,13 @@ export const useReactionEmojiRemoved = (
         if (reaction.message.id !== message.id) return
         await handler(reaction)
       }),
-    deps,
+    [message, ...deps],
   )
 }
 
 export const useReceivedReply = (
   handler: EventHandler<"messageCreate">,
-  deps: DependencyList | undefined = undefined,
+  deps: DependencyList | undefined = [],
   { allowBot = true, allowMe = true }: EventHandlerOptions = {},
 ) => {
   const { client, message } = useMessageCtx()
@@ -108,13 +109,28 @@ export const useReceivedReply = (
 
         await handler(createdMessage)
       }),
-    deps,
+    [message, ...deps],
   )
+}
+
+export const useMessageCreated = (
+  handler: (message: Message) => void | Promise<void>,
+  deps: DependencyList | undefined = [],
+) => {
+  const [isInitialRender, dispatchRendered] = useReducer(() => false, true)
+  const { message } = useMessageCtx()
+
+  useEffect(() => {
+    if (!!message && isInitialRender) {
+      handler(message)
+      dispatchRendered()
+    }
+  }, [!message, isInitialRender, ...deps])
 }
 
 export const useMessageDeleted = (
   handler: EventHandler<"messageDelete">,
-  deps: DependencyList | undefined = undefined,
+  deps: DependencyList | undefined = [],
 ) => {
   const { client, message, terminateInteraction } = useMessageCtx()
 
@@ -126,6 +142,6 @@ export const useMessageDeleted = (
 
         await Promise.all([terminateInteraction(), handler(deletedMessage)])
       }),
-    deps,
+    [message, ...deps],
   )
 }
