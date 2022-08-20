@@ -241,12 +241,16 @@ export class ChatInputCommand<
     })
   }
 
-  intParam<Name extends string, Required extends boolean>(
+  intParam<
+    Name extends string,
+    Required extends boolean,
+    ChoicesType extends number,
+  >(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required, number>, "type"> = {},
+    options: Omit<CommandParamOptions<Required, ChoicesType>, "type"> = {},
   ) {
-    return this.registerParam<Name, number, Required>({
+    return this.registerParam<Name, ChoicesType, Required>({
       name,
       description,
       type: ApplicationCommandOptionType.Integer,
@@ -267,12 +271,16 @@ export class ChatInputCommand<
     })
   }
 
-  numberParam<Name extends string, Required extends boolean>(
+  numberParam<
+    Name extends string,
+    Required extends boolean,
+    ChoicesType extends number,
+  >(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required, number>, "type"> = {},
+    options: Omit<CommandParamOptions<Required, ChoicesType>, "type"> = {},
   ) {
-    return this.registerParam<Name, number, Required>({
+    return this.registerParam<Name, ChoicesType, Required>({
       name,
       description,
       type: ApplicationCommandOptionType.Number,
@@ -293,12 +301,16 @@ export class ChatInputCommand<
     })
   }
 
-  stringParam<Name extends string, Required extends boolean>(
+  stringParam<
+    Name extends string,
+    Required extends boolean,
+    ChoicesType extends string,
+  >(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required, string>, "type"> = {},
+    options: Omit<CommandParamOptions<Required, ChoicesType>, "type"> = {},
   ) {
-    return this.registerParam<Name, string, Required>({
+    return this.registerParam<Name, ChoicesType, Required>({
       name,
       description,
       type: ApplicationCommandOptionType.String,
