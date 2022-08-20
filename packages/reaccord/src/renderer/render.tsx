@@ -8,7 +8,7 @@ import type { Message } from "discord.js"
 import type { ModalRootNode } from "../nodes/ModalRoot"
 
 export type RenderFn = (
-  Code: () => JSX.Element,
+  Code: () => JSX.Element, //TODO:  | Promise<JSX.Element>
   root: RootNode | ModalRootNode,
 ) => void
 

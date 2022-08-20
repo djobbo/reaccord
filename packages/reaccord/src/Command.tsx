@@ -16,6 +16,7 @@ import {
 } from "discord.js"
 import { EMPTY_STRING } from "./helpers/constants"
 import type {
+  ApplicationCommandOptionChoiceData,
   Channel,
   CommandInteraction,
   GuildMember,
@@ -28,9 +29,19 @@ import type {
 import type { MessageResponseOptions } from "./nodes/Root"
 import type { RenderMessageFn } from "./renderer/render"
 
-type CommandParamOptions<Required extends boolean = false> = {
+type CommandOptionChoiceData<
+  ChoiceType extends string | number | never = never,
+> = Omit<ApplicationCommandOptionChoiceData, "value"> & {
+  value: ChoiceType
+}
+
+type CommandParamOptions<
+  Required extends boolean = false,
+  ChoiceType extends string | number | never = never,
+> = {
   type: ApplicationCommandOptionType
   required?: Required
+  choices?: CommandOptionChoiceData<ChoiceType>[]
 }
 
 type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
@@ -95,7 +106,8 @@ export class ChatInputCommand<
     description,
     type,
     required,
-  }: CommandParamOptions<Required> & {
+    choices,
+  }: CommandParamOptions<Required, string | number | never> & {
     name: Name
     type: ApplicationCommandOptionType
     description: string
@@ -134,14 +146,19 @@ export class ChatInputCommand<
             .setRequired(required ?? false),
         )
         break
-      case ApplicationCommandOptionType.Integer:
-        this.commandData.addIntegerOption(
-          new SlashCommandIntegerOption()
-            .setName(name)
-            .setDescription(description)
-            .setRequired(required ?? false),
-        )
+      case ApplicationCommandOptionType.Integer: {
+        const option = new SlashCommandIntegerOption()
+          .setName(name)
+          .setDescription(description)
+          .setRequired(required ?? false)
+
+        if (choices) {
+          option.setChoices(...(choices as CommandOptionChoiceData<number>[]))
+        }
+
+        this.commandData.addIntegerOption(option)
         break
+      }
       case ApplicationCommandOptionType.Mentionable:
         this.commandData.addMentionableOption(
           new SlashCommandMentionableOption()
@@ -150,15 +167,19 @@ export class ChatInputCommand<
             .setRequired(required ?? false),
         )
         break
-      case ApplicationCommandOptionType.Number:
-        this.commandData.addNumberOption(
-          new SlashCommandNumberOption()
+      case ApplicationCommandOptionType.Number: {
+        const option = new SlashCommandNumberOption()
+          .setName(name)
+          .setDescription(description)
+          .setRequired(required ?? false)
 
-            .setName(name)
-            .setDescription(description)
-            .setRequired(required ?? false),
-        )
+        if (choices) {
+          option.setChoices(...(choices as CommandOptionChoiceData<number>[]))
+        }
+
+        this.commandData.addNumberOption(option)
         break
+      }
       case ApplicationCommandOptionType.Role:
         this.commandData.addRoleOption(
           new SlashCommandRoleOption()
@@ -167,14 +188,19 @@ export class ChatInputCommand<
             .setRequired(required ?? false),
         )
         break
-      case ApplicationCommandOptionType.String:
-        this.commandData.addStringOption(
-          new SlashCommandStringOption()
-            .setName(name)
-            .setDescription(description)
-            .setRequired(required ?? false),
-        )
+      case ApplicationCommandOptionType.String: {
+        const option = new SlashCommandStringOption()
+          .setName(name)
+          .setDescription(description)
+          .setRequired(required ?? false)
+
+        if (choices) {
+          option.setChoices(...(choices as CommandOptionChoiceData<string>[]))
+        }
+
+        this.commandData.addStringOption(option)
         break
+      }
       case ApplicationCommandOptionType.User:
         this.commandData.addUserOption(
           new SlashCommandUserOption()
@@ -192,7 +218,7 @@ export class ChatInputCommand<
   boolParam<Name extends string, Required extends boolean>(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required>, "type"> = {},
+    options: Omit<CommandParamOptions<Required>, "type" | "choices"> = {},
   ) {
     return this.registerParam<Name, boolean, Required>({
       name,
@@ -205,7 +231,7 @@ export class ChatInputCommand<
   channelParam<Name extends string, Required extends boolean>(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required>, "type"> = {},
+    options: Omit<CommandParamOptions<Required>, "type" | "choices"> = {},
   ) {
     return this.registerParam<Name, Channel, Required>({
       name,
@@ -218,7 +244,7 @@ export class ChatInputCommand<
   intParam<Name extends string, Required extends boolean>(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required>, "type"> = {},
+    options: Omit<CommandParamOptions<Required, number>, "type"> = {},
   ) {
     return this.registerParam<Name, number, Required>({
       name,
@@ -231,7 +257,7 @@ export class ChatInputCommand<
   mentionParam<Name extends string, Required extends boolean>(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required>, "type"> = {},
+    options: Omit<CommandParamOptions<Required>, "type" | "choices"> = {},
   ) {
     return this.registerParam<Name, GuildMember | Role | User, Required>({
       name,
@@ -244,7 +270,7 @@ export class ChatInputCommand<
   numberParam<Name extends string, Required extends boolean>(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required>, "type"> = {},
+    options: Omit<CommandParamOptions<Required, number>, "type"> = {},
   ) {
     return this.registerParam<Name, number, Required>({
       name,
@@ -257,7 +283,7 @@ export class ChatInputCommand<
   roleParam<Name extends string, Required extends boolean>(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required>, "type"> = {},
+    options: Omit<CommandParamOptions<Required>, "type" | "choices"> = {},
   ) {
     return this.registerParam<Name, Role, Required>({
       name,
@@ -270,7 +296,7 @@ export class ChatInputCommand<
   stringParam<Name extends string, Required extends boolean>(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required>, "type"> = {},
+    options: Omit<CommandParamOptions<Required, string>, "type"> = {},
   ) {
     return this.registerParam<Name, string, Required>({
       name,
@@ -283,7 +309,7 @@ export class ChatInputCommand<
   userParam<Name extends string, Required extends boolean>(
     name: Name,
     description: string,
-    options: Omit<CommandParamOptions<Required>, "type"> = {},
+    options: Omit<CommandParamOptions<Required>, "type" | "choices"> = {},
   ) {
     return this.registerParam<Name, User, Required>({
       name,
