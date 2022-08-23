@@ -4,6 +4,8 @@ import type { ModalBuilder } from "discord.js"
 import type { RootNode } from "./Root"
 
 export class ModalRootNode extends Node<"ModalRoot"> {
+  terminateInteraction: () => void = () => void 0
+
   constructor(rootNode: RootNode) {
     super("ModalRoot", rootNode)
   }

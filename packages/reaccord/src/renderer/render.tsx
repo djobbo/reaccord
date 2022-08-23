@@ -18,9 +18,13 @@ export type RenderMessageFn = (
 ) => Promise<Message>
 
 export const renderMessage =
-  (client: Client, rootOptions: MessageResponseOptions): RenderMessageFn =>
+  (
+    client: Client,
+    rootOptions: MessageResponseOptions,
+    forcedNode?: RootNode,
+  ): RenderMessageFn =>
   async (ref, Code) => {
-    const root = new RootNode(client, ref, rootOptions)
+    const root = forcedNode ?? new RootNode(client, ref, rootOptions)
     render(Code, root)
     return root.updateMessage()
   }
@@ -60,7 +64,14 @@ export const render: RenderFn = (Code, root) => {
         root.terminateInteraction()
       }, root.messageResponseOptions.staleAfter * 1000)
     }
+  } else {
+    root.terminateInteraction = () => {
+      reactReconcilerInstance.updateContainer(null, rootContainer, null)
+      root.clear()
+    }
   }
+
+  root.rootNode.client.addMessageRoot(root)
 
   reactReconcilerInstance.updateContainer(
     <MessageProvider rootNode={root.rootNode}>

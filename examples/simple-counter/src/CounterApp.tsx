@@ -8,13 +8,16 @@ type CounterAppProps = {
 
 export const CounterApp = ({ start = 0 }: CounterAppProps) => {
   const [count, setCount] = useState(start)
-  const increment = () => setCount((count) => count + 1)
+  const increment = () => {
+    setCount((count) => count + 1)
+    console.log("asdasdsada")
+  }
 
   return (
     <>
       Count: {count}
       <ActionRow>
-        <Button onClick={increment} style={ButtonStyle.Primary}>
+        <Button id="increment" onClick={increment} style={ButtonStyle.Primary}>
           +
         </Button>
       </ActionRow>
