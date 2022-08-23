@@ -2,7 +2,7 @@
   "name": "reaccord",
   "version": "0.0.0-dev",
   "main": "lib/index.js",
-  "types": "reaccord.d.ts",
+  "types": "lib/index.d.ts",
   "bin": {
     "reaccord": "./lib/cli/index.js"
   },
@@ -15,7 +15,6 @@
     "test:w": "jest --watch"
   },
   "files": [
-    "reaccord.d.ts",
     "lib",
     "jsx-runtime.d.ts",
     "jsx-runtime.js",

@@ -78,7 +78,6 @@ export class RootNode extends Node<"Root"> {
 
     client.on("interactionCreate", (interaction) => {
       // TODO: Add proper disposal
-      if (!this.message) return
       if (
         !interaction.isButton() &&
         !interaction.isSelectMenu() &&
@@ -126,10 +125,10 @@ export class RootNode extends Node<"Root"> {
     }
   }
 
-  updateMessage = debounce(async () => {
-    this.resetListeners()
-    this.resetFiles()
-
+  getMessageOptions(): MessageOptions &
+    MessageEditOptions &
+    ReplyMessageOptions &
+    InteractionReplyOptions {
     const messageOptions: MessageOptions &
       MessageEditOptions &
       ReplyMessageOptions &
@@ -151,9 +150,20 @@ export class RootNode extends Node<"Root"> {
     if (
       !messageOptions.content &&
       (!messageOptions.embeds || messageOptions.embeds.length === 0) &&
-      (!messageOptions.files || messageOptions.files.length === 0)
-    )
+      (!messageOptions.files || messageOptions.files.length === 0) &&
+      (!messageOptions.components || messageOptions.components.length === 0)
+    ) {
       messageOptions.content = EMPTY_STRING
+    }
+
+    return messageOptions
+  }
+
+  updateMessage = debounce(async () => {
+    this.resetListeners()
+    this.resetFiles()
+
+    const messageOptions = this.getMessageOptions()
 
     if (!this.message) {
       // If no message creation request is pending, create a new one
@@ -187,6 +197,7 @@ export class RootNode extends Node<"Root"> {
 
     if (!this.message.editable) throw new Error("Message is not editable")
     this.message.edit(messageOptions)
+
     return this.message
   }, MESSAGE_UPDATE_DEBOUNCE_MS)
 }

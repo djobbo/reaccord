@@ -4,6 +4,7 @@ import {
   UserContextCommand,
 } from "./Command"
 import { Client as DiscordClient } from "discord.js"
+import { RootNode } from "./nodes/Root"
 import { refreshCommands } from "./refreshCommands"
 import { renderMessage } from "./renderer"
 import type {
@@ -12,6 +13,7 @@ import type {
   Interaction,
 } from "discord.js"
 import type { MessageResponseOptions } from "./nodes/Root"
+import type { ModalRootNode } from "./nodes/ModalRoot"
 import type { RenderMessageFn } from "./renderer/render"
 
 type ClientOptions = DiscordClientOptions & {
@@ -80,6 +82,7 @@ export class Client extends EventMergerClient {
   token: string
   devGuildId?: string
   clientId?: string
+  #messageRoots: (RootNode | ModalRootNode)[] = []
 
   renderMessage: (
     messageResponseOptions?: MessageResponseOptions,
@@ -190,6 +193,19 @@ export class Client extends EventMergerClient {
       this.msgCtxCommands.push(command)
     }
 
+    return this
+  }
+
+  destroy() {
+    this.#messageRoots.forEach((root) =>
+      root instanceof RootNode ? root.terminateInteraction() : root.clear(),
+    )
+    this.#messageRoots = []
+    super.destroy()
+  }
+
+  addMessageRoot(root: RootNode | ModalRootNode) {
+    this.#messageRoots.push(root)
     return this
   }
 }
