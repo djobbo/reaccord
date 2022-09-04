@@ -30,7 +30,6 @@ const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
       </Embed>
       <ActionRow>
         <ActionRow.Button
-          customId="greet"
           onClick={() => {
             interaction.channel?.send("Hello!")
           }}

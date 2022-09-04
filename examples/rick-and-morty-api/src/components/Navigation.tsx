@@ -27,7 +27,6 @@ export const Navigation = ({
   return (
     <ActionRow>
       <ActionRow.Button
-        customId="nav-first"
         style={ButtonStyle.Secondary}
         onClick={() => setCurrentPage(1)}
         disabled={loading || page <= 1}
@@ -35,23 +34,17 @@ export const Navigation = ({
         {"<<"}
       </ActionRow.Button>
       <ActionRow.Button
-        customId="nav-previous"
         style={ButtonStyle.Primary}
         onClick={() => setCurrentPage(page - 1)}
         disabled={loading || page <= 1}
       >
         {"<"}
       </ActionRow.Button>
-      <ActionRow.Button
-        customId="nav-count"
-        style={ButtonStyle.Secondary}
-        disabled
-      >
+      <ActionRow.Button style={ButtonStyle.Secondary} disabled>
         Page {page}
         {pageInfo && ` / ${pageInfo.pages}`}
       </ActionRow.Button>
       <ActionRow.Button
-        customId="nav-next"
         style={ButtonStyle.Primary}
         onClick={() => setCurrentPage(page + 1)}
         disabled={loading || (!!pageInfo && pageInfo.pages <= page)}
@@ -59,7 +52,6 @@ export const Navigation = ({
         {">"}
       </ActionRow.Button>
       <ActionRow.Button
-        customId="nav-last"
         style={ButtonStyle.Secondary}
         onClick={() => setCurrentPage(pageInfo?.pages ?? 1)}
         disabled={loading || (!!pageInfo && pageInfo.pages <= page)}

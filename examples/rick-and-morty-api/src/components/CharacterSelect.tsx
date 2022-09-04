@@ -16,7 +16,6 @@ export const CharacterSelect = ({
 }: CharacterSelectProps) => {
   return (
     <SelectMenu
-      customId="character-select"
       onChange={([val]) => onSelectCharacter(val)}
       disabled={isLoading}
     >

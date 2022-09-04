@@ -15,11 +15,7 @@ export const CounterApp = ({ start = 0 }: CounterAppProps) => {
     <>
       {count}
       <ActionRow>
-        <ActionRow.Button
-          customId="increment"
-          onClick={increment}
-          style={ButtonStyle.Primary}
-        >
+        <ActionRow.Button onClick={increment} style={ButtonStyle.Primary}>
           +
         </ActionRow.Button>
       </ActionRow>

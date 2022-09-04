@@ -22,7 +22,6 @@ export const SearchCharacterRow = ({
   return (
     <ActionRow>
       <ActionRow.Button
-        customId="open-search-modal"
         style={ButtonStyle.Primary}
         onClick={openCharacterSearchModal}
         disabled={isLoading}
@@ -31,15 +30,10 @@ export const SearchCharacterRow = ({
       </ActionRow.Button>
       {search && (
         <>
-          <ActionRow.Button
-            customId="current-search"
-            style={ButtonStyle.Secondary}
-            disabled
-          >
+          <ActionRow.Button style={ButtonStyle.Secondary} disabled>
             Current search: {search}
           </ActionRow.Button>
           <ActionRow.Button
-            customId="clear-search"
             style={ButtonStyle.Secondary}
             onClick={() => setSearch("")}
             disabled={isLoading}

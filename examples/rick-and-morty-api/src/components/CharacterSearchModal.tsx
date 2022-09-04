@@ -10,7 +10,7 @@ export const CharacterSearchModal = ({
   setSearch,
 }: CharacterSearchModalProps) => {
   return (
-    <Modal customId="character-search-modal" title="Search character">
+    <Modal title="Search character">
       <Modal.Input
         name="name"
         label="Enter character name..."

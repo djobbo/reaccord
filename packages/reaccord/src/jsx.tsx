@@ -133,7 +133,7 @@ export type ActionRowElements = {
     children?: ReactNode
   }
   button: _ButtonBase & {
-    customId: string
+    customId?: string
     /**
      * By default, onClick will trigger a defered update, to prevent this, return a truthy value
      */
@@ -162,7 +162,7 @@ export const ActionRow = Object.assign(
 
 export type SelectMenuElements = {
   root: {
-    customId: string
+    customId?: string
     /**
      * By default, onChange will trigger a defered update, to prevent this, return a truthy value
      */
@@ -200,7 +200,7 @@ export const SelectMenu = Object.assign(
 
 export type ModalElements<FieldName extends string = string> = {
   wrapper: {
-    customId: string
+    customId?: string
     children?: ReactNode
     title: string
     /**

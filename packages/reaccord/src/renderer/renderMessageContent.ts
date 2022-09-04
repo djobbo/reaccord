@@ -199,9 +199,7 @@ export const renderEmbedRoot = (
 export const renderActionRowButton = (
   node: Node<ActionRowElements["button"]>,
 ) => {
-  const { customId } = node.props
-
-  assertIsDefined(customId, "Button must have a unique customId")
+  const customId = node.props.customId ?? node.uuid
 
   const button = new ButtonBuilder({
     customId,
@@ -277,9 +275,9 @@ export const renderSelectMenuRoot = (
 ) => {
   const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>()
 
-  const { customId, disabled, placeholder } = node.props
+  const customId = node.props.customId ?? node.uuid
 
-  assertIsDefined(customId, "SelectMenu must have a unique customId")
+  const { disabled, placeholder } = node.props
 
   const selectMenu = new SelectMenuBuilder({
     customId,
@@ -412,10 +410,11 @@ export const renderModalInput = (node: Node<ModalElements["input"]>) => {
 }
 
 export const renderModalWrapper = (node: Node<ModalElements["wrapper"]>) => {
-  const { customId, title } = node.props
+  const { title } = node.props
 
   assertIsDefined(title, "Modal title is required")
-  assertIsDefined(customId, "Modal must have a unique customId")
+
+  const customId = node.props.customId ?? node.uuid
 
   const modal = new ModalBuilder({
     customId,
