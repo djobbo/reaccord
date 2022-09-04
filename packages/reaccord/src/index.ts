@@ -4,7 +4,7 @@ export {
   MessageContextCommand,
   UserContextCommand,
 } from "./Command"
-export * from "./react"
+export * from "./hooks"
 export { renderMessage } from "./renderer"
 
 export type ReaccordConfig = {

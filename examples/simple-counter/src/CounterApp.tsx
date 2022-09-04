@@ -13,7 +13,7 @@ export const CounterApp = ({ start = 0 }: CounterAppProps) => {
 
   return (
     <>
-      Count: {count}
+      {count}
       <ActionRow>
         <ActionRow.Button
           customId="increment"

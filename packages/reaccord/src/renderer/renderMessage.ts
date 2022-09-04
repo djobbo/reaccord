@@ -1,8 +1,8 @@
-import { RootNode } from "../nodes/Root"
+import { RootNode } from "./RootNode"
 import { hostConfig } from "./hostConfig"
 import createReconciler from "react-reconciler"
 import type { Client, MessageRenderOptions } from "../Client"
-import type { InteractionRefType } from "../nodes/Root"
+import type { InteractionRefType } from "./RootNode"
 
 const reactReconcilerInstance = createReconciler(hostConfig)
 reactReconcilerInstance.injectIntoDevTools({

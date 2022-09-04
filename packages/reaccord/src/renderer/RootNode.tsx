@@ -1,8 +1,8 @@
 import { BaseInteraction, Message } from "discord.js"
-import { MessageProvider } from "../react/MessageContext"
 import { Node } from "./Node"
 import { debounce } from "../helpers/debounce"
 import { renderMessageContent } from "../renderer/renderMessageContent"
+import { renderWithRootContext } from "./renderWithRootContext"
 import type {
   AutocompleteInteraction,
   Interaction,
@@ -10,7 +10,7 @@ import type {
 } from "discord.js"
 import type { Client, MessageRenderOptions } from "../Client"
 import type { FiberRoot, Reconciler } from "react-reconciler"
-import type { TextNode } from "./Text"
+import type { TextNode } from "./TextNode"
 
 export type InteractionRefType =
   | TextBasedChannel
@@ -26,6 +26,7 @@ export class RootNode extends Node {
   terminateInteraction: () => void = () => void 0
   ref: InteractionRefType | null = null
   message: Message | null = null
+  waitForMessageCreation: Promise<Message> | null = null
   hydrationHooks: ((message: Message) => void)[] = []
   #globalInteractionListener: (interaction: Interaction) => void = () => {} // TODO: [NEXT] remove?
   #interactionListeners: Map<
@@ -120,9 +121,7 @@ export class RootNode extends Node {
     }
 
     this.reconcilerInstance.updateContainer(
-      <MessageProvider rootNode={this}>
-        <Code />
-      </MessageProvider>,
+      renderWithRootContext(Code, this),
       this.#rootContainer,
       null,
     )
@@ -138,20 +137,39 @@ export class RootNode extends Node {
     const { messageContent, interactionListeners } = renderMessageContent(this)
     this.#interactionListeners = interactionListeners
 
-    if (!!this.message) {
-      await this.message.edit(messageContent)
-      return this.message
+    if (!this.message) {
+      // If no message creation request is pending, create a new one
+      if (!this.waitForMessageCreation) {
+        const createMessageAndHydrate = async () => {
+          if (!this.ref) throw new Error("No ref")
+
+          if (this.ref instanceof Message) {
+            return this.ref.reply(messageContent)
+          }
+
+          if (this.ref instanceof BaseInteraction) {
+            return this.ref.reply({
+              ...messageContent,
+              fetchReply: true,
+            })
+          }
+
+          return this.ref.send(messageContent)
+        }
+
+        this.waitForMessageCreation = createMessageAndHydrate()
+        this.message = await this.waitForMessageCreation
+        return this.message
+      }
+
+      this.message = await this.waitForMessageCreation
     }
 
-    let reply: Message
-    if (this.ref instanceof Message) {
-      reply = await this.ref.reply(messageContent)
-    } else if (this.ref instanceof BaseInteraction) {
-      reply = await this.ref.reply({ ...messageContent, fetchReply: true })
-    } else {
-      reply = await this.ref.send(messageContent)
-    }
-    this.message = reply
-    return reply
+    if (!this.message) throw new Error("No message to update")
+
+    if (!this.message.editable) throw new Error("Message is not editable")
+
+    await this.message.edit(messageContent)
+    return this.message
   }, MESSAGE_UPDATE_DEBOUNCE_MS)
 }

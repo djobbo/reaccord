@@ -1,7 +1,7 @@
-import { Node } from "../nodes/Node"
-import { TextNode, isTextNode } from "../nodes/Text"
+import { Node } from "./Node"
+import { TextNode } from "./TextNode"
 import type { HostConfig } from "react-reconciler"
-import type { RootNode } from "../nodes/Root"
+import type { RootNode } from "./RootNode"
 
 export const hostConfig: HostConfig<
   string,
@@ -29,16 +29,13 @@ export const hostConfig: HostConfig<
   },
   finalizeInitialChildren: () => false,
   prepareUpdate: () => true,
-  shouldSetTextContent: (_tag, attr: any) =>
-    attr.children === "string" || typeof attr.children === "number",
+  shouldSetTextContent: () => false,
   createTextInstance: (textContent: string) => new TextNode(textContent),
   commitMount() {},
   commitUpdate(node, _updatePayload, _tag, _oldAttr, attr) {
     node.replaceAttributes(attr)
   },
-  resetTextContent(textNode) {
-    if (isTextNode(textNode)) textNode.setTextContent("")
-  },
+  resetTextContent() {},
   commitTextUpdate(textNode, _oldTextContent, textContent) {
     textNode.setTextContent(textContent)
   },

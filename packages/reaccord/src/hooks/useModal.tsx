@@ -1,17 +1,18 @@
-import { MessageProvider, useRootNodeContextInternal } from "./MessageContext"
-import { Node } from "../nodes/Node"
+import { Node } from "../renderer/Node"
 import { renderModalRoot } from "../renderer/renderMessageContent"
+import { renderWithRootContext } from "../renderer/renderWithRootContext"
+import { useRootNodeContextInternal } from "./MessageContext"
 import type {
   AutocompleteInteraction,
   Interaction,
   ModalSubmitInteraction,
 } from "discord.js"
-import type { RootNode } from "../nodes/Root"
+import type { RootNode } from "../renderer/RootNode"
 
-const createModal = (Code: () => JSX.Element, root: RootNode) => {
+const createModal = (Code: () => JSX.Element, rootNode: RootNode) => {
   const modalRoot = new Node("reaccord:__modal-root")
 
-  const rootContainer = root.reconcilerInstance.createContainer(
+  const rootContainer = rootNode.reconcilerInstance.createContainer(
     modalRoot,
     0,
     null,
@@ -22,10 +23,8 @@ const createModal = (Code: () => JSX.Element, root: RootNode) => {
     null,
   )
 
-  root.reconcilerInstance.updateContainer(
-    <MessageProvider rootNode={root}>
-      <Code />
-    </MessageProvider>,
+  rootNode.reconcilerInstance.updateContainer(
+    renderWithRootContext(Code, rootNode),
     rootContainer,
     null,
   )

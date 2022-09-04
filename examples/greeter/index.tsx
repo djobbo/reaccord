@@ -14,6 +14,7 @@ const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
       <Embed color="Orange">
         <Embed.Title>I am a bot designed to greet you!</Embed.Title>
         <CanvasImage
+          as={Embed.Image}
           id={["greeting", interaction.user.username]}
           width={320}
           height={80}

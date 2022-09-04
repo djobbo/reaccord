@@ -84,8 +84,4 @@ export class Node<Props = Record<string, unknown>> {
     this.children.map((child) => child.clear())
     this.children = []
   }
-
-  get innerText(): string {
-    return this.children.map((child) => child.innerText).join("")
-  }
 }

@@ -10,7 +10,7 @@ import {
   TextInputStyle,
 } from "discord.js"
 import { assertIsDefined } from "../helpers/asserts"
-import { getFileFromAttachment } from "../nodes/helpers/getFileFromAttachment"
+import { getFileFromAttachment } from "../helpers/getFileFromAttachment"
 import type {
   APIEmbedField,
   EmbedAuthorOptions,
@@ -31,12 +31,54 @@ import type {
   SelectMenuElements,
   // TextElements, // TODO: [NEXT] TextElements
 } from "../jsx"
-import type { Node } from "../nodes/Node"
-import type { RootNode } from "../nodes/Root"
+import type { Node } from "./Node"
+import type { RootNode } from "./RootNode"
+import type { TextNode } from "./TextNode"
 
 const EMPTY_STRING = "​"
 
-const renderFileAttachment = (
+export const renderText = (node: TextNode) => {
+  return node.innerText
+}
+
+export const renderInnerText = (
+  node: Node,
+  textElementsOnly?: boolean,
+): string => {
+  if (node.type === "reaccord:__text") {
+    return renderText(node as TextNode)
+  }
+
+  const innerText = node.children
+    .map((child) => renderInnerText(child, true))
+    .join("")
+
+  if (!innerText) return ""
+
+  switch (node.type) {
+    case "reaccord:__text":
+      return innerText
+    case "reaccord:text-br":
+      return "\n"
+    case "reaccord:text-code":
+      return `\`${innerText}\``
+    case "reaccord:text-codeblock":
+      return `\`\`\`${node.props.lang ?? ""}\n${innerText}\n\`\`\``
+    case "Span":
+      let str = innerText
+      if (node.props.italic) str = `_${str}_`
+      if (node.props.bold) str = `**${str}**`
+      return str
+    case "Link":
+      return `[${innerText}](${node.props.href})`
+    default:
+      if (textElementsOnly)
+        throw new Error(`Unexpected element type: ${node.type} inside Text`)
+      return innerText
+  }
+}
+
+export const renderFileAttachment = (
   node: Node<FileAttachmentElements["file"]>,
 ): { file: FileAttachment } | null => {
   if ("file" in node.props) {
@@ -53,38 +95,38 @@ const renderFileAttachment = (
   return null
 }
 
-const renderEmbedFooter = (
+export const renderEmbedFooter = (
   node: Node<EmbedElements["footer"]>,
 ): EmbedFooterOptions => {
   return {
-    text: node.innerText,
+    text: renderInnerText(node),
     iconURL: node.props.iconURL,
   }
 }
 
-const renderEmbedAuthor = (
+export const renderEmbedAuthor = (
   node: Node<EmbedElements["author"]>,
 ): EmbedAuthorOptions => {
   return {
-    name: node.innerText,
+    name: renderInnerText(node),
     iconURL: node.props.iconURL,
     url: node.props.url,
   }
 }
 
-const renderEmbedField = (
+export const renderEmbedField = (
   node: Node<EmbedElements["field"]>,
 ): APIEmbedField => {
   assertIsDefined(node.props.title, "Embed fields must have a title")
 
   return {
     name: node.props.title,
-    value: node.innerText,
+    value: renderInnerText(node),
     inline: node.props.inline ?? false,
   }
 }
 
-const renderEmbedImage = (
+export const renderEmbedImage = (
   node: Node<EmbedElements["image" | "thumbnail"]>,
 ): { file?: FileAttachment; filename: string } | null => {
   if ("src" in node.props) {
@@ -100,25 +142,25 @@ const renderEmbedImage = (
   return null
 }
 
-const renderEmbedRoot = (
+export const renderEmbedRoot = (
   node: Node<EmbedElements["root"]>,
 ): { embed: EmbedBuilder; files: FileAttachment[] } => {
   const embed = new EmbedBuilder({
     url: node.props.url,
-  })
-    .setTimestamp(node.props.timestamp)
-    .setColor(node.props.color ?? null)
+  }).setColor(node.props.color ?? null)
+
+  if (node.props.timestamp) embed.setTimestamp(node.props.timestamp)
 
   const files: FileAttachment[] = []
 
   node.children.forEach((child) => {
     switch (child.type) {
       case "reaccord:embed-title":
-        const title = child.innerText
+        const title = renderInnerText(child)
         if (title) embed.setTitle(title)
         return
       case "reaccord:embed-description":
-        const description = child.innerText
+        const description = renderInnerText(child)
         if (description) embed.setDescription(description)
         return
       case "reaccord:embed-footer":
@@ -145,6 +187,7 @@ const renderEmbedRoot = (
           embed.setThumbnail(thumbnail.filename)
           if (thumbnail.file) files.push(thumbnail.file)
         }
+        return
       default:
         throw new Error(`Unexpected element type: ${child.type} inside Embed`)
     }
@@ -153,7 +196,9 @@ const renderEmbedRoot = (
   return { embed, files }
 }
 
-const renderActionRowButton = (node: Node<ActionRowElements["button"]>) => {
+export const renderActionRowButton = (
+  node: Node<ActionRowElements["button"]>,
+) => {
   const { customId } = node.props
 
   assertIsDefined(customId, "Button must have a unique customId")
@@ -162,7 +207,7 @@ const renderActionRowButton = (node: Node<ActionRowElements["button"]>) => {
     customId,
     disabled: node.props.disabled ?? false,
     style: node.props.style ?? ButtonStyle.Secondary,
-    label: node.innerText,
+    label: renderInnerText(node),
   })
 
   const listener = async (interaction: Interaction) => {
@@ -176,16 +221,16 @@ const renderActionRowButton = (node: Node<ActionRowElements["button"]>) => {
   return { button, customId, listener }
 }
 
-const renderActionRowLink = (node: Node<ActionRowElements["link"]>) => {
+export const renderActionRowLink = (node: Node<ActionRowElements["link"]>) => {
   return new ButtonBuilder({
     disabled: node.props.disabled ?? false,
-    label: node.innerText,
+    label: renderInnerText(node),
     style: ButtonStyle.Link,
     url: node.props.url,
   })
 }
 
-const renderActionRowRoot = (node: Node<ActionRowElements["root"]>) => {
+export const renderActionRowRoot = (node: Node<ActionRowElements["root"]>) => {
   const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>()
 
   const interactionListeners = new Map<
@@ -214,18 +259,22 @@ const renderActionRowRoot = (node: Node<ActionRowElements["root"]>) => {
   return { actionRow, interactionListeners }
 }
 
-const renderSelectMenuOption = (node: Node<SelectMenuElements["option"]>) => {
+export const renderSelectMenuOption = (
+  node: Node<SelectMenuElements["option"]>,
+) => {
   assertIsDefined(node.props.value, "SelectMenu option must have a value")
 
   return new SelectMenuOptionBuilder({
     default: node.props.default ?? false,
-    label: node.innerText,
+    label: renderInnerText(node),
     value: node.props.value,
     description: node.props.description,
   })
 }
 
-const renderSelectMenuRoot = (node: Node<SelectMenuElements["root"]>) => {
+export const renderSelectMenuRoot = (
+  node: Node<SelectMenuElements["root"]>,
+) => {
   const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>()
 
   const { customId, disabled, placeholder } = node.props
@@ -281,9 +330,6 @@ export const renderMessageContent = (root: RootNode) => {
 
   root.children.forEach((child) => {
     switch (child.type) {
-      case "__text": // TODO: <Span/> | <Br/> etc...
-        messageContent.content += child.innerText
-        return
       case "reaccord:file-attachment":
       case "reaccord:image-attachment": {
         const fileAttachment = renderFileAttachment(child)
@@ -319,7 +365,14 @@ export const renderMessageContent = (root: RootNode) => {
         return
       }
       default:
-        throw new Error(`Unexpected element type: ${child.type} at root level`)
+        try {
+          const textContent = renderInnerText(child, true)
+          messageContent.content += textContent
+        } catch {
+          throw new Error(
+            `Unexpected element type: ${child.type} at root level`,
+          )
+        }
     }
   })
 
@@ -335,7 +388,7 @@ export const renderMessageContent = (root: RootNode) => {
   return { messageContent, interactionListeners }
 }
 
-const renderModalInput = (node: Node<ModalElements["input"]>) => {
+export const renderModalInput = (node: Node<ModalElements["input"]>) => {
   const actionRow = new ActionRowBuilder<TextInputBuilder>()
 
   const { name, label, value, placeholder, required, paragraph, onChange } =
