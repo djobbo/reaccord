@@ -1,5 +1,6 @@
 import { App } from "./App"
-import { ChatInputCommand, Client, GatewayIntentBits } from "reaccord"
+import { ChatInputCommand, Client } from "reaccord"
+import { GatewayIntentBits } from "discord.js"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { config as loadEnv } from "dotenv"
 
@@ -16,17 +17,16 @@ const client = new Client({
 
 const queryClient = new QueryClient()
 
-const rickCmd = new ChatInputCommand(
-  "rick",
-  "Rick and Morty characters info.",
-  { staleAfter: 300 },
-)
+const rickCmd = new ChatInputCommand("rick", "Rick and Morty characters info.")
   .stringParam("search", "Character name search")
-  .render(({ search }) => (
-    <QueryClientProvider client={queryClient}>
-      <App search={search} />
-    </QueryClientProvider>
-  ))
+  .render(
+    ({ search }) => (
+      <QueryClientProvider client={queryClient}>
+        <App search={search} />
+      </QueryClientProvider>
+    ),
+    { unmountAfter: 300 },
+  )
 
 client.registerCommand(rickCmd)
 

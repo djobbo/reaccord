@@ -1,4 +1,5 @@
-import { ActionRow, Button, ButtonStyle } from "reaccord"
+import { ActionRow } from "reaccord"
+import { ButtonStyle } from "discord.js"
 import { useState } from "react"
 
 // Define app behavior
@@ -14,9 +15,13 @@ export const CounterApp = ({ start = 0 }: CounterAppProps) => {
     <>
       Count: {count}
       <ActionRow>
-        <Button onClick={increment} style={ButtonStyle.Primary}>
+        <ActionRow.Button
+          customId="increment"
+          onClick={increment}
+          style={ButtonStyle.Primary}
+        >
           +
-        </Button>
+        </ActionRow.Button>
       </ActionRow>
     </>
   )

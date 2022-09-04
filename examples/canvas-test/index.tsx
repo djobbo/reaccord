@@ -1,14 +1,5 @@
-import {
-  ActionRow,
-  AttachmentBuilder,
-  Button,
-  ButtonStyle,
-  ChatInputCommand,
-  Client,
-  Embed,
-  GatewayIntentBits,
-  Thumbnail,
-} from "reaccord"
+import { ActionRow, ChatInputCommand, Client, Embed } from "reaccord"
+import { AttachmentBuilder, ButtonStyle, GatewayIntentBits } from "discord.js"
 import { CanvasImage, renderToImageBuffer } from "@reaccord/canvas"
 import {
   QueryClient,
@@ -17,7 +8,7 @@ import {
 } from "@tanstack/react-query"
 import { config as loadEnv } from "dotenv"
 import { useState } from "react"
-import type { User } from "reaccord"
+import type { User } from "discord.js"
 
 loadEnv()
 
@@ -51,7 +42,7 @@ export const CounterApp = ({
       <Embed>
         <CanvasImage
           id={["my-canvas-thumb", count]}
-          as={Thumbnail}
+          as={Embed.Thumbnail}
           width={60}
           height={60}
           options={{ queryOptions: { context: defaultContext } }}
@@ -64,9 +55,13 @@ export const CounterApp = ({
         </CanvasImage>
       </Embed>
       <ActionRow>
-        <Button onClick={increment} style={ButtonStyle.Primary}>
+        <ActionRow.Button
+          customId="increment"
+          onClick={increment}
+          style={ButtonStyle.Primary}
+        >
           +
-        </Button>
+        </ActionRow.Button>
       </ActionRow>
     </>
   )

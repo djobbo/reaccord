@@ -5,20 +5,25 @@ import {
 } from "./Command"
 import { Client as DiscordClient } from "discord.js"
 import { refreshCommands } from "./refreshCommands"
-import { renderMessage } from "./renderer"
 import type {
   ClientEvents,
   ClientOptions as DiscordClientOptions,
   Interaction,
 } from "discord.js"
-import type { MessageResponseOptions } from "./nodes/Root"
-import type { RenderMessageFn } from "./renderer/render"
+
+export type MessageRenderOptions = {
+  /**
+   * Interactions will not respond after this amount of time (s).
+   * @default 300 (5min)
+   */
+  unmountAfter?: number | null
+}
 
 type ClientOptions = DiscordClientOptions & {
   token: string
   devGuildId?: string
   clientId?: string
-  messageResponseOptions?: MessageResponseOptions
+  messageRenderOptions?: MessageRenderOptions
 }
 
 export type EventHandler<Event extends keyof ClientEvents> = (
@@ -81,21 +86,19 @@ export class Client extends EventMergerClient {
   devGuildId?: string
   clientId?: string
 
-  renderMessage: (
-    messageResponseOptions?: MessageResponseOptions,
-  ) => RenderMessageFn
-
   chatInputCommands: ChatInputCommand[] = []
   msgCtxCommands: MessageContextCommand[] = []
   userCtxCommands: UserContextCommand[] = []
   #interactionsDisposer?: () => void
-  #messageResponseOptions: MessageResponseOptions = {}
+  messageRenderOptions: MessageRenderOptions = {
+    unmountAfter: 5 * 60,
+  }
 
   constructor({
     token,
     devGuildId,
     clientId,
-    messageResponseOptions,
+    messageRenderOptions,
     ...options
   }: ClientOptions) {
     super(options)
@@ -103,12 +106,6 @@ export class Client extends EventMergerClient {
     this.token = token
     this.devGuildId = devGuildId
     this.clientId = clientId
-
-    this.renderMessage = (messageResponseOptions?: MessageResponseOptions) =>
-      renderMessage(this, {
-        ...this.#messageResponseOptions,
-        ...messageResponseOptions,
-      })
 
     this.#listenToInteractions()
   }
@@ -180,7 +177,7 @@ export class Client extends EventMergerClient {
   registerCommand(
     command: ChatInputCommand | MessageContextCommand | UserContextCommand,
   ) {
-    command.setRenderMessageFn(this.renderMessage)
+    command.setDiscordClient(this)
 
     if (command instanceof ChatInputCommand) {
       this.chatInputCommands.push(command)

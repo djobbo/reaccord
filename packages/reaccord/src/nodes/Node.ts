@@ -1,34 +1,41 @@
-import { assertIsNode } from "./helpers/assertIsNode"
 import { v4 as uuidv4 } from "uuid"
-import type { NodeElement, NodeElements } from "./elements"
-import type { RootNode } from "./Root"
+import type {
+  ChatInputCommandInteraction,
+  CommandInteraction,
+  ContextMenuCommandInteraction,
+  Message,
+  MessageComponentInteraction,
+  ModalSubmitInteraction,
+  TextBasedChannel,
+} from "discord.js"
 
-export type NodeDisplay = {
-  uuid: string
-  type: NodeElement
-  children: NodeDisplay[]
-  props: any
-}
+export type InteractionRefType =
+  | TextBasedChannel
+  | Message
+  | ChatInputCommandInteraction
+  | CommandInteraction
+  | ContextMenuCommandInteraction
+  | MessageComponentInteraction
+  | ModalSubmitInteraction
 
-export class Node<Type extends NodeElement = NodeElement> {
+export class Node<Props = Record<string, unknown>> {
   uuid: string
-  type: Type
+  type: string
   children: Node[] = []
-  rootNode: RootNode
+  root: Node | null = null
   parent: Node | null = null
 
-  props: Partial<NodeElements[Type]> = {}
+  props: Partial<Props>
 
-  constructor(type: Type, rootNode: RootNode) {
+  constructor(type: string, props?: Partial<Props>) {
     this.uuid = uuidv4()
     this.type = type
-    this.rootNode = rootNode
     this.children = []
+    this.props = props || {}
   }
 
   setParent(node: Node): void {
     this.parent = node
-    this.onNodeUpdated()
   }
 
   insertBefore(node: Node, anchor?: Node): void {
@@ -42,15 +49,11 @@ export class Node<Type extends NodeElement = NodeElement> {
   }
 
   setAttribute(name: string, value: any): void {
-    // @ts-expect-error
-    this.props[name] = value
-    this.onNodeUpdated()
+    this.props[name as keyof Props] = value
   }
 
   replaceAttributes(attr: Record<string, any>): void {
-    // @ts-expect-error
-    this.props = attr
-    this.onNodeUpdated()
+    this.props = attr as Props
   }
 
   get parentNode(): Node {
@@ -83,44 +86,6 @@ export class Node<Type extends NodeElement = NodeElement> {
   }
 
   get innerText(): string {
-    const innerText = this.children
-      .map((child) => child.renderAsText())
-      .join("")
-    return innerText
-  }
-
-  onNodeUpdated(): void {
-    // TODO: not the best way to do this
-    this.parent?.onNodeUpdated()
-  }
-
-  get display(): NodeDisplay {
-    return {
-      uuid: this.uuid,
-      type: this.type,
-      props: this.props,
-      children: this.children.map((child) => child.display),
-    }
-  }
-
-  toString(): string {
-    return JSON.stringify(this.display, null, 2)
-  }
-
-  renderAsText(): string {
-    return ""
-  }
-
-  get customId(): string {
-    assertIsNode(this, ["Button", "SelectMenu", "Modal"])
-
-    return (
-      (this.props as Node<"Button" | "SelectMenu" | "Modal">["props"]).id ??
-      this.uuid
-    )
-  }
-
-  render(parent?: unknown): unknown {
-    throw new Error(`Render method not implemented for ${this.type}`)
+    return this.children.map((child) => child.innerText).join("")
   }
 }

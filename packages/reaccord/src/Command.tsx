@@ -15,6 +15,7 @@ import {
   User,
 } from "discord.js"
 import { EMPTY_STRING } from "./helpers/constants"
+import { renderMessage } from "./renderer"
 import type {
   ApplicationCommandOptionChoiceData,
   Channel,
@@ -26,8 +27,7 @@ import type {
   UserApplicationCommandData,
   UserContextMenuCommandInteraction,
 } from "discord.js"
-import type { MessageResponseOptions } from "./nodes/Root"
-import type { RenderMessageFn } from "./renderer/render"
+import type { Client, MessageRenderOptions } from "./Client"
 
 type CommandOptionChoiceData<
   ChoiceType extends string | number | never = never,
@@ -50,16 +50,12 @@ type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
 ) => ReturnValue
 
 class CommandBase {
-  renderMessage?: (
-    messageResponseOptions?: MessageResponseOptions,
-  ) => RenderMessageFn
+  discordClient: Client | null = null
 
   constructor() {}
 
-  setRenderMessageFn(
-    fn: (messageResponseOptions?: MessageResponseOptions) => RenderMessageFn,
-  ): void {
-    this.renderMessage = fn
+  setDiscordClient(client: Client) {
+    this.discordClient = client
   }
 }
 
@@ -73,13 +69,8 @@ export class ChatInputCommand<
     void
   >
   commandData: SlashCommandBuilder
-  #messageResponseOptions: MessageResponseOptions = {}
 
-  constructor(
-    name: string,
-    description: string,
-    messageResponseOptions?: MessageResponseOptions,
-  ) {
+  constructor(name: string, description: string) {
     super()
 
     this.commandData = new SlashCommandBuilder()
@@ -87,10 +78,6 @@ export class ChatInputCommand<
       .setDescription(description ?? EMPTY_STRING)
 
     this.#params = []
-    this.#messageResponseOptions = {
-      ...this.#messageResponseOptions,
-      ...messageResponseOptions,
-    }
   }
 
   get name() {
@@ -337,12 +324,16 @@ export class ChatInputCommand<
       CommandInteraction,
       JSX.Element
     >,
+    messageRenderOptions?: MessageRenderOptions,
   ) {
     this.#interactionCallback = (props, interaction) => {
-      if (!this.renderMessage)
-        throw new Error("Command wasn't registered correctly")
-      this.renderMessage(this.#messageResponseOptions)(interaction, () =>
-        callback(props, interaction),
+      if (!this.discordClient || !interaction.isChatInputCommand()) return
+
+      renderMessage(
+        () => callback(props, interaction),
+        this.discordClient,
+        interaction,
+        messageRenderOptions,
       )
     }
     return this
@@ -377,13 +368,11 @@ abstract class ContextMenuCommand<
 > extends CommandBase {
   commandData: DataType
   interactionCallback?: CommandInteractionCallback<Props, InteractionType, void>
-  #messageResponseOptions: MessageResponseOptions = {}
 
   constructor(
     name: string,
     type: DataType["type"],
     defaultPermission?: boolean,
-    messageResponseOptions?: MessageResponseOptions,
   ) {
     super()
 
@@ -393,20 +382,20 @@ abstract class ContextMenuCommand<
       defaultPermission,
       type,
     }
-    this.#messageResponseOptions = {
-      ...this.#messageResponseOptions,
-      ...messageResponseOptions,
-    }
   }
 
   render(
     callback: CommandInteractionCallback<Props, InteractionType, JSX.Element>,
+    messageRenderOptions?: MessageRenderOptions,
   ) {
     this.interactionCallback = (props, interaction) => {
-      if (!this.renderMessage)
-        throw new Error("Command wasn't registered correctly")
-      this.renderMessage(this.#messageResponseOptions)(interaction, () =>
-        callback(props, interaction),
+      if (!this.discordClient || !interaction.isContextMenuCommand()) return
+
+      renderMessage(
+        () => callback(props, interaction),
+        this.discordClient,
+        interaction,
+        messageRenderOptions,
       )
     }
     return this

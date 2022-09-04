@@ -1,4 +1,5 @@
-import { ActionRow, Button, ButtonStyle } from "reaccord"
+import { ActionRow } from "reaccord"
+import { ButtonStyle } from "discord.js"
 import type { PageInfo } from "../types"
 
 type NavigationProps = {
@@ -25,38 +26,46 @@ export const Navigation = ({
 
   return (
     <ActionRow>
-      <Button
+      <ActionRow.Button
+        customId="nav-first"
         style={ButtonStyle.Secondary}
         onClick={() => setCurrentPage(1)}
         disabled={loading || page <= 1}
       >
         {"<<"}
-      </Button>
-      <Button
+      </ActionRow.Button>
+      <ActionRow.Button
+        customId="nav-previous"
         style={ButtonStyle.Primary}
         onClick={() => setCurrentPage(page - 1)}
         disabled={loading || page <= 1}
       >
         {"<"}
-      </Button>
-      <Button style={ButtonStyle.Secondary} disabled>
+      </ActionRow.Button>
+      <ActionRow.Button
+        customId="nav-count"
+        style={ButtonStyle.Secondary}
+        disabled
+      >
         Page {page}
         {pageInfo && ` / ${pageInfo.pages}`}
-      </Button>
-      <Button
+      </ActionRow.Button>
+      <ActionRow.Button
+        customId="nav-next"
         style={ButtonStyle.Primary}
         onClick={() => setCurrentPage(page + 1)}
         disabled={loading || (!!pageInfo && pageInfo.pages <= page)}
       >
         {">"}
-      </Button>
-      <Button
+      </ActionRow.Button>
+      <ActionRow.Button
+        customId="nav-last"
         style={ButtonStyle.Secondary}
         onClick={() => setCurrentPage(pageInfo?.pages ?? 1)}
         disabled={loading || (!!pageInfo && pageInfo.pages <= page)}
       >
         {">>"}
-      </Button>
+      </ActionRow.Button>
     </ActionRow>
   )
 }

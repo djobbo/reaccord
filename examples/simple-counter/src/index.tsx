@@ -1,5 +1,6 @@
-import { ChatInputCommand, Client, GatewayIntentBits } from "reaccord"
+import { ChatInputCommand, Client } from "reaccord"
 import { CounterApp } from "./CounterApp"
+import { GatewayIntentBits } from "discord.js"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()

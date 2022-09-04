@@ -30,7 +30,7 @@ export const useMessageCtx = (): MessageContext => {
   const rootNode = useRootNodeContextInternal()
 
   return {
-    client: rootNode.client,
+    client: rootNode.discordClient,
     message: rootNode.message,
     terminateInteraction: rootNode.terminateInteraction,
   }

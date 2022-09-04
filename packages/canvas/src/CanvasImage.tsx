@@ -2,11 +2,11 @@ import { Image } from "reaccord"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useId } from "react"
 import { useRenderImageFile } from "./useRenderAttachment"
+import type { Embed } from "reaccord"
 import type { QueryKey } from "@tanstack/react-query"
 import type { ReactElement, ReactNode } from "react"
 import type { RenderContext } from "./render"
 import type { RenderImageFileQueryOptions } from "./useRenderAttachment"
-import type { Thumbnail } from "reaccord"
 
 const DEFAULT_WIDTH = 1920
 const DEFAULT_HEIGHT = 1080
@@ -21,7 +21,7 @@ export type CanvasImageProps<Key extends QueryKey | string> = {
     // @ts-expect-error - wontfix for now
     Key extends string ? [string, Key] : [string, ...Key]
   >
-  as?: typeof Image | typeof Thumbnail
+  as?: typeof Image | typeof Embed.Image | typeof Embed.Thumbnail
   placeholderUrl?: string
 }
 
