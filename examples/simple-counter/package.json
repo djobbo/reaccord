@@ -11,13 +11,13 @@
     "inspect": "reaccord dev --inspect"
   },
   "devDependencies": {
-    "@types/react": "^18.0.17",
+    "@types/react": "^18.0.18",
     "typescript": "4.8.2"
   },
   "dependencies": {
     "@reaccord/canvas": "workspace:0.0.0-dev",
     "discord.js": "^14.3.0",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "reaccord": "workspace:0.0.0-dev",
     "react": "^18.2.0"
   }
