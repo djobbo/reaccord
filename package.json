@@ -11,7 +11,7 @@
     "docs:dev": "turbo run docs:dev",
     "docs:build": "turbo run docs:build",
     "ts:check": "turbo run ts:check",
-    "madge": "madge --circular --extensions ts .",
+    "madge": "madge --circular --extensions ts,tsx .",
     "ci:lint": "eslint --ext .js,.jsx,.ts,.tsx,.json,.md,.cjs .",
     "ci": "pnpm install --frozen-lockfile",
     "ci:deadcode": "turbo run ci:deadcode",
