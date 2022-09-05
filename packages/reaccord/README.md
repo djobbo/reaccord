@@ -35,7 +35,7 @@ _You can view the complete source code [here](https://github.com/djobbo/reaccord
 **Define App behavior**, just like in a React app.
 
 ```jsx
-const CounterApp = ({ start = 0 }: CounterAppProps) => {
+const CounterApp = ({ start = 0 }) => {
   const [count, setCount] = useState(start)
 
   return (
@@ -63,9 +63,8 @@ const client = createClient({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
   devGuildId: "dev-guild-id",
   clientId: "bot-client-id",
+  commands: [counterCommand],
 })
-
-client.registerCommand(counterCommand)
 ```
 
 **Connect the client to discord's gateway**
