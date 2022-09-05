@@ -178,7 +178,7 @@ export type SelectMenuElements = {
     placeholder?: string
   }
   option: {
-    default?: boolean
+    selected?: boolean
     description?: string
     children?: ReactNode
     value: string

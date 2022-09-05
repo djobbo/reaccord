@@ -2,19 +2,17 @@ import { Button } from "reaccord"
 import { useState } from "react"
 
 // Define app behavior
-type CounterAppProps = {
+type CounterProps = {
   start?: number
 }
 
-export const CounterApp = ({ start = 0 }: CounterAppProps) => {
+export const Counter = ({ start = 0 }: CounterProps) => {
   const [count, setCount] = useState(start)
 
   return (
     <>
       {count}
-      <Button onClick={() => setCount((count) => count + 1)}>+</Button>
+      <Button onClick={() => setCount(count + 1)}>+</Button>
     </>
   )
 }
-
-export default CounterApp

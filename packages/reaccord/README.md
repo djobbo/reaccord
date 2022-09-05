@@ -32,16 +32,16 @@ What we will be building:
 <img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/simple-counter.gif" alt="Simple Counter">  
 _You can view the complete source code [here](https://github.com/djobbo/reaccord/tree/master/examples/simple-counter)._
 
-**Define App behavior**, just like in a React app.
+**Define your App's behavior**, as you would do in a regular React webapp.
 
 ```jsx
-const CounterApp = ({ start = 0 }) => {
+const Counter = ({ start = 0 }) => {
   const [count, setCount] = useState(start)
 
   return (
     <>
       {count}
-      <Button onClick={() => setCount((count) => count + 1)}>+</Button>
+      <Button onClick={() => setCount(count + 1)}>+</Button>
     </>
   )
 }
@@ -52,7 +52,7 @@ const CounterApp = ({ start = 0 }) => {
 ```jsx
 const counterCommand = createSlashCommand("counter", "A simple counter")
   .intParam("start", "Number to start counting from")
-  .render(({ start }) => <CounterApp start={start} />)
+  .render(({ start }) => <Counter start={start} />)
 ```
 
 **Instantiate the gateway client**, and register the command.

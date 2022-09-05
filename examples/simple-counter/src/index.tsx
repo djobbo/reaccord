@@ -1,7 +1,7 @@
+import { Counter } from "./Counter"
 import { GatewayIntentBits } from "discord.js"
 import { createClient, createSlashCommand } from "reaccord"
 import { config as loadEnv } from "dotenv"
-import CounterApp from "./CounterApp"
 
 loadEnv()
 
@@ -14,7 +14,7 @@ const {
 // Create end-user command
 const counterCommand = createSlashCommand("counter", "A simple counter")
   .intParam("start", "Number to start counting from")
-  .render(({ start }) => <CounterApp start={start} />)
+  .render(({ start }) => <Counter start={start} />)
 
 // Create gateway client
 const client = createClient({

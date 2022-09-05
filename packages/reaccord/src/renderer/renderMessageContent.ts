@@ -264,7 +264,7 @@ export const renderSelectMenuOption = (
   assertIsDefined(node.props.value, "SelectMenu option must have a value")
 
   return new SelectMenuOptionBuilder({
-    default: node.props.default ?? false,
+    default: node.props.selected ?? false,
     label: renderInnerText(node),
     value: node.props.value,
     description: node.props.description,
