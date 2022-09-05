@@ -1,5 +1,5 @@
 import { AttachmentBuilder, ButtonStyle, GatewayIntentBits } from "discord.js"
-import { Button, ChatInputCommand, Client, Embed } from "reaccord"
+import { Button, Embed, createClient, createSlashCommand } from "reaccord"
 import { CanvasImage, renderToImageBuffer } from "@reaccord/canvas"
 import {
   QueryClient,
@@ -63,7 +63,7 @@ export const CounterApp = ({
 
 const queryClient = new QueryClient()
 
-const counterCommand = new ChatInputCommand("counter", "Counter app")
+const counterCommand = createSlashCommand("counter", "Counter app")
   .intParam("start", "Start count")
   .render(({ start }, interaction) => (
     <QueryClientProvider client={queryClient}>
@@ -71,10 +71,7 @@ const counterCommand = new ChatInputCommand("counter", "Counter app")
     </QueryClientProvider>
   ))
 
-const imageGenCommand = new ChatInputCommand(
-  "hello",
-  "Generate image with react",
-)
+const imageGenCommand = createSlashCommand("hello", "Generate image with react")
   .stringParam("message", "Message to display")
   .exec(async ({ message }, interaction) => {
     const imageBuffer = await renderToImageBuffer(
@@ -119,7 +116,7 @@ const imageGenCommand = new ChatInputCommand(
     })
   })
 
-const client = new Client({
+const client = createClient({
   token: DISCORD_TOKEN ?? "",
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
   devGuildId: DISCORD_DEV_GUILD_ID,

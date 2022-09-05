@@ -66,7 +66,7 @@ client.connect((client) =>
 ```tsx
 import { Client } from "reaccord"
 
-const client = new Client({
+const client = createClient({
   token: "token",
   intents: ["Guilds", "GuildMessages", "GuildMessageReactions"],
   devGuildId: "dev-guild-id",

@@ -1,8 +1,8 @@
-export { Client } from "./Client"
+export { Client, createClient } from "./Client"
 export {
-  ChatInputCommand,
-  MessageContextCommand,
-  UserContextCommand,
+  createSlashCommand,
+  createMessageMenuCommand as createMessageContextMenuCommand,
+  createUserMenuCommand as createUserContextMenuCommand,
 } from "./Command"
 export * from "./hooks"
 export { renderMessage } from "./renderer"

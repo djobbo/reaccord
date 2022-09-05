@@ -35,16 +35,13 @@ _You can view the complete source code [here](https://github.com/djobbo/reaccord
 **Define App behavior**, just like in a React app.
 
 ```jsx
-const CounterApp = ({ start = 0 }) => {
+const CounterApp = ({ start = 0 }: CounterAppProps) => {
   const [count, setCount] = useState(start)
-  const increment = () => setCount((count) => count + 1)
 
   return (
     <>
-      Count: {count}
-      <Button onClick={increment} style={ButtonStyle.Primary}>
-        +
-      </Button>
+      {count}
+      <Button onClick={() => setCount((count) => count + 1)}>+</Button>
     </>
   )
 }
@@ -53,7 +50,7 @@ const CounterApp = ({ start = 0 }) => {
 **Create end-user command.**
 
 ```jsx
-const counterCommand = new ChatInputCommand("counter", "A simple counter")
+const counterCommand = createSlashCommand("counter", "A simple counter")
   .intParam("start", "Number to start counting from")
   .render(({ start }) => <CounterApp start={start} />)
 ```
@@ -61,7 +58,7 @@ const counterCommand = new ChatInputCommand("counter", "A simple counter")
 **Instantiate the gateway client**, and register the command.
 
 ```jsx
-const client = new Client({
+const client = createClient({
   token: "bot-token",
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
   devGuildId: "dev-guild-id",

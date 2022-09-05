@@ -3,19 +3,11 @@ import { Node } from "./Node"
 import { debounce } from "../helpers/debounce"
 import { renderMessageContent } from "../renderer/renderMessageContent"
 import { renderWithRootContext } from "./renderWithRootContext"
-import type {
-  AutocompleteInteraction,
-  Interaction,
-  TextBasedChannel,
-} from "discord.js"
 import type { Client, MessageRenderOptions } from "../Client"
 import type { FiberRoot, Reconciler } from "react-reconciler"
+import type { Interaction } from "discord.js"
+import type { InteractionRefType } from "./renderMessage"
 import type { TextNode } from "./TextNode"
-
-export type InteractionRefType =
-  | TextBasedChannel
-  | Message
-  | Exclude<Interaction, AutocompleteInteraction>
 
 const MESSAGE_UPDATE_DEBOUNCE_MS = 50
 

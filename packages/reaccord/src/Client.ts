@@ -1,8 +1,3 @@
-import {
-  ChatInputCommand,
-  MessageContextCommand,
-  UserContextCommand,
-} from "./Command"
 import { Client as DiscordClient } from "discord.js"
 import { refreshCommands } from "./refreshCommands"
 import type {
@@ -10,6 +5,7 @@ import type {
   ClientOptions as DiscordClientOptions,
   Interaction,
 } from "discord.js"
+import type { CommandBase } from "./Command"
 
 export type MessageRenderOptions = {
   /**
@@ -24,6 +20,7 @@ type ClientOptions = DiscordClientOptions & {
   devGuildId?: string
   clientId?: string
   messageRenderOptions?: MessageRenderOptions
+  commands?: CommandBase[]
 }
 
 export type EventHandler<Event extends keyof ClientEvents> = (
@@ -86,9 +83,7 @@ export class Client extends EventMergerClient {
   devGuildId?: string
   clientId?: string
 
-  chatInputCommands: ChatInputCommand[] = []
-  msgCtxCommands: MessageContextCommand[] = []
-  userCtxCommands: UserContextCommand[] = []
+  commands: CommandBase[]
   #interactionsDisposer?: () => void
   messageRenderOptions: MessageRenderOptions = {
     unmountAfter: 5 * 60,
@@ -99,6 +94,7 @@ export class Client extends EventMergerClient {
     devGuildId,
     clientId,
     messageRenderOptions,
+    commands,
     ...options
   }: ClientOptions) {
     super(options)
@@ -107,33 +103,21 @@ export class Client extends EventMergerClient {
     this.devGuildId = devGuildId
     this.clientId = clientId
 
+    this.commands = commands ?? []
+
     this.#listenToInteractions()
   }
 
   #listenToInteractions() {
     const interactionsHandler = (interaction: Interaction) => {
-      if (interaction.isChatInputCommand()) {
-        const command = this.chatInputCommands.find(
-          (c) => c.name === interaction.commandName,
-        )
-        if (!command) return
+      if (!interaction.isCommand()) return
 
-        command.replyToInteraction(interaction)
-      } else if (interaction.isMessageContextMenuCommand()) {
-        const command = this.msgCtxCommands.find(
-          (c) => c.commandData.name === interaction.commandName,
-        )
-        if (!command) return
+      const command = this.commands.find(
+        (c) => c.data.name === interaction.commandName,
+      )
+      if (!command) return
 
-        command.replyToInteraction(interaction)
-      } else if (interaction.isUserContextMenuCommand()) {
-        const command = this.userCtxCommands.find(
-          (c) => c.commandData.name === interaction.commandName,
-        )
-        if (!command) return
-
-        command.replyToInteraction(interaction)
-      }
+      command.handleInteraction(interaction)
     }
 
     this.on("interactionCreate", interactionsHandler)
@@ -146,13 +130,11 @@ export class Client extends EventMergerClient {
   }
 
   async refreshCommands() {
+    this.commands.forEach((c) => c.setDiscordClient(this))
+
     await refreshCommands(
       this.token,
-      [
-        ...this.chatInputCommands,
-        ...this.msgCtxCommands,
-        ...this.userCtxCommands,
-      ],
+      this.commands,
       this.clientId,
       this.devGuildId,
     )
@@ -174,19 +156,11 @@ export class Client extends EventMergerClient {
     return this
   }
 
-  registerCommand(
-    command: ChatInputCommand | MessageContextCommand | UserContextCommand,
-  ) {
-    command.setDiscordClient(this)
-
-    if (command instanceof ChatInputCommand) {
-      this.chatInputCommands.push(command)
-    } else if (command instanceof UserContextCommand) {
-      this.userCtxCommands.push(command)
-    } else if (command instanceof MessageContextCommand) {
-      this.msgCtxCommands.push(command)
-    }
+  registerCommand(command: CommandBase) {
+    this.commands.push(command)
 
     return this
   }
 }
+
+export const createClient = (options: ClientOptions) => new Client(options)

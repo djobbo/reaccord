@@ -8,7 +8,7 @@ You can use this client just like you'd use DiscordJS' client.
 ```ts
 import { Client } from "reaccord"
 
-const client = new Client({
+const client = createClientt({
     token: 'token',
     ...
 })

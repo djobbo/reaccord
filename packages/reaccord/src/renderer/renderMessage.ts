@@ -1,8 +1,23 @@
 import { RootNode } from "./RootNode"
 import { hostConfig } from "./hostConfig"
 import createReconciler from "react-reconciler"
+import type {
+  ChatInputCommandInteraction,
+  ContextMenuCommandInteraction,
+  Message,
+  MessageComponentInteraction,
+  ModalSubmitInteraction,
+  TextBasedChannel,
+} from "discord.js"
 import type { Client, MessageRenderOptions } from "../Client"
-import type { InteractionRefType } from "./RootNode"
+
+export type InteractionRefType =
+  | TextBasedChannel
+  | Message
+  | ChatInputCommandInteraction
+  | ContextMenuCommandInteraction
+  | ModalSubmitInteraction
+  | MessageComponentInteraction
 
 const reactReconcilerInstance = createReconciler(hostConfig)
 reactReconcilerInstance.injectIntoDevTools({

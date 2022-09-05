@@ -1,4 +1,4 @@
-import { ActionRow, Button, ChatInputCommand, Client, Embed } from "reaccord"
+import { Button, Embed, createClient, createSlashCommand } from "reaccord"
 import { CanvasImage } from "@reaccord/canvas"
 import { GatewayIntentBits } from "discord.js"
 import { config as loadEnv } from "dotenv"
@@ -7,7 +7,7 @@ loadEnv()
 
 const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
-const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
+const greetingCommand = createSlashCommand("greet", "Greet me!").render(
   (_, interaction) => (
     <>
       {interaction.user.toString()}, welcome!
@@ -38,7 +38,7 @@ const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
   ),
 )
 
-const client = new Client({
+const client = createClient({
   token: DISCORD_TOKEN ?? "",
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
   devGuildId: DISCORD_DEV_GUILD_ID,

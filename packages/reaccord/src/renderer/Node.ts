@@ -1,22 +1,4 @@
 import { v4 as uuidv4 } from "uuid"
-import type {
-  ChatInputCommandInteraction,
-  CommandInteraction,
-  ContextMenuCommandInteraction,
-  Message,
-  MessageComponentInteraction,
-  ModalSubmitInteraction,
-  TextBasedChannel,
-} from "discord.js"
-
-export type InteractionRefType =
-  | TextBasedChannel
-  | Message
-  | ChatInputCommandInteraction
-  | CommandInteraction
-  | ContextMenuCommandInteraction
-  | MessageComponentInteraction
-  | ModalSubmitInteraction
 
 export class Node<Props = Record<string, unknown>> {
   uuid: string
