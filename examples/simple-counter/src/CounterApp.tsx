@@ -1,4 +1,4 @@
-import { ActionRow } from "reaccord"
+import { Button } from "reaccord"
 import { ButtonStyle } from "discord.js"
 import { useState } from "react"
 
@@ -14,11 +14,9 @@ export const CounterApp = ({ start = 0 }: CounterAppProps) => {
   return (
     <>
       {count}
-      <ActionRow>
-        <ActionRow.Button onClick={increment} style={ButtonStyle.Primary}>
-          +
-        </ActionRow.Button>
-      </ActionRow>
+      <Button onClick={increment} style={ButtonStyle.Primary}>
+        +
+      </Button>
     </>
   )
 }

@@ -174,6 +174,7 @@ export const renderEmbedRoot = (
         const field = renderEmbedField(child)
         embed.addFields(field)
         return
+      case "reaccord:image-attachment":
       case "reaccord:embed-image":
         const image = renderEmbedImage(child)
         if (image) {
@@ -360,6 +361,23 @@ export const renderMessageContent = (root: RootNode) => {
         const { actionRow, customId, listener } = renderSelectMenuRoot(child)
         messageContent.components!.push(actionRow)
         interactionListeners.set(customId, listener)
+        return
+      }
+      case "reaccord:actionrow-button": {
+        const actionRow =
+          new ActionRowBuilder<MessageActionRowComponentBuilder>()
+        const { button, customId, listener } = renderActionRowButton(child)
+        actionRow.addComponents(button)
+        messageContent.components!.push(actionRow)
+        interactionListeners.set(customId, listener)
+        return
+      }
+      case "reaccord:actionrow-link": {
+        const actionRow =
+          new ActionRowBuilder<MessageActionRowComponentBuilder>()
+        const linkButton = renderActionRowLink(child)
+        actionRow.addComponents(linkButton)
+        messageContent.components!.push(actionRow)
         return
       }
       default:

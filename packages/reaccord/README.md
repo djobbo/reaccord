@@ -42,11 +42,9 @@ const CounterApp = ({ start = 0 }) => {
   return (
     <>
       Count: {count}
-      <ActionRow>
-        <ActionRow.Button onClick={increment} style={ButtonStyle.Primary}>
-          +
-        </ActionRow.Button>
-      </ActionRow>
+      <Button onClick={increment} style={ButtonStyle.Primary}>
+        +
+      </Button>
     </>
   )
 }

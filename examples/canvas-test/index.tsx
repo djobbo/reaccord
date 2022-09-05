@@ -1,5 +1,5 @@
-import { ActionRow, ChatInputCommand, Client, Embed } from "reaccord"
 import { AttachmentBuilder, ButtonStyle, GatewayIntentBits } from "discord.js"
+import { Button, ChatInputCommand, Client, Embed } from "reaccord"
 import { CanvasImage, renderToImageBuffer } from "@reaccord/canvas"
 import {
   QueryClient,
@@ -54,11 +54,9 @@ export const CounterApp = ({
           </div>
         </CanvasImage>
       </Embed>
-      <ActionRow>
-        <ActionRow.Button onClick={increment} style={ButtonStyle.Primary}>
-          +
-        </ActionRow.Button>
-      </ActionRow>
+      <Button onClick={increment} style={ButtonStyle.Primary}>
+        +
+      </Button>
     </>
   )
 }

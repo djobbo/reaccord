@@ -160,6 +160,9 @@ export const ActionRow = Object.assign(
   },
 )
 
+export const Button = ActionRow.Button
+export const LinkButton = ActionRow.Link
+
 export type SelectMenuElements = {
   root: {
     customId?: string

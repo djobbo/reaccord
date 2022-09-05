@@ -1,4 +1,4 @@
-import { ActionRow, ChatInputCommand, Client, Embed } from "reaccord"
+import { ActionRow, Button, ChatInputCommand, Client, Embed } from "reaccord"
 import { CanvasImage } from "@reaccord/canvas"
 import { GatewayIntentBits } from "discord.js"
 import { config as loadEnv } from "dotenv"
@@ -14,7 +14,6 @@ const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
       <Embed color="Orange">
         <Embed.Title>I am a bot designed to greet you!</Embed.Title>
         <CanvasImage
-          as={Embed.Image}
           id={["greeting", interaction.user.username]}
           width={320}
           height={80}
@@ -28,15 +27,13 @@ const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
           </div>
         </CanvasImage>
       </Embed>
-      <ActionRow>
-        <ActionRow.Button
-          onClick={() => {
-            interaction.channel?.send("Hello!")
-          }}
-        >
-          Say Hello!
-        </ActionRow.Button>
-      </ActionRow>
+      <Button
+        onClick={() => {
+          interaction.channel?.send("Hello!")
+        }}
+      >
+        Say Hello!
+      </Button>
     </>
   ),
 )
