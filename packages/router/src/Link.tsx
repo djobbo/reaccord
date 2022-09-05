@@ -7,7 +7,7 @@ export type LinkProps = {
   replace?: boolean
   state?: any
   to: To
-} & ReaccordElements["Button"]
+} & ReaccordElements["actionRow"]["button"]
 
 export const Link = ({ replace = false, state, to, ...rest }: LinkProps) => {
   const navigate = useNavigate()

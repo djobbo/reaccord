@@ -1,7 +1,7 @@
 import {
   ApplicationCommandOptionType,
   ApplicationCommandType,
-  Message,
+  ContextMenuCommandBuilder,
   SlashCommandAttachmentOption,
   SlashCommandBooleanOption,
   SlashCommandBuilder,
@@ -12,22 +12,21 @@ import {
   SlashCommandRoleOption,
   SlashCommandStringOption,
   SlashCommandUserOption,
-  User,
 } from "discord.js"
 import { EMPTY_STRING } from "./helpers/constants"
+import { renderMessage } from "./renderer"
 import type {
   ApplicationCommandOptionChoiceData,
   Channel,
+  ChatInputCommandInteraction,
   CommandInteraction,
+  ContextMenuCommandInteraction,
+  ContextMenuCommandType,
   GuildMember,
-  MessageApplicationCommandData,
-  MessageContextMenuCommandInteraction,
   Role,
-  UserApplicationCommandData,
-  UserContextMenuCommandInteraction,
+  User,
 } from "discord.js"
-import type { MessageResponseOptions } from "./nodes/Root"
-import type { RenderMessageFn } from "./renderer/render"
+import type { Client, MessageRenderOptions } from "./Client"
 
 type CommandOptionChoiceData<
   ChoiceType extends string | number | never = never,
@@ -44,57 +43,50 @@ type CommandParamOptions<
   choices?: CommandOptionChoiceData<ChoiceType>[]
 }
 
-type CommandInteractionCallback<Props, InteractionType, ReturnValue> = (
-  props: Props,
-  interaction: InteractionType,
-) => ReturnValue
+export abstract class CommandBase<
+  Type extends ApplicationCommandType = ApplicationCommandType,
+  CommandData = Type extends ApplicationCommandType.ChatInput
+    ? SlashCommandBuilder
+    : Type extends ApplicationCommandType.User | ApplicationCommandType.Message
+    ? ContextMenuCommandBuilder
+    : never,
+> {
+  discordClient: Client | null = null
+  data: CommandData
 
-class CommandBase {
-  renderMessage?: (
-    messageResponseOptions?: MessageResponseOptions,
-  ) => RenderMessageFn
-
-  constructor() {}
-
-  setRenderMessageFn(
-    fn: (messageResponseOptions?: MessageResponseOptions) => RenderMessageFn,
-  ): void {
-    this.renderMessage = fn
+  constructor(commandData: CommandData) {
+    this.data = commandData
   }
+
+  setDiscordClient(client: Client) {
+    this.discordClient = client
+  }
+
+  abstract handleInteraction(interaction: CommandInteraction): void
 }
 
-export class ChatInputCommand<
-  Props extends { [k in string]: any } = {},
-> extends CommandBase {
-  #params: string[]
-  #interactionCallback?: CommandInteractionCallback<
-    Props,
-    CommandInteraction,
-    void
-  >
-  commandData: SlashCommandBuilder
-  #messageResponseOptions: MessageResponseOptions = {}
+type ChatInputInteractionCallback<
+  CommandOptions extends { [k in string]: any } = {},
+  ReturnType = void,
+> = (
+  props: CommandOptions,
+  interaction: ChatInputCommandInteraction,
+) => ReturnType
 
-  constructor(
-    name: string,
-    description: string,
-    messageResponseOptions?: MessageResponseOptions,
-  ) {
-    super()
+class ChatInputCommand<
+  CommandOptions extends { [k in string]: any } = {},
+> extends CommandBase<ApplicationCommandType.ChatInput> {
+  #options: string[]
+  #interactionCallback?: ChatInputInteractionCallback<CommandOptions>
 
-    this.commandData = new SlashCommandBuilder()
+  constructor(name: string, description: string) {
+    const commandData = new SlashCommandBuilder()
       .setName(name)
       .setDescription(description ?? EMPTY_STRING)
 
-    this.#params = []
-    this.#messageResponseOptions = {
-      ...this.#messageResponseOptions,
-      ...messageResponseOptions,
-    }
-  }
+    super(commandData)
 
-  get name() {
-    return this.commandData.name
+    this.#options = []
   }
 
   registerParam<
@@ -113,17 +105,17 @@ export class ChatInputCommand<
     description: string
   }): Omit<
     ChatInputCommand<
-      Props & {
+      CommandOptions & {
         [k in Name]: Required extends true ? Type : Type | undefined
       }
     >,
     "addSubcommand" | "addSubcommandGroup"
   > {
-    this.#params.push(name)
+    this.#options.push(name)
 
     switch (type) {
       case ApplicationCommandOptionType.Attachment:
-        this.commandData.addAttachmentOption(
+        this.data.addAttachmentOption(
           new SlashCommandAttachmentOption()
             .setName(name)
             .setDescription(description)
@@ -131,7 +123,7 @@ export class ChatInputCommand<
         )
         break
       case ApplicationCommandOptionType.Boolean:
-        this.commandData.addBooleanOption(
+        this.data.addBooleanOption(
           new SlashCommandBooleanOption()
             .setName(name)
             .setDescription(description)
@@ -139,7 +131,7 @@ export class ChatInputCommand<
         )
         break
       case ApplicationCommandOptionType.Channel:
-        this.commandData.addChannelOption(
+        this.data.addChannelOption(
           new SlashCommandChannelOption()
             .setName(name)
             .setDescription(description)
@@ -156,11 +148,11 @@ export class ChatInputCommand<
           option.setChoices(...(choices as CommandOptionChoiceData<number>[]))
         }
 
-        this.commandData.addIntegerOption(option)
+        this.data.addIntegerOption(option)
         break
       }
       case ApplicationCommandOptionType.Mentionable:
-        this.commandData.addMentionableOption(
+        this.data.addMentionableOption(
           new SlashCommandMentionableOption()
             .setName(name)
             .setDescription(description)
@@ -177,11 +169,11 @@ export class ChatInputCommand<
           option.setChoices(...(choices as CommandOptionChoiceData<number>[]))
         }
 
-        this.commandData.addNumberOption(option)
+        this.data.addNumberOption(option)
         break
       }
       case ApplicationCommandOptionType.Role:
-        this.commandData.addRoleOption(
+        this.data.addRoleOption(
           new SlashCommandRoleOption()
             .setName(name)
             .setDescription(description)
@@ -198,11 +190,11 @@ export class ChatInputCommand<
           option.setChoices(...(choices as CommandOptionChoiceData<string>[]))
         }
 
-        this.commandData.addStringOption(option)
+        this.data.addStringOption(option)
         break
       }
       case ApplicationCommandOptionType.User:
-        this.commandData.addUserOption(
+        this.data.addUserOption(
           new SlashCommandUserOption()
             .setName(name)
             .setDescription(description)
@@ -332,124 +324,90 @@ export class ChatInputCommand<
   }
 
   render(
-    callback: CommandInteractionCallback<
-      Props,
-      CommandInteraction,
-      JSX.Element
-    >,
+    callback: ChatInputInteractionCallback<CommandOptions, JSX.Element>,
+    messageRenderOptions?: MessageRenderOptions,
   ) {
     this.#interactionCallback = (props, interaction) => {
-      if (!this.renderMessage)
-        throw new Error("Command wasn't registered correctly")
-      this.renderMessage(this.#messageResponseOptions)(interaction, () =>
-        callback(props, interaction),
+      if (!this.discordClient || !interaction.isChatInputCommand()) return
+
+      renderMessage(
+        () => callback(props, interaction),
+        this.discordClient,
+        interaction,
+        messageRenderOptions,
       )
     }
     return this
   }
 
-  exec(callback: CommandInteractionCallback<Props, CommandInteraction, void>) {
+  exec(callback: ChatInputInteractionCallback<CommandOptions>) {
     this.#interactionCallback = callback
     return this
   }
 
-  replyToInteraction(interaction: CommandInteraction) {
+  handleInteraction(interaction: CommandInteraction): void {
+    if (!interaction.isChatInputCommand()) return
+
     const { options } = interaction
 
     const props = Object.fromEntries(
-      this.#params.map((name) => [name, options.get(name)?.value ?? undefined]),
-    ) as Props
+      this.#options.map((name) => [
+        name,
+        options.get(name)?.value ?? undefined,
+      ]),
+    ) as CommandOptions
 
     this.#interactionCallback?.(props, interaction)
   }
 }
 
-abstract class ContextMenuCommand<
-  DataType extends
-    | MessageApplicationCommandData
-    | UserApplicationCommandData = any,
-  InteractionType extends DataType extends MessageApplicationCommandData
-    ? MessageContextMenuCommandInteraction
-    : UserContextMenuCommandInteraction = any,
-  Props extends DataType extends MessageApplicationCommandData
-    ? Message
-    : User = any,
-> extends CommandBase {
-  commandData: DataType
-  interactionCallback?: CommandInteractionCallback<Props, InteractionType, void>
-  #messageResponseOptions: MessageResponseOptions = {}
+type ContextMenuInteractionCallback<ReturnType = void> = (
+  interaction: ContextMenuCommandInteraction,
+) => ReturnType
 
-  constructor(
-    name: string,
-    type: DataType["type"],
-    defaultPermission?: boolean,
-    messageResponseOptions?: MessageResponseOptions,
-  ) {
-    super()
+class ContextMenuCommand extends CommandBase<ContextMenuCommandType> {
+  #interactionCallback?: ContextMenuInteractionCallback
 
-    //@ts-expect-error
-    this.commandData = {
-      name,
-      defaultPermission,
-      type,
-    }
-    this.#messageResponseOptions = {
-      ...this.#messageResponseOptions,
-      ...messageResponseOptions,
-    }
+  constructor(name: string, type: ContextMenuCommandType) {
+    const data = new ContextMenuCommandBuilder().setName(name).setType(type)
+
+    super(data)
   }
 
   render(
-    callback: CommandInteractionCallback<Props, InteractionType, JSX.Element>,
+    callback: ContextMenuInteractionCallback<JSX.Element>,
+    messageRenderOptions?: MessageRenderOptions,
   ) {
-    this.interactionCallback = (props, interaction) => {
-      if (!this.renderMessage)
-        throw new Error("Command wasn't registered correctly")
-      this.renderMessage(this.#messageResponseOptions)(interaction, () =>
-        callback(props, interaction),
+    this.#interactionCallback = (interaction) => {
+      if (!this.discordClient || !interaction.isContextMenuCommand()) return
+
+      renderMessage(
+        () => callback(interaction),
+        this.discordClient,
+        interaction,
+        messageRenderOptions,
       )
     }
     return this
   }
 
-  exec(callback: CommandInteractionCallback<Props, InteractionType, void>) {
-    this.interactionCallback = callback
+  exec(callback: ContextMenuInteractionCallback) {
+    this.#interactionCallback = callback
     return this
   }
 
-  abstract replyToInteraction(interaction: InteractionType): void
-}
+  handleInteraction(interaction: CommandInteraction): void {
+    if (!interaction.isContextMenuCommand()) return
 
-export class MessageContextCommand extends ContextMenuCommand<
-  MessageApplicationCommandData,
-  MessageContextMenuCommandInteraction,
-  Message
-> {
-  constructor(name: string, defaultPermission?: boolean | undefined) {
-    super(name, ApplicationCommandType.Message, defaultPermission)
-  }
-
-  replyToInteraction(interaction: MessageContextMenuCommandInteraction): void {
-    if (!(interaction.targetMessage instanceof Message)) {
-      throw new Error("Unhandled interaction target message type")
-    }
-    this.interactionCallback?.(interaction.targetMessage, interaction)
+    this.#interactionCallback?.(interaction)
   }
 }
 
-export class UserContextCommand extends ContextMenuCommand<
-  UserApplicationCommandData,
-  UserContextMenuCommandInteraction,
-  User
-> {
-  constructor(name: string, defaultPermission?: boolean | undefined) {
-    super(name, ApplicationCommandType.User, defaultPermission)
-  }
+export const createSlashCommand = (name: string, description: string) =>
+  new ChatInputCommand(name, description)
 
-  replyToInteraction(interaction: UserContextMenuCommandInteraction): void {
-    if (!(interaction.targetUser instanceof User)) {
-      throw new Error("Unhandled interaction target user type")
-    }
-    this.interactionCallback?.(interaction.targetUser, interaction)
-  }
-}
+export const createUserMenuCommand = (name: string) =>
+  new ContextMenuCommand(name, ApplicationCommandType.User)
+
+export const createMessageMenuCommand = (name: string) =>
+  new ContextMenuCommand(name, ApplicationCommandType.Message)

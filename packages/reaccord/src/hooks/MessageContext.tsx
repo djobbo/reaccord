@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react"
 import type { Client } from "../Client"
 import type { Message } from "discord.js"
-import type { RootNode } from "../nodes/Root"
+import type { RootNode } from "../renderer/RootNode"
 
 const rootNodeContextInternal = createContext<RootNode>(
   // @ts-expect-error
@@ -30,7 +30,7 @@ export const useMessageCtx = (): MessageContext => {
   const rootNode = useRootNodeContextInternal()
 
   return {
-    client: rootNode.client,
+    client: rootNode.discordClient,
     message: rootNode.message,
     terminateInteraction: rootNode.terminateInteraction,
   }

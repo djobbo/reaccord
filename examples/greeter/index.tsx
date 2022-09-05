@@ -1,25 +1,18 @@
-import {
-  ActionRow,
-  Button,
-  ChatInputCommand,
-  Client,
-  Embed,
-  GatewayIntentBits,
-  Title,
-} from "reaccord"
+import { Button, Embed, createClient, createSlashCommand } from "reaccord"
 import { CanvasImage } from "@reaccord/canvas"
+import { GatewayIntentBits } from "discord.js"
 import { config as loadEnv } from "dotenv"
 
 loadEnv()
 
 const { DISCORD_TOKEN, DISCORD_DEV_GUILD_ID, DISCORD_CLIENT_ID } = process.env
 
-const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
+const greetingCommand = createSlashCommand("greet", "Greet me!").render(
   (_, interaction) => (
     <>
       {interaction.user.toString()}, welcome!
       <Embed color="Orange">
-        <Title>I am a bot designed to greet you!</Title>
+        <Embed.Title>I am a bot designed to greet you!</Embed.Title>
         <CanvasImage
           id={["greeting", interaction.user.username]}
           width={320}
@@ -34,20 +27,18 @@ const greetingCommand = new ChatInputCommand("greet", "Greet me!").render(
           </div>
         </CanvasImage>
       </Embed>
-      <ActionRow>
-        <Button
-          onClick={() => {
-            interaction.channel?.send("Hello!")
-          }}
-        >
-          Say Hello!
-        </Button>
-      </ActionRow>
+      <Button
+        onClick={() => {
+          interaction.channel?.send("Hello!")
+        }}
+      >
+        Say Hello!
+      </Button>
     </>
   ),
 )
 
-const client = new Client({
+const client = createClient({
   token: DISCORD_TOKEN ?? "",
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
   devGuildId: DISCORD_DEV_GUILD_ID,

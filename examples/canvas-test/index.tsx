@@ -1,14 +1,5 @@
-import {
-  ActionRow,
-  AttachmentBuilder,
-  Button,
-  ButtonStyle,
-  ChatInputCommand,
-  Client,
-  Embed,
-  GatewayIntentBits,
-  Thumbnail,
-} from "reaccord"
+import { AttachmentBuilder, ButtonStyle, GatewayIntentBits } from "discord.js"
+import { Button, Embed, createClient, createSlashCommand } from "reaccord"
 import { CanvasImage, renderToImageBuffer } from "@reaccord/canvas"
 import {
   QueryClient,
@@ -17,7 +8,7 @@ import {
 } from "@tanstack/react-query"
 import { config as loadEnv } from "dotenv"
 import { useState } from "react"
-import type { User } from "reaccord"
+import type { User } from "discord.js"
 
 loadEnv()
 
@@ -51,7 +42,7 @@ export const CounterApp = ({
       <Embed>
         <CanvasImage
           id={["my-canvas-thumb", count]}
-          as={Thumbnail}
+          as={Embed.Thumbnail}
           width={60}
           height={60}
           options={{ queryOptions: { context: defaultContext } }}
@@ -63,18 +54,16 @@ export const CounterApp = ({
           </div>
         </CanvasImage>
       </Embed>
-      <ActionRow>
-        <Button onClick={increment} style={ButtonStyle.Primary}>
-          +
-        </Button>
-      </ActionRow>
+      <Button onClick={increment} style={ButtonStyle.Primary}>
+        +
+      </Button>
     </>
   )
 }
 
 const queryClient = new QueryClient()
 
-const counterCommand = new ChatInputCommand("counter", "Counter app")
+const counterCommand = createSlashCommand("counter", "Counter app")
   .intParam("start", "Start count")
   .render(({ start }, interaction) => (
     <QueryClientProvider client={queryClient}>
@@ -82,10 +71,7 @@ const counterCommand = new ChatInputCommand("counter", "Counter app")
     </QueryClientProvider>
   ))
 
-const imageGenCommand = new ChatInputCommand(
-  "hello",
-  "Generate image with react",
-)
+const imageGenCommand = createSlashCommand("hello", "Generate image with react")
   .stringParam("message", "Message to display")
   .exec(async ({ message }, interaction) => {
     const imageBuffer = await renderToImageBuffer(
@@ -130,7 +116,7 @@ const imageGenCommand = new ChatInputCommand(
     })
   })
 
-const client = new Client({
+const client = createClient({
   token: DISCORD_TOKEN ?? "",
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
   devGuildId: DISCORD_DEV_GUILD_ID,

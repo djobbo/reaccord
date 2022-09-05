@@ -1,24 +1,26 @@
-import {
-  ChatInputCommand,
-  MessageContextCommand,
-  UserContextCommand,
-} from "./Command"
 import { Client as DiscordClient } from "discord.js"
 import { refreshCommands } from "./refreshCommands"
-import { renderMessage } from "./renderer"
 import type {
   ClientEvents,
   ClientOptions as DiscordClientOptions,
   Interaction,
 } from "discord.js"
-import type { MessageResponseOptions } from "./nodes/Root"
-import type { RenderMessageFn } from "./renderer/render"
+import type { CommandBase } from "./Command"
+
+export type MessageRenderOptions = {
+  /**
+   * Interactions will not respond after this amount of time (s).
+   * @default 300 (5min)
+   */
+  unmountAfter?: number | null
+}
 
 type ClientOptions = DiscordClientOptions & {
   token: string
   devGuildId?: string
   clientId?: string
-  messageResponseOptions?: MessageResponseOptions
+  messageRenderOptions?: MessageRenderOptions
+  commands?: CommandBase[]
 }
 
 export type EventHandler<Event extends keyof ClientEvents> = (
@@ -81,21 +83,18 @@ export class Client extends EventMergerClient {
   devGuildId?: string
   clientId?: string
 
-  renderMessage: (
-    messageResponseOptions?: MessageResponseOptions,
-  ) => RenderMessageFn
-
-  chatInputCommands: ChatInputCommand[] = []
-  msgCtxCommands: MessageContextCommand[] = []
-  userCtxCommands: UserContextCommand[] = []
+  commands: CommandBase[]
   #interactionsDisposer?: () => void
-  #messageResponseOptions: MessageResponseOptions = {}
+  messageRenderOptions: MessageRenderOptions = {
+    unmountAfter: 5 * 60,
+  }
 
   constructor({
     token,
     devGuildId,
     clientId,
-    messageResponseOptions,
+    messageRenderOptions,
+    commands,
     ...options
   }: ClientOptions) {
     super(options)
@@ -104,39 +103,21 @@ export class Client extends EventMergerClient {
     this.devGuildId = devGuildId
     this.clientId = clientId
 
-    this.renderMessage = (messageResponseOptions?: MessageResponseOptions) =>
-      renderMessage(this, {
-        ...this.#messageResponseOptions,
-        ...messageResponseOptions,
-      })
+    this.commands = commands ?? []
 
     this.#listenToInteractions()
   }
 
   #listenToInteractions() {
     const interactionsHandler = (interaction: Interaction) => {
-      if (interaction.isChatInputCommand()) {
-        const command = this.chatInputCommands.find(
-          (c) => c.name === interaction.commandName,
-        )
-        if (!command) return
+      if (!interaction.isCommand()) return
 
-        command.replyToInteraction(interaction)
-      } else if (interaction.isMessageContextMenuCommand()) {
-        const command = this.msgCtxCommands.find(
-          (c) => c.commandData.name === interaction.commandName,
-        )
-        if (!command) return
+      const command = this.commands.find(
+        (c) => c.data.name === interaction.commandName,
+      )
+      if (!command) return
 
-        command.replyToInteraction(interaction)
-      } else if (interaction.isUserContextMenuCommand()) {
-        const command = this.userCtxCommands.find(
-          (c) => c.commandData.name === interaction.commandName,
-        )
-        if (!command) return
-
-        command.replyToInteraction(interaction)
-      }
+      command.handleInteraction(interaction)
     }
 
     this.on("interactionCreate", interactionsHandler)
@@ -149,13 +130,11 @@ export class Client extends EventMergerClient {
   }
 
   async refreshCommands() {
+    this.commands.forEach((c) => c.setDiscordClient(this))
+
     await refreshCommands(
       this.token,
-      [
-        ...this.chatInputCommands,
-        ...this.msgCtxCommands,
-        ...this.userCtxCommands,
-      ],
+      this.commands,
       this.clientId,
       this.devGuildId,
     )
@@ -177,19 +156,11 @@ export class Client extends EventMergerClient {
     return this
   }
 
-  registerCommand(
-    command: ChatInputCommand | MessageContextCommand | UserContextCommand,
-  ) {
-    command.setRenderMessageFn(this.renderMessage)
-
-    if (command instanceof ChatInputCommand) {
-      this.chatInputCommands.push(command)
-    } else if (command instanceof UserContextCommand) {
-      this.userCtxCommands.push(command)
-    } else if (command instanceof MessageContextCommand) {
-      this.msgCtxCommands.push(command)
-    }
+  registerCommand(command: CommandBase) {
+    this.commands.push(command)
 
     return this
   }
 }
+
+export const createClient = (options: ClientOptions) => new Client(options)

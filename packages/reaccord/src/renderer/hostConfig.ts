@@ -1,15 +1,11 @@
-import { TextNode } from "../nodes/Text"
-import { createNodeFromTag } from "./createNodeFromTag"
-import { isTextNode } from "../nodes/helpers/guards"
+import { Node } from "./Node"
+import { TextNode } from "./TextNode"
 import type { HostConfig } from "react-reconciler"
-import type { ModalRootNode } from "../nodes/ModalRoot"
-import type { Node } from "../nodes/Node"
-import type { ReaccordElement } from "../nodes/elements"
-import type { RootNode } from "../nodes/Root"
+import type { RootNode } from "./RootNode"
 
 export const hostConfig: HostConfig<
-  ReaccordElement,
-  JSX.IntrinsicElements[keyof JSX.IntrinsicElements],
+  string,
+  Record<string, unknown>,
   Node,
   Node,
   TextNode,
@@ -24,30 +20,22 @@ export const hostConfig: HostConfig<
 > = {
   getChildHostContext: () => null,
   prepareForCommit: () => null,
-  resetAfterCommit() {},
-  createInstance: (tag, attr, rootNode: RootNode | ModalRootNode) => {
-    const node = createNodeFromTag(tag, rootNode.rootNode)
-    node.replaceAttributes(attr)
-    return node
+  resetAfterCommit(root: RootNode) {
+    root.render()
   },
+  createInstance: (tag, attr) => new Node(tag, attr),
   appendInitialChild: (parent, node) => {
     parent.insertBefore(node)
   },
   finalizeInitialChildren: () => false,
   prepareUpdate: () => true,
-  shouldSetTextContent: (_tag, attr: any) =>
-    attr.children === "string" || typeof attr.children === "number",
-  createTextInstance: (
-    textContent: string,
-    rootNode: RootNode | ModalRootNode,
-  ) => new TextNode("Text", rootNode.rootNode, textContent),
+  shouldSetTextContent: () => false,
+  createTextInstance: (textContent: string) => new TextNode(textContent),
   commitMount() {},
   commitUpdate(node, _updatePayload, _tag, _oldAttr, attr) {
     node.replaceAttributes(attr)
   },
-  resetTextContent(textNode: TextNode) {
-    if (isTextNode(textNode)) textNode.setTextContent("")
-  },
+  resetTextContent() {},
   commitTextUpdate(textNode, _oldTextContent, textContent) {
     textNode.setTextContent(textContent)
   },

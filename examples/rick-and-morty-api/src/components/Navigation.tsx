@@ -1,4 +1,5 @@
-import { ActionRow, Button, ButtonStyle } from "reaccord"
+import { ActionRow, Button } from "reaccord"
+import { ButtonStyle } from "discord.js"
 import type { PageInfo } from "../types"
 
 type NavigationProps = {

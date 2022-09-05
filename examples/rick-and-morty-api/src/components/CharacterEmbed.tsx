@@ -1,6 +1,6 @@
-import { Embed, Field, Thumbnail, Title } from "reaccord"
+import { Embed } from "reaccord"
 import type { Character, CharacterStatus } from "../types"
-import type { ColorResolvable } from "reaccord"
+import type { ColorResolvable } from "discord.js"
 
 const getColorFromCharacterStatus = (
   status: CharacterStatus,
@@ -27,29 +27,31 @@ export const CharacterEmbed = ({
   if (isLoading)
     return (
       <Embed color="Orange">
-        <Title>Loading</Title>
+        <Embed.Title>Loading</Embed.Title>
       </Embed>
     )
 
   if (!character)
     return (
       <Embed color="Red">
-        <Title>Failed to fetch data, please retry</Title>
+        <Embed.Title>Failed to fetch data, please retry</Embed.Title>
       </Embed>
     )
 
   return (
     <Embed color={getColorFromCharacterStatus(character.status ?? "unknown")}>
-      <Title>{character.name}</Title>
-      <Field title="Species" inline>
+      <Embed.Title>{character.name}</Embed.Title>
+      <Embed.Field title="Species" inline>
         {character.species ?? "unknown"}
-      </Field>
-      <Field title="Status">{character.status ?? "unknown"}</Field>
-      <Field title="Current location" inline>
+      </Embed.Field>
+      <Embed.Field title="Status">{character.status ?? "unknown"}</Embed.Field>
+      <Embed.Field title="Current location" inline>
         {character.location.name ?? "unknown"}
-      </Field>
-      <Field title="Origin">{character.origin.name ?? "unknown"}</Field>
-      {character.image && <Thumbnail src={character.image} />}
+      </Embed.Field>
+      <Embed.Field title="Origin">
+        {character.origin.name ?? "unknown"}
+      </Embed.Field>
+      {character.image && <Embed.Thumbnail src={character.image} />}
     </Embed>
   )
 }

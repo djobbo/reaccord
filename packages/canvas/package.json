@@ -19,22 +19,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tanstack/react-query": "^4.1.0",
-    "discord.js": "^14.2.0",
-    "playwright-core": "^1.25.0",
+    "@tanstack/react-query": "^4.2.3",
+    "discord.js": "^14.3.0",
+    "playwright-core": "^1.25.1",
     "reaccord": "workspace:0.0.0-dev",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/node": "^18.7.2",
-    "@types/react": "^18.0.17",
+    "@types/node": "^18.7.14",
+    "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
     "@types/uuid": "^8.3.4",
     "ts-node-dev": "^2.0.0",
     "ts-prune": "^0.10.3",
-    "typescript": "^4.7.4"
+    "typescript": "4.8.2"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^4.0.10"

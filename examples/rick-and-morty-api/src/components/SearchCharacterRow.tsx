@@ -1,4 +1,5 @@
-import { ActionRow, Button, ButtonStyle, useModal } from "reaccord"
+import { ActionRow, Button, useModal } from "reaccord"
+import { ButtonStyle } from "discord.js"
 import { CharacterSearchModal } from "./CharacterSearchModal"
 
 type SearchCharacterRowProps = {
@@ -14,9 +15,9 @@ export const SearchCharacterRow = ({
 }: SearchCharacterRowProps) => {
   const { openModal } = useModal()
 
-  const openCharacterSearchModal = openModal(
-    <CharacterSearchModal search={search} setSearch={setSearch} />,
-  )
+  const openCharacterSearchModal = openModal(() => (
+    <CharacterSearchModal search={search} setSearch={setSearch} />
+  ))
 
   return (
     <ActionRow>
