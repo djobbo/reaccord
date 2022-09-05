@@ -24,7 +24,7 @@ export const CharacterSelect = ({
           key={char.id}
           value={char.id.toString()}
           description={`${char.species} - ${char.status}`}
-          default={character ? char.id === character.id : i === 0}
+          selected={character ? char.id === character.id : i === 0}
         >
           {char.name}
         </SelectMenu.Option>
