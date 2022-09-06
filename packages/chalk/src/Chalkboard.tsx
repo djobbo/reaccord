@@ -2,8 +2,6 @@ import { CodeBlock } from "reaccord"
 import type { ReactNode } from "react"
 
 export type ChalkboardProps = {
-  width?: number
-  height?: number
   children: ReactNode
 }
 
