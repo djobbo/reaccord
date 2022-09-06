@@ -135,18 +135,26 @@ export class RootNode extends Node {
         const createMessageAndHydrate = async () => {
           if (!this.ref) throw new Error("No ref")
 
-          if (this.ref instanceof Message) {
-            return this.ref.reply(messageContent)
-          }
+          let reply: Message
 
-          if (this.ref instanceof BaseInteraction) {
-            return this.ref.reply({
+          if (this.ref instanceof Message) {
+            reply = await this.ref.reply(messageContent)
+          } else if (this.ref instanceof BaseInteraction) {
+            reply = await this.ref.reply({
               ...messageContent,
               fetchReply: true,
             })
+          } else {
+            reply = await this.ref.send(messageContent)
           }
 
-          return this.ref.send(messageContent)
+          this.message = reply
+
+          if (this.hydrationHooks.length > 0) {
+            this.hydrationHooks.forEach((hook) => hook(reply))
+          }
+
+          return reply
         }
 
         this.waitForMessageCreation = createMessageAndHydrate()

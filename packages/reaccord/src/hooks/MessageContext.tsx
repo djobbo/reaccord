@@ -12,7 +12,7 @@ export const useRootNodeContextInternal = () => {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const rootNode = useContext(rootNodeContextInternal)
 
-  useEffect(() => rootNode.addHydrationHook(forceUpdate), [])
+  useEffect(() => rootNode.addHydrationHook(() => forceUpdate()), [])
 
   return rootNode
 }

@@ -77,6 +77,25 @@ importers:
       '@types/react': 18.0.18
       typescript: 4.8.2
 
+  examples/chalk-test:
+    specifiers:
+      '@reaccord/chalk': workspace:0.0.0-dev
+      '@types/react': ^18.0.18
+      discord.js: ^14.3.0
+      dotenv: ^16.0.2
+      reaccord: workspace:0.0.0-dev
+      react: ^18.2.0
+      typescript: 4.8.2
+    dependencies:
+      '@reaccord/chalk': link:../../packages/chalk
+      discord.js: 14.3.0
+      dotenv: 16.0.2
+      reaccord: link:../../packages/reaccord
+      react: 18.2.0
+    devDependencies:
+      '@types/react': 18.0.18
+      typescript: 4.8.2
+
   examples/greeter:
     specifiers:
       '@reaccord/canvas': workspace:0.0.0-dev
@@ -165,6 +184,27 @@ importers:
       '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
       '@types/uuid': 8.3.4
+      ts-node-dev: 2.0.0
+      ts-prune: 0.10.3
+      typescript: 4.8.2
+
+  packages/chalk:
+    specifiers:
+      '@types/node': ^18.7.14
+      '@types/react': ^18.0.18
+      '@types/react-dom': ^18.0.6
+      reaccord: workspace:0.0.0-dev
+      react: ^18.2.0
+      ts-node-dev: ^2.0.0
+      ts-prune: ^0.10.3
+      typescript: 4.8.2
+    dependencies:
+      reaccord: link:../reaccord
+      react: 18.2.0
+    devDependencies:
+      '@types/node': 18.7.14
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
       ts-node-dev: 2.0.0
       ts-prune: 0.10.3
       typescript: 4.8.2
@@ -2127,7 +2167,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 18.6.4
+      '@types/node': 18.7.14
     dev: true
 
   /@types/scheduler/0.16.2:
@@ -5804,7 +5844,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.6.4
+      '@types/node': 18.7.14
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
