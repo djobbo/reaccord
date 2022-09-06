@@ -14,6 +14,7 @@ const packages = [
   ["reaccord", "reaccord"],
   ["router", "@reaccord/router"],
   ["canvas", "@reaccord/canvas"],
+  ["chalk", "@reaccord/chalk"],
 ]
 
 const logInfo = (...args) => console.log(chalk.gray("[Info]"), ...args)
