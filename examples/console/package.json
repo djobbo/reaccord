@@ -1,5 +1,5 @@
 {
-  "name": "@example/chalk-test",
+  "name": "@example/console",
   "version": "0.0.0-dev",
   "main": "out/index.js",
   "private": true,
@@ -11,8 +11,9 @@
     "inspect": "reaccord dev --inspect"
   },
   "devDependencies": {
+    "@types/node": "^18.7.16",
     "@types/react": "^18.0.18",
-    "typescript": "4.8.2"
+    "typescript": "4.8.3"
   },
   "dependencies": {
     "@reaccord/chalk": "workspace:0.0.0-dev",

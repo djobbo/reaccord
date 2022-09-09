@@ -13,6 +13,9 @@
   <a aria-label="reaccord canvas NPM button" href="https://www.npmjs.com/package/@reaccord/canvas" target="_blank" rel="noreferrer">
     <img alt="" src="https://img.shields.io/badge/@reaccord/canvas--_.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm">
   </a>
+  <a aria-label="reaccord chalk NPM button" href="https://www.npmjs.com/package/@reaccord/chalk" target="_blank" rel="noreferrer">
+    <img alt="" src="https://img.shields.io/badge/@reaccord/chalk--_.svg?style=flat-square&labelColor=2E3749&color=4596D1&logo=npm">
+  </a>
 </div>
 
 Reaccord is a framework for creating discord bots with [react](https://reactjs.org/).  

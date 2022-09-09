@@ -1,4 +1,4 @@
-import { Console } from "./Console"
+import { App } from "./App"
 import { GatewayIntentBits } from "discord.js"
 import { createClient, createSlashCommand } from "reaccord"
 import { config as loadEnv } from "dotenv"
@@ -13,7 +13,7 @@ const {
 
 const consoleCommand = //
   createSlashCommand("console", "Console emulator") //
-    .render(() => <Console />)
+    .render(() => <App />)
 
 const client = createClient({
   token: DISCORD_TOKEN,
