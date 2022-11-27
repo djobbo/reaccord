@@ -26,15 +26,13 @@ reactReconcilerInstance.injectIntoDevTools({
   version: "0.0.0",
 })
 
-export const renderMessage = (
+export const renderMessage = async (
   Code: () => JSX.Element,
   discordClient: Client,
   ref: InteractionRefType,
   rootOptions?: MessageRenderOptions,
 ) => {
-  const root = new RootNode(
-    discordClient,
-    reactReconcilerInstance,
-  ).replyToInteraction(ref, Code, rootOptions)
+  const root = new RootNode(discordClient, reactReconcilerInstance)
+  await root.replyToInteraction(ref, Code, rootOptions)
   return root
 }

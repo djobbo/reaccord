@@ -84,7 +84,7 @@ export class RootNode extends Node {
     }
   }
 
-  replyToInteraction(
+  async replyToInteraction(
     ref: InteractionRefType,
     Code: () => JSX.Element,
     messageRenderOptions?: MessageRenderOptions,
@@ -118,7 +118,7 @@ export class RootNode extends Node {
       null,
     )
 
-    this.render()
+    await this.render()
   }
 
   render = debounce(async () => {

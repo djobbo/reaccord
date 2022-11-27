@@ -327,10 +327,10 @@ class ChatInputCommand<
     callback: ChatInputInteractionCallback<CommandOptions, JSX.Element>,
     messageRenderOptions?: MessageRenderOptions,
   ) {
-    this.#interactionCallback = (props, interaction) => {
+    this.#interactionCallback = async (props, interaction) => {
       if (!this.discordClient || !interaction.isChatInputCommand()) return
 
-      renderMessage(
+      await renderMessage(
         () => callback(props, interaction),
         this.discordClient,
         interaction,
@@ -378,10 +378,10 @@ class ContextMenuCommand extends CommandBase<ContextMenuCommandType> {
     callback: ContextMenuInteractionCallback<JSX.Element>,
     messageRenderOptions?: MessageRenderOptions,
   ) {
-    this.#interactionCallback = (interaction) => {
+    this.#interactionCallback = async (interaction) => {
       if (!this.discordClient || !interaction.isContextMenuCommand()) return
 
-      renderMessage(
+      await renderMessage(
         () => callback(interaction),
         this.discordClient,
         interaction,

@@ -4,10 +4,14 @@ export const debounce = <T extends unknown[], ReturnType>(
 ) => {
   let timeoutId: NodeJS.Timeout
   return (...args: T) =>
-    new Promise<ReturnType>((resolve) => {
+    new Promise<ReturnType>((resolve, reject) => {
       clearTimeout(timeoutId)
       timeoutId = setTimeout(async () => {
-        resolve(await fn(...args))
+        try {
+          resolve(await fn(...args))
+        } catch (error) {
+          reject(error)
+        }
       }, ms)
     })
 }
