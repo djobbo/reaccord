@@ -9,11 +9,12 @@ export class Node<Props = Record<string, unknown>> {
 
   props: Partial<Props>
 
-  constructor(type: string, props?: Partial<Props>) {
+  constructor(type: string, props?: Partial<Props>, root?: Node) {
     this.uuid = uuidv4()
     this.type = type
     this.children = []
     this.props = props || {}
+    this.root = root || null
   }
 
   setParent(node: Node): void {
@@ -65,5 +66,9 @@ export class Node<Props = Record<string, unknown>> {
   clear(): void {
     this.children.map((child) => child.clear())
     this.children = []
+  }
+
+  render() {
+    this.root?.render()
   }
 }

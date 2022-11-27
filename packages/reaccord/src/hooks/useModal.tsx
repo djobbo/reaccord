@@ -10,7 +10,7 @@ import type {
 import type { RootNode } from "../renderer/RootNode"
 
 const createModal = (Code: () => JSX.Element, rootNode: RootNode) => {
-  const modalRoot = new Node("reaccord:__modal-root")
+  const modalRoot = new Node("reaccord:__modal-root", {}, rootNode)
 
   const rootContainer = rootNode.reconcilerInstance.createContainer(
     modalRoot,
