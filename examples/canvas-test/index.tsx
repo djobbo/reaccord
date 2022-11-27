@@ -123,8 +123,7 @@ const client = createClient({
   clientId: DISCORD_CLIENT_ID,
 })
 
-client.registerCommand(imageGenCommand)
-client.registerCommand(counterCommand)
+client.registerCommands([imageGenCommand, counterCommand])
 
 client.connect(() =>
   console.log(`🚀 Client connected as ${client.user?.username}!`),

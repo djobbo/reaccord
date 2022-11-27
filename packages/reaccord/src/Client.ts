@@ -161,6 +161,12 @@ export class Client extends EventMergerClient {
 
     return this
   }
+
+  registerCommands(commands: CommandBase[]) {
+    this.commands.push(...commands)
+
+    return this
+  }
 }
 
 export const createClient = (options: ClientOptions) => new Client(options)
