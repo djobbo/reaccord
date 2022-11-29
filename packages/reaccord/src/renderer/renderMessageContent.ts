@@ -210,8 +210,9 @@ export const renderActionRowButton = (
     if (!interaction.isButton()) return
     if (interaction.customId !== customId) return
 
-    if (!(await node.props.onClick?.(interaction)))
+    if (!(await node.props.onClick?.(interaction))) {
       await interaction.deferUpdate()
+    }
   }
 
   return { button, customId, listener }
@@ -296,11 +297,13 @@ export const renderSelectMenuRoot = (
   selectMenu.addOptions(options)
 
   const listener = async (interaction: Interaction) => {
-    if (!interaction.isSelectMenu()) return
+    // TODO: other types of select menus
+    if (!interaction.isStringSelectMenu()) return
     if (interaction.customId !== customId) return
 
-    if (!(await node.props.onChange?.(interaction.values, interaction)))
-      interaction.deferUpdate()
+    if (!(await node.props.onChange?.(interaction.values, interaction))) {
+      await interaction.deferUpdate()
+    }
   }
 
   actionRow.addComponents(selectMenu)
