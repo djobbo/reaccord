@@ -20,6 +20,7 @@ import type {
   Channel,
   ChatInputCommandInteraction,
   CommandInteraction,
+  CommandInteractionOptionResolver,
   ContextMenuCommandInteraction,
   ContextMenuCommandType,
   GuildMember,
@@ -73,10 +74,39 @@ type ChatInputInteractionCallback<
   interaction: ChatInputCommandInteraction,
 ) => ReturnType
 
+const getOptionValue = (
+  options: Omit<CommandInteractionOptionResolver, "getMessage" | "getFocused">,
+  name: string,
+  type: ApplicationCommandOptionType,
+) => {
+  switch (type) {
+    case ApplicationCommandOptionType.Attachment:
+      return options.getAttachment(name)
+    case ApplicationCommandOptionType.Boolean:
+      return options.getBoolean(name)
+    case ApplicationCommandOptionType.Channel:
+      return options.getChannel(name)
+    case ApplicationCommandOptionType.Integer:
+      return options.getInteger(name)
+    case ApplicationCommandOptionType.Mentionable:
+      return options.getMentionable(name)
+    case ApplicationCommandOptionType.Number:
+      return options.getNumber(name)
+    case ApplicationCommandOptionType.Role:
+      return options.getRole(name)
+    case ApplicationCommandOptionType.String:
+      return options.getString(name)
+    case ApplicationCommandOptionType.User:
+      return options.getUser(name)
+    default:
+      return options.get(name)
+  }
+}
+
 class ChatInputCommand<
   CommandOptions extends { [k in string]: any } = {},
 > extends CommandBase<ApplicationCommandType.ChatInput> {
-  #options: string[]
+  #options: { name: string; type: ApplicationCommandOptionType }[]
   #interactionCallback?: ChatInputInteractionCallback<CommandOptions>
 
   constructor(name: string, description: string) {
@@ -111,7 +141,7 @@ class ChatInputCommand<
     >,
     "addSubcommand" | "addSubcommandGroup"
   > {
-    this.#options.push(name)
+    this.#options.push({ name, type })
 
     switch (type) {
       case ApplicationCommandOptionType.Attachment:
@@ -200,6 +230,7 @@ class ChatInputCommand<
             .setDescription(description)
             .setRequired(required ?? false),
         )
+        break
       default:
         throw new Error(`Unknown option type: ${type}`)
     }
@@ -351,9 +382,9 @@ class ChatInputCommand<
     const { options } = interaction
 
     const props = Object.fromEntries(
-      this.#options.map((name) => [
+      this.#options.map(({ name, type }) => [
         name,
-        options.get(name)?.value ?? undefined,
+        getOptionValue(options, name, type),
       ]),
     ) as CommandOptions
 

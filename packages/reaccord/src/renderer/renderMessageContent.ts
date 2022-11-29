@@ -13,14 +13,11 @@ import { assertIsDefined } from "../helpers/asserts"
 import { getFileFromAttachment } from "../helpers/getFileFromAttachment"
 import type {
   APIEmbedField,
+  BaseMessageOptions,
   EmbedAuthorOptions,
   EmbedFooterOptions,
   Interaction,
-  InteractionReplyOptions,
   MessageActionRowComponentBuilder,
-  MessageEditOptions,
-  MessageOptions,
-  ReplyMessageOptions,
 } from "discord.js"
 import type {
   ActionRowElements,
@@ -312,10 +309,7 @@ export const renderSelectMenuRoot = (
 }
 
 export const renderMessageContent = (root: RootNode) => {
-  const messageContent: MessageOptions &
-    MessageEditOptions &
-    ReplyMessageOptions &
-    InteractionReplyOptions = {
+  const messageContent: BaseMessageOptions = {
     content: "",
     embeds: [],
     components: [],
