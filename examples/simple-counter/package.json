@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@reaccord/canvas": "workspace:0.0.0-dev",
-    "discord.js": "^14.7.0",
+    "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
     "reaccord": "workspace:0.0.0-dev",
     "react": "^18.2.0"
