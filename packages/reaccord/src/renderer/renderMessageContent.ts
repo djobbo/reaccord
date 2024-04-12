@@ -28,7 +28,7 @@ import type {
   SelectMenuElements,
   // TextElements, // TODO: [NEXT] TextElements
 } from "../jsx"
-import type { Node } from "./Node"
+import type { ReaccordNode } from "./ReaccordNode"
 import type { RootNode } from "./RootNode"
 import type { TextNode } from "./TextNode"
 
@@ -39,7 +39,7 @@ export const renderText = (node: TextNode) => {
 }
 
 export const renderInnerText = (
-  node: Node,
+  node: ReaccordNode,
   textElementsOnly?: boolean,
 ): string => {
   if (node.type === "reaccord:__text") {
@@ -76,7 +76,7 @@ export const renderInnerText = (
 }
 
 export const renderFileAttachment = (
-  node: Node<FileAttachmentElements["file"]>,
+  node: ReaccordNode<FileAttachmentElements["file"]>,
 ): { file: FileAttachment } | null => {
   if ("file" in node.props) {
     if (!node.props.file) return null
@@ -93,7 +93,7 @@ export const renderFileAttachment = (
 }
 
 export const renderEmbedFooter = (
-  node: Node<EmbedElements["footer"]>,
+  node: ReaccordNode<EmbedElements["footer"]>,
 ): EmbedFooterOptions => {
   return {
     text: renderInnerText(node),
@@ -102,7 +102,7 @@ export const renderEmbedFooter = (
 }
 
 export const renderEmbedAuthor = (
-  node: Node<EmbedElements["author"]>,
+  node: ReaccordNode<EmbedElements["author"]>,
 ): EmbedAuthorOptions => {
   return {
     name: renderInnerText(node),
@@ -112,7 +112,7 @@ export const renderEmbedAuthor = (
 }
 
 export const renderEmbedField = (
-  node: Node<EmbedElements["field"]>,
+  node: ReaccordNode<EmbedElements["field"]>,
 ): APIEmbedField => {
   assertIsDefined(node.props.title, "Embed fields must have a title")
 
@@ -124,7 +124,7 @@ export const renderEmbedField = (
 }
 
 export const renderEmbedImage = (
-  node: Node<EmbedElements["image" | "thumbnail"]>,
+  node: ReaccordNode<EmbedElements["image" | "thumbnail"]>,
 ): { file?: FileAttachment; filename: string } | null => {
   if ("src" in node.props) {
     if (!node.props.src) return null
@@ -140,7 +140,7 @@ export const renderEmbedImage = (
 }
 
 export const renderEmbedRoot = (
-  node: Node<EmbedElements["root"]>,
+  node: ReaccordNode<EmbedElements["root"]>,
 ): { embed: EmbedBuilder; files: FileAttachment[] } => {
   const embed = new EmbedBuilder({
     url: node.props.url,
@@ -195,7 +195,7 @@ export const renderEmbedRoot = (
 }
 
 export const renderActionRowButton = (
-  node: Node<ActionRowElements["button"]>,
+  node: ReaccordNode<ActionRowElements["button"]>,
 ) => {
   const customId = node.props.customId ?? node.uuid
 
@@ -218,7 +218,9 @@ export const renderActionRowButton = (
   return { button, customId, listener }
 }
 
-export const renderActionRowLink = (node: Node<ActionRowElements["link"]>) => {
+export const renderActionRowLink = (
+  node: ReaccordNode<ActionRowElements["link"]>,
+) => {
   return new ButtonBuilder({
     disabled: node.props.disabled ?? false,
     label: renderInnerText(node),
@@ -227,7 +229,9 @@ export const renderActionRowLink = (node: Node<ActionRowElements["link"]>) => {
   })
 }
 
-export const renderActionRowRoot = (node: Node<ActionRowElements["root"]>) => {
+export const renderActionRowRoot = (
+  node: ReaccordNode<ActionRowElements["root"]>,
+) => {
   const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>()
 
   const interactionListeners = new Map<
@@ -257,7 +261,7 @@ export const renderActionRowRoot = (node: Node<ActionRowElements["root"]>) => {
 }
 
 export const renderSelectMenuOption = (
-  node: Node<SelectMenuElements["option"]>,
+  node: ReaccordNode<SelectMenuElements["option"]>,
 ) => {
   assertIsDefined(node.props.value, "SelectMenu option must have a value")
 
@@ -270,7 +274,7 @@ export const renderSelectMenuOption = (
 }
 
 export const renderSelectMenuRoot = (
-  node: Node<SelectMenuElements["root"]>,
+  node: ReaccordNode<SelectMenuElements["root"]>,
 ) => {
   const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>()
 
@@ -401,7 +405,9 @@ export const renderMessageContent = (root: RootNode) => {
   return { messageContent, interactionListeners }
 }
 
-export const renderModalInput = (node: Node<ModalElements["input"]>) => {
+export const renderModalInput = (
+  node: ReaccordNode<ModalElements["input"]>,
+) => {
   const actionRow = new ActionRowBuilder<TextInputBuilder>()
 
   const { name, label, value, placeholder, required, paragraph, onChange } =
@@ -424,7 +430,9 @@ export const renderModalInput = (node: Node<ModalElements["input"]>) => {
   return { actionRow, name, onChange }
 }
 
-export const renderModalWrapper = (node: Node<ModalElements["wrapper"]>) => {
+export const renderModalWrapper = (
+  node: ReaccordNode<ModalElements["wrapper"]>,
+) => {
   const { title } = node.props
 
   assertIsDefined(title, "Modal title is required")
@@ -469,7 +477,7 @@ export const renderModalWrapper = (node: Node<ModalElements["wrapper"]>) => {
   return { modal, customId, listener }
 }
 
-export const renderModalRoot = (root: Node) => {
+export const renderModalRoot = (root: ReaccordNode) => {
   if (root.type !== "reaccord:__modal-root")
     throw new Error("Invalid modal root")
 

@@ -1,5 +1,5 @@
 import { BaseInteraction, Message } from "discord.js"
-import { Node } from "./Node"
+import { ReaccordNode } from "./ReaccordNode"
 import { debounce } from "../helpers/debounce"
 import { renderMessageContent } from "../renderer/renderMessageContent"
 import { renderWithRootContext } from "./renderWithRootContext"
@@ -11,8 +11,14 @@ import type { TextNode } from "./TextNode"
 
 const MESSAGE_UPDATE_DEBOUNCE_MS = 50
 
-export class RootNode extends Node {
-  reconcilerInstance: Reconciler<Node, Node, TextNode, unknown, unknown>
+export class RootNode extends ReaccordNode {
+  reconcilerInstance: Reconciler<
+    ReaccordNode,
+    ReaccordNode,
+    TextNode,
+    unknown,
+    unknown
+  >
   #rootContainer: FiberRoot
   discordClient: Client
   terminateInteraction: () => void = () => void 0
@@ -36,7 +42,13 @@ export class RootNode extends Node {
 
   constructor(
     discordClient: Client,
-    reconcilerInstance: Reconciler<Node, Node, TextNode, unknown, unknown>,
+    reconcilerInstance: Reconciler<
+      ReaccordNode,
+      ReaccordNode,
+      TextNode,
+      unknown,
+      unknown
+    >,
   ) {
     super("reaccord:__root")
     this.discordClient = discordClient

@@ -1,6 +1,6 @@
-import { Node } from "./Node"
+import { ReaccordNode } from "./ReaccordNode"
 
-export class TextNode extends Node {
+export class TextNode extends ReaccordNode {
   #textContent: string = ""
 
   constructor(textContent: string) {

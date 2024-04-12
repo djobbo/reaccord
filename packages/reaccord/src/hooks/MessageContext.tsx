@@ -3,14 +3,15 @@ import type { Client } from "../Client"
 import type { Message } from "discord.js"
 import type { RootNode } from "../renderer/RootNode"
 
-const rootNodeContextInternal = createContext<RootNode>(
-  // @ts-expect-error
-  null,
-)
+const rootNodeContextInternal = createContext<RootNode | null>(null)
 
 export const useRootNodeContextInternal = () => {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const rootNode = useContext(rootNodeContextInternal)
+
+  if (!rootNode) {
+    throw new Error("useMessageCtx must be used inside a MessageProvider")
+  }
 
   useEffect(() => rootNode.addHydrationHook(() => forceUpdate()), [])
 

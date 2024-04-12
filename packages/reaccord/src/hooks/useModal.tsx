@@ -1,4 +1,4 @@
-import { Node } from "../renderer/Node"
+import { ReaccordNode } from "../renderer/ReaccordNode"
 import { renderModalRoot } from "../renderer/renderMessageContent"
 import { renderWithRootContext } from "../renderer/renderWithRootContext"
 import { useRootNodeContextInternal } from "./MessageContext"
@@ -10,7 +10,7 @@ import type {
 import type { RootNode } from "../renderer/RootNode"
 
 const createModal = (Code: () => JSX.Element, rootNode: RootNode) => {
-  const modalRoot = new Node("reaccord:__modal-root", {}, rootNode)
+  const modalRoot = new ReaccordNode("reaccord:__modal-root", {}, rootNode)
 
   const rootContainer = rootNode.reconcilerInstance.createContainer(
     modalRoot,

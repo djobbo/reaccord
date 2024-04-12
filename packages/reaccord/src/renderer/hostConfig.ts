@@ -1,4 +1,4 @@
-import { Node } from "./Node"
+import { ReaccordNode } from "./ReaccordNode"
 import { TextNode } from "./TextNode"
 import type { HostConfig } from "react-reconciler"
 import type { RootNode } from "./RootNode"
@@ -6,8 +6,8 @@ import type { RootNode } from "./RootNode"
 export const hostConfig: HostConfig<
   string,
   Record<string, unknown>,
-  Node,
-  Node,
+  ReaccordNode,
+  ReaccordNode,
   TextNode,
   unknown,
   unknown,
@@ -23,7 +23,7 @@ export const hostConfig: HostConfig<
   resetAfterCommit(root: RootNode) {
     root.render()
   },
-  createInstance: (tag, attr) => new Node(tag, attr),
+  createInstance: (tag, attr) => new ReaccordNode(tag, attr),
   appendInitialChild: (parent, node) => {
     parent.insertBefore(node)
   },
@@ -45,23 +45,23 @@ export const hostConfig: HostConfig<
   appendChildToContainer(parent, node) {
     parent.insertBefore(node)
   },
-  insertBefore(parent, node, anchor?: Node) {
+  insertBefore(parent, node, anchor?: ReaccordNode) {
     parent.insertBefore(node, anchor)
   },
-  insertInContainerBefore(parent, node, anchor?: Node) {
+  insertInContainerBefore(parent, node, anchor?: ReaccordNode) {
     parent.insertBefore(node, anchor)
   },
-  removeChild(parent, node: Node) {
+  removeChild(parent, node: ReaccordNode) {
     parent.removeChild(node)
   },
-  removeChildFromContainer(parent, node: Node) {
+  removeChildFromContainer(parent, node: ReaccordNode) {
     parent.removeChild(node)
   },
   hideInstance() {},
   hideTextInstance() {},
   unhideInstance() {},
   unhideTextInstance() {},
-  clearContainer(node: Node) {
+  clearContainer(node: ReaccordNode) {
     node.clear()
   },
   getRootHostContext: () => null,

@@ -30,6 +30,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
+    "knip": "5.9.4",
     "madge": "^6.0.0",
     "prettier": "^2.8.8",
     "strip-ansi": "^7.0.1",

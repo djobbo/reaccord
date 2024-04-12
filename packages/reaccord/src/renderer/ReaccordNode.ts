@@ -1,15 +1,15 @@
 import { v4 as uuidv4 } from "uuid"
 
-export class Node<Props = Record<string, unknown>> {
+export class ReaccordNode<Props = Record<string, unknown>> {
   uuid: string
   type: string
-  children: Node[] = []
-  root: Node | null = null
-  parent: Node | null = null
+  children: ReaccordNode[] = []
+  root: ReaccordNode | null = null
+  parent: ReaccordNode | null = null
 
   props: Partial<Props>
 
-  constructor(type: string, props?: Partial<Props>, root?: Node) {
+  constructor(type: string, props?: Partial<Props>, root?: ReaccordNode) {
     this.uuid = uuidv4()
     this.type = type
     this.children = []
@@ -17,11 +17,11 @@ export class Node<Props = Record<string, unknown>> {
     this.root = root || null
   }
 
-  setParent(node: Node): void {
+  setParent(node: ReaccordNode): void {
     this.parent = node
   }
 
-  insertBefore(node: Node, anchor?: Node): void {
+  insertBefore(node: ReaccordNode, anchor?: ReaccordNode): void {
     if (!node) throw new Error("Wrong child type")
     if (anchor) {
       const anchorIndex = this.children.findIndex((child) => anchor === child)
@@ -39,16 +39,16 @@ export class Node<Props = Record<string, unknown>> {
     this.props = attr as Props
   }
 
-  get parentNode(): Node {
+  get parentNode(): ReaccordNode {
     if (!this.parent) throw new TypeError(`Couldn't find parent of ${this}`)
     return this.parent
   }
 
-  get firstChild(): Node | undefined {
+  get firstChild(): ReaccordNode | undefined {
     return this.children[0]
   }
 
-  get nextSibling(): Node["children"][number] | undefined {
+  get nextSibling(): ReaccordNode["children"][number] | undefined {
     const parent = this.parentNode
     if (!parent) throw new TypeError(`Couldn't find parent of ${this}`)
 
@@ -59,7 +59,7 @@ export class Node<Props = Record<string, unknown>> {
     return parent.children[nodeIndex + 1]
   }
 
-  removeChild(node: Node): void {
+  removeChild(node: ReaccordNode): void {
     this.children = this.children.filter((child) => child !== node)
   }
 
