@@ -56,7 +56,7 @@ newLine()
 logBoxed(`New dev version: ${chalk.green(`v${newDevVersion}`)}`)
 
 logInfo("Installing dependencies...")
-await $`pnpm ci`
+await $`pnpm ci:install`
 logSuccess("Dependencies installed.")
 newLine()
 

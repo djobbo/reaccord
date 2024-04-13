@@ -6,14 +6,12 @@
   "scripts": {
     "build": "tsc",
     "build:w": "tsc --watch",
-    "ts:check": "tsc --noEmit",
-    "ci:deadcode": "ts-prune"
+    "check:types": "tsc --noEmit"
   },
   "files": [
     "lib"
   ],
   "devDependencies": {
-    "ts-prune": "^0.10.3",
     "typescript": "5.4.5"
   },
   "dependencies": {

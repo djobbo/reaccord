@@ -7,7 +7,7 @@
     "dev": "reaccord dev",
     "start": "reaccord start",
     "build": "reaccord build",
-    "ts:check": "tsc --noEmit"
+    "check:types": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/react": "^18.2.77",

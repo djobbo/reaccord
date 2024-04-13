@@ -49,8 +49,8 @@ export abstract class CommandBase<
   CommandData = Type extends ApplicationCommandType.ChatInput
     ? SlashCommandBuilder
     : Type extends ApplicationCommandType.User | ApplicationCommandType.Message
-    ? ContextMenuCommandBuilder
-    : never,
+      ? ContextMenuCommandBuilder
+      : never,
 > {
   discordClient: Client | null = null
   data: CommandData
