@@ -136,7 +136,18 @@ export type ActionRowElements = {
   button: _ButtonBase & {
     customId?: string
     /**
-     * By default, onClick will trigger a defered update, to prevent this, return a truthy value
+     * By default, onClick will trigger a defered update automatically.
+     * If you want to handle the update manually, return a truthy value.
+     * This can be usefull if the interaction needs to be kept alive for a relatively long time
+     * (Discord will timeout the interaction after 3 seconds).
+     * @example
+     * <Button onClick={async (interaction) => {
+     *  interaction.deferUpdate()
+     *  // do some async stuff that takes more than 3 seconds
+     *  await new Promise((resolve) => setTimeout(resolve, 5000))
+     *  // return true to prevent the automatic update
+     *  return true
+     * }}>...</Button>
      */
     onClick?: (interaction: ButtonInteraction) => any | Promise<any>
     style?: Exclude<ButtonStyle, ButtonStyle.Link>
@@ -168,7 +179,18 @@ export type SelectMenuElements = {
   root: {
     customId?: string
     /**
-     * By default, onChange will trigger a defered update, to prevent this, return a truthy value
+     * By default, onChange will trigger a defered update automatically.
+     * If you want to handle the update manually, return a truthy value.
+     * This can be usefull if the interaction needs to be kept alive for a relatively long time
+     * (Discord will timeout the interaction after 3 seconds).
+     * @example
+     * <SelectMenu onChange={async (values, interaction) => {
+     * interaction.deferUpdate()
+     * // do some async stuff that takes more than 3 seconds
+     * await new Promise((resolve) => setTimeout(resolve, 5000))
+     * // return true to prevent the automatic update
+     * return true
+     * }}>...</SelectMenu>
      */
     onChange?: (
       values: string[],
