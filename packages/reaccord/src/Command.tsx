@@ -362,7 +362,7 @@ class ChatInputCommand<
       if (!this.discordClient || !interaction.isChatInputCommand()) return
 
       await renderMessage(
-        () => callback(props, interaction),
+        async () => await callback(props, interaction),
         this.discordClient,
         interaction,
         messageRenderOptions,

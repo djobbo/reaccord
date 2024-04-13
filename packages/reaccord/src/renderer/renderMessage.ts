@@ -27,7 +27,7 @@ reactReconcilerInstance.injectIntoDevTools({
 })
 
 export const renderMessage = async (
-  Code: () => JSX.Element,
+  Code: () => JSX.Element | Promise<JSX.Element>,
   discordClient: Client,
   ref: InteractionRefType,
   rootOptions?: MessageRenderOptions,

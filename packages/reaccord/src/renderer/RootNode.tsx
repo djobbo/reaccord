@@ -1,7 +1,9 @@
 import { BaseInteraction, Message } from "discord.js"
 import { ReaccordNode } from "./ReaccordNode"
 import { debounce } from "../helpers/debounce"
+import { inspect } from "util"
 import { renderMessageContent } from "../renderer/renderMessageContent"
+import { renderServerComponentToClient } from "./renderServerComponentToClient"
 import { renderWithRootContext } from "./renderWithRootContext"
 import type { Client, MessageRenderOptions } from "../Client"
 import type { FiberRoot, Reconciler } from "react-reconciler"
@@ -98,7 +100,7 @@ export class RootNode extends ReaccordNode {
 
   async replyToInteraction(
     ref: InteractionRefType,
-    Code: () => JSX.Element,
+    Code: () => JSX.Element | Promise<JSX.Element>,
     messageRenderOptions?: MessageRenderOptions,
   ) {
     if (!this.discordClient)
@@ -124,8 +126,12 @@ export class RootNode extends ReaccordNode {
       }, mergedMessageRenderOptions.unmountAfter * 1000)
     }
 
+    const rendered = await renderWithRootContext(Code, this)
+    const clientJsx = await renderServerComponentToClient(rendered)
+    console.log(inspect(clientJsx, { depth: 2 }))
+
     this.reconcilerInstance.updateContainer(
-      renderWithRootContext(Code, this),
+      clientJsx,
       this.#rootContainer,
       null,
     )

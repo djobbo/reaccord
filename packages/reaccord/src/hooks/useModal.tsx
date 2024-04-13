@@ -9,7 +9,10 @@ import type {
 } from "discord.js"
 import type { RootNode } from "../renderer/RootNode"
 
-const createModal = (Code: () => JSX.Element, rootNode: RootNode) => {
+const createModal = async (
+  Code: () => JSX.Element | Promise<JSX.Element>,
+  rootNode: RootNode,
+) => {
   const modalRoot = new ReaccordNode("reaccord:__modal-root", {}, rootNode)
 
   const rootContainer = rootNode.reconcilerInstance.createContainer(
@@ -23,11 +26,9 @@ const createModal = (Code: () => JSX.Element, rootNode: RootNode) => {
     null,
   )
 
-  rootNode.reconcilerInstance.updateContainer(
-    renderWithRootContext(Code, rootNode),
-    rootContainer,
-    null,
-  )
+  const rendered = await renderWithRootContext(Code, rootNode)
+
+  rootNode.reconcilerInstance.updateContainer(rendered, rootContainer, null)
 
   return modalRoot
 }
@@ -45,15 +46,19 @@ const openModal =
   >(
     Code: (interaction: T) => JSX.Element,
   ) =>
-  (interaction: T): true => {
-    if (!rootNode.message) return true
-    const modalRoot = createModal(() => Code(interaction), rootNode)
+  async (interaction: T) => {
+    if (!rootNode.message) {
+      return true as const
+    }
+
+    const modalRoot = await createModal(() => Code(interaction), rootNode)
     const { modal, listener } = renderModalRoot(modalRoot)
 
     rootNode.modalInteractionListener = listener
 
     interaction.showModal(modal)
-    return true
+
+    return true as const
   }
 
 export const useModal = () => {
