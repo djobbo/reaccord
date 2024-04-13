@@ -9,7 +9,7 @@ import type {
   ColorResolvable,
   ComponentEmojiResolvable,
   ModalSubmitInteraction,
-  SelectMenuInteraction,
+  StringSelectMenuInteraction,
 } from "discord.js"
 import type { FC, ReactNode } from "react"
 import type { Stream } from "node:stream"
@@ -172,7 +172,7 @@ export type SelectMenuElements = {
      */
     onChange?: (
       values: string[],
-      interaction: SelectMenuInteraction,
+      interaction: StringSelectMenuInteraction,
     ) => any | Promise<any>
     children?: ReactNode
     disabled?: boolean
