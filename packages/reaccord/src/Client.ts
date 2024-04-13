@@ -13,6 +13,7 @@ export type MessageRenderOptions = {
    * @default 300 (5min)
    */
   unmountAfter?: number | null
+  ephemeral?: boolean
 }
 
 type ClientOptions = DiscordClientOptions & {

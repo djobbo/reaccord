@@ -106,7 +106,7 @@ export class RootNode extends ReaccordNode {
 
     this.ref = ref
 
-    const mergedMessageRenderOptions = {
+    this.messageRenderOptions = {
       ...(this.discordClient.messageRenderOptions ?? {}),
       ...messageRenderOptions,
     }
@@ -118,10 +118,10 @@ export class RootNode extends ReaccordNode {
       this.unmount()
     }
 
-    if (!!mergedMessageRenderOptions.unmountAfter) {
+    if (!!this.messageRenderOptions.unmountAfter) {
       timeout = setTimeout(() => {
         this.terminateInteraction()
-      }, mergedMessageRenderOptions.unmountAfter * 1000)
+      }, this.messageRenderOptions.unmountAfter * 1000)
     }
 
     this.reconcilerInstance.updateContainer(
@@ -154,6 +154,7 @@ export class RootNode extends ReaccordNode {
           } else if (this.ref instanceof BaseInteraction) {
             reply = await this.ref.reply({
               ...messageContent,
+              ephemeral: this.messageRenderOptions?.ephemeral ?? false,
               fetchReply: true,
             })
           } else {
@@ -181,7 +182,15 @@ export class RootNode extends ReaccordNode {
 
     if (!this.message.editable) throw new Error("Message is not editable")
 
-    await this.message.edit(messageContent)
+    if (this.messageRenderOptions?.ephemeral) {
+      if (!(this.ref instanceof BaseInteraction))
+        throw new Error("Can't send ephemeral message to non-interaction")
+
+      await this.ref.editReply(messageContent)
+    } else {
+      await this.message.edit(messageContent)
+    }
+
     return this.message
   }, MESSAGE_UPDATE_DEBOUNCE_MS)
 }

@@ -25,7 +25,10 @@ const rickCmd = createSlashCommand("rick", "Rick and Morty characters info.")
         <App search={search} />
       </QueryClientProvider>
     ),
-    { unmountAfter: 300 },
+    {
+      unmountAfter: 300,
+      ephemeral: true,
+    },
   )
 
 client.registerCommand(rickCmd)
