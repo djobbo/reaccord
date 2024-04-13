@@ -26,7 +26,9 @@ export class ReaccordNode<Props = Record<string, unknown>> {
     if (anchor) {
       const anchorIndex = this.children.findIndex((child) => anchor === child)
       this.children.splice(anchorIndex, 0, node)
-    } else this.children.push(node)
+    } else {
+      this.children.push(node)
+    }
 
     node.setParent(this)
   }

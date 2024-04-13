@@ -1,7 +1,6 @@
 import { Button } from "reaccord"
 import { useState } from "react"
 
-// Define app behavior
 type CounterProps = {
   start?: number
 }

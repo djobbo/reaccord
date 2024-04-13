@@ -384,7 +384,7 @@ class ChatInputCommand<
     const props = Object.fromEntries(
       this.#options.map(({ name, type }) => [
         name,
-        getOptionValue(options, name, type),
+        getOptionValue(options, name, type) ?? undefined,
       ]),
     ) as CommandOptions
 
