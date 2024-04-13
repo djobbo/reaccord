@@ -36,8 +36,7 @@
     "zx": "^8.0.1"
   },
   "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=14.0.0"
+    "node": ">=20.0.0"
   },
-  "packageManager": "pnpm@7.6.0"
+  "packageManager": "pnpm@8.15.6"
 }
