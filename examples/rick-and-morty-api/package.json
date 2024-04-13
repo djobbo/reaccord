@@ -10,12 +10,11 @@
     "check:types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/react": "^18.2.77",
+    "@types/react": "^18.2.78",
     "typescript": "5.4.5"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.29.7",
-    "axios": "^1.4.0",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
     "reaccord": "workspace:0.0.0-dev",

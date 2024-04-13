@@ -9,7 +9,7 @@ type CharacterSelectProps = {
 }
 
 const statusEmojis: Record<CharacterStatus, string> = {
-  Alive: "❤️",
+  Alive: "🙂",
   Dead: "💀",
   unknown: "❓",
 }

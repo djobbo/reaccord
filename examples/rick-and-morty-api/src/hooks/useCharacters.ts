@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
 import type { Character, PageInfo } from "../types"
 
 type APIResponse = {
@@ -25,13 +24,14 @@ export const useCharacters = (
   const { data, ...query } = useQuery<Response>(
     ["character", { name, page }],
     async () => {
-      const res = await axios.get<APIResponse>(
+      const response = await fetch(
         `https://rickandmortyapi.com/api/character/?name=${name}&page=${page}`,
       )
+      const data = (await response.json()) as APIResponse
 
       return {
-        characters: res.data.results,
-        pageInfo: res.data.info,
+        characters: data.results,
+        pageInfo: data.info,
       }
     },
     { onSuccess, onError },

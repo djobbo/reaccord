@@ -14,7 +14,7 @@
     "check:types": "turbo run check:types",
     "check:deadcode": "knip",
     "check:circular-deps": "madge --circular --extensions ts,tsx .",
-    "check:mismatched-deps": "syncpack",
+    "check:mismatched-deps": "syncpack list",
     "publish:dev": "zx ./scripts/publish-dev.mjs"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "madge": "^7.0.0",
     "prettier": "^3.2.5",
     "strip-ansi": "^7.1.0",
-    "syncpack": "^9.8.6",
+    "syncpack": "^12.3.0",
     "turbo": "^1.13.2",
     "typescript": "5.4.5",
     "zx": "^8.0.1"
