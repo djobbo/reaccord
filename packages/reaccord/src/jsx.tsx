@@ -7,6 +7,7 @@ import type {
   ButtonInteraction,
   ButtonStyle,
   ColorResolvable,
+  ComponentEmojiResolvable,
   ModalSubmitInteraction,
   SelectMenuInteraction,
 } from "discord.js"
@@ -182,6 +183,7 @@ export type SelectMenuElements = {
     description?: string
     children?: ReactNode
     value: string
+    emoji?: ComponentEmojiResolvable
   }
 }
 

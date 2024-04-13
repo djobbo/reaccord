@@ -270,6 +270,7 @@ export const renderSelectMenuOption = (
     label: renderInnerText(node),
     value: node.props.value,
     description: node.props.description,
+    emoji: node.props.emoji,
   })
 }
 
