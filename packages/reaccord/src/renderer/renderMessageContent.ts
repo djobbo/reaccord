@@ -4,8 +4,8 @@ import {
   ButtonStyle,
   EmbedBuilder,
   ModalBuilder,
-  SelectMenuBuilder,
-  SelectMenuOptionBuilder,
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js"
@@ -265,7 +265,7 @@ export const renderSelectMenuOption = (
 ) => {
   assertIsDefined(node.props.value, "SelectMenu option must have a value")
 
-  return new SelectMenuOptionBuilder({
+  return new StringSelectMenuOptionBuilder({
     default: node.props.selected ?? false,
     label: renderInnerText(node),
     value: node.props.value,
@@ -282,7 +282,7 @@ export const renderSelectMenuRoot = (
 
   const { disabled, placeholder } = node.props
 
-  const selectMenu = new SelectMenuBuilder({
+  const selectMenu = new StringSelectMenuBuilder({
     customId,
     disabled: disabled ?? false,
     placeholder,
