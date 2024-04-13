@@ -51,7 +51,7 @@
     "yargs": "^17.7.2"
   },
   "peerDependencies": {
-    "ajv": "8.11.2",
-    "discord.js": "^14.3.0"
+    "ajv": "8.12.0",
+    "discord.js": "^14.14.1"
   }
 }
