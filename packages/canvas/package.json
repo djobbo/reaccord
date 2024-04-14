@@ -5,7 +5,6 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "postinstall": "npx playwright-core install chromium && npx playwright-core install-deps",
     "build": "tsc",
     "build:w": "tsc --watch",
     "check:types": "tsc --noEmit"
