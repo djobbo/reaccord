@@ -134,6 +134,11 @@ export type ActionRowElements = {
     children?: ReactNode
   }
   button: _ButtonBase & {
+    /**
+     * @deprecated Custom IDs are not recommended unless you know what you're doing.
+     * They are used to identify the button in the interaction.
+     * If set manually, it should be unique per button, and per interaction.
+     */
     customId?: string
     /**
      * By default, onClick will trigger a defered update automatically.
@@ -177,6 +182,11 @@ export const LinkButton = ActionRow.Link
 
 export type SelectMenuElements = {
   root: {
+    /**
+     * @deprecated Custom IDs are not recommended unless you know what you're doing.
+     * They are used to identify the select menu in the interaction.
+     * If set manually, it should be unique per select menu, and per interaction.
+     */
     customId?: string
     /**
      * By default, onChange will trigger a defered update automatically.
@@ -227,6 +237,11 @@ export const SelectMenu = Object.assign(
 
 export type ModalElements<FieldName extends string = string> = {
   wrapper: {
+    /**
+     * @deprecated Custom IDs are not recommended unless you know what you're doing.
+     * They are used to identify the modal in the interaction.
+     * If set manually, it should be unique per modal, and per interaction.
+     */
     customId?: string
     children?: ReactNode
     title: string
