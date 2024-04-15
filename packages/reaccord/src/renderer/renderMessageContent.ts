@@ -61,12 +61,12 @@ export const renderInnerText = (
       return `\`${innerText}\``
     case "reaccord:text-codeblock":
       return `\`\`\`${node.props.lang ?? ""}\n${innerText}\n\`\`\``
-    case "Span":
+    case "reaccord:text-span":
       let str = innerText
       if (node.props.italic) str = `_${str}_`
       if (node.props.bold) str = `**${str}**`
       return str
-    case "Link":
+    case "reaccord:text-link":
       return `[${innerText}](${node.props.href})`
     default:
       if (textElementsOnly)
