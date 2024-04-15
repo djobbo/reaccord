@@ -6,6 +6,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
+    "docs:build": "astro check && astro build",
+    "docs:dev": "astro dev",
     "preview": "astro preview",
     "astro": "astro"
   },

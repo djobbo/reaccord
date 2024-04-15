@@ -15,7 +15,9 @@
     "check:deadcode": "knip",
     "check:circular-deps": "madge --circular --extensions ts,tsx .",
     "check:mismatched-deps": "syncpack list",
-    "publish:dev": "zx ./scripts/publish-dev.mjs"
+    "publish:dev": "zx ./scripts/publish-dev.mjs",
+    "docs:build": "turbo run docs:build",
+    "docs:dev": "turbo run docs:dev"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.6.0",

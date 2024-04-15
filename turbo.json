@@ -24,6 +24,8 @@
     "check:types": {
       "cache": false,
       "dependsOn": ["^build"]
-    }
+    },
+    "docs:build": {},
+    "docs:dev": {}
   }
 }
