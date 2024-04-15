@@ -25,7 +25,9 @@
       "cache": false,
       "dependsOn": ["^build"]
     },
-    "docs:build": {},
+    "docs:build": {
+      "cache": false
+    },
     "docs:dev": {}
   }
 }
