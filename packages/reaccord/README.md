@@ -1,4 +1,4 @@
-<a href="https://djobbo.github.io/reaccord" target="_blank" rel="noreferrer">
+<a href="https://reaccord.djobbo.com" target="_blank" rel="noreferrer">
   <img src="https://raw.githubusercontent.com/djobbo/reaccord/master/assets/readme_banner.png" alt="Reaccord Banner">
 </a>
 
@@ -21,13 +21,13 @@
 Reaccord is a framework for creating discord bots with [react](https://reactjs.org/).  
 It is built on top of the [discord.js](https://discord.js.org/) library and is designed to be easy to use.
 
-<a href="https://djobbo.github.io/reaccord" target="_blank" rel="noreferrer">Explore the docs...</a>
+<a href="https://reaccord.djobbo.com" target="_blank" rel="noreferrer">Explore the docs...</a>
 
 </div>
 
 ---
 
-Turn your react code into fully featured discord bots **[now](https://djobbo.github.io/reaccord)**!
+Turn your react code into fully featured discord bots **[now](https://reaccord.djobbo.com)**!
 
 ## Let's build a simple counter
 
@@ -88,5 +88,5 @@ client.connect(() =>
 ---
 
 <div align="center">
-<a href="https://djobbo.github.io/reaccord" target="_blank" rel="noreferrer">Explore the docs...</a>
+<a href="https://reaccord.djobbo.com" target="_blank" rel="noreferrer">Explore the docs...</a>
 </div>
