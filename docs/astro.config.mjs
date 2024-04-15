@@ -30,6 +30,7 @@ export default defineConfig({
         light: "./src/assets/reaccord-logo-light.svg",
         alt: "Reaccord Logo",
       },
+      favicon: "/src/assets/reaccord-logo.svg",
     }),
     tailwind({ applyBaseStyles: false }),
   ],
