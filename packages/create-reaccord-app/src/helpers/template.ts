@@ -1,4 +1,4 @@
-import type { Context } from "./context.js"
+import { type Context, DEFAULT_REF } from "./context.js"
 
 import { color } from "@astrojs/cli-kit"
 import { downloadTemplate } from "giget"
@@ -6,7 +6,7 @@ import { readFile, writeFile } from "node:fs/promises"
 import fs from "node:fs"
 import path from "node:path"
 
-export const getTemplateTarget = (tmpl: string, ref = "latest") => {
+export const getTemplateTarget = (tmpl: string, ref = DEFAULT_REF) => {
   const isThirdParty = tmpl.includes("/")
   if (isThirdParty) return tmpl
 
@@ -57,6 +57,8 @@ export const copyTemplate = async (tmpl: string, ctx: Context) => {
         // make sure we throw and display the original error.
       }
     }
+
+    throw new Error(err)
 
     if (err.message.includes("404")) {
       throw new Error(

@@ -32,10 +32,6 @@ async function getRegistry(packageManager: string): Promise<string> {
   return _registry
 }
 
-// const versionSchema = z.object({
-//   version: z.string(),
-// })
-
 export const getPackageVersion = async (
   packageManager: string,
   packageName: string,

@@ -1,14 +1,15 @@
 import { type Task, prompt } from "@astrojs/cli-kit"
 import arg from "arg"
 
-import { detectPackageManager, getPackageVersion } from "./packages.js"
+import { detectPackageManager } from "./packages.js"
+
+export const DEFAULT_REF = "master"
 
 export interface Context {
   help: boolean
   prompt: typeof prompt
   cwd: string
   packageManager: string
-  version: Promise<string>
   dryRun?: boolean
   yes?: boolean
   projectName?: string
@@ -69,15 +70,10 @@ export async function getContext(argv: string[]): Promise<Context> {
     help,
     prompt,
     packageManager,
-    version: getPackageVersion(
-      packageManager,
-      "reaccord",
-      process.env.REACCORD_VERSION,
-    ),
     dryRun,
     projectName,
     template,
-    ref: ref ?? "latest",
+    ref: ref ?? DEFAULT_REF,
     yes,
     install: install ?? (noInstall ? false : undefined),
     git: git ?? (noGit ? false : undefined),
