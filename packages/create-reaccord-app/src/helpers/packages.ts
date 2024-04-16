@@ -1,4 +1,5 @@
 import { shell } from "./shell.js"
+import path from "node:path"
 
 export const detectPackageManager = () => {
   if (!process.env.npm_config_user_agent) return
@@ -32,7 +33,7 @@ async function getRegistry(packageManager: string): Promise<string> {
   return _registry
 }
 
-export const getPackageVersion = async (
+const getPackageVersion = async (
   packageManager: string,
   packageName: string,
   fallback = "",
@@ -45,4 +46,19 @@ export const getPackageVersion = async (
     // .then((data) => versionSchema.parse(data))
     .catch(() => ({ version: fallback }))) as { version: string }
   return version
+}
+
+export const getReaccordVersion = async (
+  packageManager: string,
+  fallback = "",
+) => {
+  try {
+    const reaccordVersion = JSON.parse(
+      path.join(require.resolve("create-reaccord-app"), "package.json"),
+    ).version
+
+    return reaccordVersion
+  } catch (e) {
+    return getPackageVersion(packageManager, "create-reaccord-app", fallback)
+  }
 }

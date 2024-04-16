@@ -13,17 +13,37 @@ export const getTemplateTarget = (tmpl: string, ref = DEFAULT_REF) => {
   return `github:djobbo/reaccord/examples/${tmpl}#${ref}`
 }
 
+const PLACEHOLDER_VERSION = "0.0.0-dev"
+
 const FILES_TO_UPDATE = {
-  "package.json": (file: string, overrides: { name: string }) =>
-    readFile(file, "utf-8").then((value) => {
+  "package.json": (file: string, overrides: { name: string }, ctx: Context) =>
+    readFile(file, "utf-8").then(async (value) => {
       // Match first indent in the file or fallback to `\t`
       const indent = /(^\s+)/m.exec(value)?.[1] ?? "\t"
+
+      const packageJson = JSON.parse(value)
+      const reaccordVersion = await ctx.reaccordVersion
 
       return writeFile(
         file,
         JSON.stringify(
           {
-            ...JSON.parse(value),
+            ...packageJson,
+            version: "0.1.0",
+            dependencies: Object.fromEntries(
+              Object.entries(packageJson.dependencies || {}).map(
+                ([dep, ver]) => [
+                  dep,
+                  [
+                    PLACEHOLDER_VERSION,
+                    `workspace:${PLACEHOLDER_VERSION}`,
+                    `workspace:*`,
+                  ].includes(typeof ver === "string" ? ver : "")
+                    ? reaccordVersion
+                    : ver,
+                ],
+              ),
+            ),
             ...overrides,
             private: undefined,
           },
@@ -58,8 +78,6 @@ export const copyTemplate = async (tmpl: string, ctx: Context) => {
       }
     }
 
-    throw new Error(err)
-
     if (err.message.includes("404")) {
       throw new Error(
         `Template ${color.reset(tmpl)} ${color.dim("does not exist!")}`,
@@ -81,7 +99,7 @@ export const copyTemplate = async (tmpl: string, ctx: Context) => {
     async ([file, update]) => {
       const fileLoc = path.resolve(path.join(ctx.cwd, file))
       if (fs.existsSync(fileLoc)) {
-        return update(fileLoc, { name: ctx.projectName! })
+        return update(fileLoc, { name: ctx.projectName! }, ctx)
       }
     },
   )
