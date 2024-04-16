@@ -297,9 +297,6 @@ importers:
       giget:
         specifier: ^1.2.3
         version: 1.2.3
-      zx:
-        specifier: ^8.0.1
-        version: 8.0.1
     devDependencies:
       '@types/node':
         specifier: ^20.12.7
@@ -2760,6 +2757,7 @@ packages:
     dependencies:
       '@types/jsonfile': 6.1.4
       '@types/node': 20.12.7
+    dev: true
     optional: true
 
   /@types/graceful-fs@4.1.9:
@@ -2815,6 +2813,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@types/node': 20.12.7
+    dev: true
     optional: true
 
   /@types/mdast@4.0.3:
@@ -11454,3 +11453,4 @@ packages:
     optionalDependencies:
       '@types/fs-extra': 11.0.4
       '@types/node': 20.12.7
+    dev: true

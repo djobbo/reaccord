@@ -1,6 +1,6 @@
 import { color } from "@astrojs/cli-kit"
 import { log, stdout } from "../helpers/messages.js"
-import { sleep } from "zx"
+import { sleep } from "@astrojs/cli-kit/dist/utils"
 import path from "node:path"
 import stripAnsi from "strip-ansi"
 import type { Context } from "../helpers/context.js"

@@ -1,6 +1,6 @@
-import { $ } from "zx"
 import { color } from "@astrojs/cli-kit"
 import { error, info, title } from "../helpers/messages.js"
+import { shell } from "../helpers/shell.js"
 import fs from "node:fs"
 import path from "node:path"
 import type { Context } from "../helpers/context.js"
@@ -58,7 +58,11 @@ export const installDependencies = async ({
 }) => {
   if (packageManager === "yarn") await ensureYarnLock({ cwd })
 
-  return $`${packageManager} install`
+  return shell(packageManager, ["install"], {
+    cwd,
+    timeout: 90_000,
+    stdio: "ignore",
+  })
 }
 
 /**

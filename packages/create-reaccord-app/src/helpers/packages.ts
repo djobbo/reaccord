@@ -1,4 +1,4 @@
-import { $ } from "zx"
+import { shell } from "./shell.js"
 
 export const detectPackageManager = () => {
   if (!process.env.npm_config_user_agent) return
@@ -17,7 +17,11 @@ async function getRegistry(packageManager: string): Promise<string> {
   const fallback = "https://registry.npmjs.org"
 
   try {
-    const { stdout } = await $`${packageManager} config get registry`
+    const { stdout } = await shell(packageManager, [
+      "config",
+      "get",
+      "registry",
+    ])
     _registry = stdout?.trim()?.replace(/\/$/, "") || fallback
     // Detect cases where the shell command returned a non-URL (e.g. a warning)
     if (!new URL(_registry).host) _registry = fallback

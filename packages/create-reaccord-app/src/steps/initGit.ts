@@ -1,16 +1,15 @@
 import fs from "node:fs"
 import path from "node:path"
 
-import { $, cd } from "zx"
 import { color } from "@astrojs/cli-kit"
 import { error, info, title } from "../helpers/messages.js"
+import { shell } from "../helpers/shell.js"
 import type { Context } from "../helpers/context.js"
 
 const init = async ({ cwd }: { cwd: string }) => {
   try {
-    $.cwd = cwd
-    cd(cwd)
-    await $`git init`
+    await shell("git", ["init"], { cwd, stdio: "ignore" })
+    await shell("git", ["add", "-A"], { cwd, stdio: "ignore" })
   } catch (e) {}
 }
 
