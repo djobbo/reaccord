@@ -15,6 +15,7 @@ const packages = [
   ["router", "@reaccord/router"],
   ["canvas", "@reaccord/canvas"],
   ["chalk", "@reaccord/chalk"],
+  ["create-reaccord-app", "create-reaccord-app"],
 ]
 
 const logInfo = (...args) => console.log(chalk.gray("[Info]"), ...args)
