@@ -5,7 +5,7 @@ import fs from "node:fs"
 import path from "node:path"
 import type { Context } from "../helpers/context.js"
 
-export const dependencies = async (ctx: Context) => {
+export const installDependencies = async (ctx: Context) => {
   let deps = ctx.install ?? ctx.yes
   if (deps === undefined) {
     ;({ deps } = await ctx.prompt({
@@ -36,7 +36,7 @@ export const dependencies = async (ctx: Context) => {
         )
       },
       while: () =>
-        installDependencies({
+        install({
           packageManager: ctx.packageManager,
           cwd: ctx.cwd,
         }),
@@ -49,7 +49,7 @@ export const dependencies = async (ctx: Context) => {
   }
 }
 
-export const installDependencies = async ({
+export const install = async ({
   packageManager,
   cwd,
 }: {
