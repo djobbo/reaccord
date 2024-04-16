@@ -1,5 +1,5 @@
 import { useCharacters } from "./useCharacters"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { Character } from "../types"
 
 export const useCharacterSearch = (defaultSearch?: string) => {
@@ -9,15 +9,20 @@ export const useCharacterSearch = (defaultSearch?: string) => {
   const { data: { characters, pageInfo } = {}, isLoading } = useCharacters(
     search,
     page,
-    {
-      onSuccess: (data) => setCharacter(data.characters[0]),
-      onError: () => setCharacter(undefined),
-    },
   )
 
   const selectCharacter = (id: string) => {
     setCharacter(characters?.find((char) => char.id.toString() === id))
   }
+
+  useEffect(() => {
+    if (characters && characters.length > 0) {
+      setCharacter(characters[0])
+      return
+    }
+
+    setCharacter(undefined)
+  }, [characters])
 
   return {
     search,

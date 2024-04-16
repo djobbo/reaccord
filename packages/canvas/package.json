@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tanstack/react-query": "^4.29.7",
+    "@tanstack/react-query": "^5.29.2",
     "discord.js": "^14.14.1",
     "playwright-core": "^1.43.1",
     "reaccord": "workspace:0.0.0-dev",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
-    "@types/react": "^18.2.78",
+    "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
     "@types/uuid": "^9.0.8",
     "ts-node-dev": "^2.0.0",

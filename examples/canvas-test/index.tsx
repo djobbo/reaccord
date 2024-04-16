@@ -1,11 +1,7 @@
 import { AttachmentBuilder, ButtonStyle, GatewayIntentBits } from "discord.js"
 import { Button, Embed, createClient, createSlashCommand } from "reaccord"
 import { CanvasImage, renderToImageBuffer } from "@reaccord/canvas"
-import {
-  QueryClient,
-  QueryClientProvider,
-  defaultContext,
-} from "@tanstack/react-query"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { config as loadEnv } from "dotenv"
 import { useState } from "react"
 import type { User } from "discord.js"
@@ -26,12 +22,7 @@ export const CounterApp = ({
 
   return (
     <>
-      <CanvasImage
-        id={["user-welcome", user.username]}
-        width={240}
-        height={40}
-        options={{ queryOptions: { context: defaultContext } }}
-      >
+      <CanvasImage id={["user-welcome", user.username]} width={240} height={40}>
         <script src="https://cdn.tailwindcss.com"></script>
         <div className="flex w-full h-full justify-center align-center">
           <h1 className="text-orange-600 text-2xl pb-1">
@@ -45,7 +36,6 @@ export const CounterApp = ({
           as={Embed.Thumbnail}
           width={60}
           height={60}
-          options={{ queryOptions: { context: defaultContext } }}
           placeholderUrl="https://via.placeholder.com/60x60"
         >
           <script src="https://cdn.tailwindcss.com"></script>

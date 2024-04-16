@@ -27,9 +27,9 @@ export const useRenderImageFile = <TQueryKey extends QueryKey>(
     ...renderOptions
   }: RenderImageFileQueryOptions<TQueryKey> = {},
 ) => {
-  const { data: imageFile, ...query } = useQuery(
+  const { data: imageFile, ...query } = useQuery({
     queryKey,
-    async () => {
+    queryFn: async () => {
       const imageBuffer = await renderToImageBuffer(Element, renderOptions)
 
       const imageFile = new AttachmentBuilder(imageBuffer).setName(
@@ -38,8 +38,8 @@ export const useRenderImageFile = <TQueryKey extends QueryKey>(
 
       return imageFile
     },
-    queryOptions,
-  )
+    ...queryOptions,
+  })
 
   return {
     imageFile,

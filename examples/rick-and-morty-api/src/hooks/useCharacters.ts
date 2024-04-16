@@ -16,14 +16,10 @@ type Options = {
   onError: () => void
 }
 
-export const useCharacters = (
-  name: string,
-  page: number,
-  { onSuccess, onError }: Options,
-) => {
-  const { data, ...query } = useQuery<Response>(
-    ["character", { name, page }],
-    async () => {
+export const useCharacters = (name: string, page: number) => {
+  const { data, ...query } = useQuery<Response>({
+    queryKey: ["character", { name, page }],
+    queryFn: async () => {
       const response = await fetch(
         `https://rickandmortyapi.com/api/character/?name=${name}&page=${page}`,
       )
@@ -34,8 +30,7 @@ export const useCharacters = (
         pageInfo: data.info,
       }
     },
-    { onSuccess, onError },
-  )
+  })
 
   return { data, ...query }
 }
