@@ -4,6 +4,9 @@
     "examples/*": {
       "entry": ["./index.tsx?", "./src/index.tsx?", "./reaccord.config.js"],
       "project": "**/*.tsx?"
+    },
+    "packages/create-reaccord-app": {
+      "entry": ["./create-reaccord-app.mjs", "./src/index.ts"]
     }
   }
 }
