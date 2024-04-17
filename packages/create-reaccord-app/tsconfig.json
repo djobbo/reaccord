@@ -6,9 +6,7 @@
     "sourceMap": true,
     "allowJs": true,
     "target": "es6",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "moduleResolution": "node",
     "outDir": "lib",
     "declaration": true,
@@ -17,13 +15,6 @@
     "skipLibCheck": true,
     "noUnusedLocals": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "lib",
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "lib", "src/**/*.test.ts", "src/**/*.test.tsx"]
 }

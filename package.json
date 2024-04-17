@@ -7,7 +7,7 @@
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "build:w": "turbo run build:w",
-    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx,.json . --ignore-path .gitignore",
+    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx,.json,.cjs . --ignore-path .gitignore",
     "test": "turbo run test",
     "test:w": "turbo run test:w",
     "check:lint": "eslint --ext .js,.jsx,.ts,.tsx,.json,.cjs . --ignore-path .gitignore",
