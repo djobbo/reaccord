@@ -30,8 +30,5 @@
     "@types/uuid": "^9.0.8",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
-  },
-  "peerDependencies": {
-    "@tanstack/react-query": "^4.29.7"
   }
 }

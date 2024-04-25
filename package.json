@@ -20,7 +20,7 @@
     "check:types": "turbo run check:types",
     "check:deadcode": "knip",
     "check:circular-deps": "madge --circular --extensions ts,tsx .",
-    "check:mismatched-deps": "syncpack list",
+    "check:mismatched-deps": "syncpack list-mismatches --types dev,prod,peer",
     "docs:build": "turbo run docs:build",
     "docs:dev": "turbo run docs:dev"
   },
