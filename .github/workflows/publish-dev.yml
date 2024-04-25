@@ -11,6 +11,7 @@ jobs:
     if: github.repository_owner == 'djobbo'
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         include:
           - name: reaccord
