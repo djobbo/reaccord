@@ -9,27 +9,33 @@ jobs:
     name: npm
     runs-on: ubuntu-latest
     if: github.repository_owner == 'djobbo'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: reaccord
+            package: reaccord
+            folder: reaccord
+          - name: '@reaccord/router'
+            package: router
+            folder: '@reaccord/router'
+          - name: '@reaccord/canvas'
+            package: canvas
+            folder: '@reaccord/canvas'
+          - name: '@reaccord/chalk'
+            package: chalk
+            folder: '@reaccord/chalk'
+          - name: create-reaccord-app
+            package: create-reaccord-app
+            folder: create-reaccord-app
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
         with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-          cache: 'pnpm'
-
-      - name: Turbo cache
-        id: turbo-cache
-        uses: actions/cache@v2
-        with:
-          path: .turbo
-          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            turbo-${{ github.job }}-${{ github.ref_name }}-
-
-      - name: Publish
+          bun-version: latest
+      - name: Publish to npm
         run: |
-          pnpm ci:install
-          pnpm publish:dev
+          bun run ci:install
+          bun run ./scripts/publish-dev.js ${{ matrix.package }} ${{ matrix.folder }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

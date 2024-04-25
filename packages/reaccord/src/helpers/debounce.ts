@@ -2,7 +2,7 @@ export const debounce = <T extends unknown[], ReturnType>(
   fn: (...args: T) => ReturnType,
   ms = 300,
 ) => {
-  let timeoutId: NodeJS.Timeout
+  let timeoutId: Timer | undefined
   return (...args: T) =>
     new Promise<ReturnType>((resolve, reject) => {
       clearTimeout(timeoutId)

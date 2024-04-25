@@ -1,4 +1,9 @@
 {
-  "recommendations": ["astro-build.astro-vscode"],
+  "recommendations": [
+    "github.vscode-github-actions",
+    "oven.bun-vscode",
+    "dbaeumer.vscode-eslint",
+    "astro-build.astro-vscode"
+  ],
   "unwantedRecommendations": []
 }

@@ -11,7 +11,6 @@
     "inspect": "reaccord dev --inspect"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
     "@types/react": "^18.2.79",
     "typescript": "5.4.5"
   },

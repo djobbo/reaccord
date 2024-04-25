@@ -22,7 +22,6 @@
   ],
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.7",
     "@types/react": "^18.2.79",
     "@types/react-reconciler": "^0.28.8",
     "@types/uuid": "^9.0.8",

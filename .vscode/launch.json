@@ -6,14 +6,14 @@
       "cwd": "${workspaceFolder}/examples/rick-and-morty-api",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm dev"
+      "command": "bun run dev"
     },
     {
       "name": "Reaccord: Debug Simple Counter Example",
       "cwd": "${workspaceFolder}/examples/simple-counter",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm dev"
+      "command": "bun run dev"
     }
   ]
 }

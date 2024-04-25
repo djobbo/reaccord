@@ -111,7 +111,7 @@ export class RootNode extends ReaccordNode {
       ...messageRenderOptions,
     }
 
-    let timeout: NodeJS.Timeout | undefined
+    let timeout: Timer | undefined
 
     this.terminateInteraction = () => {
       if (timeout) clearTimeout(timeout)
