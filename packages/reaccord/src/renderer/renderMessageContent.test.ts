@@ -1,4 +1,5 @@
 import { TextNode } from "./TextNode"
+import { describe, expect, it } from "bun:test"
 import { renderInnerText, renderText } from "./renderMessageContent"
 
 describe("Render text elements", () => {
