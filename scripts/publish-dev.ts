@@ -104,7 +104,6 @@ if (previousDevVersion) {
     logError(
       `Failed to deprecate ${chalk.yellow(`${packageName}@${previousDevVersion}`)}`,
     )
-    process.exit(1)
   }
 }
 newLine()
