@@ -6,12 +6,12 @@ import type { Readable } from "node:stream"
 import { spawn } from "node:child_process"
 import { text as textFromStream } from "node:stream/consumers"
 
-interface ExecaOptions {
+export interface ExecaOptions {
   cwd?: string | URL
   stdio?: StdioOptions
   timeout?: number
 }
-interface Output {
+export interface Output {
   stdout: string
   stderr: string
   exitCode: number
