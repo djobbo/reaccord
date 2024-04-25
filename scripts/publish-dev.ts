@@ -135,7 +135,8 @@ logInfo(
   )}`,
 )
 
-const packageJsonPath = packageFolder + "/package.json"
+await $`cd ${packageFolder}`
+const packageJsonPath = "./package.json"
 
 if (!dryRun) {
   const packageJson = await Bun.file(packageJsonPath).json()
