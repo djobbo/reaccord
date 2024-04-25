@@ -54,7 +54,7 @@ const dryRun = args.includes("--dry-run")
 logBoxed(`Publishing ${packageName} ${chalk.green(`v${version}-dev`)}`)
 let gitShortHash: string | null = null
 try {
-  gitShortHash = await $`git rev-parse --short HEAD`.text()
+  gitShortHash = (await $`git rev-parse --short HEAD`.text()).trim()
 } catch {}
 
 console.log(gitShortHash)
@@ -68,7 +68,9 @@ logInfo(`Checking latest dev version of ${chalk.blue(packageName)}...`)
 let previousDevVersion: string | null = null
 
 try {
-  previousDevVersion = await $`npm view ${packageName}@dev version`.text()
+  previousDevVersion = (
+    await $`npm view ${packageName}@dev version`.text()
+  ).trim()
 } catch {}
 
 if (previousDevVersion) {

@@ -14,20 +14,15 @@ jobs:
       matrix:
         include:
           - name: reaccord
-            package: reaccord
             folder: packages/reaccord
           - name: '@reaccord/router'
-            package: '@reaccord/router'
             folder: packages/router
           - name: '@reaccord/canvas'
-            package: '@reaccord/canvas'
             folder: packages/canvas
           - name: '@reaccord/chalk'
-            package: '@reaccord/chalk'
             folder: packages/chalk
           - name: create-reaccord-app
-            package: create-reaccord-app
-            folder: create-reaccord-app
+            folder: packages/create-reaccord-app
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
@@ -36,6 +31,7 @@ jobs:
       - name: Publish to npm
         run: |
           bun run ci:install
-          bun run ./scripts/publish-dev.js ${{ matrix.package }} ${{ matrix.folder }}
+          npm login --registry https://registry.npmjs.org/ --always-auth --authToken=$NPM_PUBLISH_TOKEN
+          bun run ./scripts/publish-dev.js ${{ matrix.name }} ${{ matrix.folder }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
