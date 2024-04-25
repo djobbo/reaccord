@@ -15,16 +15,16 @@ jobs:
         include:
           - name: reaccord
             package: reaccord
-            folder: reaccord
+            folder: packages/reaccord
           - name: '@reaccord/router'
-            package: router
-            folder: '@reaccord/router'
+            package: '@reaccord/router'
+            folder: packages/router
           - name: '@reaccord/canvas'
-            package: canvas
-            folder: '@reaccord/canvas'
+            package: '@reaccord/canvas'
+            folder: packages/canvas
           - name: '@reaccord/chalk'
-            package: chalk
-            folder: '@reaccord/chalk'
+            package: '@reaccord/chalk'
+            folder: packages/chalk
           - name: create-reaccord-app
             package: create-reaccord-app
             folder: create-reaccord-app
