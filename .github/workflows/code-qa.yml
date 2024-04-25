@@ -9,27 +9,32 @@ jobs:
       matrix:
         include:
           - name: Lint
-            action: pnpm check:lint
+            action: bun run check:lint
           - name: Typecheck
-            action: pnpm check:types
+            action: bun run check:types
           - name: Deadcode
-            action: pnpm check:deadcode
+            action: bun run check:deadcode
           - name: Circular Dependencies
-            action: pnpm check:circular-deps
+            action: bun run check:circular-deps
           - name: Mismatched Dependencies
-            action: pnpm check:mismatched-deps
+            action: bun run check:mismatched-deps
           - name: Test
-            action: pnpm test
+            action: bun run test
           - name: Build
-            action: pnpm build
+            action: bun run build
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
         with:
-          node-version: 20
-          cache: 'pnpm'
+          bun-version: latest
+      - name: Setup turbo cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-qa-${{ job }}-${{ strategy }}-${{ github.sha }}
+          restore-keys: |
+            turbo-qa-${{ job }}-${{ strategy }}-
       - name: ${{ matrix.name }}
         run: |
-          pnpm ci:install
+          bun run ci:install
           ${{ matrix.action }}

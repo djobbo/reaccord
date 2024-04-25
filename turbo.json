@@ -28,6 +28,9 @@
     "docs:build": {
       "cache": false
     },
-    "docs:dev": {}
+    "docs:dev": {},
+    "publish:dev": {
+      "dependsOn": ["^build"]
+    }
   }
 }

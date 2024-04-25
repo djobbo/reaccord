@@ -3,7 +3,7 @@
     "strict": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "lib": ["esnext"],
+    "lib": ["esnext", "DOM"],
     "moduleResolution": "node",
     "jsx": "react-jsx",
     "jsxImportSource": "reaccord",

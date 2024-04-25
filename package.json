@@ -2,24 +2,30 @@
   "name": "reaccord-project",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
+  "workspaces": [
+    "examples/*",
+    "packages/*",
+    "docs"
+  ],
   "scripts": {
-    "ci:install": "pnpm install --frozen-lockfile",
+    "ci:install": "bun install --frozen-lockfile",
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "build:w": "turbo run build:w",
-    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx,.json,.cjs . --ignore-path .gitignore",
+    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx,.json,.mjs . --ignore-path .gitignore",
     "test": "turbo run test",
     "test:w": "turbo run test:w",
-    "check:lint": "eslint --ext .js,.jsx,.ts,.tsx,.json,.cjs . --ignore-path .gitignore",
+    "check:lint": "eslint --ext .js,.jsx,.ts,.tsx,.json,.mjs . --ignore-path .gitignore",
     "check:types": "turbo run check:types",
     "check:deadcode": "knip",
     "check:circular-deps": "madge --circular --extensions ts,tsx .",
-    "check:mismatched-deps": "syncpack list",
-    "publish:dev": "zx ./scripts/publish-dev.mjs",
+    "check:mismatched-deps": "syncpack list-mismatches --types dev,prod,peer",
     "docs:build": "turbo run docs:build",
     "docs:dev": "turbo run docs:dev"
   },
   "devDependencies": {
+    "@types/bun": "latest",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
     "eslint": "^8.57.0",
@@ -29,16 +35,15 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "knip": "5.9.4",
-    "madge": "^7.0.0",
+    "madge": "^6.1.0",
     "prettier": "^3.2.5",
     "strip-ansi": "^7.1.0",
     "syncpack": "^12.3.0",
     "turbo": "^1.13.2",
-    "typescript": "5.4.5",
+    "typescript": "^5.4.5",
     "zx": "^8.0.1"
   },
   "engines": {
     "node": ">=20.0.0"
-  },
-  "packageManager": "pnpm@8.15.6"
+  }
 }
