@@ -54,10 +54,8 @@ logInfo(`Checking latest dev version of ${chalk.blue(packageName)}...`)
 let previousDevVersion: string | null = null
 
 try {
-  previousDevVersion = await $`npm view ${packageName}@$dev version`.text()
+  previousDevVersion = await $`npm view ${packageName}@dev version`.text()
 } catch {}
-
-console.log({ previousDevVersion })
 
 if (previousDevVersion) {
   logInfo(
