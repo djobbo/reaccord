@@ -12,7 +12,7 @@
     "lib"
   ],
   "devDependencies": {
-    "typescript": "5.4.5"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "query-string": "^9.0.0",

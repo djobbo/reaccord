@@ -40,7 +40,7 @@
     "strip-ansi": "^7.1.0",
     "syncpack": "^12.3.0",
     "turbo": "^1.13.2",
-    "typescript": "5.4.5",
+    "typescript": "^5.4.5",
     "zx": "^8.0.1"
   },
   "engines": {
