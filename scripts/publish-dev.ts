@@ -135,8 +135,7 @@ logInfo(
   )}`,
 )
 
-await $`cd ${packageFolder}`
-const packageJsonPath = "./package.json"
+const packageJsonPath = `${packageFolder}/package.json`
 
 if (!dryRun) {
   const packageJson = await Bun.file(packageJsonPath).json()
@@ -166,7 +165,7 @@ logSuccess(
 logInfo(`Publishing ${chalk.blue(packageName)} to NPM...`)
 try {
   if (!dryRun) {
-    await $`npm publish --no-git-checks --tag dev --access public`
+    await $`cd ${packageFolder} && npm publish --no-git-checks --tag dev --access public`
   } else {
     logInfo(`Dry run: Would have published ${packageName}@${newDevVersion}`)
   }
