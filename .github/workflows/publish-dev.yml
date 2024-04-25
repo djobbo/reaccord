@@ -31,7 +31,7 @@ jobs:
       - name: Publish to npm
         run: |
           bun run ci:install
-          npm login --registry https://registry.npmjs.org/ --always-auth --authToken=$NPM_PUBLISH_TOKEN
+          npm set //registry.npmjs.org/:_authToken=$NPM_PUBLISH_TOKEN
           bun run ./scripts/publish-dev.js ${{ matrix.name }} ${{ matrix.folder }}
         env:
           NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
