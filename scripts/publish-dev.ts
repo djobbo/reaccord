@@ -138,7 +138,7 @@ logInfo(
 const packageJsonPath = packageFolder + "/package.json"
 
 if (!dryRun) {
-  const packageJson = await import(packageJsonPath)
+  const packageJson = await Bun.file(packageJsonPath).json()
   packageJson.version = newDevVersion
 
   packageJson.dependencies = updateLocalDeps(
