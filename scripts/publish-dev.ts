@@ -23,6 +23,20 @@ const logBoxed = (msg: string) => {
 }
 const newLine = () => console.log()
 
+const updateLocalDeps = (deps: Record<string, string>, newVersion: string) =>
+  Object.fromEntries(
+    Object.entries(deps || {}).map(([dep, ver]) => [
+      dep,
+      [
+        PLACEHOLDER_VERSION,
+        `workspace:${PLACEHOLDER_VERSION}`,
+        `workspace:*`,
+      ].includes(typeof ver === "string" ? ver : "")
+        ? newVersion
+        : ver,
+    ]),
+  )
+
 const [, , packageName, packageFolder, ...args] = process.argv
 
 if (!packageName) {
@@ -124,9 +138,19 @@ logInfo(
 const packageJsonPath = packageFolder + "/package.json"
 
 if (!dryRun) {
-  await $`sed -i "s/workspace:${PLACEHOLDER_VERSION}/${newDevVersion}/g" ${packageJsonPath}`
-  await $`sed -i "s/workspace:\*/${newDevVersion}/g" ${packageJsonPath}`
-  await $`sed -i "s/${PLACEHOLDER_VERSION}/${newDevVersion}/g" ${packageJsonPath}`
+  const packageJson = await import(packageJsonPath)
+  packageJson.version = newDevVersion
+
+  packageJson.dependencies = updateLocalDeps(
+    packageJson.dependencies,
+    newDevVersion,
+  )
+  packageJson.devDependencies = updateLocalDeps(
+    packageJson.devDependencies,
+    newDevVersion,
+  )
+
+  await Bun.write(packageJsonPath, JSON.stringify(packageJson, null, 2))
 } else {
   logInfo(`Dry run: Would have updated version to ${newDevVersion}`)
 }
