@@ -7,15 +7,6 @@ import stripAnsi from "strip-ansi"
 
 const PLACEHOLDER_VERSION = "0.0.0-dev"
 
-const mainPackage = "reaccord"
-// const packages = [
-//   ["reaccord", "reaccord"],
-//   ["router", "@reaccord/router"],
-//   ["canvas", "@reaccord/canvas"],
-//   ["chalk", "@reaccord/chalk"],
-//   ["create-reaccord-app", "create-reaccord-app"],
-// ]
-
 const logInfo = (...args: string[]) =>
   console.log(chalk.gray("[Info]"), ...args)
 const logSuccess = (...args: string[]) =>
@@ -44,7 +35,7 @@ if (!packageFolder) {
   process.exit(1)
 }
 
-const dryRun = args.includes("--dry-run") || true
+const dryRun = args.includes("--dry-run")
 
 logBoxed(`Publishing ${packageName} ${chalk.green(`v${version}-dev`)}`)
 let gitShortHash: string | null = null
