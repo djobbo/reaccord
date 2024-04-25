@@ -36,5 +36,5 @@ jobs:
             turbo-qa-${{ job }}-${{ strategy }}-
       - name: ${{ matrix.name }}
         run: |
-          bun ci:install
+          bun run ci:install
           ${{ matrix.action }}
